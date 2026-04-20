@@ -33,6 +33,17 @@
 }
 
 .cc-btn--icon { min-width: 36px; padding: 0; }
+.cc-btn--sm { min-height: 28px; padding: 0 var(--space-3); font-size: var(--text-sm); }
+
+.cc-btn--danger {
+  background: var(--error);
+  border-color: var(--error);
+  color: #fff;
+}
+.cc-btn--danger:hover {
+  background: var(--error-strong);
+  border-color: var(--error-strong);
+}
 
 .cc-btn--primary,
 .cc-btn--secondary,
@@ -486,6 +497,222 @@
   padding: var(--space-6);
   color: var(--text-3);
 }
+
+/* ---------- TABLE ---------- */
+.cc-table { width: 100%; border-collapse: collapse; font-size: var(--text-base); }
+.cc-table thead th {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-4);
+  border-bottom: 1px solid var(--border-1);
+  background: var(--surface-0);
+}
+.cc-table tbody td {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border-1);
+  color: var(--text-2);
+}
+.cc-table tbody td strong { color: var(--text-1); font-weight: 500; }
+.cc-table tbody tr { transition: background var(--duration-fast); cursor: pointer; }
+.cc-table tbody tr:hover:not(.is-selected) { background: var(--surface-1); }
+.cc-table tbody tr.is-selected { background: var(--accent-soft); }
+
+/* ---------- TABS ---------- */
+.cc-tabs { display: flex; border-bottom: 1px solid var(--border-1); gap: 0; }
+.cc-tab {
+  padding: var(--space-3) var(--space-5);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-3);
+  font: inherit;
+  font-size: var(--text-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease-standard);
+}
+.cc-tab:hover { color: var(--text-1); }
+.cc-tab.is-active { color: var(--accent-text); border-bottom-color: var(--accent-1); }
+
+/* ---------- APP SHELL ---------- */
+.cc-shell {
+  display: grid;
+  grid-template-rows: 44px 1fr;
+  height: 100vh;
+  background: var(--surface-0);
+}
+
+.cc-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-5);
+  border-bottom: 1px solid var(--border-1);
+}
+.cc-topbar__brand {
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-1);
+}
+.cc-topbar__actions { display: flex; gap: var(--space-3); align-items: center; }
+.cc-topbar__kbd {
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
+  font-size: var(--text-xs);
+  color: var(--text-4);
+}
+.cc-topbar__kbd kbd {
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.cc-identity {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-1);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.cc-workspace {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  overflow: hidden;
+}
+
+/* ---------- NAV RAIL ---------- */
+.cc-navrail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-2);
+  border-right: 1px solid var(--border-1);
+  background: var(--surface-0);
+  overflow-y: auto;
+}
+.cc-navrail__group {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--accent-1);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.cc-navrail__divider {
+  width: 80%;
+  height: 1px;
+  background: var(--border-1);
+  margin: var(--space-2) 0;
+}
+.cc-navrail__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: background var(--duration-base) var(--ease-standard),
+              color var(--duration-base) var(--ease-standard),
+              border-color var(--duration-base) var(--ease-standard);
+}
+.cc-navrail__icon:hover { background: var(--surface-2); color: var(--text-1); }
+.cc-navrail__icon.is-active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent-text);
+}
+.cc-navrail__icon svg { width: 18px; height: 18px; }
+
+/* ---------- BREADCRUMBS ---------- */
+.cc-crumbs {
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
+  padding: 0 var(--space-5);
+  height: 40px;
+  border-bottom: 1px solid var(--border-1);
+  font-size: var(--text-sm);
+  color: var(--text-3);
+}
+.cc-crumbs__sep  { color: var(--text-4); }
+.cc-crumbs__last { color: var(--text-1); font-weight: 500; }
+
+/* ---------- CONTENT PANE ---------- */
+.cc-main { display: grid; grid-template-rows: 40px 1fr; overflow: hidden; }
+.cc-content { padding: var(--space-5); overflow: auto; }
+
+/* ---------- DETAIL PANEL (slide-in) ---------- */
+.cc-detail {
+  position: fixed;
+  top: 44px;
+  right: 0;
+  bottom: 0;
+  width: 420px;
+  background: var(--surface-0);
+  border-left: 1px solid var(--border-1);
+  padding: var(--space-5);
+  transform: translateX(40px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--duration-med) var(--ease-standard),
+              opacity var(--duration-med) var(--ease-standard);
+}
+.cc-detail.is-open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ---------- MODAL ---------- */
+.cc-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 50;
+}
+.cc-modal {
+  background: var(--surface-0);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  min-width: 420px;
+  box-shadow: var(--shadow-2);
+}
+
+/* ---------- SPINNER ---------- */
+.cc-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-1);
+  border-top-color: var(--accent-1);
+  border-radius: 50%;
+  animation: cc-spin 0.8s linear infinite;
+}
+@keyframes cc-spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 768px) {
   .cc-field input,
