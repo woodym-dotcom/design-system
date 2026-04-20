@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:16px; background:var(--surface-1); font-family:var(--font-sans); display:flex; gap:16px; flex-wrap:wrap; }
+  .card { width:220px; padding:18px; background:#fff; border-radius:10px; }
+  h4 { margin:0 0 14px; font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-4); font-weight:600; }
+  .s1 { background:#fff; height:48px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,.06); border:1px solid var(--border-1); display:grid; place-items:center; font-size:11px; color:var(--text-3); font-family:var(--font-mono); }
+  .s2 { background:#fff; height:48px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,.08); display:grid; place-items:center; font-size:11px; color:var(--text-3); font-family:var(--font-mono); }
+  .border { background:#fff; height:48px; border-radius:8px; border:1px solid var(--border-1); display:grid; place-items:center; font-size:11px; color:var(--text-3); font-family:var(--font-mono); }
+</style>
+</head>
+<body>
+  <div class="card"><h4>shadow-1 · card lift</h4><div class="s1">0 1px 3px rgba(0,0,0,.06)</div></div>
+  <div class="card"><h4>shadow-2 · popover / modal</h4><div class="s2">0 4px 12px rgba(0,0,0,.08)</div></div>
+  <div class="card"><h4>border-only (default)</h4><div class="border">1px solid #e5e7eb</div></div>
+</body></html>

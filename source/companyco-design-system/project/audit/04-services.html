@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 04 — ServicesView</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; }
+
+  /* BEFORE — services as cards */
+  .mk-b { padding: 16px 20px; background: #fff; }
+  .mk-b h1 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -.015em; }
+  .mk-b .sub { margin: 2px 0 14px; font-size: 12px; color: #6b7280; }
+  .mk-b .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .mk-b .card { border: 1px solid #e5e7eb; border-radius: 6px; padding: 14px; background: #fff; display: flex; flex-direction: column; gap: 8px; }
+  .mk-b .card h3 { margin: 0; font-size: 13.5px; font-weight: 600; color: #111827; }
+  .mk-b .card p { margin: 0; font-size: 12px; color: #6b7280; line-height: 1.5; }
+  .mk-b .card .row { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+  .mk-b .chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 10.5px; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; font-weight: 500; }
+  .mk-b .chip.paused { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+  .mk-b .chip.unset { background: #f3f4f6; color: #6b7280; border-color: #e5e7eb; }
+  .mk-b .btn { font-size: 11px; padding: 4px 10px; border: 1px solid #e5e7eb; background: #fff; border-radius: 4px; color: #374151; cursor: pointer; }
+
+  /* AFTER — services as a ledger of arrangements */
+  .mk-a { background: #fbfaf7; padding: 22px 26px 26px; color: #161412; }
+  .mk-a .head { border-bottom: 1px solid #ece4d7; padding-bottom: 16px; margin-bottom: 14px; }
+  .mk-a .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-a h1 { margin: 4px 0 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 26px; font-weight: 500; letter-spacing: -.012em; }
+  .mk-a h1 em { font-style: italic; color: #8e7258; font-weight: 500; }
+  .mk-a .dek { margin: 8px 0 0; font-size: 12px; color: #6b5f51; max-width: 56ch; line-height: 1.55; }
+
+  .mk-a .ledger { padding-top: 8px; }
+  .mk-a .lh { display: grid; grid-template-columns: 1.8fr 1fr 0.9fr 0.9fr; padding: 10px 0 8px; border-bottom: 1px solid #ece4d7; font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-a .row { display: grid; grid-template-columns: 1.8fr 1fr 0.9fr 0.9fr; padding: 14px 0; border-bottom: 1px dashed #ece4d7; align-items: baseline; gap: 10px; }
+  .mk-a .row .a .n { font-family: "Cormorant Garamond", Georgia, serif; font-size: 16px; font-weight: 500; line-height: 1.15; }
+  .mk-a .row .a .s { font-size: 11.5px; color: #6b5f51; margin-top: 4px; line-height: 1.5; }
+  .mk-a .row .a .s b { color: #161412; font-weight: 500; }
+  .mk-a .row .who { font-size: 12px; color: #161412; }
+  .mk-a .row .who .w { font-size: 11px; color: #6b5f51; margin-top: 2px; }
+  .mk-a .row .state { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-size: 15px; color: #161412; }
+  .mk-a .row .state.paused { color: #a86b54; }
+  .mk-a .row .state.unset { color: #a8997f; font-style: normal; font-size: 12px; }
+  .mk-a .row .t { font-family: "JetBrains Mono", monospace; font-size: 10.5px; color: #8b7e6d; text-align: right; letter-spacing: .04em; }
+  .mk-a .row .t .then { display: block; font-size: 9.5px; color: #a8997f; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="a-page">
+
+  <header class="a-mast">
+    <div class="l">Audit · <b>№ 04</b> · Services</div>
+    <div class="c">CompanyCo · Product Audit</div>
+    <div class="r">Filed · <b>Rev. 01</b></div>
+  </header>
+
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 04 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">arrangements.</span></h1>
+      <p class="dek">
+        Services are the ongoing arrangements a firm has with its providers — audit, tax, custody, AML, legal. Today they are rendered as a grid of activity cards with <em>status chips</em>. The list does not distinguish between a service that has been in place for fifteen years and one that was switched on last Tuesday. It does not tell you <em>who</em>, or <em>since when</em>.
+      </p>
+    </div>
+    <aside class="meta">
+      <div class="row"><b>File</b><span>ServicesView.tsx</span></div>
+      <div class="row"><b>Surface</b><span>Hub · Cards</span></div>
+      <div class="row"><b>Routes</b><span>/services</span></div>
+      <div class="row"><b>Severity</b><span style="color:var(--amber)">Medium — posture</span></div>
+      <div class="row"><b>Lens</b><span>Structure · Copy · Chips</span></div>
+    </aside>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 01</b> Findings</h2>
+      <p class="title">Three things the <em>arrangements</em> aren't doing.</p>
+    </div>
+    <div class="a-findings">
+
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> Structure</span><span class="sev md">Medium</span></div>
+        <h3>A card grid is the wrong container.</h3>
+        <p>Each service sits in its own card with a status chip and a button. The grid makes it hard to scan — a reader has to visit every card to answer <em>"who's my auditor?"</em>. The answer should be legible in a single glance.</p>
+        <div class="fix">
+          <div class="k">Replace</div>
+          <div class="v">A four-column ledger: <code>arrangement · provider · state · since</code>. One row per service, read top-to-bottom like a list of appointments.</div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Chips</span><span class="sev md">Medium</span></div>
+        <h3>Green / yellow / grey is too loud.</h3>
+        <p>Status chips render as Active green, Paused yellow, Unset grey. For a screen that is mostly "active," the green chips repeat across every card and add visual noise without meaning. The chip is the <em>default case</em>; it should not need decoration.</p>
+        <div class="fix">
+          <div class="k">Drop</div>
+          <div class="v">Render state as an italic word in the ledger: <em>active</em> for normal, <em>paused</em> for held, <em>— not engaged</em> for unset. Colour only the exception.</div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>03</b> Missing tenure</span><span class="sev hi">High</span></div>
+        <h3>There is no "since when."</h3>
+        <p>The card shows the provider and the state. It does not show <em>how long</em> the arrangement has been in place — which is exactly the information a steward needs first. Tenure shapes trust. A ten-year auditor is not a ten-month auditor.</p>
+        <div class="fix">
+          <div class="k">Add</div>
+          <div class="v">A fourth column: <code>since</code>. Formatted in mono: <code>since 2014 · 11 yrs</code>.</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 02</b> Before / after</h2>
+      <p class="title">From <em>cards</em> to <em>ledger</em>.</p>
+    </div>
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-b">
+            <h1>Services</h1>
+            <p class="sub">Third-party arrangements in place for this company.</p>
+            <div class="cards">
+              <div class="card"><h3>Auditor</h3><p>Annual statutory audit and interim reviews.</p><div class="row"><span class="chip">Active</span><button class="btn">Edit</button></div></div>
+              <div class="card"><h3>Tax advisor</h3><p>Corporate tax, transfer pricing, VAT filings.</p><div class="row"><span class="chip">Active</span><button class="btn">Edit</button></div></div>
+              <div class="card"><h3>Custodian</h3><p>Safekeeping of securities and cash accounts.</p><div class="row"><span class="chip paused">Paused</span><button class="btn">Edit</button></div></div>
+              <div class="card"><h3>AML provider</h3><p>Ongoing screening, PEP and sanctions checks.</p><div class="row"><span class="chip unset">Not set</span><button class="btn">Edit</button></div></div>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">A grid of cards. Green chips everywhere. No <em>when</em>.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · the ledger</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-a">
+            <div class="head">
+              <div class="eye">§ the arrangements</div>
+              <h1>Four services, <em>three standing.</em></h1>
+              <p class="dek">Custody is paused pending the AML review. No provider engaged for AML yet.</p>
+            </div>
+            <div class="ledger">
+              <div class="lh"><span>Arrangement</span><span>Provider</span><span>State</span><span style="text-align:right">Since</span></div>
+              <div class="row">
+                <div class="a"><div class="n">Statutory audit</div><div class="s">Annual, plus interim reviews.</div></div>
+                <div class="who">Aldermore LLP<div class="w">Partner · E. Kassis</div></div>
+                <div class="state">active</div>
+                <div class="t">2014<span class="then">11 yrs</span></div>
+              </div>
+              <div class="row">
+                <div class="a"><div class="n">Tax advisory</div><div class="s">Corporate, TP, VAT.</div></div>
+                <div class="who">KSR Fiscale<div class="w">Lead · M. Durand</div></div>
+                <div class="state">active</div>
+                <div class="t">2019<span class="then">6 yrs</span></div>
+              </div>
+              <div class="row">
+                <div class="a"><div class="n">Custody</div><div class="s">Safekeeping, cash.</div></div>
+                <div class="who">Northbank SA<div class="w">—</div></div>
+                <div class="state paused">paused</div>
+                <div class="t">—<span class="then">since 12 Sep</span></div>
+              </div>
+              <div class="row">
+                <div class="a"><div class="n">AML screening</div><div class="s">Ongoing, PEP + sanctions.</div></div>
+                <div class="who">—<div class="w">not engaged</div></div>
+                <div class="state unset">— not engaged</div>
+                <div class="t">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">One row per arrangement. Tenure first. <em>Italic</em> for state.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="a-foot">
+    <span>Audit № 04 · ServicesView · Rev. 01</span>
+    <span class="c">— held on file —</span>
+    <span class="r">Next · № 05 RisksView</span>
+  </footer>
+
+</div>
+</body>
+</html>

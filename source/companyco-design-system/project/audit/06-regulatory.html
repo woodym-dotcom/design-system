@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 06 — RegulatoryObligationsView</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; }
+
+  /* BEFORE — compliance checklist */
+  .mk-b { padding: 16px 20px; background: #fff; }
+  .mk-b h1 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -.015em; }
+  .mk-b .sub { margin: 2px 0 14px; font-size: 12px; color: #6b7280; }
+  .mk-b .row { display: grid; grid-template-columns: 24px 1fr auto auto; gap: 10px; align-items: center; padding: 10px; border: 1px solid #e5e7eb; border-radius: 5px; margin-bottom: 6px; font-size: 12.5px; }
+  .mk-b .check { width: 16px; height: 16px; border: 1.5px solid #9ca3af; border-radius: 3px; display: grid; place-items: center; }
+  .mk-b .check.done { background: #4f46e5; border-color: #4f46e5; color: #fff; }
+  .mk-b .check.due { border-color: #dc2626; }
+  .mk-b .name b { color: #111827; font-weight: 500; }
+  .mk-b .name span { color: #6b7280; font-size: 11.5px; display: block; margin-top: 2px; }
+  .mk-b .due { font-size: 11px; color: #dc2626; font-weight: 500; }
+  .mk-b .due.ok { color: #059669; }
+  .mk-b .chip { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10.5px; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+
+  /* AFTER — calendar of commitments */
+  .mk-a { background: #fbfaf7; padding: 22px 26px 24px; color: #161412; }
+  .mk-a .head { border-bottom: 1px solid #ece4d7; padding-bottom: 16px; margin-bottom: 14px; }
+  .mk-a .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-a h1 { margin: 4px 0 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 26px; font-weight: 500; letter-spacing: -.012em; }
+  .mk-a h1 em { font-style: italic; color: #8e7258; font-weight: 500; }
+  .mk-a .dek { margin: 8px 0 0; font-size: 12px; color: #6b5f51; max-width: 56ch; line-height: 1.55; }
+
+  .mk-a .month { padding-top: 16px; }
+  .mk-a .mhead { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #8e7258; padding-bottom: 8px; border-bottom: 1px solid #ece4d7; display: flex; justify-content: space-between; align-items: baseline; }
+  .mk-a .mhead .m { font-family: "Cormorant Garamond", Georgia, serif; font-size: 18px; font-weight: 500; text-transform: none; letter-spacing: -.005em; color: #161412; }
+  .mk-a .mhead .m em { font-style: italic; color: #8e7258; }
+  .mk-a .mhead .n { color: #a8997f; font-family: "JetBrains Mono", monospace; font-size: 10px; }
+
+  .mk-a .item { display: grid; grid-template-columns: 60px 1fr auto; gap: 16px; padding: 13px 0; border-bottom: 1px dashed #ece4d7; align-items: baseline; }
+  .mk-a .item .d { font-family: "JetBrains Mono", monospace; font-size: 14px; color: #161412; letter-spacing: .04em; }
+  .mk-a .item .d .dn { font-size: 9.5px; color: #8e7258; display: block; margin-top: 2px; letter-spacing: .14em; }
+  .mk-a .item .t { font-family: "Cormorant Garamond", Georgia, serif; font-size: 17px; font-weight: 500; letter-spacing: -.005em; line-height: 1.2; }
+  .mk-a .item .s { font-size: 11.5px; color: #6b5f51; margin-top: 4px; line-height: 1.55; }
+  .mk-a .item .s b { color: #161412; font-weight: 500; }
+  .mk-a .item .state { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-size: 14px; color: #8e7258; text-align: right; white-space: nowrap; }
+  .mk-a .item .state.done { color: #7a8a6e; }
+  .mk-a .item .state.due { color: #a86b54; }
+</style>
+</head>
+<body>
+<div class="a-page">
+  <header class="a-mast"><div class="l">Audit · <b>№ 06</b> · Regulatory obligations</div><div class="c">CompanyCo · Product Audit</div><div class="r">Filed · <b>Rev. 01</b></div></header>
+
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 06 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">calendar.</span></h1>
+      <p class="dek">Obligations are, structurally, a <em>calendar</em> — things that must be done by certain dates. The current view hides this under a checklist, so the reader can see what is <em>done</em> or <em>due</em>, but not when they'll be standing in the same spot a month from now. A calendar of commitments is what a steward actually holds in their head.</p>
+    </div>
+    <aside class="meta">
+      <div class="row"><b>File</b><span>RegulatoryObligationsView.tsx</span></div>
+      <div class="row"><b>Surface</b><span>Hub · Checklist</span></div>
+      <div class="row"><b>Routes</b><span>/regulatory</span></div>
+      <div class="row"><b>Severity</b><span style="color:var(--amber)">High — structure</span></div>
+      <div class="row"><b>Lens</b><span>IA · Time · Copy</span></div>
+    </aside>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 01</b> Findings</h2><p class="title">Three things the <em>checklist</em> hides.</p></div>
+    <div class="a-findings">
+
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> IA</span><span class="sev hi">High</span></div>
+        <h3>A checklist flattens time.</h3>
+        <p>Obligations live on a timeline. Rendering them as a flat list of checkboxes destroys that shape. A reader can see <em>"10 things due"</em> but not <em>"five this month, four next, one deep winter"</em>. The seasons of the business are invisible.</p>
+        <div class="fix"><div class="k">Group</div><div class="v">Group by month. Eyebrow in mono, month name in serif italic. Items sorted by day within each month.</div></div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Copy</span><span class="sev md">Medium</span></div>
+        <h3>"Complete" and "Pending" say nothing.</h3>
+        <p>Each item is tagged <em>Complete</em>, <em>Pending</em>, or <em>Overdue</em>. These are states of a task manager. Obligations have their own language — <em>filed</em>, <em>drafted</em>, <em>rehearsed</em>, <em>not yet due</em>. Use it.</p>
+        <div class="fix"><div class="k">Rewrite</div><div class="v">Filed / drafted / rehearsed / due / overdue — in italic serif at the end of each row.</div></div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>03</b> Urgency</span><span class="sev md">Medium</span></div>
+        <h3>Red is a blunt instrument.</h3>
+        <p>Overdue items turn red. Everything else is neutral. There's no visible sense of <em>what's coming up</em> — an item due in eight days reads the same as one due in three months. A weekend reader wants to feel the near edge of the calendar.</p>
+        <div class="fix"><div class="k">Add</div><div class="v">A soft amber tint on items due within 10 days. Red stays reserved for overdue.</div></div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 02</b> Before / after</h2><p class="title">From <em>checklist</em> to <em>calendar</em>.</p></div>
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-b">
+            <h1>Regulatory obligations</h1>
+            <p class="sub">Filings and returns tracked for this company.</p>
+            <div class="row"><div class="check done">✓</div><div class="name"><b>Annual accounts (LU)</b><span>FY 2024 — filed with RCS</span></div><span class="chip">Filed</span><span class="due ok">30 May</span></div>
+            <div class="row"><div class="check due"></div><div class="name"><b>DAC 6 notification</b><span>Arrangement DE-0047</span></div><span class="chip">Pending</span><span class="due">Due in 8d</span></div>
+            <div class="row"><div class="check"></div><div class="name"><b>Transfer pricing file</b><span>FY 2024 contemporaneous</span></div><span class="chip">Pending</span><span class="due ok">31 Oct</span></div>
+            <div class="row"><div class="check"></div><div class="name"><b>UBO refresh (LU)</b><span>Annual re-confirmation</span></div><span class="chip">Pending</span><span class="due ok">15 Dec</span></div>
+          </div>
+        </div>
+        <p class="c-note">Ten items in a vertical list. Red when overdue, otherwise silence.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · the calendar</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-a">
+            <div class="head">
+              <div class="eye">§ the calendar</div>
+              <h1>Ten commitments, <em>one near.</em></h1>
+              <p class="dek">DAC 6 falls in 8 days. The rest of autumn is quiet; winter holds the two big ones.</p>
+            </div>
+
+            <div class="month">
+              <div class="mhead"><span class="m">October <em>· near</em></span><span class="n">2 · this month</span></div>
+              <div class="item">
+                <div class="d">17<span class="dn">FRI</span></div>
+                <div><div class="t">DAC 6 notification — arrangement DE-0047</div><div class="s"><b>Drafted · awaiting sign-off.</b> Tax advisor briefed.</div></div>
+                <div class="state due">due · 8d</div>
+              </div>
+              <div class="item">
+                <div class="d">31<span class="dn">FRI</span></div>
+                <div><div class="t">Transfer pricing file — FY 2024</div><div class="s">Contemporaneous documentation. Economist engaged.</div></div>
+                <div class="state">drafted</div>
+              </div>
+            </div>
+
+            <div class="month">
+              <div class="mhead"><span class="m">December <em>· winter set</em></span><span class="n">2 · long lead</span></div>
+              <div class="item">
+                <div class="d">15<span class="dn">MON</span></div>
+                <div><div class="t">UBO refresh — Luxembourg</div><div class="s">Annual confirmation. <b>Last refreshed 14 Dec 2023.</b></div></div>
+                <div class="state">not yet due</div>
+              </div>
+              <div class="item">
+                <div class="d">31<span class="dn">WED</span></div>
+                <div><div class="t">Annual accounts — FY 2025 preparation</div><div class="s">Auditor confirmed. Kick-off scheduled.</div></div>
+                <div class="state">rehearsed</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <p class="c-note">Grouped by month. One near, the rest on their own time.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="a-foot"><span>Audit № 06 · RegulatoryObligations · Rev. 01</span><span class="c">— held on file —</span><span class="r">Next · № 07 IncidentsView</span></footer>
+</div>
+</body>
+</html>

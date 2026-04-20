@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:16px; background:#fff; font-family:var(--font-sans); }
+  .wrap { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+  h4 { margin:0 0 8px; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-4); font-weight:600; }
+  .row { display:flex; gap:8px; }
+  .sw { flex:1; display:flex; flex-direction:column; gap:4px; }
+  .chip { height:44px; border-radius:6px; border:1px solid rgba(0,0,0,.06); }
+  .lbl { font-size:10px; color:var(--text-3); font-family:var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <h4>Severity</h4>
+    <div class="row">
+      <div class="sw"><div class="chip" style="background:#22c55e"></div><div class="lbl">low</div></div>
+      <div class="sw"><div class="chip" style="background:#f59e0b"></div><div class="lbl">medium</div></div>
+      <div class="sw"><div class="chip" style="background:#f97316"></div><div class="lbl">high</div></div>
+      <div class="sw"><div class="chip" style="background:#ef4444"></div><div class="lbl">critical</div></div>
+    </div>
+  </div>
+  <div>
+    <h4>Tier</h4>
+    <div class="row">
+      <div class="sw"><div class="chip" style="background:#3b82f6"></div><div class="lbl">core</div></div>
+      <div class="sw"><div class="chip" style="background:#8b5cf6"></div><div class="lbl">domain</div></div>
+      <div class="sw"><div class="chip" style="background:#6b7280"></div><div class="lbl">bespoke</div></div>
+    </div>
+  </div>
+</div>
+</body></html>

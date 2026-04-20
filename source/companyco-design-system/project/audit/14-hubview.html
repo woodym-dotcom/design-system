@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 14 — HubView (coming soon)</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; min-height: 340px; }
+
+  /* BEFORE — empty hub placeholder */
+  .mk-b { padding: 60px 20px; background: #fff; display: grid; place-items: center; text-align: center; min-height: 340px; }
+  .mk-b .icon { width: 56px; height: 56px; border-radius: 50%; background: #f3f4f6; display: grid; place-items: center; color: #9ca3af; font-size: 24px; margin-bottom: 14px; }
+  .mk-b h2 { margin: 0; font-size: 18px; font-weight: 600; }
+  .mk-b p { margin: 6px 0 0; font-size: 12.5px; color: #6b7280; max-width: 34ch; line-height: 1.55; }
+  .mk-b .btn { margin-top: 18px; background: #4f46e5; color: #fff; border: 0; border-radius: 5px; padding: 8px 14px; font-size: 12px; font-weight: 500; }
+
+  /* AFTER — the quiet hub */
+  .mk-a { background: #fbfaf7; padding: 40px 36px; min-height: 340px; color: #161412; display: flex; flex-direction: column; }
+  .mk-a .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-a h1 { margin: 6px 0 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; font-weight: 500; letter-spacing: -.012em; line-height: 1.1; }
+  .mk-a h1 em { font-style: italic; color: #8e7258; }
+  .mk-a .dek { margin: 10px 0 0; font-size: 12.5px; color: #6b5f51; max-width: 48ch; line-height: 1.6; }
+  .mk-a .dek b { color: #161412; font-weight: 500; }
+  .mk-a .plans { margin-top: 22px; padding-top: 16px; border-top: 1px solid #ece4d7; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .mk-a .plan .t { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: #8e7258; }
+  .mk-a .plan .n { font-family: "Cormorant Garamond", Georgia, serif; font-size: 16px; font-weight: 500; margin-top: 4px; letter-spacing: -.005em; }
+  .mk-a .plan .s { font-size: 11.5px; color: #6b5f51; margin-top: 6px; line-height: 1.55; }
+  .mk-a .sig { margin-top: auto; padding-top: 20px; font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .1em; color: #8e7258; }
+</style>
+</head>
+<body>
+<div class="a-page">
+  <header class="a-mast"><div class="l">Audit · <b>№ 14</b> · HubView</div><div class="c">CompanyCo · Product Audit</div><div class="r">Filed · <b>Rev. 01</b></div></header>
+
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 14 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">coming soon.</span></h1>
+      <p class="dek">Two hubs (<em>Intro</em>, and one reserved slot in the backend) render through a shared <em>HubView</em> fallback — a centred icon, a title, and a <em>"Coming soon"</em> paragraph. It's the tool's least-loved surface, and the easiest to turn into an <em>invitation</em>.</p>
+    </div>
+    <aside class="meta">
+      <div class="row"><b>File</b><span>HubView.tsx</span></div>
+      <div class="row"><b>Surface</b><span>Fallback · Placeholder</span></div>
+      <div class="row"><b>Routes</b><span>/intro · /reserved</span></div>
+      <div class="row"><b>Severity</b><span>Low — tone</span></div>
+      <div class="row"><b>Lens</b><span>Copy · Restraint</span></div>
+    </aside>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 01</b> Findings</h2><p class="title">Two things the <em>placeholder</em> need not do.</p></div>
+    <div class="a-findings">
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> Copy</span><span class="sev lo">Low</span></div>
+        <h3>"Coming soon" is a concession, not a plan.</h3>
+        <p>The paragraph reads <em>"This area is coming soon. Check back later for updates."</em> It's the two sentences every product ships and forgets. A placeholder should <em>name the thing</em> and say what's being planned — even briefly.</p>
+        <div class="fix"><div class="k">Rewrite</div><div class="v">A one-sentence lede in serif: <em>"A map of everything you've filed, in chronological order."</em> Then three mono eyebrows with the planned pieces — sketched, not promised.</div></div>
+      </article>
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Icon</span><span class="sev lo">Low</span></div>
+        <h3>The grey circle is not a brand.</h3>
+        <p>The placeholder centres a grey circle with an icon inside. It dates instantly. Replace with the page's eyebrow treatment — mono tracked, small, signed at the bottom.</p>
+        <div class="fix"><div class="k">Remove</div><div class="v">No icon. Eyebrow in mono at top. A small <em>— in preparation</em> signature at the bottom, in the editor's voice.</div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 02</b> Before / after</h2><p class="title">From <em>coming soon</em> to <em>in preparation</em>.</p></div>
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-b">
+            <div class="icon">⌛</div>
+            <h2>Coming soon</h2>
+            <p>This area is coming soon. Check back later for updates.</p>
+            <button class="btn">Notify me</button>
+          </div>
+        </div>
+        <p class="c-note">A grey circle. A shrug. A button.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · in preparation</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-a">
+            <div class="eye">§ the intro · in preparation</div>
+            <h1>A map of everything you've filed, <em>in order.</em></h1>
+            <p class="dek">A single chronological view of every action, every filing, every note across the workspace. <b>One surface, read like a journal.</b> We're planning it carefully — not yet shipped.</p>
+            <div class="plans">
+              <div class="plan"><div class="t">§ planned · I</div><div class="n">A chronology</div><div class="s">Every entry, by date. Filterable by hub.</div></div>
+              <div class="plan"><div class="t">§ planned · II</div><div class="n">The week's shape</div><div class="s">A small weekly summary, in the editor's voice.</div></div>
+              <div class="plan"><div class="t">§ planned · III</div><div class="n">Cross-hub search</div><div class="s">One field, eight hubs. Serif results.</div></div>
+            </div>
+            <div class="sig">— in preparation · the desk</div>
+          </div>
+        </div>
+        <p class="c-note">The placeholder becomes an <em>invitation</em>. Three planned pieces, named and trusted.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="a-foot"><span>Audit № 14 · HubView · Rev. 01</span><span class="c">— held on file —</span><span class="r">End of audit · 14 of 14</span></footer>
+</div>
+</body>
+</html>

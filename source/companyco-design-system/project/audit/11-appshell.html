@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 11 — AppShell</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; }
+
+  /* BEFORE — generic SaaS top bar */
+  .mk-b { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 10px 20px; display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center; min-height: 48px; }
+  .mk-b .brand { font-size: 15px; font-weight: 700; letter-spacing: -.02em; color: #111827; }
+  .mk-b .sel { display: flex; align-items: center; gap: 8px; border: 1px solid #e5e7eb; border-radius: 5px; padding: 5px 10px; font-size: 12.5px; color: #374151; background: #fff; }
+  .mk-b .sel .chev { color: #9ca3af; }
+  .mk-b .r { display: flex; align-items: center; gap: 12px; }
+  .mk-b .search { border: 1px solid #e5e7eb; border-radius: 5px; padding: 5px 10px; font-size: 12px; color: #9ca3af; background: #f9fafb; width: 180px; }
+  .mk-b .bell { width: 32px; height: 32px; border-radius: 5px; border: 1px solid #e5e7eb; display: grid; place-items: center; color: #6b7280; }
+  .mk-b .av { width: 32px; height: 32px; border-radius: 50%; background: #4f46e5; color: #fff; display: grid; place-items: center; font-size: 11px; font-weight: 600; }
+
+  /* the page underneath to give context */
+  .mk-b-body { background: #f9fafb; height: 120px; padding: 18px 22px; font-size: 11px; color: #9ca3af; }
+
+  /* AFTER — the mantel */
+  .mk-a { background: #fbfaf7; border-bottom: 1px solid #ece4d7; padding: 0; display: grid; grid-template-columns: auto 1fr auto; gap: 0; min-height: 52px; color: #161412; }
+  .mk-a .brand { padding: 14px 22px; border-right: 1px solid #ece4d7; display: flex; align-items: center; gap: 10px; }
+  .mk-a .brand .mark { font-family: "Cormorant Garamond", Georgia, serif; font-size: 18px; font-weight: 500; letter-spacing: -.01em; }
+  .mk-a .brand .mark em { font-style: italic; color: #8e7258; }
+  .mk-a .brand .year { font-family: "JetBrains Mono", monospace; font-size: 9px; color: #8e7258; letter-spacing: .12em; }
+  .mk-a .company { padding: 12px 22px; border-right: 1px solid #ece4d7; display: flex; align-items: baseline; gap: 10px; cursor: pointer; }
+  .mk-a .company .lab { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: #8e7258; }
+  .mk-a .company .n { font-family: "Cormorant Garamond", Georgia, serif; font-size: 17px; font-weight: 500; letter-spacing: -.005em; }
+  .mk-a .company .n em { font-style: italic; color: #8e7258; }
+  .mk-a .r { display: flex; align-items: stretch; }
+  .mk-a .r > * { padding: 14px 18px; border-left: 1px solid #ece4d7; display: flex; align-items: center; gap: 8px; font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #6b5f51; }
+  .mk-a .r > *:hover { color: #161412; }
+  .mk-a .r .bell { position: relative; }
+  .mk-a .r .bell .n { background: #a86b54; color: #fbfaf7; border-radius: 999px; padding: 1px 5px; font-size: 9px; letter-spacing: 0; }
+  .mk-a .r .who { font-family: "Cormorant Garamond", Georgia, serif; font-size: 14px; text-transform: none; letter-spacing: 0; color: #161412; font-style: italic; }
+  .mk-a-body { background: #fbfaf7; height: 120px; padding: 18px 22px; font-family: "JetBrains Mono", monospace; font-size: 10px; color: #8e7258; letter-spacing: .1em; }
+</style>
+</head>
+<body>
+<div class="a-page">
+  <header class="a-mast"><div class="l">Audit · <b>№ 11</b> · AppShell</div><div class="c">CompanyCo · Product Audit</div><div class="r">Filed · <b>Rev. 01</b></div></header>
+
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 11 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">mantel.</span></h1>
+      <p class="dek">The app shell — the strip across the top — is the room's mantelpiece. What sits there sets the tone for everything below. Today it's a standard-issue SaaS bar: logo, workspace picker, search, bell, avatar. Each piece works. Together they say nothing.</p>
+    </div>
+    <aside class="meta">
+      <div class="row"><b>File</b><span>AppShell.tsx</span></div>
+      <div class="row"><b>Surface</b><span>Global · Top bar</span></div>
+      <div class="row"><b>Routes</b><span>all</span></div>
+      <div class="row"><b>Severity</b><span style="color:var(--amber)">High — brand</span></div>
+      <div class="row"><b>Lens</b><span>Voice · Density · Chrome</span></div>
+    </aside>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 01</b> Findings</h2><p class="title">Three things the <em>mantel</em> is doing by default.</p></div>
+    <div class="a-findings">
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> Identity</span><span class="sev hi">High</span></div>
+        <h3>The logo is a wordmark in Inter.</h3>
+        <p>The brand mark at top-left is set in the same sans as the UI. It disappears. Every other surface in the product uses the serif voice; the shell doesn't. That's the first thing to fix — the mantel should be where the brand is <em>loudest</em>.</p>
+        <div class="fix"><div class="k">Set the mark</div><div class="v">Brand wordmark in Cormorant Garamond, <em>"Co"</em> in italic amber. Add an <code>est. MMXX</code> micro-line beneath in mono.</div></div>
+      </article>
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Workspace picker</span><span class="sev md">Medium</span></div>
+        <h3>"Acme Capital ⌄" is a dropdown.</h3>
+        <p>The active company is presented as a form control. It's the most important context in the entire product — it decides what every other screen is about — and it's dressed like a select menu.</p>
+        <div class="fix"><div class="k">Feature it</div><div class="v">Eyebrow <code>YOU ARE WITH</code> in mono. Company name in serif, one size larger than anything else in the shell.</div></div>
+      </article>
+      <article class="a-find">
+        <div class="hd"><span><b>03</b> Right side</span><span class="sev lo">Low</span></div>
+        <h3>Search, bell, avatar — silver buttons.</h3>
+        <p>The three icons on the right are rendered as bordered squares. Too loud. They should recede into the shell and only become visible when sought.</p>
+        <div class="fix"><div class="k">Strip</div><div class="v">Vertical dividers between sections, no icon borders. Labels in mono micro-caps beside the glyphs: <code>SEARCH</code>, <code>ON YOUR DESK</code>, <code>JAMES</code>.</div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 02</b> Before / after</h2><p class="title">From <em>top bar</em> to <em>mantel</em>.</p></div>
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root">
+            <div class="mk-b">
+              <div class="brand">CompanyCo</div>
+              <div style="display:flex;gap:10px;align-items:center">
+                <div class="sel">Acme Capital Partners <span class="chev">⌄</span></div>
+              </div>
+              <div class="r">
+                <div class="search">Search…</div>
+                <div class="bell">🔔</div>
+                <div class="av">JA</div>
+              </div>
+            </div>
+            <div class="mk-b-body">— page content below —</div>
+          </div>
+        </div>
+        <p class="c-note">A sans logo. A picker. Three icon buttons. Indistinguishable.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · the mantel</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root">
+            <div class="mk-a">
+              <div class="brand"><div class="mark">Company<em>Co</em></div><div class="year">MMXX</div></div>
+              <div class="company"><span class="lab">you are with</span><span class="n">Acme Capital <em>Partners</em></span></div>
+              <div class="r">
+                <div>Search</div>
+                <div class="bell">On your desk <span class="n">3</span></div>
+                <div class="who">— James</div>
+              </div>
+            </div>
+            <div class="mk-a-body">§ The portfolio · 14 holdings · quiet</div>
+          </div>
+        </div>
+        <p class="c-note">Serif wordmark. Active company as the hero. Right side as labels, not buttons.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="a-foot"><span>Audit № 11 · AppShell · Rev. 01</span><span class="c">— held on file —</span><span class="r">Next · № 12 NavRail</span></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+/* =============================================================
+   @ds/core — automationArmoury brand (STUB)
+   TODO: choose accent palette. Placeholder: slate/teal.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Placeholder accent — replace when brand is chosen */
+  --accent-1: #0f766e;
+  --accent-1-hover: #115e59;
+  --accent-soft: #f0fdfa;
+  --accent-border: #99f6e4;
+  --accent-ring: rgba(15, 118, 110, 0.15);
+  --accent-text: #115e59;
+}

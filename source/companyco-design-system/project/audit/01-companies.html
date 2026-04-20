@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 01 — CompaniesView</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  /* ==============================================================
+     Local styles — the two embedded mockups (before / after).
+     Scoped under .mk-* so they don't collide with the editorial frame.
+     ============================================================== */
+
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 14px; color: #111827; }
+
+  /* ---- BEFORE mockup ---- */
+  .mk-before { display: grid; grid-template-columns: 52px 1fr 420px; min-height: 680px; }
+  .mk-before .rail { background: #fff; border-right: 1px solid #e5e7eb; padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .mk-before .rail .g { width: 36px; height: 36px; border-radius: 8px; background: #4f46e5; color: #fff; display: grid; place-items: center; font-size: 10px; font-weight: 700; margin-bottom: 8px; }
+  .mk-before .rail .i { width: 38px; height: 38px; border-radius: 8px; display: grid; place-items: center; color: #6b7280; }
+  .mk-before .rail .i.on { background: #eef2ff; color: #4f46e5; }
+  .mk-before .rail .i svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .mk-before .main { padding: 18px 22px; overflow: hidden; background: #fff; }
+  .mk-before .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .mk-before .head h1 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.02em; color: #111827; }
+  .mk-before .head .sub { margin: 2px 0 0; font-size: 12.5px; color: #6b7280; }
+  .mk-before .plus { width: 32px; height: 32px; background: #4f46e5; color: #fff; border: 0; border-radius: 6px; font-size: 18px; cursor: pointer; }
+
+  .mk-before .sec-block { border-top: 1px solid #e5e7eb; padding: 14px 0; }
+  .mk-before .sec-block .sb-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; }
+  .mk-before .sec-block .sb-head h3 { margin: 0; font-size: 14px; font-weight: 600; color: #111827; }
+  .mk-before .sec-block .sb-head .sum { font-size: 12px; color: #6b7280; }
+
+  .mk-before .qbar { font-size: 12.5px; color: #374151; display: flex; align-items: center; gap: 6px; margin: 6px 0 10px; }
+  .mk-before table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .mk-before thead th { text-align: left; padding: 8px 12px; font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: #9ca3af; border-bottom: 1px solid #e5e7eb; }
+  .mk-before tbody td { padding: 11px 12px; border-bottom: 1px solid #e5e7eb; color: #374151; }
+  .mk-before tbody tr.sel td { background: #eef2ff; }
+  .mk-before tbody td strong { color: #111827; font-weight: 500; }
+  .mk-before .chip { display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; border-radius: 999px; border: 1px solid #e5e7eb; background: #f3f4f6; color: #374151; font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .mk-before .chip.q { background: #fee2e2; color: #dc2626; border-color: #fecaca; padding: 2px 7px; font-size: 10.5px; font-weight: 600; border-radius: 4px; }
+  .mk-before .chip.d { background: #eef2ff; color: #4f46e5; border-color: #c7d2fe; }
+  .mk-before .resume { margin-left: 8px; font-size: 11px; padding: 2px 8px; background: #fff; border: 1px solid #e5e7eb; border-radius: 4px; cursor: pointer; color: #374151; }
+
+  /* detail panel — before */
+  .mk-before .panel { background: #fff; border-left: 1px solid #e5e7eb; padding: 16px 18px; overflow-y: auto; }
+  .mk-before .panel .p-head { display: flex; justify-content: flex-end; margin-bottom: 12px; }
+  .mk-before .panel .p-btn { width: 28px; height: 28px; border: 1px solid #e5e7eb; background: #fff; border-radius: 4px; display: grid; place-items: center; cursor: pointer; }
+  .mk-before .panel .p-btn svg { width: 14px; height: 14px; stroke: #374151; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .mk-before .panel .s { border-top: 1px solid #e5e7eb; padding: 14px 0; }
+  .mk-before .panel .s > h4 { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: #111827; }
+  .mk-before .dr { display: flex; justify-content: space-between; padding: 6px 0; font-size: 12.5px; gap: 16px; }
+  .mk-before .dr span { color: #6b7280; }
+  .mk-before .dr strong { color: #111827; font-weight: 500; text-align: right; }
+
+  /* ---- AFTER mockup ---- */
+  .mk-after { position: relative; display: grid; grid-template-columns: 56px 280px 1fr; min-height: 680px; background: #fbfaf7; }
+  .mk-after .rail { background: #fbfaf7; border-right: 1px solid #ece4d7; padding: 12px 6px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .mk-after .rail .g { width: 40px; height: 40px; border-radius: 10px; background: #161412; color: #c9a98a; display: grid; place-items: center; font-size: 11px; font-weight: 600; margin-bottom: 10px; letter-spacing: .06em; font-family: "Playfair Display", serif; font-style: italic; }
+  .mk-after .rail .i { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; color: #8b7e6d; position: relative; }
+  .mk-after .rail .i.on { color: #161412; }
+  .mk-after .rail .i.on::before { content:""; position: absolute; left: -6px; top: 10px; bottom: 10px; width: 2px; background: #c9a98a; border-radius: 2px; }
+  .mk-after .rail .i svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* register list — after */
+  .mk-after .list { border-right: 1px solid #ece4d7; background: #fbfaf7; display: flex; flex-direction: column; min-width: 0; }
+  .mk-after .list .l-head { padding: 18px 20px 14px; border-bottom: 1px solid #ece4d7; }
+  .mk-after .list .l-head .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; font-weight: 500; display: block; margin-bottom: 4px; }
+  .mk-after .list .l-head h1 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 26px; font-weight: 500; letter-spacing: -.012em; color: #161412; line-height: 1; }
+  .mk-after .list .l-head h1 em { font-style: italic; font-weight: 400; color: #8e7258; }
+  .mk-after .list .l-head .ct { margin-top: 4px; font-size: 12px; color: #6b5f51; font-family: "JetBrains Mono", monospace; letter-spacing: .04em; }
+  .mk-after .list .l-search { padding: 10px 20px; border-bottom: 1px solid #ece4d7; display: flex; align-items: center; gap: 8px; }
+  .mk-after .list .l-search input { flex: 1; background: transparent; border: 0; outline: 0; font-size: 13px; color: #161412; padding: 4px 0; font-family: inherit; }
+  .mk-after .list .l-search input::placeholder { color: #a8997f; }
+  .mk-after .list .l-search .k { font-family: "JetBrains Mono", monospace; font-size: 10px; color: #a8997f; border: 1px solid #e3d8c5; padding: 1px 5px; border-radius: 3px; }
+  .mk-after .list .l-search svg { width: 14px; height: 14px; stroke: #8b7e6d; stroke-width: 1.5; fill: none; }
+  .mk-after .list .l-body { flex: 1; overflow: auto; }
+  .mk-after .list .row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; padding: 14px 20px; border-bottom: 1px solid #ece4d7; cursor: pointer; align-items: center; }
+  .mk-after .list .row > div { min-width: 0; }
+  .mk-after .list .row:hover { background: #f5efe2; }
+  .mk-after .list .row.sel { background: #fff; box-shadow: inset 3px 0 0 #c9a98a; }
+  .mk-after .list .row .nm { font-family: "Cormorant Garamond", Georgia, serif; font-size: 16.5px; font-weight: 500; color: #161412; letter-spacing: -.003em; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mk-after .list .row .sub { font-family: "JetBrains Mono", monospace; font-size: 11px; color: #6b5f51; margin-top: 2px; letter-spacing: .04em; }
+  .mk-after .list .row .tag { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: #8b7e6d; }
+  .mk-after .list .row .tag.q { color: #a86b54; }
+  .mk-after .list .row .tag.d { color: #8e7258; }
+  .mk-after .list .l-foot { padding: 10px 20px; border-top: 1px solid #ece4d7; display: flex; align-items: center; justify-content: space-between; font-family: "JetBrains Mono", monospace; font-size: 10px; color: #8b7e6d; letter-spacing: .06em; }
+  .mk-after .list .l-foot button { background: transparent; border: 0; font: inherit; color: #161412; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .mk-after .list .l-foot button svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+  /* dossier — after */
+  .mk-after .doss { background: #fbfaf7; padding: 36px 48px 48px; overflow: auto; }
+  .mk-after .doss .d-mast { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; padding-bottom: 24px; border-bottom: 1px solid #ece4d7; margin-bottom: 28px; }
+  .mk-after .doss .d-mast .crumb { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; margin-bottom: 10px; }
+  .mk-after .doss .d-mast h1 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 44px; font-weight: 500; letter-spacing: -.018em; color: #161412; line-height: 1; white-space: nowrap; }
+  .mk-after .doss .d-mast h1 em { font-style: italic; font-weight: 400; color: #8e7258; }
+  .mk-after .doss .d-mast .meta-row { margin-top: 14px; display: flex; gap: 22px; font-size: 12.5px; color: #6b5f51; font-family: "JetBrains Mono", monospace; letter-spacing: .04em; }
+  .mk-after .doss .d-mast .meta-row b { color: #161412; font-weight: 500; }
+  .mk-after .doss .d-acts { display: flex; gap: 8px; }
+  .mk-after .doss .d-acts button { background: transparent; border: 1px solid #e3d8c5; padding: 7px 14px; border-radius: 6px; font-size: 12.5px; font-family: inherit; color: #161412; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .mk-after .doss .d-acts button.pri { background: #161412; color: #ede6dc; border-color: #161412; }
+  .mk-after .doss .d-acts button svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .mk-after .doss .d-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 44px; padding: 4px 0 24px; }
+  .mk-after .doss .d-card { }
+  .mk-after .doss .d-card .eye { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: #8e7258; margin-bottom: 10px; font-weight: 500; display: flex; align-items: baseline; gap: 10px; }
+  .mk-after .doss .d-card .eye .n { color: #a8997f; }
+  .mk-after .doss .d-row { display: grid; grid-template-columns: 130px 1fr; padding: 8px 0; border-bottom: 1px solid #ece4d7; font-size: 13.5px; gap: 16px; }
+  .mk-after .doss .d-row:last-child { border-bottom: 0; }
+  .mk-after .doss .d-row .k { color: #8b7e6d; font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; padding-top: 1px; }
+  .mk-after .doss .d-row .v { color: #161412; }
+  .mk-after .doss .d-row .v.mono { font-family: "JetBrains Mono", monospace; font-size: 12.5px; }
+  .mk-after .doss .d-row .v.em { color: #a86b54; font-style: italic; }
+  .mk-after .doss .d-row .v a { color: #8e7258; text-decoration: none; border-bottom: 1px solid #c9a98a; padding-bottom: 1px; }
+
+  .mk-after .doss .d-quar { margin-top: 8px; padding: 18px 22px; background: #f9ece3; border-left: 2px solid #a86b54; display: grid; gap: 4px; }
+  .mk-after .doss .d-quar .k { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #a86b54; font-weight: 500; }
+  .mk-after .doss .d-quar .v { font-size: 14px; color: #3d2f25; line-height: 1.5; }
+
+  /* unified chapter rows (§ 01–§ 04): one pattern to rule them all */
+  .mk-after .doss .d-chap {
+    padding-top: 0;
+    border-top: 1px solid #ece4d7;
+    display: block;
+  }
+  .mk-after .doss .d-chap:first-of-type { border-top: 0; }
+  .mk-after .doss .d-chap summary {
+    list-style: none; cursor: pointer;
+    padding: 16px 0 14px;
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .mk-after .doss .d-chap summary .eye { flex: 0 0 auto; margin: 0; min-width: 44px; }
+  .mk-after .doss .d-chap summary h3 { flex: 0 0 auto; }
+  .mk-after .doss .d-chap summary .sum { flex: 1; margin: 0; max-width: none; }
+  .mk-after .doss .d-chap summary .caret { flex: 0 0 auto; }
+  .mk-after .doss .d-chap summary::-webkit-details-marker { display: none; }
+  .mk-after .doss .d-chap summary .caret {
+    width: 14px; height: 14px; color: #8b7e6d;
+    transition: transform 150ms ease;
+  }
+  .mk-after .doss .d-chap[open] summary .caret { transform: rotate(90deg); }
+  .mk-after .doss .d-chap summary .caret svg { width: 100%; height: 100%; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .mk-after .doss .d-chap .d-chap-body { padding: 2px 0 20px; display: block; }
+  .mk-after .doss .d-chap h3 {
+    margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 22px;
+    font-weight: 500; letter-spacing: -.01em; color: #161412; line-height: 1.1;
+  }
+  .mk-after .doss .d-chap h3 em { font-style: italic; font-weight: 400; color: #8e7258; }
+  .mk-after .doss .d-chap .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #8e7258; font-weight: 500; }
+  .mk-after .doss .d-chap .sum { font-size: 12.5px; color: #8b7e6d; }
+  .mk-after .doss .d-chap .body { color: #2a2520; }
+  .mk-after .doss .d-chap .stubs { display: grid; gap: 8px; }
+  .mk-after .doss .d-chap .stub { padding: 11px 0; border-bottom: 1px dashed #ece4d7; display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: baseline; }
+  .mk-after .doss .d-chap .stub .k { font-size: 13.5px; color: #161412; }
+  .mk-after .doss .d-chap .stub .v { font-size: 12px; color: #8b7e6d; font-family: "JetBrains Mono", monospace; letter-spacing: .04em; }
+  .mk-after .doss .d-chap .stub .v em { color: #a86b54; font-style: normal; }
+  /* paired identity/office row (§ 01 + § 02) keeps its two-col grid inside the body */
+  .mk-after .doss .d-chap .d-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 44px; }
+
+  /* state toggle: selected vs empty */
+  .mk-after .doss-filled, .mk-after .doss-empty { grid-column: 3; grid-row: 1; }
+  .mk-after.is-empty .doss-filled { display: none; }
+  .mk-after.is-empty .list .row.sel { background: transparent; box-shadow: none; }
+  .mk-after:not(.is-empty) .doss-empty { display: none; }
+  .mk-after .state-pills { position: absolute; top: 12px; right: 14px; display: flex; gap: 2px; padding: 3px; background: rgba(255,255,255,.9); backdrop-filter: blur(4px); border: 1px solid #ece4d7; border-radius: 999px; z-index: 3; }
+  .mk-after .state-pills button { background: transparent; border: 0; font: inherit; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: #8b7e6d; padding: 4px 11px; border-radius: 999px; cursor: pointer; font-family: "JetBrains Mono", monospace; }
+  .mk-after .state-pills button.on { background: #161412; color: #ede6dc; }
+
+  /* empty state — dossier when nothing is chosen */
+  .mk-after .doss.doss-empty { display: grid; place-items: center; padding: 60px 40px; }
+  .mk-after .doss .d-empty-card { max-width: 420px; text-align: center; color: #6b5f51; }
+  .mk-after .doss .d-empty-card .seal { width: 68px; height: 68px; margin: 0 auto 22px; border: 1px solid #d8c9ae; border-radius: 50%; display: grid; place-items: center; color: #8e7258; position: relative; }
+  .mk-after .doss .d-empty-card .seal::before { content: ""; position: absolute; inset: 4px; border: 1px dashed #e3d8c5; border-radius: 50%; }
+  .mk-after .doss .d-empty-card .seal svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 1.25; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .mk-after .doss .d-empty-card .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: #8e7258; font-weight: 500; margin-bottom: 12px; display: block; }
+  .mk-after .doss .d-empty-card h2 { margin: 0 0 12px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 36px; font-weight: 500; color: #161412; letter-spacing: -.015em; line-height: 1.05; }
+  .mk-after .doss .d-empty-card h2 em { font-style: italic; color: #8e7258; font-weight: 500; }
+  .mk-after .doss .d-empty-card p { margin: 0 0 22px; font-size: 13.5px; line-height: 1.55; color: #6b5f51; }
+  .mk-after .doss .d-empty-card .hints { display: grid; gap: 8px; font-size: 12px; color: #8b7e6d; letter-spacing: .02em; text-align: left; border-top: 1px solid #ece4d7; padding-top: 16px; }
+  .mk-after .doss .d-empty-card .hints .h { display: grid; grid-template-columns: 88px 1fr; gap: 14px; align-items: baseline; }
+  .mk-after .doss .d-empty-card .hints .h .lbl { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-after .doss .d-empty-card .hints .h b { color: #161412; font-weight: 500; }
+  .mk-after .doss .d-empty-card .hints kbd { font-family: "JetBrains Mono", monospace; font-size: 10.5px; padding: 1px 6px; border: 1px solid #e3d8c5; border-radius: 3px; background: #fff; color: #161412; }
+
+  .mk-after .doss .d-tl { display: grid; gap: 2px; }
+  .mk-after .doss .d-tl .e { display: grid; grid-template-columns: 100px 1fr; gap: 18px; padding: 10px 0; border-bottom: 1px solid #ece4d7; font-size: 13px; }
+  .mk-after .doss .d-tl .e .t { font-family: "JetBrains Mono", monospace; font-size: 11px; color: #8b7e6d; letter-spacing: .04em; }
+  .mk-after .doss .d-tl .e .d { color: #161412; }
+  .mk-after .doss .d-tl .e .d b { font-weight: 500; color: #8e7258; }
+</style>
+</head>
+<body>
+
+<div class="a-page">
+
+  <header class="a-mast">
+    <div class="l">Audit · <b>№ 01</b> · Companies</div>
+    <div class="c">CompanyCo · Product Audit</div>
+    <div class="r">Filed · <b>Rev. 01</b></div>
+  </header>
+
+  <!-- ============== HERO ============== -->
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 01 of 20<span class="dot"></span></div>
+      <h1>Companies<br><span class="italic">Register.</span></h1>
+      <p class="dek">
+        Where the company group lives. The register is the entry point for every other module — if a company is wrong here, <em>everything downstream is wrong.</em> Yet today it behaves like a CRUD screen grafted onto a slide-in drawer: functional, but not built for the scrutiny the data demands.
+      </p>
+    </div>
+
+    <aside class="meta">
+      <div class="row"><b>File</b><span>CompaniesView.tsx</span></div>
+      <div class="row"><b>Lines</b><span>696</span></div>
+      <div class="row"><b>Surface</b><span>Register · Panel · Wizard</span></div>
+      <div class="row"><b>Routes</b><span>/companies</span></div>
+      <div class="row"><b>Severity</b><span style="color:var(--rose)">High — foundational</span></div>
+      <div class="row"><b>Lens</b><span>All six</span></div>
+    </aside>
+  </section>
+
+  <!-- ============== § 01 · CURRENT STATE ============== -->
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 01</b> Current state</h2>
+      <p class="title">What the team <em>ships</em> today.</p>
+      <p class="lede">A three-column table with a drawer. Two rounded-rect Quarantined badges fight the system. Inline-styled checkbox labels and hard-coded #fee2e2 red give the game away.</p>
+    </div>
+
+    <div class="a-stage" data-label="Snapshot · /companies · as built">
+      <div class="inner mk-root mk-before">
+        <!-- rail -->
+        <aside class="rail">
+          <div class="g">WH</div>
+          <div class="i"><svg viewBox="0 0 20 20"><path d="M3 10L10 4l7 6"/><path d="M5 9v7h4v-4h2v4h4V9"/></svg></div>
+          <div class="i on"><svg viewBox="0 0 20 20"><rect x="4" y="6" width="12" height="11" rx="1"/><path d="M4 6h12"/><path d="M7 9h2M7 12h2M11 9h2M11 12h2"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><polyline points="3,14 7,10 11,12 17,6"/><polyline points="13,6 17,6 17,10"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><rect x="3" y="7" width="14" height="10" rx="1.5"/><path d="M7 7V5.5A1.5 1.5 0 018.5 4h3A1.5 1.5 0 0113 5.5V7"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><path d="M14.5 3.5a3.5 3.5 0 00-4.95 0L5 8l7 7 4.5-4.55a3.5 3.5 0 000-4.95"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><path d="M10 3L2 17h16L10 3z"/><path d="M10 8v4"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><rect x="4" y="4" width="12" height="14" rx="1.5"/></svg></div>
+        </aside>
+
+        <!-- main -->
+        <main class="main">
+          <header class="head">
+            <div>
+              <h1>Companies Register</h1>
+              <p class="sub">4 entities in the active group</p>
+            </div>
+            <button class="plus">+</button>
+          </header>
+
+          <div class="sec-block">
+            <div class="sb-head">
+              <h3>Registry</h3>
+              <div class="sum">3 active · 1 quarantined</div>
+            </div>
+            <label class="qbar"><input type="checkbox" checked> Show quarantined</label>
+            <table>
+              <thead>
+                <tr><th>Name</th><th>Company number</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr class="sel"><td><strong>Westhaven Holdings Ltd</strong></td><td>09212118</td><td><span class="chip">Active</span></td></tr>
+                <tr><td><strong>Westhaven Treasury BV</strong></td><td>64110993</td><td><span class="chip">Active</span></td></tr>
+                <tr><td><strong>Westhaven Labs (draft)</strong> <span class="chip d">Draft</span><button class="resume">Resume draft</button></td><td>Not provided</td><td><span class="chip">Scoped</span></td></tr>
+                <tr><td><strong>Meridian Ventures SA</strong> <span class="chip q">Quarantined</span></td><td>B-187432</td><td><span class="chip">Active</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sec-block">
+            <div class="sb-head"><h3>Definitions</h3></div>
+          </div>
+          <div class="sec-block">
+            <div class="sb-head"><h3>BO Review</h3></div>
+          </div>
+        </main>
+
+        <!-- panel -->
+        <aside class="panel">
+          <div class="p-head">
+            <button class="p-btn"><svg viewBox="0 0 20 20"><path d="M13.5 3.5l3 3L6 17H3v-3L13.5 3.5z" /></svg></button>
+          </div>
+          <div class="s">
+            <h4>Identity</h4>
+            <div class="dr"><span>Name</span><strong>Westhaven Holdings Ltd</strong></div>
+            <div class="dr"><span>Trading name</span><strong>Westhaven</strong></div>
+            <div class="dr"><span>Company number</span><strong>09212118</strong></div>
+            <div class="dr"><span>Jurisdiction</span><strong>GB · England &amp; Wales</strong></div>
+            <div class="dr"><span>Legal form</span><strong>Private ltd (LTD)</strong></div>
+            <div class="dr"><span>Incorporation date</span><strong>14 Aug 2014</strong></div>
+            <div class="dr"><span>Status</span><strong><span class="chip">Active</span></strong></div>
+          </div>
+          <div class="s">
+            <h4>Registered address</h4>
+            <div class="dr"><span>Address</span><strong>33 Cavendish Sq</strong></div>
+            <div class="dr"><span>City</span><strong>London</strong></div>
+            <div class="dr"><span>Postal code</span><strong>W1G 0PW</strong></div>
+            <div class="dr"><span>Country</span><strong>GB</strong></div>
+          </div>
+          <div class="s">
+            <h4>Classification</h4>
+            <div class="dr"><span>Industry code</span><strong>Not provided</strong></div>
+            <div class="dr"><span>Business activity</span><strong>Not provided</strong></div>
+          </div>
+          <div class="s">
+            <h4>Relations</h4>
+          </div>
+          <div class="s">
+            <h4>Performance</h4>
+          </div>
+          <div class="s">
+            <h4>Change log</h4>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== § 02 · FINDINGS ============== -->
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 02</b> Findings</h2>
+      <p class="title">Six things that <em>don't survive</em> scrutiny.</p>
+      <p class="lede">Ordered by foundational impact, not by size of the fix. Each cites the exact source location.</p>
+    </div>
+
+    <div class="a-findings">
+
+      <article class="a-find">
+        <div class="hd"><b>01 · System</b><span class="sev hi">High</span></div>
+        <h3>The red Quarantined badge breaks the system in the most visible row.</h3>
+        <p>Line 374 hard-codes <code>background: #fee2e2</code>, <code>color: #dc2626</code>, <code>border-radius: 4px</code> — <em>inline, in the table.</em> Everywhere else we use <code>&lt;Chip&gt;</code> with pill radius. This is the single highest-severity field in the register and it's rendered in a style that exists nowhere else in the app.</p>
+        <div class="fix"><span class="k">Fix</span><span class="v">Replace with <code>&lt;Chip tone="danger"&gt;</code> and lift quarantine out of the name cell into a row-level severity gutter (see redesign).</span></div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><b>02 · Hierarchy</b><span class="sev hi">High</span></div>
+        <h3>The detail panel is a drawer of nine section headings with no density.</h3>
+        <p>Identity, Address, Classification, Relations, Performance, Risks, Obligations, Services, Change log — all stacked at the same typographic weight. Five of them render <code>"No data linked yet."</code> — that's 55% of the panel's vertical space spent saying nothing. The user has to scroll past empty sections to find change log.</p>
+        <div class="fix"><span class="k">Fix</span><span class="v">Collapse empty chapters behind a one-line summary; treat identity as primary, everything else as dossier chapters opening only when they have content.</span></div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><b>03 · Interaction</b><span class="sev md">Medium</span></div>
+        <h3>The register has no keyboard model, no search, no filter, no sort.</h3>
+        <p>4 rows today, but this is the register — it grows. <code>onClick</code> on <code>&lt;tr&gt;</code> is the only way to select; there's no <code>arrow/enter</code> navigation, no type-to-jump, no column sort. The only filter is a raw <code>&lt;input type="checkbox"&gt;</code> labeled "Show quarantined" with an <em>inline <code>style=</code> prop</em>.</p>
+        <div class="fix"><span class="k">Fix</span><span class="v">Inline-filter strip (search + sort + quarantine toggle) sitting in the register header; <kbd class="a-kbd">↑</kbd>/<kbd class="a-kbd">↓</kbd> navigation; <kbd class="a-kbd">/</kbd> to focus search; <kbd class="a-kbd">E</kbd> to edit.</span></div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><b>04 · Copywriting</b><span class="sev md">Medium</span></div>
+        <h3>"Not provided", "No data linked yet", "Register link" — three tones in one panel.</h3>
+        <p><code>optionalText()</code> defaults everything missing to the string "Not provided" (line 120). Meanwhile sibling sections say "No data linked yet." and the action reads "Open official record". We're a record-keeping product; copy should be consistent and <em>earned</em>, not filler.</p>
+        <div class="fix"><span class="k">Fix</span><span class="v">One missing-value convention: <code>—</code> in tabular density; "Not on file" in dossier chapters; skip sections that have no data entirely.</span></div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><b>05 · A11y</b><span class="sev md">Medium</span></div>
+        <h3>The edit toggle is an icon-only button that flips meaning silently.</h3>
+        <p>Lines 445–452 render a <code>&lt;button&gt;</code> whose <code>aria-label</code> flips between "View mode" and "Edit mode" — but the icon swaps between three lines (menu) and a pencil. A screen reader user hears the state change, but sighted users see a visual they don't associate with edit at all. The title attribute is the only tooltip.</p>
+        <div class="fix"><span class="k">Fix</span><span class="v">Labeled pill button: <em>"Edit"</em> (pencil) / <em>"Done editing"</em> (check). Inline edit isn't a mode flip — it's a direct action per field (see redesign).</span></div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><b>06 · Rethink</b><span class="sev lo">Opportunity</span></div>
+        <h3>This is a <em>register</em>, not a CRUD list. Let it behave like one.</h3>
+        <p>A register is an authoritative document. The current UI treats it as a spreadsheet with a side-drawer for the current row. What if Companies looked and read like a bound dossier — a list on the left, the <em>record</em> as a full page on the right, and every data point anchored by its provenance (as of, changed by, source)?</p>
+        <div class="fix"><span class="k">Fix</span><span class="v">Full-page dossier. List + record, not table + drawer. The redesign below pushes this direction.</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============== § 03 · TOKEN MAPPING ============== -->
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 03</b> Token mapping</h2>
+      <p class="title">Every one-off — <em>mapped back.</em></p>
+      <p class="lede">Specific replacements. No guesswork for the implementer.</p>
+    </div>
+
+    <table class="a-token-table">
+      <thead>
+        <tr><th style="width:40%">In code today</th><th></th><th style="width:28%">Token</th><th>Why</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="from"><code>background: '#fee2e2'</code> · <code>color: '#dc2626'</code> (line 374)</td><td class="arrow">→</td><td class="to"><code>&lt;Chip tone="danger"&gt;</code></td><td class="rat">Existing primitive. Pill shape, <code>--error-light</code> / <code>--error</code>.</td></tr>
+        <tr><td class="from"><code>style={{ display: 'flex', gap: '0.35rem', fontSize: '0.8rem' }}</code> (line 358)</td><td class="arrow">→</td><td class="to"><code>.cc-filter-bar</code></td><td class="rat">Add a new primitive so the filter strip is shared with the other 6 registers.</td></tr>
+        <tr><td class="from">18px title · 0.8rem subtitle</td><td class="arrow">→</td><td class="to"><code>--font-brand</code> 44px<br><code>--font-mono</code> 10px eyebrow</td><td class="rat">The register is the entry point. It earns the editorial treatment; other hubs do not.</td></tr>
+        <tr><td class="from"><code>company-table</code> (custom)</td><td class="arrow">→</td><td class="to">Register-list primitive<br><code>.cc-register-row</code></td><td class="rat">Rows carry richer structure than a table cell supports (name + number + status + quarantine gutter).</td></tr>
+        <tr><td class="from"><code>"Companies Register"</code> page heading</td><td class="arrow">→</td><td class="to">"Companies"<br><em>eyebrow: The register</em></td><td class="rat">The word "Register" is the genre, not the noun. Noun goes large; genre goes as an eyebrow.</td></tr>
+        <tr><td class="from">Slide-in <code>DetailPanel</code> (fixed 420px)</td><td class="arrow">→</td><td class="to">Master–detail dossier pane</td><td class="rat">Detail deserves full bleed; the register is the index, not the content.</td></tr>
+        <tr><td class="from">"Not provided" × N</td><td class="arrow">→</td><td class="to"><code>—</code> (em-dash) in tables<br>Omit chapter entirely in dossier</td><td class="rat">A record shouldn't narrate its own gaps. One convention; silence is also an answer.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============== § 04 · REDESIGN ============== -->
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 04</b> Redesign</h2>
+      <p class="title">The register, <em>as a register.</em></p>
+      <p class="lede">Left: the index. Right: the record. Identity is primary; everything else is a chapter that only appears if it has something to say.</p>
+    </div>
+
+    <div class="a-stage" data-label="Proposal · /companies/westhaven-holdings">
+      <div class="inner mk-root mk-after">
+
+        <!-- rail -->
+        <aside class="rail">
+          <div class="g">Co</div>
+          <div class="i"><svg viewBox="0 0 20 20"><path d="M3 10L10 4l7 6"/><path d="M5 9v7h4v-4h2v4h4V9"/></svg></div>
+          <div class="i on"><svg viewBox="0 0 20 20"><rect x="4" y="6" width="12" height="11" rx="1"/><path d="M4 6h12"/><path d="M7 9h2M7 12h2M11 9h2M11 12h2"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><polyline points="3,14 7,10 11,12 17,6"/><polyline points="13,6 17,6 17,10"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><rect x="3" y="7" width="14" height="10" rx="1.5"/><path d="M7 7V5.5A1.5 1.5 0 018.5 4h3A1.5 1.5 0 0113 5.5V7"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><path d="M14.5 3.5a3.5 3.5 0 00-4.95 0L5 8l7 7 4.5-4.55a3.5 3.5 0 000-4.95"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><path d="M10 3L2 17h16L10 3z"/><path d="M10 8v4"/></svg></div>
+          <div class="i"><svg viewBox="0 0 20 20"><rect x="4" y="4" width="12" height="14" rx="1.5"/></svg></div>
+        </aside>
+
+        <!-- register list -->
+        <section class="list">
+          <header class="l-head">
+            <span class="eye">§ the register</span>
+            <h1>Companies<em>.</em></h1>
+            <div class="ct">4 on file · 1 held for review</div>
+          </header>
+
+          <div class="l-search">
+            <svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="5"/><path d="M13 13l4 4"/></svg>
+            <input placeholder="Search by name or number…" value="">
+            <span class="k">/</span>
+          </div>
+
+          <div class="l-body">
+            <div class="row sel">
+              <div>
+                <div class="nm">Westhaven Holdings Ltd</div>
+                <div class="sub">09212118 · GB · LTD</div>
+              </div>
+              <div class="tag">Active</div>
+            </div>
+            <div class="row">
+              <div>
+                <div class="nm">Westhaven Treasury BV</div>
+                <div class="sub">64110993 · NL · BV</div>
+              </div>
+              <div class="tag">Active</div>
+            </div>
+            <div class="row">
+              <div>
+                <div class="nm" style="color:#8e7258; font-style: italic;">Westhaven Labs</div>
+                <div class="sub">— · draft</div>
+              </div>
+              <div class="tag d">Resume</div>
+            </div>
+            <div class="row">
+              <div>
+                <div class="nm">Meridian Ventures SA</div>
+                <div class="sub">B-187432 · LU · SA</div>
+              </div>
+              <div class="tag q">Held</div>
+            </div>
+          </div>
+
+          <footer class="l-foot">
+            <span>§ 4 on file</span>
+            <button>
+              <svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12"/></svg>
+              New entry
+            </button>
+          </footer>
+        </section>
+
+        <!-- state toggle pills -->
+        <div class="state-pills" role="tablist" aria-label="Dossier state">
+          <button type="button" class="on" data-state="selected">Selected</button>
+          <button type="button" data-state="empty">Nothing chosen</button>
+        </div>
+
+        <!-- dossier (filled) -->
+        <section class="doss doss-filled">
+          <header class="d-mast">
+            <div>
+              <div class="crumb">§ the record · 01 of 04</div>
+              <h1>Westhaven Holdings<em>.</em></h1>
+              <div class="meta-row">
+                <span><b>09212118</b> · Companies House</span>
+                <span>GB · Private limited</span>
+                <span>On file since <b>14 Aug 2014</b></span>
+              </div>
+            </div>
+            <div class="d-acts">
+              <button>
+                <svg viewBox="0 0 20 20"><path d="M10 3v10M5 9l5 5 5-5"/></svg>
+                Export
+              </button>
+              <button class="pri">
+                <svg viewBox="0 0 20 20"><path d="M13.5 3.5l3 3L6 17H3v-3z"/></svg>
+                Edit record
+              </button>
+            </div>
+          </header>
+
+          <!-- chapter: identity -->
+          <details class="d-chap" open>
+            <summary>
+              <span class="eye">§ 01</span>
+              <h3>Identity<em>.</em></h3>
+              <span class="sum">Legal name, number, register — 5 fields.</span>
+              <span class="caret"><svg viewBox="0 0 16 16"><path d="M5 3l6 5-6 5"/></svg></span>
+            </summary>
+            <div class="d-chap-body">
+              <div class="body">
+                <div class="d-row"><span class="k">Legal name</span><span class="v">Westhaven Holdings Ltd</span></div>
+                <div class="d-row"><span class="k">Trading as</span><span class="v">Westhaven</span></div>
+                <div class="d-row"><span class="k">Number</span><span class="v mono">09212118</span></div>
+                <div class="d-row"><span class="k">Incorporated</span><span class="v">14 August 2014</span></div>
+                <div class="d-row"><span class="k">Register</span><span class="v"><a href="#">Companies House →</a></span></div>
+              </div>
+            </div>
+          </details>
+
+          <!-- chapter: registered office -->
+          <details class="d-chap" open>
+            <summary>
+              <span class="eye">§ 02</span>
+              <h3>Registered office<em>.</em></h3>
+              <span class="sum">33 Cavendish Square, London — 4 fields.</span>
+              <span class="caret"><svg viewBox="0 0 16 16"><path d="M5 3l6 5-6 5"/></svg></span>
+            </summary>
+            <div class="d-chap-body">
+              <div class="body">
+                <div class="d-row"><span class="k">Street</span><span class="v">33 Cavendish Square</span></div>
+                <div class="d-row"><span class="k">Locality</span><span class="v">London</span></div>
+                <div class="d-row"><span class="k">Postcode</span><span class="v mono">W1G 0PW</span></div>
+                <div class="d-row"><span class="k">Country</span><span class="v">United Kingdom</span></div>
+              </div>
+            </div>
+          </details>
+
+          <!-- chapter: relations -->
+          <details class="d-chap" open>
+            <summary>
+              <span class="eye">§ 03</span>
+              <h3>Relations<em>.</em></h3>
+              <span class="sum">Ownership, officers, beneficial owners — 4 entries.</span>
+              <span class="caret"><svg viewBox="0 0 16 16"><path d="M5 3l6 5-6 5"/></svg></span>
+            </summary>
+            <div class="d-chap-body">
+              <div class="body">
+                <div class="stubs">
+                  <div class="stub">
+                    <span class="k">Westhaven Holdings Ltd owns 100% of Westhaven Treasury BV</span>
+                    <span class="v">direct · since 2016</span>
+                  </div>
+                  <div class="stub">
+                    <span class="k">James Arden Wade — director, person of significant control</span>
+                    <span class="v">since 2014</span>
+                  </div>
+                  <div class="stub">
+                    <span class="k">Eleanor Gale-Whitmore — director</span>
+                    <span class="v">since 2019</span>
+                  </div>
+                  <div class="stub">
+                    <span class="k">Beneficial ownership — <em>awaiting 2 signatures</em></span>
+                    <span class="v">4 of 6 filed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- chapter: change log -->
+          <details class="d-chap">
+            <summary>
+              <span class="eye">§ 04</span>
+              <h3>Change log<em>.</em></h3>
+              <span class="sum">48 entries since 2014 — every edit held with its author.</span>
+              <span class="caret"><svg viewBox="0 0 16 16"><path d="M5 3l6 5-6 5"/></svg></span>
+            </summary>
+            <div class="d-chap-body">
+              <div class="body">
+                <div class="d-tl">
+                  <div class="e"><span class="t">18 Apr · 11:02</span><span class="d"><b>JW</b> updated registered office line 1 — <em>"moved to Cavendish Sq"</em></span></div>
+                  <div class="e"><span class="t">04 Apr · 09:14</span><span class="d"><b>System</b> synced officer list from Companies House</span></div>
+                  <div class="e"><span class="t">22 Mar · 16:48</span><span class="d"><b>EG</b> added trading name "Westhaven"</span></div>
+                  <div class="e"><span class="t">14 Aug 2014</span><span class="d"><b>System</b> company opened on the register</span></div>
+                </div>
+              </div>
+            </div>
+          </details>
+
+        </section>
+
+        <!-- dossier (empty state) -->
+        <section class="doss doss-empty">
+          <div class="d-empty-card">
+            <div class="seal">
+              <svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="1.5"/><path d="M8 8h8M8 11h8M8 14h5"/></svg>
+            </div>
+            <span class="eye">§ the record</span>
+            <h2>No record <em>on the desk.</em></h2>
+            <p>Choose a company from the register to read its dossier. The record opens in place — nothing else moves.</p>
+            <div class="hints">
+              <div class="h"><span class="lbl">Open</span><span><kbd>⏎</kbd> opens the highlighted row, <b>click</b> picks any row.</span></div>
+              <div class="h"><span class="lbl">Search</span><span><kbd>/</kbd> jumps to search by name or number.</span></div>
+              <div class="h"><span class="lbl">New</span><span><kbd>N</kbd> starts a new entry — begins with Identity alone.</span></div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== § 05 · INTERACTION NOTES ============== -->
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 05</b> Interaction notes</h2>
+      <p class="title">How it <em>feels</em>, beyond the screenshot.</p>
+      <p class="lede">The parts that don't fit on a flat mockup.</p>
+    </div>
+
+    <div class="a-notes">
+
+      <div class="a-note">
+        <div class="k"><span class="n">01</span>Keyboard</div>
+        <div class="v"><strong><kbd class="a-kbd">/</kbd></strong> focuses search. <strong><kbd class="a-kbd">↑</kbd><kbd class="a-kbd">↓</kbd></strong> walks the register. <strong><kbd class="a-kbd">⏎</kbd></strong> opens the record; <strong><kbd class="a-kbd">E</kbd></strong> flips the record into edit. <strong><kbd class="a-kbd">⌘K</kbd></strong> for cross-module search stays global.</div>
+      </div>
+
+      <div class="a-note">
+        <div class="k"><span class="n">02</span>Inline edit</div>
+        <div class="v">Not a mode flip. Hover a row in the dossier, a pencil appears at the right; click writes the value in place. Save/cancel anchor to the edited row, not a footer.</div>
+      </div>
+
+      <div class="a-note">
+        <div class="k"><span class="n">03</span>Empty chapters</div>
+        <div class="v">Chapters with no data <strong>don't render</strong>. A faint "+ link performance data" strip at the foot of the dossier lets the user add what's missing; it's a deliberate gap, not a wall of "No data yet."</div>
+      </div>
+
+      <div class="a-note">
+        <div class="k"><span class="n">04</span>Held for review</div>
+        <div class="v">"Quarantined" reads as sterile. Records that fail validation are <strong>held</strong>. The tag is one word in a single amber-rose tone; the reason is shown above the dossier as a callout, never inside the field.</div>
+      </div>
+
+      <div class="a-note">
+        <div class="k"><span class="n">05</span>Loading &amp; error</div>
+        <div class="v">Register list skeletons are three empty rows with the monospace eyebrow "§ syncing". Errors are a single paper-toned strip at the top of the list, never a modal. Optimistic save stays as-written until the server confirms.</div>
+      </div>
+
+      <div class="a-note">
+        <div class="k"><span class="n">06</span>Empty state</div>
+        <div class="v">Zero companies is <strong>not</strong> an empty state — it's the welcome screen: a single-line "Open the register" CTA that launches the wizard. We never say "No data".</div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="a-foot">
+    <span>Audit № 01 · CompaniesView · Rev. 01</span>
+    <span class="c">— held on file —</span>
+    <span class="r">Next · № 02 RiskView</span>
+  </footer>
+
+</div>
+
+<script>
+  // dossier state toggle (Selected / Nothing chosen)
+  document.querySelectorAll('.mk-after .state-pills').forEach(pills => {
+    const host = pills.closest('.mk-after');
+    pills.addEventListener('click', e => {
+      const btn = e.target.closest('button[data-state]');
+      if (!btn) return;
+      pills.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === btn));
+      host.classList.toggle('is-empty', btn.dataset.state === 'empty');
+    });
+  });
+</script>
+
+</body>
+</html>

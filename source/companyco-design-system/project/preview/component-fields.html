@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body {
+    margin: 0; padding: 24px;
+    background: var(--surface-0);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--text-1);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
+  .form {
+    max-width: 640px;
+    display: flex; flex-direction: column;
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface-0);
+  }
+  .field {
+    display: grid;
+    grid-template-columns: 168px 1fr;
+    align-items: baseline;
+    gap: 20px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-1);
+  }
+  .field:last-child { border-bottom: 0; }
+  .lbl {
+    font-family: var(--font-sans);
+    font-size: 13px; font-weight: 500;
+    line-height: 20px;
+    color: var(--text-2);
+    letter-spacing: 0;
+    padding-top: 6px;
+  }
+  .lbl .req { color: var(--error); margin-left: 2px; font-weight: 500; }
+  .lbl .hint {
+    display: block;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--text-4);
+    margin-top: 2px;
+    letter-spacing: 0;
+  }
+  .control { position: relative; display: flex; align-items: center; gap: 10px; min-height: 32px; }
+  input, select, textarea {
+    width: 100%;
+    height: 32px;
+    padding: 0 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-1);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    transition: border-color 120ms, background 120ms, box-shadow 120ms;
+  }
+  input::placeholder { color: var(--text-4); }
+  input:hover:not(:focus):not([readonly]),
+  select:hover:not(:focus) { background: var(--surface-1); }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    background: var(--surface-0);
+    border-color: var(--accent-1);
+    box-shadow: 0 0 0 2px var(--accent-ring);
+  }
+  input[readonly] { color: var(--text-3); cursor: default; }
+  input[readonly]:hover { background: transparent; }
+
+  .field.err input { border-color: var(--error); background: var(--error-light); }
+  .field.err .msg { color: var(--error); }
+  .msg {
+    font-family: var(--font-sans);
+    font-size: 12px; font-weight: 400;
+    color: var(--text-3);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0;
+  }
+
+  .inline-chip {
+    display: inline-flex; align-items: center;
+    padding: 0 8px; height: 22px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-1);
+    background: var(--surface-1);
+    font-family: var(--font-sans);
+    font-size: 12px; font-weight: 500; color: var(--text-3);
+    letter-spacing: 0;
+    line-height: 1;
+  }
+
+  select {
+    appearance: none; -webkit-appearance: none;
+    padding-right: 28px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none' stroke='%236b7280' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><path d='M5 8l5 5 5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    cursor: pointer;
+  }
+
+  .seg {
+    display: inline-flex;
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-sm);
+    background: var(--surface-1);
+    padding: 2px;
+    gap: 2px;
+    height: 28px;
+    align-items: stretch;
+  }
+  .seg button {
+    border: 0; background: transparent;
+    padding: 0 10px;
+    font-family: var(--font-sans);
+    font-size: 12px; font-weight: 500;
+    color: var(--text-3);
+    border-radius: 4px; cursor: pointer;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .seg button.on {
+    background: var(--surface-0);
+    color: var(--text-1);
+    box-shadow: var(--shadow-1);
+  }
+
+  .toggle { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sans); font-size: 13px; color: var(--text-2); letter-spacing: 0; }
+  .toggle .sw {
+    width: 28px; height: 16px; background: var(--surface-3);
+    border-radius: 999px; position: relative; transition: background 120ms;
+  }
+  .toggle .sw::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 12px; height: 12px; border-radius: 50%; background: #fff;
+    box-shadow: var(--shadow-1); transition: transform 120ms;
+  }
+  .toggle.on .sw { background: var(--accent-1); }
+  .toggle.on .sw::after { transform: translateX(12px); }
+
+  .header {
+    padding: 10px 16px;
+    background: var(--surface-1);
+    border-bottom: 1px solid var(--border-1);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--font-sans);
+    font-size: 12px; font-weight: 500; color: var(--text-3);
+    letter-spacing: 0;
+  }
+  .header .count {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-4);
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+</head>
+<body>
+
+  <div class="form" role="group" aria-label="Company details form">
+    <div class="header">
+      <span>Company details</span>
+      <span class="count">12 fields · 3 required</span>
+    </div>
+
+    <div class="field">
+      <label class="lbl" for="f-name">Legal name<span class="req">*</span></label>
+      <div class="control"><input id="f-name" value="Acme Holdings Limited"></div>
+    </div>
+
+    <div class="field">
+      <label class="lbl" for="f-email">Contact email</label>
+      <div class="control"><input id="f-email" type="email" value="jane@companyco.com"></div>
+    </div>
+
+    <div class="field err">
+      <label class="lbl" for="f-num">
+        Company number<span class="req">*</span>
+      </label>
+      <div class="control">
+        <input id="f-num" value="12345">
+        <span class="msg">Must be 8 digits</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl" for="f-jur">
+        Jurisdiction
+        <span class="hint">Derived from registry</span>
+      </label>
+      <div class="control">
+        <input id="f-jur" value="England &amp; Wales" readonly>
+        <span class="inline-chip">Read-only</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl" for="f-type">Entity type</label>
+      <div class="control">
+        <select id="f-type">
+          <option>Private limited company</option>
+          <option>Public limited company</option>
+          <option>Partnership</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Customer segment</label>
+      <div class="control">
+        <div class="seg" role="tablist">
+          <button class="on">All</button>
+          <button>B2B</button>
+          <button>B2C</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl" for="f-pw">
+        Password<span class="req">*</span>
+        <span class="hint">8+ chars, one number</span>
+      </label>
+      <div class="control"><input id="f-pw" type="password" value="correcthorse"></div>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Auto-publish</label>
+      <div class="control">
+        <span class="toggle on"><span class="sw"></span>Enabled for admins only</span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

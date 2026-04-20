@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 08 — AdminView</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; }
+
+  /* BEFORE — admin settings */
+  .mk-b { padding: 16px 20px; background: #fff; display: grid; grid-template-columns: 180px 1fr; gap: 18px; min-height: 320px; }
+  .mk-b .nav { display: flex; flex-direction: column; gap: 3px; border-right: 1px solid #e5e7eb; padding-right: 10px; }
+  .mk-b .nav a { font-size: 12.5px; padding: 7px 10px; border-radius: 4px; color: #374151; text-decoration: none; }
+  .mk-b .nav a.on { background: #eef2ff; color: #4f46e5; font-weight: 500; }
+  .mk-b h1 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
+  .mk-b .sub { margin: 2px 0 14px; font-size: 12px; color: #6b7280; }
+  .mk-b table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .mk-b thead th { text-align: left; padding: 8px 10px; font-size: 10px; font-weight: 600; text-transform: uppercase; color: #9ca3af; border-bottom: 1px solid #e5e7eb; letter-spacing: .06em; }
+  .mk-b tbody td { padding: 10px; border-bottom: 1px solid #f3f4f6; color: #374151; }
+  .mk-b .chip { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10.5px; background: #f3f4f6; color: #374151; }
+  .mk-b .chip.admin { background: #eef2ff; color: #4f46e5; }
+  .mk-b .chip.inv { background: #fef3c7; color: #92400e; }
+
+  /* AFTER — the ledger of people */
+  .mk-a { background: #fbfaf7; padding: 22px 26px 24px; color: #161412; }
+  .mk-a .head { border-bottom: 1px solid #ece4d7; padding-bottom: 16px; margin-bottom: 14px; }
+  .mk-a .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-a h1 { margin: 4px 0 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 26px; font-weight: 500; letter-spacing: -.012em; }
+  .mk-a h1 em { font-style: italic; color: #8e7258; font-weight: 500; }
+  .mk-a .dek { margin: 8px 0 0; font-size: 12px; color: #6b5f51; max-width: 56ch; line-height: 1.55; }
+
+  .mk-a .gh { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: #8e7258; padding: 16px 0 8px; border-bottom: 1px solid #ece4d7; display: flex; justify-content: space-between; }
+  .mk-a .gh .n { color: #a8997f; }
+  .mk-a .person { display: grid; grid-template-columns: 1fr auto; gap: 20px; padding: 14px 0; border-bottom: 1px dashed #ece4d7; align-items: baseline; }
+  .mk-a .person .n { font-family: "Cormorant Garamond", Georgia, serif; font-size: 17px; font-weight: 500; letter-spacing: -.005em; }
+  .mk-a .person .role { font-style: italic; color: #8e7258; font-family: "Cormorant Garamond", Georgia, serif; }
+  .mk-a .person .s { font-size: 11.5px; color: #6b5f51; margin-top: 4px; line-height: 1.55; }
+  .mk-a .person .s b { color: #161412; font-weight: 500; }
+  .mk-a .person .t { font-family: "JetBrains Mono", monospace; font-size: 10.5px; color: #8b7e6d; text-align: right; letter-spacing: .04em; white-space: nowrap; }
+  .mk-a .person .t .then { display: block; font-size: 9.5px; color: #a8997f; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="a-page">
+  <header class="a-mast"><div class="l">Audit · <b>№ 08</b> · Admin</div><div class="c">CompanyCo · Product Audit</div><div class="r">Filed · <b>Rev. 01</b></div></header>
+
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 08 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">household.</span></h1>
+      <p class="dek">Admin is where a firm manages <em>its own people</em> — who can see what, who joined when, who hasn't signed in. The current surface is a settings panel with side-nav and tables. It gets the job done but it treats staff as <em>rows</em>. The tool's own tone should be warmest here.</p>
+    </div>
+    <aside class="meta">
+      <div class="row"><b>File</b><span>AdminView.tsx</span></div>
+      <div class="row"><b>Surface</b><span>Superuser · Settings</span></div>
+      <div class="row"><b>Routes</b><span>/admin</span></div>
+      <div class="row"><b>Severity</b><span>Low — posture</span></div>
+      <div class="row"><b>Lens</b><span>Tone · Copy · Frame</span></div>
+    </aside>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 01</b> Findings</h2><p class="title">Two things the <em>admin panel</em> can soften.</p></div>
+    <div class="a-findings">
+
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> Frame</span><span class="sev md">Medium</span></div>
+        <h3>"Admin" is a back-office word.</h3>
+        <p>The page title is literally <em>"Admin"</em>, with subsections <em>Users</em>, <em>Roles</em>, <em>Audit log</em>. The language is borrowed from WordPress 2008. The firm isn't administering; it's keeping house. A name like <em>the household</em> sets the right tone without losing clarity.</p>
+        <div class="fix"><div class="k">Rewrite</div><div class="v">Eyebrow <code>§ the household</code>, with subsections <em>the desk</em> (users), <em>what people can do</em> (roles), <em>what has been done</em> (audit log).</div></div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Empty states</span><span class="sev lo">Low</span></div>
+        <h3>"No users invited yet" is a dead end.</h3>
+        <p>The Users tab shows <em>"No users invited yet."</em> The sentence closes the door. The empty state should open one — what's next, who typically gets invited first, how long it takes a new user to settle.</p>
+        <div class="fix"><div class="k">Rewrite</div><div class="v"><em>"Just you on the desk so far. Most firms start by inviting an auditor and a counsel — the rest tend to follow."</em></div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 02</b> Before / after</h2><p class="title">From <em>admin</em> to <em>household</em>.</p></div>
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-b">
+            <div class="nav">
+              <a class="on" href="#">Users</a>
+              <a href="#">Roles</a>
+              <a href="#">Audit log</a>
+              <a href="#">SSO</a>
+              <a href="#">Billing</a>
+            </div>
+            <div>
+              <h1>Users</h1>
+              <p class="sub">Manage members of your workspace.</p>
+              <table>
+                <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Last sign-in</th></tr></thead>
+                <tbody>
+                  <tr><td>James Arendt</td><td>j.arendt@firm.lu</td><td><span class="chip admin">Admin</span></td><td>Today</td></tr>
+                  <tr><td>Elena Kassis</td><td>e.kassis@firm.lu</td><td><span class="chip inv">Invited</span></td><td>—</td></tr>
+                  <tr><td>Marc Durand</td><td>m.durand@firm.lu</td><td><span class="chip">Member</span></td><td>3d ago</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">Sidebar · table · chip. Standard-issue admin.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · the household</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-a">
+            <div class="head">
+              <div class="eye">§ the household</div>
+              <h1>Three at the desk, <em>one not yet settled.</em></h1>
+              <p class="dek">Elena was invited on Monday. If she hasn't signed in by Friday, the invitation cools.</p>
+            </div>
+
+            <div class="gh"><span>At the desk</span><span class="n">2 · regulars</span></div>
+            <div class="person">
+              <div><div class="n">James Arendt <span class="role">— keeper of the house</span></div><div class="s">Admin since day one. <b>Signed in today.</b></div></div>
+              <div class="t">today<span class="then">since 2019</span></div>
+            </div>
+            <div class="person">
+              <div><div class="n">Marc Durand <span class="role">— member</span></div><div class="s">Reviewer on the Portfolio hub.</div></div>
+              <div class="t">3d ago<span class="then">joined Jan</span></div>
+            </div>
+
+            <div class="gh"><span>Not yet settled</span><span class="n">1 · invitation cooling</span></div>
+            <div class="person">
+              <div><div class="n">Elena Kassis <span class="role">— invited, not yet in</span></div><div class="s"><b>4 days since invitation.</b> Resend, or let it lapse.</div></div>
+              <div class="t">—<span class="then">invited Mon</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">Roles as serifs. Tenure in mono. <em>The desk as a home.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="a-foot"><span>Audit № 08 · AdminView · Rev. 01</span><span class="c">— held on file —</span><span class="r">Next · № 09 MeasurementView</span></footer>
+</div>
+</body>
+</html>

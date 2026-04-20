@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:0; background:#fff; font-family:var(--font-sans); }
+  .bar { display:flex; justify-content:space-between; align-items:center; height:44px; padding:0 16px; border-bottom:1px solid var(--border-1); }
+  .brand { font-size:14px; font-weight:600; color:var(--text-1); letter-spacing:-.01em; }
+  .actions { display:flex; gap:8px; align-items:center; }
+  .tip { display:flex; gap:4px; font-size:12px; color:var(--text-4); align-items:center; }
+  kbd { background:var(--surface-1); border:1px solid var(--border-1); padding:1px 4px; border-radius:3px; font-family:inherit; font-size:11px; }
+  .avatar { width:28px; height:28px; border-radius:999px; background:#4f46e5; color:#fff; font-size:11px; font-weight:600; display:grid; place-items:center; }
+  .crumbs { display:flex; gap:4px; padding:10px 16px; border-bottom:1px solid var(--border-1); font-size:13px; color:var(--text-3); height:40px; box-sizing:border-box; align-items:center; }
+  .crumbs .last { color:var(--text-1); font-weight:500; }
+</style>
+</head>
+<body>
+  <header class="bar">
+    <span class="brand">CompanyCo</span>
+    <div class="actions">
+      <div class="tip"><kbd>Cmd</kbd> + <kbd>K</kbd> to search</div>
+      <div class="avatar">JW</div>
+    </div>
+  </header>
+  <div class="crumbs">
+    <span>Woodym Holdings</span><span>/</span><span class="last">Companies</span>
+  </div>
+</body></html>

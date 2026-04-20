@@ -1,0 +1,229 @@
+/* =============================================================
+   CompanyCo Design System — Colors & Typography
+   Source of truth. Imports these vars into any mockup/prototype.
+   Two type families in play:
+     - "Inter" for the product (dense, functional admin UI)
+     - "Playfair Display" + "DM Sans" for the brand/auth surfaces
+       (editorial, luxury feel — amber on near-black)
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  color-scheme: light;
+
+  /* ---------- NEUTRALS (product surface) ---------- */
+  --gray-50:  #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  /* ---------- INDIGO (product accent) ---------- */
+  --blue-50:  #eef2ff;
+  --blue-100: #e0e7ff;
+  --blue-500: #6366f1;
+  --blue-600: #4f46e5;
+  --blue-700: #4338ca;
+
+  /* ---------- AMBER (brand / editorial surfaces) ---------- */
+  --amber-50:  #fdf7ef;
+  --amber-100: #f5e9d4;
+  --amber-200: #e8b87a;   /* highlight gradient stop */
+  --amber-300: #d4a574;   /* primary brand amber */
+  --amber-400: #c9956a;
+  --amber-500: #b8865c;
+  --amber-600: #9a6f48;
+
+  --ink-0: #0c0c0c;       /* brand near-black */
+  --ink-1: #1a1a1a;
+  --paper: #fafaf8;       /* brand paper */
+  --paper-ink: #f5f0eb;   /* text on ink */
+
+  /* ---------- SEMANTIC SURFACES ---------- */
+  --surface-0: #ffffff;
+  --surface-1: #f9fafb;
+  --surface-2: #f3f4f6;
+  --surface-3: #e5e7eb;
+
+  --border-1: #e5e7eb;
+  --border-2: #d1d5db;
+
+  --text-1: #111827;
+  --text-2: #374151;
+  --text-3: #6b7280;
+  --text-4: #9ca3af;
+
+  /* ---------- ACCENT (product primary) ---------- */
+  --accent-1:       #4f46e5;
+  --accent-1-hover: #4338ca;
+  --accent-soft:    #eef2ff;
+  --accent-border:  #c7d2fe;
+  --accent-ring:    rgba(79, 70, 229, 0.15);
+  --accent-text:    #4f46e5;
+
+  /* ---------- STATUS ---------- */
+  --error:        #dc2626;
+  --error-light:  #fef2f2;
+  --success:      #16a34a;
+  --success-light:#dcfce7;
+  --warning:      #d97706;
+  --warning-light:#fef9c3;
+  --info:         #2563eb;
+  --info-light:   #dbeafe;
+
+  /* Chart/status tokens */
+  --status-healthy:  #22c55e;
+  --status-warning:  #f59e0b;
+  --status-critical: #ef4444;
+  --status-unknown:  #94a3b8;
+
+  --tier-core:    #3b82f6;
+  --tier-domain:  #8b5cf6;
+  --tier-bespoke: #6b7280;
+
+  --severity-low:      #22c55e;
+  --severity-medium:   #f59e0b;
+  --severity-high:     #f97316;
+  --severity-critical: #ef4444;
+
+  /* ---------- TYPE SCALE ---------- */
+  --text-xs:   0.75rem;   /* 12px — timestamps, badges, micro eyebrow */
+  --text-sm:   0.8125rem; /* 13px — secondary labels */
+  --text-base: 0.875rem;  /* 14px — body, table cells (product default) */
+  --text-md:   1rem;      /* 16px — panel titles */
+  --text-lg:   1.125rem;  /* 18px — section headers */
+  --text-xl:   1.25rem;   /* 20px — page titles */
+  --text-2xl:  1.5rem;    /* 24px — modal headers */
+  --text-3xl:  1.8rem;    /* 29px — editorial h2 */
+  --text-4xl:  clamp(2.8rem, 4.5vw, 4rem); /* brand headline */
+
+  /* ---------- FONT STACKS ---------- */
+  --font-sans:      "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-brand:     "Playfair Display", Georgia, serif;
+  --font-brand-sans:"DM Sans", sans-serif;
+  --font-mono:      "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---------- RADII ---------- */
+  --radius-sm: 6px;       /* buttons, inputs */
+  --radius-md: 8px;       /* cards, popovers */
+  --radius-lg: 10px;      /* panels, modals */
+  --radius-pill: 999px;   /* chips, avatars */
+
+  /* ---------- ELEVATION ---------- */
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-3: 0 -4px 12px rgba(0, 0, 0, 0.08); /* bottom sheet */
+
+  /* ---------- SPACING (4pt base) ---------- */
+  --space-1: 4px;
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+
+  /* ---------- MOTION ---------- */
+  --ease-standard: ease;
+  --duration-fast: 100ms;   /* row hover */
+  --duration-base: 120ms;   /* button hover */
+  --duration-med:  150ms;   /* panel slide in */
+  --duration-slow: 200ms;   /* brand focus ring */
+}
+
+/* =============================================================
+   SEMANTIC TYPOGRAPHY — ready-to-use classes
+   ============================================================= */
+
+html { font-family: var(--font-sans); line-height: 1.5; color: var(--text-1); }
+
+.t-eyebrow {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  color: var(--text-4);
+}
+
+.t-h1 {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-1);
+}
+
+.t-h2 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-1);
+}
+
+.t-h3 {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.t-body {
+  font-size: var(--text-base);
+  color: var(--text-2);
+}
+
+.t-secondary {
+  font-size: var(--text-base);
+  color: var(--text-3);
+}
+
+.t-caption {
+  font-size: var(--text-xs);
+  color: var(--text-3);
+}
+
+.t-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+.t-mono { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+/* Editorial/brand — reserved for auth, marketing, full-bleed hero */
+.t-brand-headline {
+  font-family: var(--font-brand);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--paper-ink);
+}
+
+.t-brand-h2 {
+  font-family: var(--font-brand);
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink-1);
+}
+
+.t-brand-tagline {
+  font-family: var(--font-brand-sans);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(245, 240, 235, 0.5);
+}
+
+.t-brand-eyebrow {
+  font-family: var(--font-brand-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 235, 0.2);
+}

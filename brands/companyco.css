@@ -1,0 +1,41 @@
+/* =============================================================
+   @ds/core — companyco brand
+   Product accent: indigo. Editorial (auth): amber + ink + paper.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* FONT STACKS */
+  --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-brand: "Playfair Display", Georgia, serif;
+  --font-brand-sans: "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* INDIGO (product accent) */
+  --blue-50: #eef2ff;
+  --blue-100: #e0e7ff;
+  --blue-500: #6366f1;
+  --blue-600: #4f46e5;
+  --blue-700: #4338ca;
+
+  --accent-1: #4f46e5;
+  --accent-1-hover: #4338ca;
+  --accent-soft: #eef2ff;
+  --accent-border: #c7d2fe;
+  --accent-ring: rgba(79, 70, 229, 0.15);
+  --accent-text: #4f46e5;
+
+  /* AMBER + INK + PAPER (brand / auth only) */
+  --amber-50: #fdf7ef;
+  --amber-100: #f5e9d4;
+  --amber-200: #e8b87a;
+  --amber-300: #d4a574;
+  --amber-400: #c9956a;
+  --amber-500: #b8865c;
+  --amber-600: #9a6f48;
+  --ink-0: #0c0c0c;
+  --ink-1: #1a1a1a;
+  --paper: #fafaf8;
+  --paper-ink: #f5f0eb;
+}

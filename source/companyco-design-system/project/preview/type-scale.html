@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:16px; background:#fff; font-family:var(--font-sans); color:var(--text-1); }
+  .row { display:grid; grid-template-columns: 90px 1fr 70px; gap:12px; align-items:baseline; padding:6px 0; border-bottom:1px solid var(--border-1); }
+  .row:last-child { border-bottom:0; }
+  .meta { font-family:var(--font-mono); font-size:10px; color:var(--text-4); }
+  .specimen { font-family: "Inter", sans-serif; }
+  .px { font-family:var(--font-mono); font-size:10px; color:var(--text-3); text-align:right; }
+</style>
+</head>
+<body>
+  <div class="row"><div class="meta">text-xl</div><div class="specimen" style="font-size:20px;font-weight:600;letter-spacing:-.02em">Page title</div><div class="px">20 / 600</div></div>
+  <div class="row"><div class="meta">text-lg</div><div class="specimen" style="font-size:18px;font-weight:600;letter-spacing:-.02em">Section header</div><div class="px">18 / 600</div></div>
+  <div class="row"><div class="meta">text-md</div><div class="specimen" style="font-size:16px;font-weight:600">Panel title</div><div class="px">16 / 600</div></div>
+  <div class="row"><div class="meta">text-base</div><div class="specimen" style="font-size:14px">Body — table cells &amp; defaults</div><div class="px">14 / 400</div></div>
+  <div class="row"><div class="meta">text-sm</div><div class="specimen" style="font-size:13px;color:var(--text-3)">Secondary labels &amp; descriptions</div><div class="px">13 / 400</div></div>
+  <div class="row"><div class="meta">text-xs</div><div class="specimen" style="font-size:12px;color:var(--text-3)">Timestamps · chips · micro</div><div class="px">12 / 400</div></div>
+</body></html>

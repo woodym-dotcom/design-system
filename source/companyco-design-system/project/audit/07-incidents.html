@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 07 — IncidentsView</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; }
+
+  /* BEFORE — investigations as a ticket tracker */
+  .mk-b { padding: 16px 20px; background: #fff; }
+  .mk-b h1 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -.015em; }
+  .mk-b .sub { margin: 2px 0 14px; font-size: 12px; color: #6b7280; }
+  .mk-b .tabs { display: flex; gap: 18px; border-bottom: 1px solid #e5e7eb; margin-bottom: 12px; }
+  .mk-b .tabs .t { padding: 8px 0; font-size: 12.5px; color: #6b7280; border-bottom: 2px solid transparent; cursor: pointer; }
+  .mk-b .tabs .t.on { color: #4f46e5; border-bottom-color: #4f46e5; font-weight: 500; }
+  .mk-b .tabs .t .n { font-size: 10.5px; color: #9ca3af; margin-left: 4px; }
+  .mk-b table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .mk-b thead th { text-align: left; padding: 8px 10px; font-size: 10px; font-weight: 600; text-transform: uppercase; color: #9ca3af; border-bottom: 1px solid #e5e7eb; letter-spacing: .06em; }
+  .mk-b tbody td { padding: 10px; border-bottom: 1px solid #f3f4f6; color: #374151; }
+  .mk-b .id { font-family: "JetBrains Mono", monospace; color: #4f46e5; font-size: 11.5px; }
+  .mk-b .chip { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10.5px; font-weight: 500; }
+  .mk-b .chip.open { background: #fee2e2; color: #dc2626; }
+  .mk-b .chip.triage { background: #fef3c7; color: #92400e; }
+  .mk-b .chip.closed { background: #ecfdf5; color: #059669; }
+
+  /* AFTER — incidents as narratives */
+  .mk-a { background: #fbfaf7; padding: 22px 26px 24px; color: #161412; }
+  .mk-a .head { border-bottom: 1px solid #ece4d7; padding-bottom: 16px; margin-bottom: 14px; }
+  .mk-a .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-a h1 { margin: 4px 0 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 26px; font-weight: 500; letter-spacing: -.012em; }
+  .mk-a h1 em { font-style: italic; color: #8e7258; font-weight: 500; }
+  .mk-a .dek { margin: 8px 0 0; font-size: 12px; color: #6b5f51; max-width: 56ch; line-height: 1.55; }
+
+  .mk-a .gh { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: #8e7258; padding: 16px 0 8px; border-bottom: 1px solid #ece4d7; display: flex; justify-content: space-between; }
+  .mk-a .gh .n { color: #a8997f; }
+  .mk-a .case { padding: 16px 0; border-bottom: 1px dashed #ece4d7; }
+  .mk-a .case .id { font-family: "JetBrains Mono", monospace; font-size: 10px; color: #8e7258; letter-spacing: .12em; }
+  .mk-a .case h3 { margin: 4px 0 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 18px; font-weight: 500; letter-spacing: -.005em; line-height: 1.2; color: #161412; }
+  .mk-a .case .s { margin: 6px 0 0; font-size: 12px; color: #6b5f51; line-height: 1.55; }
+  .mk-a .case .s b { color: #161412; font-weight: 500; }
+  .mk-a .case .s em { color: #a86b54; font-style: italic; }
+  .mk-a .case .foot { margin-top: 10px; display: flex; justify-content: space-between; font-family: "JetBrains Mono", monospace; font-size: 10px; color: #8b7e6d; letter-spacing: .04em; }
+  .mk-a .case .foot em { color: #161412; font-style: italic; font-family: "Cormorant Garamond", Georgia, serif; font-size: 12px; letter-spacing: 0; }
+</style>
+</head>
+<body>
+<div class="a-page">
+  <header class="a-mast"><div class="l">Audit · <b>№ 07</b> · Incidents</div><div class="c">CompanyCo · Product Audit</div><div class="r">Filed · <b>Rev. 01</b></div></header>
+
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 07 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">cases.</span></h1>
+      <p class="dek">Investigations are, in substance, <em>stories</em>. The current view renders them as tickets — an ID, a status chip, a date — which suits a helpdesk more than a firm holding a sensitive internal review. The name in the sidebar is <em>Investigations</em>; the page feels like JIRA.</p>
+    </div>
+    <aside class="meta">
+      <div class="row"><b>File</b><span>IncidentsView.tsx</span></div>
+      <div class="row"><b>Surface</b><span>Hub · Tabs + table</span></div>
+      <div class="row"><b>Routes</b><span>/incidents</span></div>
+      <div class="row"><b>Severity</b><span style="color:var(--amber)">High — register</span></div>
+      <div class="row"><b>Lens</b><span>Register · IA · Tone</span></div>
+    </aside>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 01</b> Findings</h2><p class="title">Three things the <em>ticket tracker</em> gets wrong.</p></div>
+    <div class="a-findings">
+
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> Register</span><span class="sev hi">High</span></div>
+        <h3>"INC-0142" is a helpdesk ID.</h3>
+        <p>Each case is surfaced as a monospace ID with a short title — <code>INC-0142 — Suspected duplicate officer</code>. It gives no sense of the stakes or the arc of the investigation. Cases are not tickets; they are <em>narratives with unfinished endings</em>.</p>
+        <div class="fix">
+          <div class="k">Rewrite</div>
+          <div class="v">Keep the case number, but small. Lead with a sentence title: <em>"Two names, one signature — Meridian and its mirror."</em></div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Tabs</span><span class="sev md">Medium</span></div>
+        <h3>Open / Triage / Closed is a workflow, not a view.</h3>
+        <p>The tabs mirror a back-office workflow. A reviewer wants to know what's <em>warming up</em>, what's <em>in the room</em>, and what's <em>behind us</em>. Rename for that posture.</p>
+        <div class="fix"><div class="k">Rename</div><div class="v"><code>§ warming</code>, <code>§ in the room</code>, <code>§ closed</code>. Same queues, different temperature.</div></div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>03</b> Closure</span><span class="sev md">Medium</span></div>
+        <h3>"Resolved" is the blandest possible ending.</h3>
+        <p>Closed cases are simply tagged <em>Resolved</em>. But the <em>how</em> matters enormously — was it <em>merged</em>, <em>cleared</em>, <em>referred out</em>, <em>filed away</em>? A case's ending shapes how the next one is opened.</p>
+        <div class="fix"><div class="k">Add</div><div class="v">One-word outcome in italic serif: <em>merged</em>, <em>cleared</em>, <em>referred</em>, <em>filed away</em>.</div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 02</b> Before / after</h2><p class="title">From <em>tickets</em> to <em>cases</em>.</p></div>
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-b">
+            <h1>Incidents</h1>
+            <p class="sub">Active investigations across the workspace.</p>
+            <div class="tabs"><div class="t on">Open<span class="n">3</span></div><div class="t">Triage<span class="n">2</span></div><div class="t">Closed<span class="n">41</span></div></div>
+            <table>
+              <thead><tr><th>ID</th><th>Summary</th><th>Opened</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td class="id">INC-0142</td><td>Suspected duplicate officer — Meridian</td><td>12 Sep</td><td><span class="chip open">Open</span></td></tr>
+                <tr><td class="id">INC-0138</td><td>Sanctions screen hit — Westhaven</td><td>04 Sep</td><td><span class="chip triage">Triage</span></td></tr>
+                <tr><td class="id">INC-0135</td><td>Beneficiary mismatch — Orion subsidiary</td><td>28 Aug</td><td><span class="chip open">Open</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="c-note">Table, IDs, status chips. A ticket queue.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · the cases</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-a">
+            <div class="head">
+              <div class="eye">§ the cases</div>
+              <h1>Three warming, <em>two in the room.</em></h1>
+              <p class="dek">Meridian's duplicate officer and Westhaven's sanctions hit both ripen this week.</p>
+            </div>
+
+            <div class="gh"><span>In the room</span><span class="n">2 · active</span></div>
+            <div class="case">
+              <div class="id">№ 0142 · opened 12 Sep</div>
+              <h3>Two names, one signature — Meridian and its mirror.</h3>
+              <p class="s">Two LU entities share a beneficial owner, an accountant, and a signature on the last filing. <b>Likely the same economic actor.</b> <em>Counsel engaged.</em></p>
+              <div class="foot"><span>next step · officer statement</span><em>in the room</em></div>
+            </div>
+            <div class="case">
+              <div class="id">№ 0138 · opened 04 Sep</div>
+              <h3>The third match on the Westhaven board.</h3>
+              <p class="s">A sanctions screen returns a third positive against the same non-executive director. <b>False positive twice before.</b> <em>Confidence is eroding.</em></p>
+              <div class="foot"><span>next step · refresh screening feed</span><em>in the room</em></div>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">Case number as subscript. <em>Titles read like a lede</em>. Endings are verbs.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="a-foot"><span>Audit № 07 · IncidentsView · Rev. 01</span><span class="c">— held on file —</span><span class="r">Next · № 08 AdminView</span></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body {
+    margin: 0; padding: 24px;
+    background: var(--surface-0);
+    font-family: var(--font-sans);
+    color: var(--text-1);
+    -webkit-font-smoothing: antialiased;
+  }
+  .group {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-1);
+  }
+  .group:last-of-type { border-bottom: 0; }
+  .group-label {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-4);
+    font-variant: all-small-caps;
+  }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  /* ---------- Chip — tightened radius, sentence case, consistent type ---------- */
+  .chip {
+    display: inline-flex; align-items: center;
+    min-height: 22px; padding: 1px 8px;
+    border-radius: var(--radius-sm); /* 6px — tightened from pill */
+    border: 1px solid var(--border-1);
+    background: var(--surface-1);
+    color: var(--text-2);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .chip .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor;
+    margin-right: 6px;
+    opacity: 0.85;
+  }
+  .chip .count {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+
+  /* Tones */
+  .chip.accent  { background: var(--accent-soft); border-color: var(--accent-border); color: var(--accent-text); }
+  .chip.success { background: var(--success-light); border-color: #bbf7d0; color: #15803d; }
+  .chip.warning { background: var(--warning-light); border-color: #fde68a; color: #a16207; }
+  .chip.info    { background: var(--info-light); border-color: #bfdbfe; color: #1d4ed8; }
+  .chip.danger  { background: var(--error-light); border-color: #fecaca; color: #b91c1c; }
+  .chip.muted   { background: var(--surface-1); border-color: var(--border-1); color: var(--text-3); }
+
+  /* Outline variant — quieter */
+  .chip.outline {
+    background: transparent;
+    border-color: var(--border-2);
+    color: var(--text-2);
+  }
+  .chip.outline.accent  { color: var(--accent-text); border-color: var(--accent-border); }
+  .chip.outline.success { color: #15803d; border-color: #bbf7d0; }
+  .chip.outline.warning { color: #a16207; border-color: #fde68a; }
+  .chip.outline.danger  { color: #b91c1c; border-color: #fecaca; }
+
+  /* Closable */
+  .chip .x {
+    margin-left: 6px; margin-right: -2px;
+    width: 14px; height: 14px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 3px;
+    color: inherit; opacity: 0.55;
+    cursor: pointer;
+  }
+  .chip .x:hover { opacity: 1; background: rgba(0,0,0,0.05); }
+  .chip .x svg { width: 9px; height: 9px; }
+
+  /* Avatar chip */
+  .chip .avatar {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent-1); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 600;
+    margin-left: -3px; margin-right: 6px;
+    letter-spacing: 0;
+  }
+
+  /* Domain code (monospace, tabular) */
+  .chip.code {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0;
+    color: var(--text-2);
+    background: var(--surface-2);
+    border-color: var(--border-1);
+  }
+</style>
+</head>
+<body>
+
+  <div class="group">
+    <div class="group-label">Default · neutral</div>
+    <div class="row">
+      <span class="chip">Admin</span>
+      <span class="chip">Active</span>
+      <span class="chip muted">Draft</span>
+      <span class="chip"><span class="count">3</span>pending</span>
+      <span class="chip"><span class="avatar">JM</span>J. Miller</span>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">Semantic · filled</div>
+    <div class="row">
+      <span class="chip accent"><span class="count">3</span>pending</span>
+      <span class="chip success"><span class="dot"></span>Healthy</span>
+      <span class="chip warning"><span class="dot"></span>At risk</span>
+      <span class="chip info">Draft</span>
+      <span class="chip danger"><span class="dot"></span>Critical</span>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">Semantic · outline</div>
+    <div class="row">
+      <span class="chip outline accent">In review</span>
+      <span class="chip outline success">Approved</span>
+      <span class="chip outline warning">Breaching</span>
+      <span class="chip outline danger">Rejected</span>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">Domain codes · monospace</div>
+    <div class="row">
+      <span class="chip code">DIRECTOR</span>
+      <span class="chip code">BENEFICIAL_OWNER</span>
+      <span class="chip code">ISO_27001</span>
+      <span class="chip code">ACME-UK-001</span>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">Closable · filter tokens</div>
+    <div class="row">
+      <span class="chip">
+        Group: Acme Holdings
+        <span class="x" role="button" aria-label="Remove">
+          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M2 2l6 6M8 2l-6 6"/>
+          </svg>
+        </span>
+      </span>
+      <span class="chip accent">
+        Status: Active
+        <span class="x" role="button" aria-label="Remove">
+          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M2 2l6 6M8 2l-6 6"/>
+          </svg>
+        </span>
+      </span>
+      <span class="chip muted">
+        Jurisdiction: GB
+        <span class="x" role="button" aria-label="Remove">
+          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M2 2l6 6M8 2l-6 6"/>
+          </svg>
+        </span>
+      </span>
+    </div>
+  </div>
+
+</body>
+</html>

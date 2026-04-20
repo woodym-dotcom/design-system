@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 10 — AuthScreen</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; }
+
+  /* BEFORE — standard sign-in */
+  .mk-b { background: #f9fafb; padding: 40px 20px; display: grid; place-items: center; min-height: 320px; }
+  .mk-b .box { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 28px 26px; width: 300px; display: flex; flex-direction: column; gap: 10px; }
+  .mk-b .brand { font-size: 16px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 8px; }
+  .mk-b h2 { margin: 0; font-size: 17px; font-weight: 600; }
+  .mk-b .sub { margin: 0 0 8px; font-size: 12px; color: #6b7280; }
+  .mk-b label { font-size: 11.5px; color: #374151; font-weight: 500; }
+  .mk-b input { border: 1px solid #d1d5db; border-radius: 5px; padding: 8px 10px; font-size: 13px; }
+  .mk-b .btn { margin-top: 6px; background: #4f46e5; color: #fff; border: 0; border-radius: 5px; padding: 9px 12px; font-size: 13px; font-weight: 500; cursor: pointer; }
+  .mk-b .foot { font-size: 11px; color: #6b7280; text-align: center; margin-top: 6px; }
+
+  /* AFTER — editorial sign-in (already strong; small nudges) */
+  .mk-a { background: #0a0907; padding: 40px 30px; display: grid; grid-template-columns: 1fr 320px; gap: 50px; color: #ede6dc; min-height: 320px; }
+  .mk-a .l { display: flex; flex-direction: column; justify-content: space-between; }
+  .mk-a .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #c9a98a; }
+  .mk-a h1 { margin: 12px 0 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 32px; font-weight: 400; line-height: 1.1; letter-spacing: -.015em; color: #ede6dc; }
+  .mk-a h1 em { font-style: italic; color: #c9a98a; }
+  .mk-a .dek { margin: 10px 0 0; font-size: 12.5px; color: #a8997f; max-width: 34ch; line-height: 1.55; }
+  .mk-a .cite { font-family: "JetBrains Mono", monospace; font-size: 10px; color: #6b5f51; letter-spacing: .1em; margin-top: 28px; }
+  .mk-a .r { background: transparent; border: 1px solid rgba(201,169,138,.3); border-radius: 3px; padding: 24px 22px; display: flex; flex-direction: column; gap: 12px; }
+  .mk-a .r .lab { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: #c9a98a; }
+  .mk-a .r h3 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 22px; font-weight: 500; letter-spacing: -.005em; }
+  .mk-a .r h3 em { font-style: italic; color: #c9a98a; }
+  .mk-a .r input { background: transparent; border: 0; border-bottom: 1px solid rgba(201,169,138,.3); padding: 8px 0; font-size: 13px; font-family: "Cormorant Garamond", Georgia, serif; color: #ede6dc; }
+  .mk-a .r input::placeholder { color: #6b5f51; font-style: italic; }
+  .mk-a .r .btn { margin-top: 6px; background: #c9a98a; color: #0a0907; border: 0; padding: 9px 12px; font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; cursor: pointer; }
+  .mk-a .r .foot { font-family: "JetBrains Mono", monospace; font-size: 9.5px; color: #6b5f51; letter-spacing: .1em; text-align: center; }
+</style>
+</head>
+<body>
+<div class="a-page">
+  <header class="a-mast"><div class="l">Audit · <b>№ 10</b> · Auth</div><div class="c">CompanyCo · Product Audit</div><div class="r">Filed · <b>Rev. 01</b></div></header>
+
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 10 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">threshold.</span></h1>
+      <p class="dek">The sign-in screen is the single surface that sets the tone before the product begins. Today it's a white box on a grey background. The brand deserves a <em>threshold</em> — a page that tells a new visitor, without a word of marketing, what kind of tool they're about to use.</p>
+    </div>
+    <aside class="meta">
+      <div class="row"><b>File</b><span>AuthScreen.tsx</span></div>
+      <div class="row"><b>Surface</b><span>Unauth · Sign-in</span></div>
+      <div class="row"><b>Routes</b><span>/sign-in · /</span></div>
+      <div class="row"><b>Severity</b><span style="color:var(--amber)">High — brand</span></div>
+      <div class="row"><b>Lens</b><span>Tone · Composition</span></div>
+    </aside>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 01</b> Findings</h2><p class="title">Two things the <em>threshold</em> is missing.</p></div>
+    <div class="a-findings">
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> Composition</span><span class="sev hi">High</span></div>
+        <h3>The page is one card on a field of grey.</h3>
+        <p>A centred white box holds the form. The rest of the viewport is wasted. The brand — serif voice, mono accents, ink ground — never appears until after the first click. That's a missed introduction.</p>
+        <div class="fix"><div class="k">Compose</div><div class="v">Split the page: ink-black canvas on the left with an editorial line in serif; a quiet sign-in column on the right, bordered in faint amber.</div></div>
+      </article>
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Copy</span><span class="sev md">Medium</span></div>
+        <h3>"Welcome back" is every SaaS login.</h3>
+        <p>The heading reads <em>"Welcome back"</em>. Neutral, forgettable, indistinguishable from ten thousand others. A single sentence in the brand's voice — one line of the ETHOS — is a free way to set the register.</p>
+        <div class="fix"><div class="k">Rewrite</div><div class="v">Left: <em>"The stewardship of things you did not build."</em> Right heading: <em>"Come in."</em></div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 02</b> Before / after</h2><p class="title">From <em>card</em> to <em>threshold</em>.</p></div>
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-b">
+            <div class="box">
+              <div class="brand">CompanyCo</div>
+              <h2>Welcome back</h2>
+              <p class="sub">Sign in to continue.</p>
+              <label>Email</label><input placeholder="you@firm.com">
+              <label>Password</label><input type="password" placeholder="••••••••">
+              <button class="btn">Sign in</button>
+              <div class="foot">Forgot password?</div>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">One card. Grey field. A neutral greeting.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · the threshold</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-a">
+            <div class="l">
+              <div>
+                <div class="eye">Companyco · Est. MMXX</div>
+                <h1>The stewardship of things <em>you did not build.</em></h1>
+                <p class="dek">A tool for people who hold companies, papers, and appointments — carefully, over time.</p>
+              </div>
+              <div class="cite">— from the ETHOS, <b style="color:#c9a98a">I</b></div>
+            </div>
+            <div class="r">
+              <div class="lab">§ Come in</div>
+              <h3>Welcome, <em>friend.</em></h3>
+              <input placeholder="your working email" />
+              <input type="password" placeholder="your password" />
+              <button class="btn">Sign in ›</button>
+              <div class="foot">— or — forgot it —</div>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">A threshold, not a form. The ETHOS speaks before the product does.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="a-foot"><span>Audit № 10 · AuthScreen · Rev. 01</span><span class="c">— held on file —</span><span class="r">Next · № 11 AppShell</span></footer>
+</div>
+</body>
+</html>

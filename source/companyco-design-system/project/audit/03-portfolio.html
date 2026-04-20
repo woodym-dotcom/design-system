@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 03 — PortfolioView</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; }
+
+  /* BEFORE — a KPI dashboard */
+  .mk-b { padding: 16px 20px; background: #fff; }
+  .mk-b h1 { margin: 0 0 2px; font-size: 19px; font-weight: 600; letter-spacing: -.015em; }
+  .mk-b .sub { margin: 0 0 14px; font-size: 12px; color: #6b7280; }
+  .mk-b .kgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .mk-b .kcard { border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px; background: #fff; }
+  .mk-b .kcard .l { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: #9ca3af; }
+  .mk-b .kcard .v { font-size: 22px; font-weight: 600; letter-spacing: -.02em; margin: 6px 0 2px; color: #111827; }
+  .mk-b .kcard .d { font-size: 11px; color: #6b7280; }
+  .mk-b .kcard .d.up { color: #059669; }
+  .mk-b .kcard .d.down { color: #dc2626; }
+  .mk-b .section { margin-top: 18px; border: 1px solid #e5e7eb; border-radius: 6px; padding: 14px; background: #fff; }
+  .mk-b .section h3 { margin: 0 0 10px; font-size: 13px; font-weight: 600; }
+  .mk-b .bar { display: grid; grid-template-columns: 160px 1fr auto; gap: 10px; align-items: center; padding: 6px 0; font-size: 12px; }
+  .mk-b .bar .name { color: #111827; }
+  .mk-b .bar .track { height: 10px; background: #f3f4f6; border-radius: 2px; overflow: hidden; }
+  .mk-b .bar .fill { height: 100%; background: #4f46e5; }
+  .mk-b .bar .val { font-family: "JetBrains Mono", monospace; font-size: 11px; color: #6b7280; }
+
+  /* AFTER — the portfolio as a stewarded collection */
+  .mk-a { background: #fbfaf7; padding: 22px 26px 26px; color: #161412; }
+  .mk-a .head { border-bottom: 1px solid #ece4d7; padding-bottom: 16px; margin-bottom: 18px; }
+  .mk-a .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; font-weight: 500; }
+  .mk-a h1 { margin: 4px 0 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; font-weight: 500; letter-spacing: -.012em; line-height: 1; }
+  .mk-a h1 em { font-style: italic; color: #8e7258; font-weight: 500; }
+  .mk-a .dek { margin: 8px 0 0; font-size: 12.5px; color: #6b5f51; max-width: 52ch; line-height: 1.55; }
+
+  .mk-a .state-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 4px 0 18px; border-bottom: 1px dashed #ece4d7; margin-bottom: 18px; }
+  .mk-a .state-row .s .l { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: #8e7258; }
+  .mk-a .state-row .s .v { font-family: "Cormorant Garamond", Georgia, serif; font-size: 32px; font-weight: 500; letter-spacing: -.015em; line-height: 1.05; margin-top: 2px; color: #161412; }
+  .mk-a .state-row .s .v em { font-style: italic; color: #8e7258; font-weight: 500; font-size: 18px; margin-left: 6px; }
+  .mk-a .state-row .s .n { font-size: 11.5px; color: #6b5f51; margin-top: 4px; line-height: 1.5; }
+  .mk-a .state-row .s .n b { color: #161412; font-weight: 500; }
+
+  .mk-a .group-head { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: #8e7258; padding-bottom: 8px; border-bottom: 1px solid #ece4d7; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .mk-a .group-head .n { color: #a8997f; }
+  .mk-a .company { display: grid; grid-template-columns: 1fr auto; padding: 14px 0; border-bottom: 1px dashed #ece4d7; gap: 20px; align-items: baseline; }
+  .mk-a .company .title { font-family: "Cormorant Garamond", Georgia, serif; font-size: 17px; font-weight: 500; letter-spacing: -.005em; }
+  .mk-a .company .note { font-size: 11.5px; color: #6b5f51; margin-top: 4px; line-height: 1.55; }
+  .mk-a .company .note b { color: #161412; font-weight: 500; }
+  .mk-a .company .meta { font-family: "JetBrains Mono", monospace; font-size: 10.5px; color: #8b7e6d; text-align: right; letter-spacing: .04em; white-space: nowrap; }
+  .mk-a .company .meta .then { display: block; font-size: 9.5px; color: #a8997f; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="a-page">
+
+  <header class="a-mast">
+    <div class="l">Audit · <b>№ 03</b> · Portfolio</div>
+    <div class="c">CompanyCo · Product Audit</div>
+    <div class="r">Filed · <b>Rev. 01</b></div>
+  </header>
+
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 03 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">collection.</span></h1>
+      <p class="dek">
+        The portfolio surface is where a firm surveys what it <em>holds</em>. Today it is a dashboard of KPIs and progress bars — metrics stacked without a point of view. The collection has no custodian, no seasons, no <em>character</em>. It is possible to read the whole screen and still not know which companies matter.
+      </p>
+    </div>
+    <aside class="meta">
+      <div class="row"><b>File</b><span>PortfolioView.tsx</span></div>
+      <div class="row"><b>Surface</b><span>Hub · Tabular</span></div>
+      <div class="row"><b>Routes</b><span>/portfolio</span></div>
+      <div class="row"><b>Severity</b><span style="color:var(--amber)">Medium — posture</span></div>
+      <div class="row"><b>Lens</b><span>Voice · Density · Grouping</span></div>
+    </aside>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 01</b> Findings</h2>
+      <p class="title">Four things the <em>collection</em> isn't doing.</p>
+    </div>
+    <div class="a-findings">
+
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> Voice</span><span class="sev md">Medium</span></div>
+        <h3>"KPI dashboard" is the wrong register.</h3>
+        <p>The page opens with a row of four identical metric cards — <em>Total Holdings</em>, <em>Active</em>, <em>Risk Events</em>, <em>ESG Score</em> — all rendered in the same weight, same size, same colour. Nothing is asked of the reader. A portfolio surface is a <em>curatorial</em> view; it should lead with a sentence, not a leaderboard.</p>
+        <div class="fix">
+          <div class="k">Rewrite</div>
+          <div class="v">Lede with one sentence: <em>"Fourteen holdings across three regions — two want attention this week."</em> Then the numbers, displayed as editorial pull-stats, not cards.</div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Grouping</span><span class="sev hi">High</span></div>
+        <h3>All holdings look equal.</h3>
+        <p>The table sorts alphabetically by default. A ten-year anchor holding sits next to a three-month-old watchlist stub, and nothing marks the difference. Stewardship requires hierarchy — <em>core</em>, <em>watchlist</em>, <em>exiting</em> — and a visible sense of how long each has been held.</p>
+        <div class="fix">
+          <div class="k">Add</div>
+          <div class="v">Three editorial groups with mono eyebrows: <code>§ held long</code>, <code>§ under watch</code>, <code>§ on the way out</code>. Tenure appears beside each name in mono.</div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>03</b> Progress bars</span><span class="sev md">Medium</span></div>
+        <h3>The bars don't carry their weight.</h3>
+        <p>Each holding has an ESG progress bar. But ESG is not a race toward 100 — it's a <em>posture</em>, and the bar format implies completion. Worse, the bars are all the same indigo, so a 92% ESG next to a 34% ESG reads as "two bars" rather than "a strength and a concern."</p>
+        <div class="fix">
+          <div class="k">Replace</div>
+          <div class="v">Drop the bars. Replace with a single editorial note per holding: <em>"Carbon reporting clean — governance is where the work is."</em> Ground truth in a sentence beats a gauge.</div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>04</b> Empty</span><span class="sev lo">Low</span></div>
+        <h3>A quiet portfolio should feel proud, not broken.</h3>
+        <p>When no holdings match a filter, the view collapses to <em>"No results. Try a different filter."</em> A portfolio with no flagged items this week is a <em>good</em> portfolio — the surface should say so.</p>
+        <div class="fix">
+          <div class="k">Rewrite</div>
+          <div class="v"><em>"Nothing on watch this week. The collection is quiet."</em> — with a mono line of what was last reviewed.</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 02</b> Before / after</h2>
+      <p class="title">From <em>dashboard</em> to <em>collection</em>.</p>
+      <p class="lede">Same data. A point of view.</p>
+    </div>
+
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-b">
+            <h1>Portfolio</h1>
+            <p class="sub">Summary of holdings across active mandates.</p>
+            <div class="kgrid">
+              <div class="kcard"><div class="l">Total holdings</div><div class="v">14</div><div class="d up">+2 this qtr</div></div>
+              <div class="kcard"><div class="l">Active</div><div class="v">11</div><div class="d">3 on watch</div></div>
+              <div class="kcard"><div class="l">Risk events</div><div class="v">4</div><div class="d down">+1 this week</div></div>
+              <div class="kcard"><div class="l">ESG avg</div><div class="v">68%</div><div class="d up">+4 YoY</div></div>
+            </div>
+            <div class="section">
+              <h3>ESG scores</h3>
+              <div class="bar"><span class="name">Aldwych Holdings</span><div class="track"><div class="fill" style="width:92%"></div></div><span class="val">92%</span></div>
+              <div class="bar"><span class="name">Meridian Ventures</span><div class="track"><div class="fill" style="width:71%"></div></div><span class="val">71%</span></div>
+              <div class="bar"><span class="name">Westhaven Treasury</span><div class="track"><div class="fill" style="width:34%"></div></div><span class="val">34%</span></div>
+              <div class="bar"><span class="name">Orion Industrial</span><div class="track"><div class="fill" style="width:58%"></div></div><span class="val">58%</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">A KPI board. Four equal cards, a stack of bars. No author.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · the collection</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-a">
+            <div class="head">
+              <div class="eye">§ the collection</div>
+              <h1>Fourteen holdings, <em>three regions.</em></h1>
+              <p class="dek">Two want your attention this week. The rest are running to plan.</p>
+            </div>
+            <div class="state-row">
+              <div class="s"><div class="l">Held long</div><div class="v">8<em>core</em></div><div class="n">Median tenure <b>6.4 years</b>. Quiet quarter.</div></div>
+              <div class="s"><div class="l">Under watch</div><div class="v">4<em>watchlist</em></div><div class="n"><b>2 new this month.</b> Meridian, Westhaven.</div></div>
+              <div class="s"><div class="l">On the way out</div><div class="v">2<em>exiting</em></div><div class="n"><b>Tarn</b> closes in 11 days.</div></div>
+            </div>
+
+            <div class="group-head"><span>Under watch</span><span class="n">2 · new this month</span></div>
+            <div class="company">
+              <div>
+                <div class="title">Westhaven Treasury — governance review open</div>
+                <div class="note">Board turnover in Q3. <b>Independence falls below threshold.</b> Held 2 years.</div>
+              </div>
+              <div class="meta">3d ago<span class="then">held · 24mo</span></div>
+            </div>
+            <div class="company">
+              <div>
+                <div class="title">Meridian Ventures — address fails validation</div>
+                <div class="note">Registered office change not reflected in local registry.</div>
+              </div>
+              <div class="meta">2h ago<span class="then">held · 8mo</span></div>
+            </div>
+
+          </div>
+        </div>
+        <p class="c-note">A lede. Three editorial groups. One <em>sentence</em> per holding.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="a-foot">
+    <span>Audit № 03 · PortfolioView · Rev. 01</span>
+    <span class="c">— held on file —</span>
+    <span class="r">Next · № 04 ServicesView</span>
+  </footer>
+
+</div>
+</body>
+</html>

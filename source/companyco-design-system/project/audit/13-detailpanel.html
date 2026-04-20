@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 13 — DetailPanel</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; min-height: 380px; display: grid; grid-template-columns: 1fr 420px; }
+
+  /* BEFORE — standard slide-in */
+  .mk-b .back { background: #f9fafb; padding: 18px 22px; font-size: 11px; color: #9ca3af; }
+  .mk-b .panel { background: #fff; border-left: 1px solid #e5e7eb; padding: 16px 20px; overflow-y: auto; }
+  .mk-b .panel .h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .mk-b .panel h2 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -.015em; }
+  .mk-b .panel .x { width: 26px; height: 26px; border: 1px solid #e5e7eb; border-radius: 4px; display: grid; place-items: center; color: #6b7280; font-size: 14px; }
+  .mk-b .panel .chip { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10.5px; background: #eef2ff; color: #4f46e5; border: 1px solid #c7d2fe; margin-bottom: 12px; }
+  .mk-b .panel .s { border-top: 1px solid #e5e7eb; padding: 12px 0; }
+  .mk-b .panel .s h3 { margin: 0 0 8px; font-size: 12.5px; font-weight: 600; color: #111827; }
+  .mk-b .panel .dr { display: flex; justify-content: space-between; padding: 5px 0; font-size: 12px; }
+  .mk-b .panel .dr span { color: #6b7280; }
+  .mk-b .panel .dr strong { color: #111827; font-weight: 500; text-align: right; }
+
+  /* AFTER — the drawer with handle */
+  .mk-a .back { background: #fbfaf7; padding: 18px 22px; font-family: "JetBrains Mono", monospace; font-size: 10px; color: #8e7258; letter-spacing: .1em; }
+  .mk-a .panel { background: #fff; border-left: 1px solid #ece4d7; padding: 0; color: #161412; display: flex; flex-direction: column; }
+  .mk-a .panel .rail { height: 28px; background: #fbfaf7; border-bottom: 1px solid #ece4d7; display: flex; justify-content: space-between; align-items: center; padding: 0 18px; font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-a .panel .rail .x { color: #6b5f51; cursor: pointer; }
+  .mk-a .panel .body { padding: 20px 24px 24px; }
+  .mk-a .panel .lab { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-a .panel h2 { margin: 4px 0 6px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 24px; font-weight: 500; letter-spacing: -.01em; line-height: 1.15; }
+  .mk-a .panel h2 em { font-style: italic; color: #8e7258; }
+  .mk-a .panel .dek { font-size: 12px; color: #6b5f51; line-height: 1.55; margin: 0 0 14px; }
+  .mk-a .panel .dek b { color: #161412; font-weight: 500; }
+  .mk-a .panel .sec { padding: 14px 0; border-top: 1px solid #ece4d7; }
+  .mk-a .panel .sec h3 { margin: 0 0 8px; font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; }
+  .mk-a .panel .sec .dr { display: grid; grid-template-columns: 110px 1fr; padding: 5px 0; font-size: 12.5px; gap: 16px; }
+  .mk-a .panel .sec .dr span { color: #8e7258; font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: .04em; }
+  .mk-a .panel .sec .dr b { color: #161412; font-weight: 500; font-family: "Cormorant Garamond", Georgia, serif; font-size: 14px; font-style: italic; }
+  .mk-a .panel .sec .dr b.mono { font-family: "JetBrains Mono", monospace; font-size: 11.5px; font-style: normal; }
+</style>
+</head>
+<body>
+<div class="a-page">
+  <header class="a-mast"><div class="l">Audit · <b>№ 13</b> · DetailPanel</div><div class="c">CompanyCo · Product Audit</div><div class="r">Filed · <b>Rev. 01</b></div></header>
+
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 13 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">drawer.</span></h1>
+      <p class="dek">When a row in a table is clicked, a panel slides in from the right with the full record. It's the product's most-used secondary surface — every hub opens it. Today it renders as a white pane with a close button, a title, a status chip, and a stack of label-value rows. It's fine; it could be a <em>drawer</em>.</p>
+    </div>
+    <aside class="meta">
+      <div class="row"><b>File</b><span>DetailPanel.tsx</span></div>
+      <div class="row"><b>Surface</b><span>Global · Slide-in</span></div>
+      <div class="row"><b>Routes</b><span>all (modal)</span></div>
+      <div class="row"><b>Severity</b><span>Medium — texture</span></div>
+      <div class="row"><b>Lens</b><span>Structure · Type · Chrome</span></div>
+    </aside>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 01</b> Findings</h2><p class="title">Three things the <em>panel</em> should borrow from the brand.</p></div>
+    <div class="a-findings">
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> Handle</span><span class="sev md">Medium</span></div>
+        <h3>The panel has no handle.</h3>
+        <p>It slides in, and there's nothing at its top edge to tell you <em>where you are</em>. The close button is alone at the right. A thin <em>handle rail</em> — a 28px strip with a section label and the close — frames the drawer and gives the interaction a sense of weight.</p>
+        <div class="fix"><div class="k">Add</div><div class="v">A handle rail across the top: <code>§ COMPANY · LU · B-187432</code> on the left, a mono <code>close ×</code> on the right.</div></div>
+      </article>
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Title</span><span class="sev md">Medium</span></div>
+        <h3>The title is sans-serif bold.</h3>
+        <p>The entity name is rendered in Inter 16px semibold. This is the one place in the product where the user lingers on a single name — it deserves the Cormorant treatment.</p>
+        <div class="fix"><div class="k">Set</div><div class="v">Title in Cormorant Garamond 24px, italic tail if the entity has a descriptor (e.g. <em>Treasury BV</em>).</div></div>
+      </article>
+      <article class="a-find">
+        <div class="hd"><span><b>03</b> Rows</span><span class="sev lo">Low</span></div>
+        <h3>The rows are a key-value table.</h3>
+        <p>Label left, value right. Labels in grey, values in black. Competent. But the values are just text — names, dates, addresses. They could wear the serif and feel, as one of the ETHOS lines put it, <em>held</em>.</p>
+        <div class="fix"><div class="k">Style</div><div class="v">Labels in mono micro-caps (amber). Values in italic serif for names, plain mono for identifiers. Grid 110 / 1fr.</div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="a-sec">
+    <div class="a-sec-head"><h2><b>§ 02</b> Before / after</h2><p class="title">From <em>panel</em> to <em>drawer</em>.</p></div>
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-b">
+            <div class="back">— table behind —</div>
+            <div class="panel">
+              <div class="h"><h2>Westhaven Treasury BV</h2><div class="x">×</div></div>
+              <span class="chip">Active</span>
+              <div class="s"><h3>Identity</h3>
+                <div class="dr"><span>Registry</span><strong>LU B-187432</strong></div>
+                <div class="dr"><span>Incorporated</span><strong>12 Apr 2016</strong></div>
+                <div class="dr"><span>Form</span><strong>BV</strong></div>
+              </div>
+              <div class="s"><h3>Address</h3>
+                <div class="dr"><span>Seat</span><strong>14, rue du Kirchberg, L-1855</strong></div>
+              </div>
+              <div class="s"><h3>Governance</h3>
+                <div class="dr"><span>Director</span><strong>M. Durand</strong></div>
+                <div class="dr"><span>Director</span><strong>E. Kassis</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">A white panel. Label left, value right. Competent, anonymous.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · the drawer</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-a">
+            <div class="back">§ the portfolio · under watch</div>
+            <div class="panel">
+              <div class="rail"><span>§ Company · LU B-187432</span><span class="x">close ×</span></div>
+              <div class="body">
+                <div class="lab">held · 24 months</div>
+                <h2>Westhaven <em>Treasury</em> BV</h2>
+                <p class="dek">A holding company seated in Luxembourg. <b>Under governance review.</b> Board independence fell below threshold in Q3.</p>
+                <div class="sec"><h3>Identity</h3>
+                  <div class="dr"><span>registry</span><b class="mono">LU B-187432</b></div>
+                  <div class="dr"><span>incorporated</span><b class="mono">12 Apr 2016</b></div>
+                  <div class="dr"><span>form</span><b>Société à responsabilité limitée</b></div>
+                </div>
+                <div class="sec"><h3>Seat</h3>
+                  <div class="dr"><span>address</span><b>14, rue du Kirchberg · L-1855</b></div>
+                </div>
+                <div class="sec"><h3>Governance</h3>
+                  <div class="dr"><span>director</span><b>Marc Durand</b></div>
+                  <div class="dr"><span>director</span><b>Elena Kassis</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="c-note">A handle rail. A serif title. Labels as mono amber. <em>The drawer reads like a page.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="a-foot"><span>Audit № 13 · DetailPanel · Rev. 01</span><span class="c">— held on file —</span><span class="r">Next · № 14 HubView</span></footer>
+</div>
+</body>
+</html>

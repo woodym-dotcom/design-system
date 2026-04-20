@@ -1,0 +1,23 @@
+{
+  "name": "@ds/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared design tokens and primitives across companyco, recruitment-woody, automationArmoury.",
+  "type": "module",
+  "exports": {
+    "./tokens/core.css": "./tokens/core.css",
+    "./tokens/type-scale.css": "./tokens/type-scale.css",
+    "./tokens/viz.css": "./tokens/viz.css",
+    "./brands/companyco.css": "./brands/companyco.css",
+    "./brands/recruitment.css": "./brands/recruitment.css",
+    "./brands/automation.css": "./brands/automation.css",
+    "./primitives/primitives.css": "./primitives/primitives.css"
+  },
+  "files": [
+    "tokens",
+    "brands",
+    "primitives",
+    "assets",
+    "README.md"
+  ]
+}

@@ -1,0 +1,31 @@
+/* =============================================================
+   @ds/core — recruitment-woody brand
+   Product accent: terracotta. Inter-only. No editorial surface.
+   Palette sourced from recruitment-woody/client/tailwind.config.js.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Terracotta accent */
+  --terracotta-50: #fdf2ef;
+  --terracotta-100: #fae3db;
+  --terracotta-200: #f5c7b8;
+  --terracotta-300: #e8a48f;
+  --terracotta-400: #db7f65;
+  --terracotta-500: #c75b3a;
+  --terracotta-600: #a74a2f;
+  --terracotta-700: #883c26;
+  --terracotta-800: #6e311f;
+  --terracotta-900: #5a281a;
+
+  --accent-1: #c75b3a;
+  --accent-1-hover: #a74a2f;
+  --accent-soft: #fdf2ef;
+  --accent-border: #f5c7b8;
+  --accent-ring: rgba(199, 91, 58, 0.18);
+  --accent-text: #883c26;
+}

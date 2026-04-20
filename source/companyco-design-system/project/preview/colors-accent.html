@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:16px; background:#fff; font-family:var(--font-sans); }
+  .row { display:flex; gap:12px; align-items:stretch; flex-wrap:wrap; }
+  .sw { display:flex; flex-direction:column; gap:6px; min-width:120px; }
+  .chip { height:72px; border-radius:var(--radius-md); border:1px solid var(--border-1); }
+  .name { font-size:12px; color:var(--text-1); font-weight:600; }
+  .hex { font-size:11px; color:var(--text-3); font-family:var(--font-mono); }
+  .role { font-size:11px; color:var(--text-4); }
+</style>
+</head>
+<body>
+<div class="row">
+  <div class="sw"><div class="chip" style="background:#4f46e5"></div><div class="name">accent-1</div><div class="hex">#4f46e5</div><div class="role">primary</div></div>
+  <div class="sw"><div class="chip" style="background:#4338ca"></div><div class="name">accent-1-hover</div><div class="hex">#4338ca</div><div class="role">hover / pressed</div></div>
+  <div class="sw"><div class="chip" style="background:#eef2ff"></div><div class="name">accent-soft</div><div class="hex">#eef2ff</div><div class="role">selected row / active nav bg</div></div>
+  <div class="sw"><div class="chip" style="background:#c7d2fe"></div><div class="name">accent-border</div><div class="hex">#c7d2fe</div><div class="role">active nav border</div></div>
+  <div class="sw"><div class="chip" style="background:#e0e7ff"></div><div class="name">blue-100</div><div class="hex">#e0e7ff</div><div class="role">info chip bg</div></div>
+</div>
+</body></html>

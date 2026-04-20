@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:16px; background:#fff; font-family:var(--font-sans); }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(80px,1fr)); gap:12px; }
+  .cell { display:flex; flex-direction:column; align-items:center; gap:6px; padding:10px; border:1px solid var(--border-1); border-radius:8px; }
+  svg { width:22px; height:22px; color:var(--text-2); }
+  .lbl { font-family:var(--font-mono); font-size:10px; color:var(--text-4); }
+</style>
+</head>
+<body>
+<div class="grid">
+  <div class="cell"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10L10 4l7 6"/><path d="M5 9v7h4v-4h2v4h4V9"/></svg><div class="lbl">intro</div></div>
+  <div class="cell"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="12" height="11" rx="1"/><path d="M4 6h12"/><path d="M7 9h2M7 12h2M11 9h2M11 12h2"/></svg><div class="lbl">companies</div></div>
+  <div class="cell"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,14 7,10 11,12 17,6"/><polyline points="13,6 17,6 17,10"/></svg><div class="lbl">measurement</div></div>
+  <div class="cell"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="10" rx="1.5"/><path d="M7 7V5.5A1.5 1.5 0 018.5 4h3A1.5 1.5 0 0113 5.5V7"/><path d="M3 11h14"/></svg><div class="lbl">portfolio</div></div>
+  <div class="cell"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5a3.5 3.5 0 00-4.95 0L5 8l7 7 4.5-4.55a3.5 3.5 0 000-4.95"/><path d="M3 17l3-3"/><path d="M12 8l-4 4"/></svg><div class="lbl">services</div></div>
+  <div class="cell"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L2 17h16L10 3z"/><path d="M10 8v4"/><circle cx="10" cy="14" r=".5" fill="currentColor"/></svg><div class="lbl">risks</div></div>
+  <div class="cell"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="12" height="14" rx="1.5"/><path d="M7 2.5h6v2H7z"/><path d="M7 9h6M7 12h4"/></svg><div class="lbl">regulatory</div></div>
+  <div class="cell"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="4.5"/><path d="M12.5 12.5L17 17"/></svg><div class="lbl">incidents</div></div>
+</div>
+</body></html>

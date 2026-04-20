@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:16px; background:#fff; font-family:var(--font-sans); }
+  .rail { width:52px; display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px 6px; border:1px solid var(--border-1); border-radius:10px; background:#fff; }
+  .grp { width:36px; height:36px; border-radius:8px; background:#4f46e5; color:#fff; font-size:10px; font-weight:700; display:grid; place-items:center; }
+  .divider { width:80%; height:1px; background:var(--border-1); }
+  .icon { width:38px; height:38px; border-radius:8px; border:1px solid transparent; display:grid; place-items:center; color:var(--text-3); cursor:pointer; }
+  .icon:hover { background:var(--surface-2); color:var(--text-1); }
+  .icon.active { background:#eef2ff; border-color:#c7d2fe; color:#4f46e5; }
+  svg { width:18px; height:18px; }
+  .row { display:flex; gap:18px; align-items:flex-start; }
+  .caption { font-size:11px; color:var(--text-3); font-family:var(--font-mono); align-self:center; line-height:1.6; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <nav class="rail">
+      <div class="grp">WH</div>
+      <div class="divider"></div>
+      <button class="icon" title="Intro"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10L10 4l7 6"/><path d="M5 9v7h4v-4h2v4h4V9"/></svg></button>
+      <button class="icon active" title="Companies"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="12" height="11" rx="1"/><path d="M4 6h12"/><path d="M7 9h2M7 12h2M11 9h2M11 12h2"/></svg></button>
+      <button class="icon" title="Measurement"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,14 7,10 11,12 17,6"/><polyline points="13,6 17,6 17,10"/></svg></button>
+      <button class="icon" title="Portfolio"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="10" rx="1.5"/><path d="M7 7V5.5A1.5 1.5 0 018.5 4h3A1.5 1.5 0 0113 5.5V7"/></svg></button>
+      <button class="icon" title="Risks"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L2 17h16L10 3z"/><path d="M10 8v4"/><circle cx="10" cy="14" r=".5" fill="currentColor"/></svg></button>
+    </nav>
+    <div class="caption">stroke=1.5 · 20×20 viewBox<br>rail=52px · icon=38px<br>active = soft bg + border</div>
+  </div>
+</body></html>

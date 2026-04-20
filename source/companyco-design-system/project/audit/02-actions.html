@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit № 02 — ActionsView</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_audit.css">
+<style>
+  /* Scoped mockup styles for this audit */
+  .mk-root { font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: #111827; }
+
+  /* BEFORE — ActionsView today */
+  .mk-b { padding: 14px 18px; background: #fff; display: flex; flex-direction: column; gap: 10px; }
+  .mk-b .eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #6b7280; }
+  .mk-b h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -.015em; color: #111827; }
+  .mk-b .copy { margin: 0; font-size: 12.5px; color: #6b7280; }
+  .mk-b .chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 500; background: #eef2ff; color: #4f46e5; border: 1px solid #c7d2fe; align-self: flex-start; }
+  .mk-b table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 4px; }
+  .mk-b thead th { text-align: left; padding: 7px 10px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: #9ca3af; border-bottom: 1px solid #e5e7eb; }
+  .mk-b tbody td { padding: 10px; border-bottom: 1px solid #f3f4f6; color: #374151; vertical-align: top; }
+  .mk-b tbody td strong { display: block; color: #111827; font-weight: 500; margin-bottom: 2px; }
+  .mk-b tbody td .sub { font-size: 11.5px; color: #6b7280; }
+  .mk-b tbody td .t { font-family: "JetBrains Mono", monospace; font-size: 11px; color: #6b7280; }
+  .mk-b .pill { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 10.5px; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+
+  /* AFTER — the desk */
+  .mk-a { background: #fbfaf7; padding: 0; display: flex; flex-direction: column; }
+  .mk-a .head { padding: 20px 26px 16px; border-bottom: 1px solid #ece4d7; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .mk-a .head .l { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .mk-a .head .eye { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8e7258; font-weight: 500; }
+  .mk-a .head h1 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; font-weight: 500; letter-spacing: -.012em; color: #161412; line-height: 1; }
+  .mk-a .head h1 em { font-style: italic; font-weight: 500; color: #8e7258; }
+  .mk-a .head .count { font-family: "JetBrains Mono", monospace; font-size: 11px; color: #6b5f51; letter-spacing: .04em; margin-top: 4px; }
+  .mk-a .head .count b { color: #a86b54; font-weight: 500; }
+  .mk-a .desk { padding: 6px 26px 22px; display: flex; flex-direction: column; gap: 6px; }
+  .mk-a .group { padding-top: 24px; }
+  .mk-a .group .g-head { padding-bottom: 12px; border-bottom: 1px solid #161412; display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+  .mk-a .group .g-head .g-title { display: flex; align-items: baseline; gap: 14px; min-width: 0; }
+  .mk-a .group .g-head h2 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 22px; font-weight: 500; letter-spacing: -.012em; color: #161412; line-height: 1; }
+  .mk-a .group .g-head h2 em { font-style: italic; font-weight: 500; color: #a86b54; }
+  .mk-a .group .g-head .g-sub { font-size: 12px; color: #6b5f51; line-height: 1.3; }
+  .mk-a .group .g-head .n { font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: .04em; color: #8b7e6d; white-space: nowrap; }
+  .mk-a .group .g-head .n b { color: #161412; font-weight: 500; }
+  .mk-a .group.today .g-head { border-bottom-color: #a86b54; }
+  .mk-a .group.today .g-head h2 em { color: #a86b54; }
+  .mk-a .item { display: grid; grid-template-columns: 1fr auto; gap: 18px; padding: 14px 0; border-bottom: 1px dashed #ece4d7; align-items: baseline; cursor: pointer; }
+  .mk-a .item:last-child { border-bottom: 0; }
+  .mk-a .item .title { font-size: 13.5px; color: #161412; font-weight: 500; line-height: 1.35; }
+  .mk-a .item .sub { font-size: 12px; color: #6b5f51; margin-top: 3px; line-height: 1.5; }
+  .mk-a .item .sub b { color: #161412; font-weight: 500; }
+  .mk-a .item .t { font-family: "JetBrains Mono", monospace; font-size: 10.5px; color: #8b7e6d; letter-spacing: .04em; text-align: right; white-space: nowrap; }
+  .mk-a .item .t .then { display: block; color: #a8997f; font-size: 9.5px; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="a-page">
+
+  <header class="a-mast">
+    <div class="l">Audit · <b>№ 02</b> · Actions</div>
+    <div class="c">CompanyCo · Product Audit</div>
+    <div class="r">Filed · <b>Rev. 01</b></div>
+  </header>
+
+  <!-- ============== HERO ============== -->
+  <section class="a-hero">
+    <div>
+      <div class="kicker"><span class="bar"></span>A teardown · 02 of 14<span class="dot"></span></div>
+      <h1>The <span class="italic">desk.</span></h1>
+      <p class="dek">
+        The home surface — what the user sees when they sign in. It is supposed to answer one question: <em>what needs me today?</em> Today it reads like a database query pretending to be a home. There is no hierarchy, no grouping, no sense that someone <em>cared about your morning.</em>
+      </p>
+    </div>
+
+    <aside class="meta">
+      <div class="row"><b>File</b><span>ActionsView.tsx</span></div>
+      <div class="row"><b>Lines</b><span>75</span></div>
+      <div class="row"><b>Surface</b><span>Home · Hub</span></div>
+      <div class="row"><b>Routes</b><span>/ · /actions</span></div>
+      <div class="row"><b>Severity</b><span style="color:var(--amber)">Medium — surface</span></div>
+      <div class="row"><b>Lens</b><span>Copy · Hierarchy · Empty</span></div>
+    </aside>
+  </section>
+
+  <!-- ============== § 01 · FINDINGS ============== -->
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 01</b> Findings</h2>
+      <p class="title">Five things the <em>desk</em> isn't doing.</p>
+      <p class="lede">Read in order. The severities stack.</p>
+    </div>
+
+    <div class="a-findings">
+
+      <article class="a-find">
+        <div class="hd"><span><b>01</b> Hierarchy</span><span class="sev hi">High</span></div>
+        <h3>Every action looks the same.</h3>
+        <p>A duplicate company review and a user activation share the same row, the same chip, the same timestamp treatment. A board-visible item and a housekeeping item <em>cannot feel equal</em>. The table is a pure <code>map()</code> — no grouping, no sort by urgency, no visual weight.</p>
+        <div class="fix">
+          <div class="k">Move</div>
+          <div class="v">Group by type (<em>Reviews</em>, <em>Activations</em>, <em>Housekeeping</em>) with an eyebrow per group. Within a group, newest first.</div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>02</b> Copy</span><span class="sev md">Medium</span></div>
+        <h3>"Pending" is the wrong shape.</h3>
+        <p>The counter chip reads <code>3 pending</code>. Pending is the state of a request, not the posture the user is being asked to take. The desk should ask for <em>your attention</em>, not report the state of a queue.</p>
+        <div class="fix">
+          <div class="k">Rewrite</div>
+          <div class="v">Replace <code>{n} pending</code> with <code>{n} on your desk</code>. The count is the same; the posture reverses.</div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>03</b> Empty state</span><span class="sev md">Medium</span></div>
+        <h3>"All clear" is a sigh, not a signal.</h3>
+        <p>The empty state reads <em>"All clear — no pending actions right now."</em> That is two sentences to say nothing. The user wants to know what the rest of the system is doing, not that their inbox is empty. A quiet desk is an invitation to look around.</p>
+        <div class="fix">
+          <div class="k">Rewrite</div>
+          <div class="v"><em>"Nothing for you today."</em> followed by a single line inviting a stroll: <em>"The register is quiet. The ledger is balanced. You could look in on the portfolio."</em></div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>04</b> Time</span><span class="sev lo">Low</span></div>
+        <h3>Relative time alone is not enough.</h3>
+        <p><code>3m ago</code> is precise but tells you nothing about <em>when it was filed</em>. For actions older than a day, the absolute date matters — audit logs, SLA clocks, and reviewers all need it. The relative time should live above, the absolute beneath.</p>
+        <div class="fix">
+          <div class="k">Change</div>
+          <div class="v">Show <code>3m ago</code> as primary, <code>· 14:02 Tue</code> as a smaller line beneath, in monospace. Absolute time appears in tooltip today; pull it out.</div>
+        </div>
+      </article>
+
+      <article class="a-find">
+        <div class="hd"><span><b>05</b> Row affordance</span><span class="sev lo">Low</span></div>
+        <h3>The row is a link pretending to be a row.</h3>
+        <p>The whole row is clickable — <code>onClick</code> on the <code>&lt;tr&gt;</code> — but there's no visual chevron, no hover cue beyond the default table-row highlight. The action is hidden. A keyboard user with no mouse can't even tell the row is interactive until they tab into it.</p>
+        <div class="fix">
+          <div class="k">Add</div>
+          <div class="v">A right-aligned "Open →" micro-link on hover. Serves as the hover cue, the keyboard affordance, and the accessibility label in one move.</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============== § 02 · QUOTE ============== -->
+  <section class="a-quote">
+    <span class="mark">"</span>
+    <p>The home surface is not an inbox. It is a <em>desk at the start of the day</em> — papers stacked by someone who knew you'd come in.</p>
+    <div class="cite"><b>ETHOS.md</b><br>Domain Language Wins</div>
+  </section>
+
+  <!-- ============== § 03 · BEFORE / AFTER ============== -->
+  <section class="a-sec">
+    <div class="a-sec-head">
+      <h2><b>§ 03</b> Before / after</h2>
+      <p class="title">From <em>table</em> to <em>desk.</em></p>
+      <p class="lede">Same data. Different posture.</p>
+    </div>
+
+    <div class="a-compare">
+      <div>
+        <div class="c-head"><span><b>Before</b> · today</span><span class="tag before">as-is</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-b">
+            <span class="eyebrow">HOME</span>
+            <h1>Actions</h1>
+            <p class="copy">Items across the system that need your attention.</p>
+            <span class="chip">3 pending</span>
+            <table>
+              <thead><tr><th>Action</th><th>Type</th><th>When</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Review duplicate — Westhaven Treasury BV</strong><span class="sub">Two records likely refer to the same company.</span></td>
+                  <td><span class="pill">Duplicate review</span></td>
+                  <td class="t">3m ago</td>
+                </tr>
+                <tr>
+                  <td><strong>Activate Elena Kassis</strong><span class="sub">Invited 4 days ago; not yet signed in.</span></td>
+                  <td><span class="pill">User activation</span></td>
+                  <td class="t">4d ago</td>
+                </tr>
+                <tr>
+                  <td><strong>Review duplicate — Meridian Ventures</strong><span class="sub">Held for review.</span></td>
+                  <td><span class="pill">Duplicate review</span></td>
+                  <td class="t">2h ago</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="c-note">Uniform rows, flat chips. A pending counter. Copy that reports a queue.</p>
+      </div>
+
+      <div>
+        <div class="c-head"><span><b>After</b> · the desk</span><span class="tag after">proposal</span></div>
+        <div class="c-frame">
+          <div class="mk-root mk-a">
+            <header class="head">
+              <div class="l">
+                <span class="eye">§ the desk</span>
+                <h1>Good morning, <em>James.</em></h1>
+                <div class="count"><b>3</b> on your desk · filed overnight</div>
+              </div>
+            </header>
+            <div class="desk">
+
+              <div class="group today">
+                <div class="g-head">
+                  <div class="g-title">
+                    <h2>Today<em>.</em></h2>
+                    <span class="g-sub">SLA running — act by end of day.</span>
+                  </div>
+                  <span class="n"><b>2</b> items</span>
+                </div>
+                <div class="item">
+                  <div>
+                    <div class="title">Westhaven Treasury BV — likely a duplicate</div>
+                    <div class="sub">Two records, one name. <b>Shared officers, same number.</b> Hold or merge.</div>
+                  </div>
+                  <div class="t">3m ago<span class="then">11:14 Thu</span></div>
+                </div>
+                <div class="item">
+                  <div>
+                    <div class="title">Meridian Ventures — held for review</div>
+                    <div class="sub">Address fails validation. <b>Review clock: 6h left.</b></div>
+                  </div>
+                  <div class="t">2h ago<span class="then">09:22 Thu</span></div>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="g-head">
+                  <div class="g-title">
+                    <h2>This week<em>.</em></h2>
+                    <span class="g-sub">Aging — worth a look before Friday.</span>
+                  </div>
+                  <span class="n"><b>1</b> item</span>
+                </div>
+                <div class="item">
+                  <div>
+                    <div class="title">Elena Kassis — invited, not yet signed in</div>
+                    <div class="sub"><b>4 days since invitation.</b> Resend or withdraw.</div>
+                  </div>
+                  <div class="t">4d ago<span class="then">Mon 16:08</span></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <p class="c-note">Grouped by <em>when</em>, not by type. Today runs a clock; the week ages quietly; item titles are plain text — readable, scannable, honest.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="a-foot">
+    <span>Audit № 02 · ActionsView · Rev. 01</span>
+    <span class="c">— held on file —</span>
+    <span class="r">Next · № 03 PortfolioView</span>
+  </footer>
+
+</div>
+</body>
+</html>

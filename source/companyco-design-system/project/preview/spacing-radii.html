@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:16px; background:var(--surface-1); font-family:var(--font-sans); display:flex; gap:14px; flex-wrap:wrap; }
+  .card { width:140px; padding:14px; background:#fff; }
+  h4 { margin:0 0 10px; font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-4); font-weight:600; }
+  .demo { height:48px; background:#fff; border:1px solid var(--border-1); display:grid; place-items:center; font-size:11px; color:var(--text-3); font-family:var(--font-mono); }
+  .r6 { border-radius:6px; }
+  .r8 { border-radius:8px; }
+  .r10 { border-radius:10px; }
+  .r999 { border-radius:999px; }
+</style>
+</head>
+<body>
+  <div class="card"><h4>radius-sm</h4><div class="demo r6">6px · buttons</div></div>
+  <div class="card"><h4>radius-md</h4><div class="demo r8">8px · cards</div></div>
+  <div class="card"><h4>radius-lg</h4><div class="demo r10">10px · panels</div></div>
+  <div class="card"><h4>radius-pill</h4><div class="demo r999">999 · chips</div></div>
+</body></html>

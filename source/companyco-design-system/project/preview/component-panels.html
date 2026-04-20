@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:18px; background:var(--surface-1); font-family:var(--font-sans); display:flex; gap:12px; flex-wrap:wrap; }
+  .panel { border:1px solid var(--border-1); border-radius:10px; background:#fff; padding:16px; min-width:260px; }
+  .panel-header h3 { margin:0; font-size:16px; font-weight:600; color:var(--text-1); }
+  .panel-header p { margin:4px 0 0; font-size:13px; color:var(--text-3); }
+  .empty { display:grid; gap:4px; padding:16px; border:1px dashed var(--border-2); border-radius:8px; background:var(--surface-1); }
+  .empty strong { color:var(--text-2); font-size:14px; }
+  .empty p { margin:0; font-size:13px; color:var(--text-3); }
+</style>
+</head>
+<body>
+  <section class="panel" style="width:260px">
+    <div class="panel-header">
+      <h3>Company details</h3>
+      <p>Canonical record from Registry.</p>
+    </div>
+  </section>
+  <section class="panel" style="width:260px">
+    <div class="empty">
+      <strong>All clear</strong>
+      <p>No pending actions right now.</p>
+    </div>
+  </section>
+</body></html>
