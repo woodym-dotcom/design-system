@@ -1,19 +1,47 @@
 /* =============================================================
-   @ds/core — automationArmoury brand (STUB)
-   TODO: choose accent palette. Placeholder: slate/teal.
+   @ds/core — automationArmoury brand
+   Ops/automation platform for regulated workflows. Brand reads:
+   precision, runtime, observability. No editorial surface —
+   internal tooling only. Accent: electric cyan. Mono-forward for
+   pipelines, configs, and log views.
    ============================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
   --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Placeholder accent — replace when brand is chosen */
-  --accent-1: #0f766e;
-  --accent-1-hover: #115e59;
-  --accent-soft: #f0fdfa;
-  --accent-border: #99f6e4;
-  --accent-ring: rgba(15, 118, 110, 0.15);
-  --accent-text: #115e59;
+  /* Cyan accent — runtime, flow, data */
+  --cyan-50:  #ecfeff;
+  --cyan-100: #cffafe;
+  --cyan-200: #a5f3fc;
+  --cyan-300: #67e8f9;
+  --cyan-400: #22d3ee;
+  --cyan-500: #06b6d4;
+  --cyan-600: #0891b2;
+  --cyan-700: #0e7490;
+  --cyan-800: #155e75;
+  --cyan-900: #164e63;
+
+  --accent-1:       #06b6d4;
+  --accent-1-hover: #0891b2;
+  --accent-soft:    #ecfeff;
+  --accent-border:  #a5f3fc;
+  --accent-ring:    rgba(6, 182, 212, 0.18);
+  --accent-text:    #0e7490;
+
+  /* Gunmetal ink — used for dense headers, runtime chips, code blocks.
+     Overrides the default text/surface feel slightly cooler than the
+     stock gray scale without shifting neutral tokens. */
+  --gunmetal-0: #0b1220;
+  --gunmetal-1: #111827;
+  --gunmetal-2: #1f2937;
+
+  /* Runtime/pipeline status semantics — aliases for cc-chip use */
+  --runtime-running:  var(--cyan-500);
+  --runtime-queued:   #f59e0b;
+  --runtime-success:  #16a34a;
+  --runtime-failed:   #dc2626;
+  --runtime-paused:   #6b7280;
 }
