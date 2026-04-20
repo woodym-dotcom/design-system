@@ -12,7 +12,7 @@
   --font-brand-sans: "DM Sans", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* INDIGO (product accent) */
+  /* INDIGO (product accent — light) */
   --blue-50: #eef2ff;
   --blue-100: #e0e7ff;
   --blue-500: #6366f1;
@@ -26,7 +26,7 @@
   --accent-ring: rgba(79, 70, 229, 0.15);
   --accent-text: #4f46e5;
 
-  /* AMBER + INK + PAPER (brand / auth only) */
+  /* AMBER + INK + PAPER (brand / auth — theme-invariant, always dark) */
   --amber-50: #fdf7ef;
   --amber-100: #f5e9d4;
   --amber-200: #e8b87a;
@@ -38,4 +38,25 @@
   --ink-1: #1a1a1a;
   --paper: #fafaf8;
   --paper-ink: #f5f0eb;
+}
+
+/* Dark — indigo stays but soft/border/ring shift */
+:root[data-theme="dark"] {
+  --accent-1: #818cf8;
+  --accent-1-hover: #a5b4fc;
+  --accent-soft: rgba(129, 140, 248, 0.12);
+  --accent-border: rgba(129, 140, 248, 0.4);
+  --accent-ring: rgba(129, 140, 248, 0.25);
+  --accent-text: #a5b4fc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --accent-1: #818cf8;
+    --accent-1-hover: #a5b4fc;
+    --accent-soft: rgba(129, 140, 248, 0.12);
+    --accent-border: rgba(129, 140, 248, 0.4);
+    --accent-ring: rgba(129, 140, 248, 0.25);
+    --accent-text: #a5b4fc;
+  }
 }

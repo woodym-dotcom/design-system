@@ -1,14 +1,17 @@
 /* =============================================================
-   @ds/core — core tokens
-   Brand-neutral. Neutrals, surfaces, spacing, radii, shadows,
-   motion, status semantics, type scale sizes. Fonts and accent
-   colors are supplied by brands/<brand>.css.
+   @ds/core — core tokens (light + dark)
+
+   Theme resolution order:
+     1. html[data-theme="dark"]  → dark
+     2. html[data-theme="light"] → light (wins over OS pref)
+     3. (no attribute) prefers-color-scheme → follows OS
+     4. Default → light
    ============================================================= */
 
 :root {
   color-scheme: light;
 
-  /* ---------- NEUTRALS (9-step cool gray) ---------- */
+  /* ---------- NEUTRALS (raw palette, shared across themes) ---------- */
   --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
@@ -19,8 +22,9 @@
   --gray-700: #374151;
   --gray-800: #1f2937;
   --gray-900: #111827;
+  --gray-950: #0b1220;
 
-  /* ---------- SEMANTIC SURFACES ---------- */
+  /* ---------- SEMANTIC — LIGHT (default) ---------- */
   --surface-0: #ffffff;
   --surface-1: var(--gray-50);
   --surface-2: var(--gray-100);
@@ -34,7 +38,7 @@
   --text-3: var(--gray-500);
   --text-4: var(--gray-400);
 
-  /* ---------- STATUS ---------- */
+  /* Status (light) */
   --error: #dc2626;
   --error-light: #fef2f2;
   --error-border: #fca5a5;
@@ -62,12 +66,12 @@
   --radius-lg: 10px;
   --radius-pill: 999px;
 
-  /* ---------- SHADOWS ---------- */
+  /* ---------- SHADOWS (light) ---------- */
   --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-3: 0 -4px 12px rgba(0, 0, 0, 0.08);
 
-  /* ---------- SPACING (4pt grid) ---------- */
+  /* ---------- SPACING (4pt) ---------- */
   --space-1: 4px;
   --space-2: 6px;
   --space-3: 8px;
@@ -83,6 +87,97 @@
   --duration-base: 120ms;
   --duration-med: 150ms;
   --duration-slow: 200ms;
+}
+
+/* =============================================================
+   DARK — semantic overrides
+   ============================================================= */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface-0: #0b1220;   /* page background — near-black cool */
+  --surface-1: #111827;   /* raised row bg */
+  --surface-2: #1f2937;   /* hover / secondary bg */
+  --surface-3: #374151;
+
+  --border-1: #1f2937;
+  --border-2: #374151;
+
+  --text-1: #f9fafb;
+  --text-2: #e5e7eb;
+  --text-3: #9ca3af;
+  --text-4: #6b7280;
+
+  --error: #f87171;
+  --error-light: rgba(248, 113, 113, 0.12);
+  --error-border: rgba(248, 113, 113, 0.4);
+  --error-text: #fca5a5;
+  --error-strong: #fca5a5;
+
+  --success: #4ade80;
+  --success-light: rgba(74, 222, 128, 0.12);
+  --success-border: rgba(74, 222, 128, 0.4);
+  --success-text: #86efac;
+
+  --warning: #fbbf24;
+  --warning-light: rgba(251, 191, 36, 0.12);
+  --warning-border: rgba(251, 191, 36, 0.4);
+  --warning-text: #fde68a;
+
+  --info: #60a5fa;
+  --info-light: rgba(96, 165, 250, 0.12);
+  --info-border: rgba(96, 165, 250, 0.4);
+  --info-text: #93c5fd;
+
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-3: 0 -4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* OS dark preference — only applies when no explicit data-theme is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    color-scheme: dark;
+
+    --surface-0: #0b1220;
+    --surface-1: #111827;
+    --surface-2: #1f2937;
+    --surface-3: #374151;
+
+    --border-1: #1f2937;
+    --border-2: #374151;
+
+    --text-1: #f9fafb;
+    --text-2: #e5e7eb;
+    --text-3: #9ca3af;
+    --text-4: #6b7280;
+
+    --error: #f87171;
+    --error-light: rgba(248, 113, 113, 0.12);
+    --error-border: rgba(248, 113, 113, 0.4);
+    --error-text: #fca5a5;
+    --error-strong: #fca5a5;
+
+    --success: #4ade80;
+    --success-light: rgba(74, 222, 128, 0.12);
+    --success-border: rgba(74, 222, 128, 0.4);
+    --success-text: #86efac;
+
+    --warning: #fbbf24;
+    --warning-light: rgba(251, 191, 36, 0.12);
+    --warning-border: rgba(251, 191, 36, 0.4);
+    --warning-text: #fde68a;
+
+    --info: #60a5fa;
+    --info-light: rgba(96, 165, 250, 0.12);
+    --info-border: rgba(96, 165, 250, 0.4);
+    --info-text: #93c5fd;
+
+    --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-3: 0 -4px 12px rgba(0, 0, 0, 0.5);
+  }
 }
 
 * { box-sizing: border-box; }
@@ -112,6 +207,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--duration-base) var(--ease-standard),
+              color var(--duration-base) var(--ease-standard);
 }
 
 button, input, select { font: inherit; }

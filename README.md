@@ -37,6 +37,16 @@ Every consumer imports in this order:
 Brand files override token values (accent palette, fonts) defined in `core.css`.
 Never define accent/brand values outside `brands/*`.
 
+## Theming
+
+All tokens are defined for **both light and dark**. Resolution:
+
+1. `html[data-theme="dark"]` → dark.
+2. `html[data-theme="light"]` → light (wins over OS pref).
+3. No attribute → follows `prefers-color-scheme` (OS).
+
+To let users toggle, set `document.documentElement.dataset.theme = "dark" | "light"` (persist in localStorage). To follow OS only, set nothing. Companyco's `--amber/--ink/--paper` are theme-invariant — the auth/editorial surface stays dark on purpose.
+
 ## Contribution rules
 
 - A new component → `primitives/primitives.css` under a `cc-*` selector, colors via `var(--...)` only.

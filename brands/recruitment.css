@@ -1,7 +1,6 @@
 /* =============================================================
    @ds/core — recruitment-woody brand
-   Product accent: terracotta. Inter-only. No editorial surface.
-   Palette sourced from recruitment-woody/client/tailwind.config.js.
+   Product accent: terracotta. Inter-only.
    ============================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -10,7 +9,6 @@
   --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Terracotta accent */
   --terracotta-50: #fdf2ef;
   --terracotta-100: #fae3db;
   --terracotta-200: #f5c7b8;
@@ -28,4 +26,24 @@
   --accent-border: #f5c7b8;
   --accent-ring: rgba(199, 91, 58, 0.18);
   --accent-text: #883c26;
+}
+
+:root[data-theme="dark"] {
+  --accent-1: #e8a48f;
+  --accent-1-hover: #f5c7b8;
+  --accent-soft: rgba(232, 164, 143, 0.12);
+  --accent-border: rgba(232, 164, 143, 0.4);
+  --accent-ring: rgba(232, 164, 143, 0.28);
+  --accent-text: #f5c7b8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --accent-1: #e8a48f;
+    --accent-1-hover: #f5c7b8;
+    --accent-soft: rgba(232, 164, 143, 0.12);
+    --accent-border: rgba(232, 164, 143, 0.4);
+    --accent-ring: rgba(232, 164, 143, 0.28);
+    --accent-text: #f5c7b8;
+  }
 }

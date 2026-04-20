@@ -1,6 +1,6 @@
 /* =============================================================
    @ds/core — viz tokens (status / severity / tier)
-   Brand-neutral. Dark-mode override included.
+   Respects data-theme, falls back to OS preference.
    ============================================================= */
 
 :root {
@@ -19,20 +19,36 @@
   --severity-critical: #ef4444;
 }
 
+:root[data-theme="dark"] {
+  --status-healthy: #4ade80;
+  --status-warning: #fbbf24;
+  --status-critical: #f87171;
+  --status-unknown: #64748b;
+
+  --tier-core: #60a5fa;
+  --tier-domain: #a78bfa;
+  --tier-bespoke: #9ca3af;
+
+  --severity-low: #4ade80;
+  --severity-medium: #fbbf24;
+  --severity-high: #fb923c;
+  --severity-critical: #f87171;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
-    --status-healthy: #16a34a;
-    --status-warning: #d97706;
-    --status-critical: #dc2626;
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --status-healthy: #4ade80;
+    --status-warning: #fbbf24;
+    --status-critical: #f87171;
     --status-unknown: #64748b;
 
-    --tier-core: #2563eb;
-    --tier-domain: #7c3aed;
-    --tier-bespoke: #4b5563;
+    --tier-core: #60a5fa;
+    --tier-domain: #a78bfa;
+    --tier-bespoke: #9ca3af;
 
-    --severity-low: #16a34a;
-    --severity-medium: #d97706;
-    --severity-high: #ea580c;
-    --severity-critical: #dc2626;
+    --severity-low: #4ade80;
+    --severity-medium: #fbbf24;
+    --severity-high: #fb923c;
+    --severity-critical: #f87171;
   }
 }
