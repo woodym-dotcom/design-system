@@ -26,6 +26,12 @@
   --accent-border: #f5c7b8;
   --accent-ring: rgba(199, 91, 58, 0.18);
   --accent-text: #883c26;
+
+  /* HSL channels for Tailwind bridge */
+  --accent-1-hsl: 14 56% 51%;
+  --accent-soft-hsl: 18 75% 96%;
+  --accent-border-hsl: 14 78% 84%;
+  --accent-text-hsl: 14 56% 34%;
 }
 
 :root[data-theme="dark"] {
@@ -35,6 +41,9 @@
   --accent-border: rgba(232, 164, 143, 0.4);
   --accent-ring: rgba(232, 164, 143, 0.28);
   --accent-text: #f5c7b8;
+
+  --accent-1-hsl: 14 67% 74%;
+  --accent-text-hsl: 14 78% 84%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -45,5 +54,8 @@
     --accent-border: rgba(232, 164, 143, 0.4);
     --accent-ring: rgba(232, 164, 143, 0.28);
     --accent-text: #f5c7b8;
+
+    --accent-1-hsl: 14 67% 74%;
+    --accent-text-hsl: 14 78% 84%;
   }
 }

@@ -1,0 +1,70 @@
+/* =============================================================
+   @ds/core — Tailwind bridge
+   HSL channel mirrors of semantic tokens for Tailwind configs that
+   use `hsl(var(--name) / <alpha-value>)`. Keeps Tailwind-based
+   consumers (e.g. recruitment-woody) on the same source of truth as
+   the cc-* primitives.
+
+   Convention: `--name-hsl: H S% L%` (no `hsl(...)` wrapper).
+   Light + dark variants follow the same data-theme rules as core.css.
+   ============================================================= */
+
+:root {
+  /* Neutrals as HSL channels */
+  --gray-50-hsl:  210 20% 98%;
+  --gray-100-hsl: 220 14% 96%;
+  --gray-200-hsl: 220 13% 91%;
+  --gray-300-hsl: 216 12% 84%;
+  --gray-400-hsl: 218 11% 65%;
+  --gray-500-hsl: 220 9%  46%;
+  --gray-600-hsl: 215 14% 34%;
+  --gray-700-hsl: 217 19% 27%;
+  --gray-800-hsl: 215 28% 17%;
+  --gray-900-hsl: 221 39% 11%;
+
+  /* Semantic surfaces (light) */
+  --surface-0-hsl: 0 0% 100%;
+  --surface-1-hsl: var(--gray-50-hsl);
+  --surface-2-hsl: var(--gray-100-hsl);
+  --surface-3-hsl: var(--gray-200-hsl);
+
+  --border-1-hsl: var(--gray-200-hsl);
+  --border-2-hsl: var(--gray-300-hsl);
+
+  --text-1-hsl: var(--gray-900-hsl);
+  --text-2-hsl: var(--gray-700-hsl);
+  --text-3-hsl: var(--gray-500-hsl);
+  --text-4-hsl: var(--gray-400-hsl);
+}
+
+:root[data-theme="dark"] {
+  --surface-0-hsl: 221 40%  9%;
+  --surface-1-hsl: 221 39% 11%;
+  --surface-2-hsl: 215 28% 17%;
+  --surface-3-hsl: 217 19% 27%;
+
+  --border-1-hsl: 215 28% 17%;
+  --border-2-hsl: 217 19% 27%;
+
+  --text-1-hsl: 210 20% 98%;
+  --text-2-hsl: 220 13% 91%;
+  --text-3-hsl: 218 11% 65%;
+  --text-4-hsl: 220 9% 46%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --surface-0-hsl: 221 40%  9%;
+    --surface-1-hsl: 221 39% 11%;
+    --surface-2-hsl: 215 28% 17%;
+    --surface-3-hsl: 217 19% 27%;
+
+    --border-1-hsl: 215 28% 17%;
+    --border-2-hsl: 217 19% 27%;
+
+    --text-1-hsl: 210 20% 98%;
+    --text-2-hsl: 220 13% 91%;
+    --text-3-hsl: 218 11% 65%;
+    --text-4-hsl: 220 9% 46%;
+  }
+}

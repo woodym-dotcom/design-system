@@ -8,6 +8,7 @@
     "./tokens/core.css": "./tokens/core.css",
     "./tokens/type-scale.css": "./tokens/type-scale.css",
     "./tokens/viz.css": "./tokens/viz.css",
+    "./tokens/tailwind-bridge.css": "./tokens/tailwind-bridge.css",
     "./brands/companyco.css": "./brands/companyco.css",
     "./brands/recruitment.css": "./brands/recruitment.css",
     "./brands/automation.css": "./brands/automation.css",
