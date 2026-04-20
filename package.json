@@ -11,13 +11,27 @@
     "./brands/companyco.css": "./brands/companyco.css",
     "./brands/recruitment.css": "./brands/recruitment.css",
     "./brands/automation.css": "./brands/automation.css",
-    "./primitives/primitives.css": "./primitives/primitives.css"
+    "./primitives/primitives.css": "./primitives/primitives.css",
+    "./react": "./react/index.ts",
+    "./react/useTheme": "./react/useTheme.ts",
+    "./react/ThemeToggle": "./react/ThemeToggle.tsx"
   },
   "files": [
     "tokens",
     "brands",
     "primitives",
+    "react",
     "assets",
     "README.md"
-  ]
+  ],
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.6.0"
+  }
 }
