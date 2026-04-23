@@ -64,7 +64,7 @@
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 10px;
-  --radius-pill: 999px;
+  --radius-pill: 9999px;
 
   /* ---------- SHADOWS (light) ---------- */
   --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.06);
