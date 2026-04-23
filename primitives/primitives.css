@@ -143,6 +143,32 @@
   color: var(--error-text);
 }
 
+.cc-chip--phase-screen {
+  background: var(--phase-screen-bg);
+  border-color: var(--phase-screen-border);
+  color: var(--phase-screen-text);
+}
+.cc-chip--phase-allocate {
+  background: var(--phase-allocate-bg);
+  border-color: var(--phase-allocate-border);
+  color: var(--phase-allocate-text);
+}
+.cc-chip--phase-score {
+  background: var(--phase-score-bg);
+  border-color: var(--phase-score-border);
+  color: var(--phase-score-text);
+}
+.cc-chip--phase-approve {
+  background: var(--phase-approve-bg);
+  border-color: var(--phase-approve-border);
+  color: var(--phase-approve-text);
+}
+.cc-chip--phase-complete {
+  background: var(--phase-complete-bg);
+  border-color: var(--phase-complete-border);
+  color: var(--phase-complete-text);
+}
+
 .cc-chip-stack {
   display: flex;
   gap: var(--space-2);

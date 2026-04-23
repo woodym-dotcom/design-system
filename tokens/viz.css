@@ -17,6 +17,27 @@
   --severity-medium: #f59e0b;
   --severity-high: #f97316;
   --severity-critical: #ef4444;
+
+  /* Phase palette — workflow state chips (light) */
+  --phase-screen-bg:     #eff6ff;
+  --phase-screen-border: #bfdbfe;
+  --phase-screen-text:   #1d4ed8;
+
+  --phase-allocate-bg:     #fef3c7;
+  --phase-allocate-border: #fde68a;
+  --phase-allocate-text:   #b45309;
+
+  --phase-score-bg:     #f5f3ff;
+  --phase-score-border: #ddd6fe;
+  --phase-score-text:   #6d28d9;
+
+  --phase-approve-bg:     #fff1f2;
+  --phase-approve-border: #fecdd3;
+  --phase-approve-text:   #be123c;
+
+  --phase-complete-bg:     #f0fdf4;
+  --phase-complete-border: #bbf7d0;
+  --phase-complete-text:   #15803d;
 }
 
 :root[data-theme="dark"] {
@@ -33,6 +54,26 @@
   --severity-medium: #fbbf24;
   --severity-high: #fb923c;
   --severity-critical: #f87171;
+
+  --phase-screen-bg:     rgba(96, 165, 250, 0.12);
+  --phase-screen-border: rgba(96, 165, 250, 0.4);
+  --phase-screen-text:   #93c5fd;
+
+  --phase-allocate-bg:     rgba(251, 191, 36, 0.12);
+  --phase-allocate-border: rgba(251, 191, 36, 0.4);
+  --phase-allocate-text:   #fde68a;
+
+  --phase-score-bg:     rgba(167, 139, 250, 0.12);
+  --phase-score-border: rgba(167, 139, 250, 0.4);
+  --phase-score-text:   #c4b5fd;
+
+  --phase-approve-bg:     rgba(251, 113, 133, 0.12);
+  --phase-approve-border: rgba(251, 113, 133, 0.4);
+  --phase-approve-text:   #fda4af;
+
+  --phase-complete-bg:     rgba(74, 222, 128, 0.12);
+  --phase-complete-border: rgba(74, 222, 128, 0.4);
+  --phase-complete-text:   #86efac;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,5 +91,25 @@
     --severity-medium: #fbbf24;
     --severity-high: #fb923c;
     --severity-critical: #f87171;
+
+    --phase-screen-bg:     rgba(96, 165, 250, 0.12);
+    --phase-screen-border: rgba(96, 165, 250, 0.4);
+    --phase-screen-text:   #93c5fd;
+
+    --phase-allocate-bg:     rgba(251, 191, 36, 0.12);
+    --phase-allocate-border: rgba(251, 191, 36, 0.4);
+    --phase-allocate-text:   #fde68a;
+
+    --phase-score-bg:     rgba(167, 139, 250, 0.12);
+    --phase-score-border: rgba(167, 139, 250, 0.4);
+    --phase-score-text:   #c4b5fd;
+
+    --phase-approve-bg:     rgba(251, 113, 133, 0.12);
+    --phase-approve-border: rgba(251, 113, 133, 0.4);
+    --phase-approve-text:   #fda4af;
+
+    --phase-complete-bg:     rgba(74, 222, 128, 0.12);
+    --phase-complete-border: rgba(74, 222, 128, 0.4);
+    --phase-complete-text:   #86efac;
   }
 }
