@@ -1,8 +1,9 @@
 /* =============================================================
-   @ds/core — companyco brand
-   Hue-driven algorithmic product palette. Change --brand-hue to rebrand.
-   Editorial surface (amber / ink / paper) is theme-invariant and
-   remains hand-picked.
+   @ds/core — customer-lifecycle brand
+   Shared by cl-console and customer-backoffice — the customer
+   lifecycle admin family. Indigo / institutional-authority
+   positioning, distinct from the cyan pair used by CompanyCo and
+   automationArmoury.
    ============================================================= */
 
 /* Fonts are loaded by the consumer (e.g. @fontsource/inter,
@@ -16,8 +17,8 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Brand seed — change these to rebrand the product surface. */
-  --brand-hue: 210;      /* cyan — paired with automationArmoury */
-  --brand-chroma: 0.15;
+  --brand-hue: 265;      /* indigo */
+  --brand-chroma: 0.18;
 
   /* Derived accent tokens — light mode */
   --accent-1:        oklch(55% var(--brand-chroma) var(--brand-hue));
@@ -28,7 +29,8 @@
   --accent-ring:     color-mix(in oklch, var(--accent-1) 18%, transparent);
 
   /* Editorial surface — theme-invariant (always dark ink on warm paper).
-     Hand-picked to preserve the specific look of the auth/marketing layer. */
+     Shared across the customer-lifecycle family; mirrors the CompanyCo
+     editorial palette so AuthScreens feel visually cohesive. */
   --amber-50:  #fdf7ef;
   --amber-100: #f5e9d4;
   --amber-200: #e8b87a;

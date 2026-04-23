@@ -12,6 +12,7 @@
     "./tokens/utilities.css": "./tokens/utilities.css",
     "./brands/companyco.css": "./brands/companyco.css",
     "./brands/recruitment.css": "./brands/recruitment.css",
+    "./brands/customer-lifecycle.css": "./brands/customer-lifecycle.css",
     "./brands/automation.css": "./brands/automation.css",
     "./primitives/primitives.css": "./primitives/primitives.css",
     "./react": "./react/index.ts",
