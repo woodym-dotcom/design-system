@@ -1,0 +1,27 @@
+/* =============================================================
+   @ds/core — utility classes
+   Tailwind-native consumers can use these instead of redefining
+   radius / shadow / duration values in their own tailwind.config.
+
+   All values resolve from design.md tokens — do not hardcode.
+   ============================================================= */
+
+/* ---------- RADIUS ---------- */
+.rounded-ds-sm   { border-radius: var(--radius-sm); }
+.rounded-ds-md   { border-radius: var(--radius-md); }
+.rounded-ds-lg   { border-radius: var(--radius-lg); }
+.rounded-ds-pill { border-radius: var(--radius-pill); }
+
+/* ---------- SHADOWS ---------- */
+.shadow-ds-1 { box-shadow: var(--shadow-1); }
+.shadow-ds-2 { box-shadow: var(--shadow-2); }
+.shadow-ds-3 { box-shadow: var(--shadow-3); }
+
+/* ---------- TRANSITION DURATIONS ---------- */
+.duration-ds-fast { transition-duration: var(--duration-fast); }
+.duration-ds-base { transition-duration: var(--duration-base); }
+.duration-ds-med  { transition-duration: var(--duration-med); }
+.duration-ds-slow { transition-duration: var(--duration-slow); }
+
+/* ---------- TIMING FUNCTION ---------- */
+.ease-ds { transition-timing-function: var(--ease-standard); }
