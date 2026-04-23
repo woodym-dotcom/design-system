@@ -1,9 +1,12 @@
 /* =============================================================
    @ds/core — companyco brand
-   Product accent: indigo. Editorial (auth): amber + ink + paper.
+   Hue-driven algorithmic product palette. Change --brand-hue to rebrand.
+   Editorial surface (amber / ink / paper) is theme-invariant and
+   remains hand-picked.
    ============================================================= */
 
-/* Fonts are loaded by the consumer (e.g. @fontsource/inter, @fontsource/playfair-display, @fontsource/dm-sans, @fontsource/jetbrains-mono). */
+/* Fonts are loaded by the consumer (e.g. @fontsource/inter,
+   @fontsource/playfair-display, @fontsource/dm-sans, @fontsource/jetbrains-mono). */
 
 :root {
   /* FONT STACKS */
@@ -12,51 +15,49 @@
   --font-brand-sans: "DM Sans", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* INDIGO (product accent — light) */
-  --blue-50: #eef2ff;
-  --blue-100: #e0e7ff;
-  --blue-500: #6366f1;
-  --blue-600: #4f46e5;
-  --blue-700: #4338ca;
+  /* Brand seed — change these to rebrand the product surface. */
+  --brand-hue: 265;      /* indigo */
+  --brand-chroma: 0.18;
 
-  --accent-1: #4f46e5;
-  --accent-1-hover: #4338ca;
-  --accent-soft: #eef2ff;
-  --accent-border: #c7d2fe;
-  --accent-ring: rgba(79, 70, 229, 0.15);
-  --accent-text: #4f46e5;
+  /* Derived accent tokens — light mode */
+  --accent-1:        oklch(55% var(--brand-chroma) var(--brand-hue));
+  --accent-1-hover:  oklch(45% var(--brand-chroma) var(--brand-hue));
+  --accent-soft:     oklch(96% calc(var(--brand-chroma) * 0.25) var(--brand-hue));
+  --accent-border:   oklch(85% calc(var(--brand-chroma) * 0.5)  var(--brand-hue));
+  --accent-text:     oklch(35% var(--brand-chroma) var(--brand-hue));
+  --accent-ring:     color-mix(in oklch, var(--accent-1) 18%, transparent);
 
-  /* AMBER + INK + PAPER (brand / auth — theme-invariant, always dark) */
-  --amber-50: #fdf7ef;
+  /* Editorial surface — theme-invariant (always dark ink on warm paper).
+     Hand-picked to preserve the specific look of the auth/marketing layer. */
+  --amber-50:  #fdf7ef;
   --amber-100: #f5e9d4;
   --amber-200: #e8b87a;
   --amber-300: #d4a574;
   --amber-400: #c9956a;
   --amber-500: #b8865c;
   --amber-600: #9a6f48;
-  --ink-0: #0c0c0c;
-  --ink-1: #1a1a1a;
-  --paper: #fafaf8;
+  --ink-0:     #0c0c0c;
+  --ink-1:     #1a1a1a;
+  --paper:     #fafaf8;
   --paper-ink: #f5f0eb;
 }
 
-/* Dark — indigo stays but soft/border/ring shift */
 :root[data-theme="dark"] {
-  --accent-1: #818cf8;
-  --accent-1-hover: #a5b4fc;
-  --accent-soft: rgba(129, 140, 248, 0.12);
-  --accent-border: rgba(129, 140, 248, 0.4);
-  --accent-ring: rgba(129, 140, 248, 0.25);
-  --accent-text: #a5b4fc;
+  --accent-1:        oklch(75% calc(var(--brand-chroma) * 0.85) var(--brand-hue));
+  --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+  --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+  --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
+  --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
+  --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --accent-1: #818cf8;
-    --accent-1-hover: #a5b4fc;
-    --accent-soft: rgba(129, 140, 248, 0.12);
-    --accent-border: rgba(129, 140, 248, 0.4);
-    --accent-ring: rgba(129, 140, 248, 0.25);
-    --accent-text: #a5b4fc;
+    --accent-1:        oklch(75% calc(var(--brand-chroma) * 0.85) var(--brand-hue));
+    --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+    --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+    --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
+    --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
+    --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
   }
 }

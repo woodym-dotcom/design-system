@@ -1,6 +1,7 @@
 /* =============================================================
    @ds/core — recruitment-woody brand
-   Product accent: terracotta. Inter-only.
+   Hue-driven algorithmic palette. Change --brand-hue to rebrand.
+   All accent tokens derive from the hue/chroma pair via oklch().
    ============================================================= */
 
 /* Fonts are loaded by the consumer (e.g. @fontsource/inter). */
@@ -9,53 +10,35 @@
   --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --terracotta-50: #fdf2ef;
-  --terracotta-100: #fae3db;
-  --terracotta-200: #f5c7b8;
-  --terracotta-300: #e8a48f;
-  --terracotta-400: #db7f65;
-  --terracotta-500: #c75b3a;
-  --terracotta-600: #a74a2f;
-  --terracotta-700: #883c26;
-  --terracotta-800: #6e311f;
-  --terracotta-900: #5a281a;
+  /* Brand seed — change these two values to rebrand. */
+  --brand-hue: 30;       /* warm orange / ember */
+  --brand-chroma: 0.15;
 
-  --accent-1: #c75b3a;
-  --accent-1-hover: #a74a2f;
-  --accent-soft: #fdf2ef;
-  --accent-border: #f5c7b8;
-  --accent-ring: rgba(199, 91, 58, 0.18);
-  --accent-text: #883c26;
-
-  /* HSL channels for Tailwind bridge */
-  --accent-1-hsl: 14 56% 51%;
-  --accent-soft-hsl: 18 75% 96%;
-  --accent-border-hsl: 14 78% 84%;
-  --accent-text-hsl: 14 56% 34%;
+  /* Derived accent tokens — light mode */
+  --accent-1:        oklch(55% var(--brand-chroma) var(--brand-hue));
+  --accent-1-hover:  oklch(45% var(--brand-chroma) var(--brand-hue));
+  --accent-soft:     oklch(96% calc(var(--brand-chroma) * 0.25) var(--brand-hue));
+  --accent-border:   oklch(85% calc(var(--brand-chroma) * 0.5)  var(--brand-hue));
+  --accent-text:     oklch(35% var(--brand-chroma) var(--brand-hue));
+  --accent-ring:     color-mix(in oklch, var(--accent-1) 18%, transparent);
 }
 
 :root[data-theme="dark"] {
-  --accent-1: #e8a48f;
-  --accent-1-hover: #f5c7b8;
-  --accent-soft: rgba(232, 164, 143, 0.12);
-  --accent-border: rgba(232, 164, 143, 0.4);
-  --accent-ring: rgba(232, 164, 143, 0.28);
-  --accent-text: #f5c7b8;
-
-  --accent-1-hsl: 14 67% 74%;
-  --accent-text-hsl: 14 78% 84%;
+  --accent-1:        oklch(75% calc(var(--brand-chroma) * 0.85) var(--brand-hue));
+  --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+  --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+  --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
+  --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
+  --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --accent-1: #e8a48f;
-    --accent-1-hover: #f5c7b8;
-    --accent-soft: rgba(232, 164, 143, 0.12);
-    --accent-border: rgba(232, 164, 143, 0.4);
-    --accent-ring: rgba(232, 164, 143, 0.28);
-    --accent-text: #f5c7b8;
-
-    --accent-1-hsl: 14 67% 74%;
-    --accent-text-hsl: 14 78% 84%;
+    --accent-1:        oklch(75% calc(var(--brand-chroma) * 0.85) var(--brand-hue));
+    --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+    --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+    --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
+    --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
+    --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
   }
 }

@@ -1,7 +1,7 @@
 /* =============================================================
    @ds/core — automationArmoury brand
-   Ops/automation platform. Cyan accent, mono-forward.
-   No editorial surface.
+   Hue-driven algorithmic product palette. Change --brand-hue to rebrand.
+   Runtime status colors remain hand-picked viz tokens.
    ============================================================= */
 
 /* Fonts are loaded by the consumer (e.g. @fontsource/inter, @fontsource/jetbrains-mono). */
@@ -10,61 +10,56 @@
   --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --cyan-50:  #ecfeff;
-  --cyan-100: #cffafe;
-  --cyan-200: #a5f3fc;
-  --cyan-300: #67e8f9;
-  --cyan-400: #22d3ee;
-  --cyan-500: #06b6d4;
-  --cyan-600: #0891b2;
-  --cyan-700: #0e7490;
-  --cyan-800: #155e75;
-  --cyan-900: #164e63;
+  /* Brand seed — change these to rebrand. */
+  --brand-hue: 210;      /* cyan */
+  --brand-chroma: 0.15;
 
-  --accent-1: #06b6d4;
-  --accent-1-hover: #0891b2;
-  --accent-soft: #ecfeff;
-  --accent-border: #a5f3fc;
-  --accent-ring: rgba(6, 182, 212, 0.18);
-  --accent-text: #0e7490;
+  /* Derived accent tokens — light mode */
+  --accent-1:        oklch(55% var(--brand-chroma) var(--brand-hue));
+  --accent-1-hover:  oklch(45% var(--brand-chroma) var(--brand-hue));
+  --accent-soft:     oklch(96% calc(var(--brand-chroma) * 0.25) var(--brand-hue));
+  --accent-border:   oklch(85% calc(var(--brand-chroma) * 0.5)  var(--brand-hue));
+  --accent-text:     oklch(35% var(--brand-chroma) var(--brand-hue));
+  --accent-ring:     color-mix(in oklch, var(--accent-1) 18%, transparent);
 
+  /* Gunmetal dark surface — automation-specific dark page bg. */
   --gunmetal-0: #0b1220;
   --gunmetal-1: #111827;
   --gunmetal-2: #1f2937;
 
-  --runtime-running: var(--cyan-500);
+  /* Runtime status colors — hand-picked viz tokens. */
+  --runtime-running: oklch(65% 0.15 var(--brand-hue));
   --runtime-queued:  #f59e0b;
   --runtime-success: #16a34a;
   --runtime-failed:  #dc2626;
   --runtime-paused:  #6b7280;
 
-  /* Editorial/auth tokens — AA currently reuses companyco's editorial
-     palette via the shared AuthScreen. Replace when AA gets its own
-     auth surface. Theme-invariant (auth is always dark-ink). */
-  --amber-50: #fdf7ef;
+  /* Editorial/auth tokens — shared AuthScreen from companyco brand.
+     Theme-invariant. Replace when AA gets its own auth surface. */
+  --amber-50:  #fdf7ef;
   --amber-100: #f5e9d4;
   --amber-200: #e8b87a;
   --amber-300: #d4a574;
   --amber-400: #c9956a;
   --amber-500: #b8865c;
   --amber-600: #9a6f48;
-  --ink-0: #0c0c0c;
-  --ink-1: #1a1a1a;
-  --paper: #fafaf8;
+  --ink-0:     #0c0c0c;
+  --ink-1:     #1a1a1a;
+  --paper:     #fafaf8;
   --paper-ink: #f5f0eb;
-  --font-brand: "Playfair Display", Georgia, serif;
+  --font-brand:      "Playfair Display", Georgia, serif;
   --font-brand-sans: "DM Sans", sans-serif;
 }
 
 :root[data-theme="dark"] {
-  --accent-1: #22d3ee;
-  --accent-1-hover: #67e8f9;
-  --accent-soft: rgba(34, 211, 238, 0.12);
-  --accent-border: rgba(34, 211, 238, 0.4);
-  --accent-ring: rgba(34, 211, 238, 0.28);
-  --accent-text: #67e8f9;
+  --accent-1:        oklch(75% calc(var(--brand-chroma) * 0.85) var(--brand-hue));
+  --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+  --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+  --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
+  --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
+  --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
 
-  --runtime-running: #22d3ee;
+  --runtime-running: oklch(75% 0.13 var(--brand-hue));
   --runtime-queued:  #fbbf24;
   --runtime-success: #4ade80;
   --runtime-failed:  #f87171;
@@ -73,14 +68,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --accent-1: #22d3ee;
-    --accent-1-hover: #67e8f9;
-    --accent-soft: rgba(34, 211, 238, 0.12);
-    --accent-border: rgba(34, 211, 238, 0.4);
-    --accent-ring: rgba(34, 211, 238, 0.28);
-    --accent-text: #67e8f9;
+    --accent-1:        oklch(75% calc(var(--brand-chroma) * 0.85) var(--brand-hue));
+    --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+    --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+    --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
+    --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
+    --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
 
-    --runtime-running: #22d3ee;
+    --runtime-running: oklch(75% 0.13 var(--brand-hue));
     --runtime-queued:  #fbbf24;
     --runtime-success: #4ade80;
     --runtime-failed:  #f87171;
