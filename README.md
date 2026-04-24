@@ -43,7 +43,10 @@ All tokens are defined for **both light and dark**. Resolution:
 
 1. `html[data-theme="dark"]` → dark.
 2. `html[data-theme="light"]` → light (wins over OS pref).
-3. No attribute → light by default. Persist `system` explicitly if a consumer wants OS-follow behaviour.
+3. No attribute → follows OS preference.
+4. If no preference is available, light remains the fallback.
+
+Out of the box, both themes should be readable. Consumers should not rely on forcing light mode to hide dark-theme contrast bugs.
 
 To let users toggle, set `document.documentElement.dataset.theme = "dark" | "light"` (persist in localStorage). If a consumer wants OS-follow behaviour, persist `system` and omit the attribute. Companyco's `--amber/--ink/--paper` are theme-invariant — the auth/editorial surface stays dark on purpose.
 

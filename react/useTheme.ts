@@ -5,9 +5,9 @@ export type Theme = "light" | "dark" | "system";
 const STORAGE_KEY = "ds-theme";
 
 function read(): Theme {
-  if (typeof window === "undefined") return "light";
+  if (typeof window === "undefined") return "system";
   const v = window.localStorage.getItem(STORAGE_KEY);
-  return v === "light" || v === "dark" || v === "system" ? v : "light";
+  return v === "light" || v === "dark" || v === "system" ? v : "system";
 }
 
 function apply(theme: Theme) {
