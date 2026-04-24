@@ -98,17 +98,17 @@
   color-scheme: dark;
 
   --surface-0: #0b1220;   /* page background — near-black cool */
-  --surface-1: #111827;   /* raised row bg */
-  --surface-2: #1f2937;   /* hover / secondary bg */
-  --surface-3: #374151;
+  --surface-1: #111a2b;   /* raised card / panel bg */
+  --surface-2: #192538;   /* hover / secondary bg */
+  --surface-3: #273449;
 
-  --border-1: #1f2937;
-  --border-2: #374151;
+  --border-1: #2d3a4f;
+  --border-2: #435169;
 
   --text-1: #f9fafb;
-  --text-2: #e5e7eb;
-  --text-3: #9ca3af;
-  --text-4: #6b7280;
+  --text-2: #dbe3ee;
+  --text-3: #a7b3c5;
+  --text-4: #7f8ba0;
 
   --error: #f87171;
   --error-light: rgba(248, 113, 113, 0.12);
@@ -143,17 +143,17 @@
     color-scheme: dark;
 
     --surface-0: #0b1220;
-    --surface-1: #111827;
-    --surface-2: #1f2937;
-    --surface-3: #374151;
+    --surface-1: #111a2b;
+    --surface-2: #192538;
+    --surface-3: #273449;
 
-    --border-1: #1f2937;
-    --border-2: #374151;
+    --border-1: #2d3a4f;
+    --border-2: #435169;
 
     --text-1: #f9fafb;
-    --text-2: #e5e7eb;
-    --text-3: #9ca3af;
-    --text-4: #6b7280;
+    --text-2: #dbe3ee;
+    --text-3: #a7b3c5;
+    --text-4: #7f8ba0;
 
     --error: #f87171;
     --error-light: rgba(248, 113, 113, 0.12);

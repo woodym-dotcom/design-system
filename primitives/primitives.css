@@ -9,7 +9,7 @@
 .cc-panel {
   border: 1px solid var(--border-1);
   border-radius: var(--radius-lg);
-  background: var(--surface-0);
+  background: var(--surface-1);
   padding: var(--space-5);
 }
 
@@ -17,7 +17,7 @@
 .cc-card {
   border: 1px solid var(--border-1);
   border-radius: var(--radius-lg);
-  background: var(--surface-0);
+  background: var(--surface-1);
   padding: var(--space-5);
   box-shadow: var(--shadow-1);
   transition: box-shadow var(--duration-base) var(--ease-standard);
@@ -207,6 +207,7 @@
 
 .cc-field input,
 .cc-field select,
+.cc-field textarea,
 .cc-input {
   width: 100%;
   min-height: 36px;
@@ -217,33 +218,67 @@
   color: var(--text-1);
   font-size: var(--text-base);
   transition: border-color var(--duration-base) var(--ease-standard),
-              box-shadow var(--duration-base) var(--ease-standard);
+              box-shadow var(--duration-base) var(--ease-standard),
+              background-color var(--duration-base) var(--ease-standard),
+              color var(--duration-base) var(--ease-standard);
+}
+
+.cc-field input,
+.cc-field textarea,
+.cc-input:not(select),
+input.cc-input,
+textarea.cc-input {
+  appearance: none;
+}
+
+.cc-field select,
+select.cc-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  color-scheme: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23a7b3c5' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 6px;
+  padding-right: 32px;
 }
 
 .cc-field input:focus,
 .cc-field select:focus,
+.cc-field textarea:focus,
 .cc-input:focus {
   outline: none;
   border-color: var(--accent-1);
   box-shadow: 0 0 0 2px var(--accent-ring);
 }
 
-.cc-input::placeholder { color: var(--text-4); }
+.cc-field textarea {
+  min-height: 96px;
+  resize: vertical;
+}
 
-.cc-field input[readonly] {
+.cc-input::placeholder,
+.cc-field textarea::placeholder,
+.cc-field input::placeholder { color: var(--text-4); }
+
+.cc-field input[readonly],
+.cc-field textarea[readonly],
+.cc-input[readonly] {
   background: var(--surface-2);
   color: var(--text-3);
 }
 
 .cc-field--error input,
-.cc-field--error select {
+.cc-field--error select,
+.cc-field--error textarea,
+.cc-input[aria-invalid="true"] {
   border-color: var(--error);
   background: var(--error-light);
 }
 
-.cc-field select { color-scheme: light; }
-
-.cc-field select option {
+.cc-field select option,
+select.cc-input option {
   color: var(--text-1);
   background: var(--surface-0);
 }
@@ -421,7 +456,7 @@
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--border-1);
   border-radius: var(--radius-md);
-  background: var(--surface-0);
+  background: var(--surface-1);
   color: inherit;
   text-align: left;
   cursor: pointer;
@@ -461,7 +496,7 @@
   padding: var(--space-5);
   border: 1px solid var(--border-1);
   border-radius: var(--radius-md);
-  background: var(--surface-0);
+  background: var(--surface-1);
 }
 
 /* ---------- WORKSPACE LAYOUT ---------- */
@@ -566,7 +601,7 @@
   overflow: auto;
   border: 1px solid var(--border-1);
   border-radius: var(--radius-md);
-  background: var(--surface-0);
+  background: var(--surface-1);
   box-shadow: var(--shadow-2);
 }
 
@@ -575,7 +610,7 @@
   padding: var(--space-3) var(--space-3);
   border: 0;
   border-radius: var(--radius-sm);
-  background: var(--surface-0);
+  background: var(--surface-1);
   color: var(--text-1);
   font: inherit;
   font-size: var(--text-base);
@@ -628,7 +663,7 @@
   letter-spacing: 0.06em;
   color: var(--text-4);
   border-bottom: 1px solid var(--border-1);
-  background: var(--surface-0);
+  background: var(--surface-1);
 }
 .cc-table tbody td {
   padding: var(--space-4);
@@ -1066,7 +1101,7 @@
   z-index: 50;
 }
 .cc-modal {
-  background: var(--surface-0);
+  background: var(--surface-1);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
   min-width: 420px;
