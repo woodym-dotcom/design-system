@@ -29,21 +29,22 @@ const labels: Record<Theme, string> = {
 
 export interface ThemeToggleProps {
   className?: string;
+  includeSystem?: boolean;
 }
 
-export function ThemeToggle({ className }: ThemeToggleProps) {
-  const { theme, cycle } = useTheme();
+export function ThemeToggle({ className, includeSystem = false }: ThemeToggleProps) {
+  const { theme, setTheme, cycle } = useTheme();
   const classes = ["cc-btn", "cc-btn--ghost", "cc-btn--icon"];
   if (className) classes.push(className);
   return (
     <button
       type="button"
       className={classes.join(" ")}
-      onClick={cycle}
-      title={labels[theme] + " (click to cycle)"}
-      aria-label={labels[theme]}
+      onClick={includeSystem ? cycle : () => setTheme(theme === "dark" ? "light" : "dark")}
+      title={includeSystem ? labels[theme] + " (click to cycle)" : `${theme === "dark" ? "Dark" : "Light"} theme (click to toggle)`}
+      aria-label={includeSystem ? labels[theme] : `${theme === "dark" ? "Dark" : "Light"} theme`}
     >
-      {icons[theme]}
+      {icons[theme === "system" && !includeSystem ? "light" : theme]}
     </button>
   );
 }

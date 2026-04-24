@@ -26,6 +26,7 @@
   --accent-soft:     oklch(96% calc(var(--brand-chroma) * 0.25) var(--brand-hue));
   --accent-border:   oklch(85% calc(var(--brand-chroma) * 0.5)  var(--brand-hue));
   --accent-text:     oklch(35% var(--brand-chroma) var(--brand-hue));
+  --accent-contrast: #ffffff;
   --accent-ring:     color-mix(in oklch, var(--accent-1) 18%, transparent);
 
   /* Editorial surface — theme-invariant (always dark ink on warm paper).
@@ -48,6 +49,7 @@
   --accent-1:        oklch(75% calc(var(--brand-chroma) * 0.85) var(--brand-hue));
   --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
   --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+  --accent-contrast: #111827;
   --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
   --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
   --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
@@ -58,6 +60,7 @@
     --accent-1:        oklch(75% calc(var(--brand-chroma) * 0.85) var(--brand-hue));
     --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
     --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
+    --accent-contrast: #111827;
     --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
     --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
     --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);

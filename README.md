@@ -43,9 +43,9 @@ All tokens are defined for **both light and dark**. Resolution:
 
 1. `html[data-theme="dark"]` → dark.
 2. `html[data-theme="light"]` → light (wins over OS pref).
-3. No attribute → follows `prefers-color-scheme` (OS).
+3. No attribute → light by default. Persist `system` explicitly if a consumer wants OS-follow behaviour.
 
-To let users toggle, set `document.documentElement.dataset.theme = "dark" | "light"` (persist in localStorage). To follow OS only, set nothing. Companyco's `--amber/--ink/--paper` are theme-invariant — the auth/editorial surface stays dark on purpose.
+To let users toggle, set `document.documentElement.dataset.theme = "dark" | "light"` (persist in localStorage). If a consumer wants OS-follow behaviour, persist `system` and omit the attribute. Companyco's `--amber/--ink/--paper` are theme-invariant — the auth/editorial surface stays dark on purpose.
 
 ## Contribution rules
 
