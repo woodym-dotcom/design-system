@@ -1142,6 +1142,137 @@ select.cc-input option {
   animation: cc-fade-in-up var(--duration-slow) var(--ease-standard);
 }
 
+/* ---------- CHART CARD ---------- */
+.cc-chart-card {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.cc-chart-card__header {
+  margin-bottom: 0;
+}
+
+.cc-chart-card__title-wrap {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.cc-chart-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cc-chart-card__title {
+  margin: 0;
+}
+
+.cc-chart-card__meta {
+  text-align: right;
+}
+
+.cc-chart-card__info {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid var(--border-2);
+  border-radius: 999px;
+  background: var(--surface-0);
+  color: var(--text-3);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cc-chart-card__info:hover {
+  color: var(--text-1);
+  border-color: var(--accent-border);
+}
+
+.cc-chart-card__description {
+  margin: 0;
+}
+
+.cc-chart-card__toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.cc-chart-card__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--border-1);
+  border-radius: 999px;
+  background: var(--surface-1);
+  color: var(--text-2);
+  font: inherit;
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+.cc-chart-card__toggle.is-active {
+  background: color-mix(in oklch, var(--surface-0) 82%, var(--accent-soft));
+  color: var(--text-1);
+  border-color: var(--accent-border);
+}
+
+.cc-chart-card__toggle-swatch {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.cc-chart-card__plot {
+  min-height: 12.5rem;
+}
+
+.cc-chart-card__plot--compact {
+  height: 14rem;
+}
+
+.cc-chart-card__plot--mid {
+  height: 12.5rem;
+}
+
+.cc-chart-card__detail {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--surface-0) 90%, var(--surface-1));
+}
+
+.cc-chart-card__detail-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-3);
+}
+
+.cc-chart-card__detail-list {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.cc-chart-card__detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.cc-chart-card__detail-series {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-2);
+}
+
 @media (max-width: 768px) {
   .cc-field input,
   .cc-field select {
