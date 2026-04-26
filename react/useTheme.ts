@@ -7,7 +7,7 @@ const STORAGE_KEY = "ds-theme";
 function read(): Theme {
   if (typeof window === "undefined") return "system";
   const v = window.localStorage.getItem(STORAGE_KEY);
-  return v === "light" || v === "dark" ? v : "system";
+  return v === "light" || v === "dark" || v === "system" ? v : "system";
 }
 
 function apply(theme: Theme) {
