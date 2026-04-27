@@ -2016,3 +2016,40 @@ select.cc-input option {
 
 /* Filler element used to push following children to the end of a flex line. */
 .cc-flex-grow { flex: 1; }
+
+/* ---------- CHART ---------- */
+/* Hand-rolled SVG chart primitives. Consumers compute geometry; the DS owns
+   stroke weight, dash patterns, point sizes, and axis text. */
+
+.cc-chart-axis {
+  stroke: var(--border-1);
+  stroke-width: 1;
+  fill: none;
+}
+.cc-chart-grid {
+  stroke: var(--border-1);
+  stroke-dasharray: 3 3;
+  stroke-width: 1;
+  fill: none;
+}
+.cc-chart-axis-text {
+  fill: var(--text-3);
+  font-size: var(--text-micro);
+}
+.cc-chart-line {
+  stroke: var(--accent-1);
+  stroke-width: 2;
+  fill: none;
+}
+.cc-chart-point { fill: var(--accent-1); }
+.cc-chart-point--violation { fill: var(--error); }
+.cc-chart-marker--deploy {
+  stroke: var(--accent-1);
+  stroke-dasharray: 3 3;
+  stroke-width: 1;
+}
+.cc-chart-marker--violation {
+  stroke: var(--error);
+  stroke-opacity: 0.25;
+  stroke-width: 1;
+}
