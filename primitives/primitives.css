@@ -2309,3 +2309,90 @@ select.cc-input option {
   opacity: 0.7;
 }
 
+/* ---------- DIFF ----------
+   Side-by-side or unified diff view. Composes with cc-split for the
+   resizable two-pane variant; standalone unified mode renders inside
+   any cc-stack. Consumers compute hunks; the primitive owns colour
+   and density. */
+.cc-diff {
+  display: grid;
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: var(--surface-0);
+  overflow: hidden;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+.cc-diff__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border-1);
+  background: var(--surface-1);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  color: var(--text-3);
+}
+.cc-diff__title { color: var(--text-1); font-weight: 600; }
+
+/* Two-column body grid: optional gutter + line content. */
+.cc-diff__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow-x: auto;
+}
+.cc-diff--split .cc-diff__body {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.cc-diff__pane {
+  min-width: 0;
+}
+.cc-diff__pane + .cc-diff__pane {
+  border-left: 1px solid var(--border-1);
+}
+
+.cc-diff__line {
+  display: grid;
+  grid-template-columns: 36px 14px 1fr;
+  gap: var(--space-2);
+  padding: 0 var(--space-3);
+  white-space: pre;
+  color: var(--text-2);
+}
+.cc-diff__line--context  { background: transparent; }
+.cc-diff__line--add      { background: color-mix(in oklch, var(--success) 10%, transparent); color: var(--text-1); }
+.cc-diff__line--remove   { background: color-mix(in oklch, var(--error) 10%, transparent); color: var(--text-1); }
+.cc-diff__line--meta     { background: var(--surface-1); color: var(--text-3); font-style: italic; }
+.cc-diff__line--placeholder { background: color-mix(in oklch, var(--text-3) 6%, transparent); }
+
+.cc-diff__lineno {
+  color: var(--text-4);
+  text-align: right;
+  user-select: none;
+}
+.cc-diff__sigil {
+  text-align: center;
+  user-select: none;
+  color: var(--text-4);
+}
+.cc-diff__line--add .cc-diff__sigil    { color: var(--success); font-weight: 600; }
+.cc-diff__line--remove .cc-diff__sigil { color: var(--error);   font-weight: 600; }
+
+/* Counts shown in the header (e.g. "+12 -4"). */
+.cc-diff__count--add    { color: var(--success); }
+.cc-diff__count--remove { color: var(--error); }
+
+/* Empty / no-changes state. */
+.cc-diff__empty {
+  padding: var(--space-5);
+  text-align: center;
+  color: var(--text-3);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+}
+
