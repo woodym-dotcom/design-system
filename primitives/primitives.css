@@ -75,6 +75,17 @@
 .cc-stack--tight { --stack-gap: var(--space-2); }
 .cc-stack--loose { --stack-gap: var(--space-5); }
 
+/* Divided stack — each child but the last gets a 1px bottom rule with
+   bottom padding equal to the stack gap. For audit lists, channel
+   breakdowns, etc. */
+.cc-stack--divided > * + * {
+  border-top: 1px solid var(--border-1);
+  padding-top: var(--stack-gap, var(--space-4));
+}
+
+/* Full-width child inside any cc-grid-* container. */
+.cc-grid-full { grid-column: 1 / -1; }
+
 /* 2-column responsive grid that collapses to 1 column on narrow screens. */
 .cc-grid-2 {
   display: grid;
