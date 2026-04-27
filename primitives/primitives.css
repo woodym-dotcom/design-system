@@ -2594,3 +2594,69 @@ select.cc-input option {
 .cc-toast--error   .cc-toast__progress { background: var(--error); }
 .cc-toast--warning .cc-toast__progress { background: var(--warning); }
 
+/* ---------- BULK BAR ----------
+   Sticky bottom-anchored action bar that animates in when ≥1 row is
+   selected. Owns its own scrim-free presentation — no backdrop, just
+   a hovering pill at the bottom centre of the content pane. */
+.cc-bulk-bar {
+  position: sticky;
+  bottom: var(--space-4);
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  background: var(--surface-0);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-2);
+  font-size: var(--text-sm);
+  z-index: 20;
+  animation: cc-bulk-bar-enter var(--duration-med) var(--ease-standard);
+}
+@keyframes cc-bulk-bar-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.cc-bulk-bar.is-leaving {
+  animation: cc-bulk-bar-leave var(--duration-fast) var(--ease-standard) forwards;
+}
+@keyframes cc-bulk-bar-leave {
+  to { opacity: 0; transform: translateY(8px); }
+}
+
+.cc-bulk-bar__count {
+  font-weight: 600;
+  color: var(--text-1);
+}
+.cc-bulk-bar__count strong {
+  color: var(--accent-1);
+  margin-right: var(--space-1);
+}
+.cc-bulk-bar__divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border-1);
+}
+.cc-bulk-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Row selection — cc-record-row.is-multi-selected and table tr.is-multi-selected */
+.cc-record-row.is-multi-selected,
+.cc-record-card.is-multi-selected,
+.cc-table tbody tr.is-multi-selected {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+
+/* Checkbox cell — slim leading column. */
+.cc-table th.cc-table__select,
+.cc-table td.cc-table__select {
+  width: 28px;
+  padding: 0 var(--space-2);
+  text-align: center;
+}
+
