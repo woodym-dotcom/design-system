@@ -354,18 +354,9 @@ div.cc-progress > .cc-progress__bar {
   color: var(--success-text, var(--success, #2a8c4a));
 }
 
-/* Code block — JSON dumps, payload previews. */
-.cc-codeblock {
-  margin: 0;
-  padding: var(--space-3);
-  background: var(--surface-2);
-  border-radius: var(--radius-md);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  line-height: 1.5;
-  overflow: auto;
-  color: var(--text-2);
-}
+/* cc-codeblock is an alias for cc-payload-preview (defined earlier).
+   Both render JSON dumps, payload previews, and code snippets with the
+   surface-1 + border-1 + radius-md treatment per design.md. */
 
 /* List utility — strips browser margins, sets sensible indent. */
 .cc-list { margin: 0; padding-left: var(--space-5); }
@@ -1010,6 +1001,7 @@ select.cc-input option {
 
 /* ---------- PAYLOAD PREVIEW ---------- */
 .cc-payload-preview,
+.cc-codeblock,
 .payload-preview {
   margin: 0;
   padding: var(--space-4);
@@ -1790,9 +1782,9 @@ select.cc-input option {
 /* Icon button — square, bordered, surface background. For top-bar
    notification bells, search triggers, etc. */
 .cc-icon-button {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-md);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-1);
   background: var(--surface-0);
   cursor: pointer;
@@ -1919,16 +1911,13 @@ select.cc-input option {
   font-family: inherit;
   line-height: 1.6;
 }
-.cc-menu__item:hover:not([aria-current="page"]):not([disabled]) { background: var(--surface-1); }
+.cc-menu__item:hover:not([aria-current="page"]):not([disabled]) { background: var(--accent-soft); }
 .cc-menu__item:disabled { cursor: wait; opacity: 0.6; }
 .cc-menu__item[aria-current="page"] {
   font-weight: 600;
   background: var(--surface-2);
   cursor: default;
 }
-
-/* Click-outside scrim — full-viewport invisible layer behind a popover. */
-.cc-scrim { position: fixed; inset: 0; z-index: 900; }
 
 /* Fixed-position menu — for header drop-downs (UserMenu). */
 .cc-menu--fixed-top-right {
@@ -1942,25 +1931,9 @@ select.cc-input option {
 /* Divider line. */
 .cc-divider { border-top: 1px solid var(--border-1); }
 
-/* ---------- MODAL ---------- */
-/* Centered modal backdrop + dialog. For command palette, confirm dialogs. */
-.cc-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 12vh;
-  z-index: 1000;
-}
-.cc-modal {
-  width: min(560px, 90vw);
-  background: var(--surface-0);
-  border-radius: var(--radius-md);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-}
+/* ---------- MODAL EXTENSIONS ---------- */
+/* The base .cc-modal and .cc-scrim are defined earlier. These are the
+   sizing and structural extensions for command-palette / dialog use. */
 .cc-modal--lg { width: min(820px, 92vw); }
 
 /* Bare unstyled input — for inline search inputs (palette, filter rows). */
