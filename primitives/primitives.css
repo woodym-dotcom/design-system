@@ -910,6 +910,35 @@ select.cc-input option {
   background: var(--accent-soft);
 }
 
+/* Stacked variant of cc-record-row — multi-line clickable card.
+   Use when a list item benefits from line-breaks (name row, then meta
+   row, then chips row) instead of a single horizontal record. Same
+   selection / hover semantics as cc-record-row so the two share a
+   shared mental model. */
+.cc-record-card {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+  appearance: none;
+  text-align: left;
+  padding: var(--space-3);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: var(--surface-0);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--duration-base) var(--ease-standard),
+              border-color var(--duration-base) var(--ease-standard);
+}
+.cc-record-card:hover { background: var(--surface-1); }
+.cc-record-card[aria-current="page"],
+.cc-record-card.is-selected {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+}
+
+
 .cc-record-main {
   display: grid;
   gap: 2px;
