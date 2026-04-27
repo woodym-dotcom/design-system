@@ -79,7 +79,7 @@
 /* Vertical stack with a configurable gap (uses --stack-gap if set; else default). */
 .cc-stack {
   display: grid;
-  gap: var(--stack-gap, var(--space-4));
+  gap: var(--stack-gap, var(--density-stack-gap, var(--space-4)));
 }
 .cc-stack--tight { --stack-gap: var(--space-2); }
 .cc-stack--loose { --stack-gap: var(--space-5); }
@@ -890,8 +890,9 @@ select.cc-input option {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  min-height: var(--density-row-min, 36px);
   gap: var(--space-4);
-  padding: var(--space-3) var(--space-4);
+  padding: var(--density-row-pad-y, var(--space-3)) var(--density-row-pad-x, var(--space-4));
   border: 1px solid var(--border-1);
   border-radius: var(--radius-md);
   background: var(--surface-1);
@@ -1141,7 +1142,7 @@ select.cc-input option {
   background: var(--surface-1);
 }
 .cc-table tbody td {
-  padding: var(--space-4);
+  padding: var(--density-table-pad, var(--space-4));
   border-bottom: 1px solid var(--border-1);
   color: var(--text-2);
 }
@@ -1294,7 +1295,7 @@ select.cc-input option {
 
 /* ---------- CONTENT PANE ---------- */
 .cc-main { display: grid; grid-template-rows: 40px 1fr; overflow: hidden; }
-.cc-content { padding: var(--space-5); overflow: auto; }
+.cc-content { padding: var(--density-content-pad, var(--space-5)); overflow: auto; }
 
 /* ---------- AUTH SCREEN (simple centered layout) ----------
    Clean centered sign-in surface: full-viewport min-height, muted
