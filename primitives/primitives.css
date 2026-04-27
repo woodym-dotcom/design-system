@@ -152,6 +152,24 @@
   background: var(--surface-2);
 }
 
+/* Accent-soft background variant — for the "current node" in a flow map
+   or any subtle highlight that isn't a Chip. */
+.cc-card--accent {
+  background: var(--accent-soft, color-mix(in oklch, var(--accent-1) 12%, transparent));
+  border-color: var(--accent-border, var(--border-2));
+}
+
+/* Pill — rounded inline tag, simpler than cc-chip (no fixed font-size,
+   no border-color rules). For decorative node labels in flow maps. */
+.cc-pill {
+  display: inline-block;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-pill);
+  background: var(--surface-0);
+  font-size: var(--text-sm);
+}
+
 /* Centered single-row container — typical use: a single floating
    tile under a swimlane, centred horizontally. */
 .cc-row--center { justify-content: center; }
@@ -179,6 +197,10 @@
 
 /* Capitalise first letter — for enum-style strings. */
 .cc-capitalize { text-transform: capitalize; }
+
+/* Text alignment utilities. */
+.cc-text-center { text-align: center; }
+.cc-text-right { text-align: right; }
 
 /* 2-column responsive grid that collapses to 1 column on narrow screens. */
 .cc-grid-2 {
