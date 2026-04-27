@@ -1725,3 +1725,30 @@ select.cc-input option {
     grid-template-columns: 1fr;
   }
 }
+
+/* Bare button — strips browser button chrome for icon-only inline actions
+   (copy buttons, close × glyphs in row content). Use only when the
+   surrounding context provides the clickable affordance. */
+.cc-bare-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+.cc-bare-button:focus-visible { outline: 2px solid var(--accent-1); outline-offset: 2px; border-radius: var(--radius-sm); }
+
+/* Visually-hidden — accessible labels not shown to sighted users. */
+.cc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
