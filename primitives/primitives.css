@@ -232,6 +232,18 @@
   color: var(--text-3);
   font-size: var(--text-sm);
 }
+.cc-banner--error {
+  background: var(--error-light, color-mix(in oklch, var(--error, #c00) 15%, transparent));
+  color: var(--error, #c00);
+}
+.cc-banner--warning {
+  background: var(--warning-light, color-mix(in oklch, var(--warning, #d68a18) 15%, transparent));
+  color: var(--warning-text, var(--warning, #b97509));
+}
+.cc-banner--success {
+  background: var(--success-light, color-mix(in oklch, var(--success, #2a8c4a) 15%, transparent));
+  color: var(--success-text, var(--success, #2a8c4a));
+}
 
 /* Code block — JSON dumps, payload previews. */
 .cc-codeblock {
