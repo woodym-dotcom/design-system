@@ -195,6 +195,27 @@
   color: var(--text-3);
   font-size: var(--text-sm);
 }
+
+/* Code block — JSON dumps, payload previews. */
+.cc-codeblock {
+  margin: 0;
+  padding: var(--space-3);
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  overflow: auto;
+  color: var(--text-2);
+}
+
+/* List utility — strips browser margins, sets sensible indent. */
+.cc-list { margin: 0; padding-left: var(--space-5); }
+.cc-list li + li { margin-top: var(--space-1); }
+
+/* Fieldset utility — strips browser chrome so fieldsets group radios/checks
+   without a visible box. Pair with a t-label legend. */
+.cc-fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
 .cc-text-error { color: var(--color-danger, var(--error, #c00)); }
 .cc-text-eyebrow {
   font-size: var(--text-xs);
@@ -367,6 +388,14 @@
   border-color: var(--accent-border);
   color: var(--accent-text);
 }
+
+/* Use on a <button> rendered as a chip — toggle behaviour. */
+.cc-chip--button {
+  cursor: pointer;
+  font-family: inherit;
+  outline: none;
+}
+.cc-chip--button:focus-visible { box-shadow: 0 0 0 2px var(--accent-1); }
 
 .cc-chip--success {
   background: var(--success-light);
