@@ -108,6 +108,16 @@
 .cc-text-muted { color: var(--text-3); }
 .cc-text-strong { font-weight: 600; color: var(--text-1); }
 .cc-num { font-variant-numeric: tabular-nums; }
+.cc-pre-wrap { white-space: pre-wrap; }
+
+/* Vertically-stacked rows separated by a bottom divider. Use inside a list
+   container for "channel analytics", "step-by-step", etc. The last child
+   loses its divider so the trailing edge is clean. */
+.cc-divider-row {
+  border-bottom: 1px solid var(--border-1);
+  padding-bottom: var(--space-3);
+}
+.cc-divider-row:last-child { border-bottom: none; padding-bottom: 0; }
 .cc-text-error { color: var(--color-danger, var(--error, #c00)); }
 .cc-text-eyebrow {
   font-size: var(--text-xs);
