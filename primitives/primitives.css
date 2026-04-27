@@ -1969,3 +1969,6 @@ select.cc-input option {
   color: inherit;
   font-family: inherit;
 }
+
+/* Padded body section for cc-modal. */
+.cc-modal__body { padding: var(--space-4); }
