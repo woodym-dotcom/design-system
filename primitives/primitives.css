@@ -806,6 +806,11 @@ select.cc-input option {
 /* ---------- TABLE ---------- */
 /* Horizontal-scroll wrapper for tables that may overflow on narrow screens. */
 .cc-table-wrap { overflow-x: auto; }
+
+/* In-flow text link, accent-coloured. For anchors/Link components inside body
+   copy. Distinct from .cc-tab and from button-styled links. */
+.cc-link { color: var(--accent-1); text-decoration: none; }
+.cc-link:hover { text-decoration: underline; }
 .cc-table { width: 100%; border-collapse: collapse; font-size: var(--text-base); }
 .cc-table thead th {
   text-align: left;
