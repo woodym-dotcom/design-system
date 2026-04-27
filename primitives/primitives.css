@@ -1847,3 +1847,8 @@ select.cc-input option {
   border-bottom: 1px solid var(--border-1);
 }
 .cc-list--compact > li:last-child { border-bottom: none; }
+
+/* Popover width sizes — pair with cc-popover. */
+.cc-popover--w-sm { width: 240px; }
+.cc-popover--w-md { width: 340px; max-height: 420px; }
+.cc-popover--w-lg { width: 480px; max-height: 560px; }
