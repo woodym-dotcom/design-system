@@ -173,6 +173,27 @@
 .cc-text-muted { color: var(--text-3); }
 .cc-num { font-variant-numeric: tabular-nums; }
 .cc-wrap { white-space: pre-wrap; }
+
+/* Inline callout / pull-quote — soft surface, italic body. Use for
+   "read aloud" narratives, summary highlights, etc. */
+.cc-callout {
+  margin: 0;
+  padding: var(--space-3);
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  font-style: italic;
+  color: var(--text-2);
+}
+
+/* Inline status banner — neutral surface, subtle text. For non-blocking
+   "Alert resolved" / "Saved" feedback inside a panel. */
+.cc-banner {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  color: var(--text-3);
+  font-size: var(--text-sm);
+}
 .cc-text-error { color: var(--color-danger, var(--error, #c00)); }
 .cc-text-eyebrow {
   font-size: var(--text-xs);
