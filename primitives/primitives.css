@@ -86,6 +86,32 @@
 /* Full-width child inside any cc-grid-* container. */
 .cc-grid-full { grid-column: 1 / -1; }
 
+/* Progress bar — track + filled bar. Set --progress to a 0-100 percentage
+   on the root or use inline width on the bar. */
+.cc-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--surface-2);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.cc-progress__bar {
+  height: 100%;
+  background: var(--accent-1);
+  transition: width var(--duration-base) var(--ease-standard);
+}
+
+/* Bordered scrollable container — for long checkbox lists, log
+   tails, etc. Override --scroll-max with inline style only when a
+   page truly needs a different height. */
+.cc-scroll-box {
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  max-height: var(--scroll-max, 240px);
+  overflow: auto;
+}
+
 /* 2-column responsive grid that collapses to 1 column on narrow screens. */
 .cc-grid-2 {
   display: grid;
