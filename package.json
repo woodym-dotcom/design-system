@@ -17,7 +17,8 @@
     "./primitives/primitives.css": "./primitives/primitives.css",
     "./react": "./react/index.ts",
     "./react/useTheme": "./react/useTheme.ts",
-    "./react/ThemeToggle": "./react/ThemeToggle.tsx"
+    "./react/ThemeToggle": "./react/ThemeToggle.tsx",
+    "./react/useDensity": "./react/useDensity.ts"
   },
   "files": [
     "tokens",
