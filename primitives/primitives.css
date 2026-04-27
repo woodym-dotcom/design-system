@@ -1852,3 +1852,14 @@ select.cc-input option {
 .cc-popover--w-sm { width: 240px; }
 .cc-popover--w-md { width: 340px; max-height: 420px; }
 .cc-popover--w-lg { width: 480px; max-height: 560px; }
+
+/* Chart legend swatch — small inline coloured indicator. */
+.cc-legend-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 2px;
+  background: var(--text-3);
+}
+.cc-legend-swatch--metric { background: var(--accent-1); }
+.cc-legend-swatch--deploy { width: 2px; height: 12px; background: var(--accent-1); }
+.cc-legend-swatch--violation { width: 2px; height: 12px; background: var(--error); }
