@@ -2396,3 +2396,119 @@ select.cc-input option {
   font-size: var(--text-sm);
 }
 
+/* ---------- COMMAND PALETTE ----------
+   Compose with cc-scrim + cc-modal. The palette holds a search input
+   at top, then grouped result lists. Use arrow keys + enter to drive
+   it; mouse hover mirrors keyboard selection. */
+.cc-palette {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  max-height: 60vh;
+  min-height: 200px;
+}
+.cc-palette__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-1);
+}
+.cc-palette__search-icon {
+  color: var(--text-3);
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: var(--text-base);
+}
+
+.cc-palette__results {
+  overflow-y: auto;
+  padding: var(--space-2);
+}
+
+.cc-palette__group {
+  display: grid;
+  gap: 2px;
+  margin-bottom: var(--space-2);
+}
+.cc-palette__group:last-child { margin-bottom: 0; }
+
+.cc-palette__group-label {
+  padding: var(--space-2) var(--space-3) var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-4);
+}
+
+.cc-palette__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-1);
+  font: inherit;
+  font-size: var(--text-base);
+  text-align: left;
+  cursor: pointer;
+}
+.cc-palette__item:hover,
+.cc-palette__item.is-active {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+.cc-palette__item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--text-3);
+}
+.cc-palette__item.is-active .cc-palette__item-icon { color: var(--accent-text); }
+.cc-palette__item-label { flex: 1; min-width: 0; }
+.cc-palette__item-hint {
+  flex-shrink: 0;
+  display: inline-flex;
+  gap: var(--space-1);
+  color: var(--text-3);
+  font-size: var(--text-xs);
+}
+
+.cc-palette__kbd {
+  display: inline-block;
+  min-width: 18px;
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-1);
+  background: var(--surface-1);
+  color: var(--text-2);
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: var(--text-micro);
+  text-align: center;
+  line-height: 16px;
+}
+
+.cc-palette__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  border-top: 1px solid var(--border-1);
+  background: var(--surface-1);
+  font-size: var(--text-xs);
+  color: var(--text-4);
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+}
+
+.cc-palette__empty {
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--text-3);
+  font-size: var(--text-sm);
+}
+
