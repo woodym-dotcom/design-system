@@ -99,13 +99,19 @@
    bar to a 0-100 number; the bar will fill that percent. The bar reads
    --progress via calc, so consumers only set the value, not styling. */
 .cc-progress {
+  display: block;
   width: 100%;
   height: 8px;
   background: var(--surface-2);
   border-radius: var(--radius-pill);
   overflow: hidden;
 }
-.cc-progress__bar {
+/* As an SVG: fill the bar via the rect's `width` attribute (data-driven). */
+svg.cc-progress { display: block; }
+svg.cc-progress > .cc-progress__bar { fill: var(--accent-1); }
+
+/* As a div+div nest (legacy): width via --progress var. */
+div.cc-progress > .cc-progress__bar {
   height: 100%;
   width: calc(var(--progress, 0) * 1%);
   background: var(--accent-1);
