@@ -1309,28 +1309,114 @@ select.cc-input option {
   align-items: center;
   justify-content: center;
   padding: var(--space-5);
-  background: var(--surface-1);
+  background: var(--surface-0);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
 }
+
+/* Soft accent glow at top-left and a complementary mid-tone glow at
+   bottom-right. Visible only because the auth surface is dark. */
+.cc-auth::before,
+.cc-auth::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+}
+.cc-auth::before {
+  top: -200px;
+  left: -200px;
+  width: 520px;
+  height: 520px;
+  background: var(--accent-1);
+}
+.cc-auth::after {
+  bottom: -240px;
+  right: -240px;
+  width: 600px;
+  height: 600px;
+  background: color-mix(in oklch, var(--accent-1) 60%, var(--surface-2));
+  opacity: 0.25;
+}
+
+/* Engineering-mono grid pattern overlay — 32px cells, very low
+   opacity so it reads as texture, not as a chart. */
+.cc-auth__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, color-mix(in oklch, var(--text-3) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--text-3) 12%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
 .cc-auth__inner {
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  animation: cc-auth-enter var(--duration-slow) var(--ease-standard);
 }
+@keyframes cc-auth-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .cc-auth__brand {
   text-align: center;
   margin-bottom: var(--space-7);
 }
-.cc-auth__headline {
-  margin: 0;
-  font-size: var(--text-2xl);
-  font-weight: 600;
-  line-height: 32px;
-  letter-spacing: -0.02em;
+.cc-auth__eyebrow {
+  display: inline-block;
+  margin: 0 0 var(--space-3);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid color-mix(in oklch, var(--accent-1) 40%, transparent);
+  background: color-mix(in oklch, var(--accent-1) 12%, transparent);
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--accent-1);
 }
+.cc-auth__headline {
+  margin: 0;
+  font-size: var(--text-3xl, 1.8rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-1);
+}
+.cc-auth__headline-accent { color: var(--accent-1); }
 .cc-auth__subtitle {
-  margin: 4px 0 0;
+  margin: var(--space-2) 0 0;
   font-size: var(--text-base);
   color: var(--text-3);
+  line-height: 1.5;
+}
+.cc-auth__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: var(--text-xs);
+  color: var(--text-3);
+}
+.cc-auth__status::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success, #16a34a);
+  box-shadow: 0 0 0 4px color-mix(in oklch, var(--success, #16a34a) 25%, transparent);
 }
 .cc-auth__footer {
   text-align: center;
