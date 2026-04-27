@@ -64,7 +64,7 @@
 /* Cluster: left-aligned row (no space-between). For inline groups like
    spinner+label, button+chip, icon+text. */
 .cc-row--cluster { justify-content: flex-start; }
-.cc-row--gap-tight { gap: var(--space-2); }
+.cc-row--tight { gap: var(--space-2); }
 
 /* Vertical stack with a configurable gap (uses --stack-gap if set; else default). */
 .cc-stack {
@@ -103,21 +103,12 @@
   .cc-grid-rail-content { grid-template-columns: 1fr; }
 }
 
-/* Muted helper-text utility — rather than inline `color: var(--text-3)` which
-   appears literally hundreds of times. */
+/* Muted secondary text. Use this when the parent already sets font-size
+   (so you only need the colour shift). When you need both a smaller size
+   *and* the muted colour, use `t-caption` (12px text-3) from type-scale. */
 .cc-text-muted { color: var(--text-3); }
-.cc-text-strong { font-weight: 600; color: var(--text-1); }
 .cc-num { font-variant-numeric: tabular-nums; }
-.cc-pre-wrap { white-space: pre-wrap; }
-
-/* Vertically-stacked rows separated by a bottom divider. Use inside a list
-   container for "channel analytics", "step-by-step", etc. The last child
-   loses its divider so the trailing edge is clean. */
-.cc-divider-row {
-  border-bottom: 1px solid var(--border-1);
-  padding-bottom: var(--space-3);
-}
-.cc-divider-row:last-child { border-bottom: none; padding-bottom: 0; }
+.cc-wrap { white-space: pre-wrap; }
 .cc-text-error { color: var(--color-danger, var(--error, #c00)); }
 .cc-text-eyebrow {
   font-size: var(--text-xs);
