@@ -24,6 +24,153 @@
 }
 .cc-card:hover { box-shadow: var(--shadow-2); }
 
+/* Dense variant — for record rows inside a list (denser padding, less radius). */
+.cc-card--sm {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+}
+.cc-card--sm:hover { box-shadow: var(--shadow-1); }
+
+/* Flat variant — borderless, transparent background. Used for sidebar lists
+   where the cards are distinguishable by spacing alone, not borders. */
+.cc-card--flat {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Selectable variant — highlights when [aria-current=page] or .is-selected. */
+.cc-card--selectable[aria-current="page"],
+.cc-card--selectable.is-selected {
+  border-color: var(--accent-border, var(--border-2));
+  background: var(--accent-soft, var(--surface-1));
+}
+
+/* ---------- LAYOUT UTILITIES ---------- */
+
+/* Horizontal cluster: title on the left, controls on the right. The most
+   common page-internal layout. Replaces hundreds of inline
+   `display:flex; justifyContent:space-between; alignItems:center; gap:…` */
+.cc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.cc-row--start { align-items: flex-start; }
+.cc-row--baseline { align-items: baseline; }
+.cc-row--top { align-items: flex-start; }
+
+/* Vertical stack with a configurable gap (uses --stack-gap if set; else default). */
+.cc-stack {
+  display: grid;
+  gap: var(--stack-gap, var(--space-4));
+}
+.cc-stack--tight { --stack-gap: var(--space-2); }
+.cc-stack--loose { --stack-gap: var(--space-5); }
+
+/* 2-column responsive grid that collapses to 1 column on narrow screens. */
+.cc-grid-2 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 720px) {
+  .cc-grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Asymmetric 2-pane: a fixed-ish left rail + a flexible right pane. */
+.cc-grid-rail-content {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+}
+@media (max-width: 720px) {
+  .cc-grid-rail-content { grid-template-columns: 1fr; }
+}
+
+/* Muted helper-text utility — rather than inline `color: var(--text-3)` which
+   appears literally hundreds of times. */
+.cc-text-muted { color: var(--text-3); }
+.cc-text-error { color: var(--color-danger, var(--error, #c00)); }
+.cc-text-eyebrow {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+  margin: 0;
+}
+
+/* ---------- DRAWER ---------- */
+/* Slide-over drawer anchored to a viewport edge. CSS-only — each
+   consumer keeps its own dialog-aside component (PlannerDecisionDrawer,
+   AlertDialog, etc) and applies these classes. Shared structure
+   (header / body / footer / backdrop) keeps dialog visuals consistent
+   across apps without a cross-app React dependency. */
+.cc-drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: min(var(--drawer-width, 460px), 96vw);
+  background: var(--surface-0);
+  z-index: 70;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  box-shadow: 0 12px 32px color-mix(in oklch, black 12%, transparent);
+}
+.cc-drawer--right {
+  right: 0;
+  border-left: 1px solid var(--border-1);
+}
+.cc-drawer--left {
+  left: 0;
+  border-right: 1px solid var(--border-1);
+}
+.cc-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in oklch, black 32%, transparent);
+  z-index: 69;
+}
+.cc-drawer__header {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.cc-drawer__title {
+  font-weight: 600;
+  margin: 0;
+}
+.cc-drawer__body {
+  overflow: auto;
+  padding: var(--space-4);
+}
+.cc-drawer__footer {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border-1);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+/* Two-column metadata row for drawer detail bodies. */
+.cc-meta-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.cc-meta-row__label { color: var(--text-3); }
+.cc-meta-row__value--mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  word-break: break-all;
+}
+
 /* ---------- BUTTON ---------- */
 .cc-btn {
   appearance: none;
