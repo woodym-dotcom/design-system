@@ -2512,3 +2512,85 @@ select.cc-input option {
   font-size: var(--text-sm);
 }
 
+/* ---------- TOAST ----------
+   Fixed-position queue of transient messages with optional inline
+   undo affordance. Slides up from bottom-right; stacks vertically;
+   auto-dismisses on a timer reflected by the progress hairline. */
+.cc-toast-stack {
+  position: fixed;
+  bottom: var(--space-5);
+  right: var(--space-5);
+  display: grid;
+  gap: var(--space-2);
+  z-index: 1100;
+  pointer-events: none;
+}
+.cc-toast-stack > * { pointer-events: auto; }
+
+.cc-toast {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 280px;
+  max-width: 420px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-0);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-2);
+  position: relative;
+  overflow: hidden;
+  animation: cc-toast-enter var(--duration-slow) var(--ease-standard);
+}
+.cc-toast.is-leaving {
+  animation: cc-toast-leave var(--duration-med) var(--ease-standard) forwards;
+}
+@keyframes cc-toast-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes cc-toast-leave {
+  to { opacity: 0; transform: translateY(8px); }
+}
+
+.cc-toast--success { border-color: var(--success-border); }
+.cc-toast--error   { border-color: var(--error-border); }
+.cc-toast--warning { border-color: var(--warning-border); }
+
+.cc-toast__copy {
+  font-size: var(--text-sm);
+  color: var(--text-1);
+  min-width: 0;
+}
+.cc-toast__copy strong { color: var(--text-1); }
+
+.cc-toast__action {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--accent-1);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.cc-toast__action:hover { background: var(--accent-soft); color: var(--accent-text); }
+.cc-toast__action:focus-visible { outline: 2px solid var(--accent-1); outline-offset: 2px; }
+
+.cc-toast__progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: var(--toast-progress, 100%);
+  background: var(--accent-1);
+  transition: width var(--duration-fast) linear;
+}
+.cc-toast--success .cc-toast__progress { background: var(--success); }
+.cc-toast--error   .cc-toast__progress { background: var(--error); }
+.cc-toast--warning .cc-toast__progress { background: var(--warning); }
+
