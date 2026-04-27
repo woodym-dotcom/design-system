@@ -85,6 +85,18 @@
   --space-7: 32px;
   --space-8: 48px;
 
+  /* Density mode — scales paddings, gaps, row heights, and base font.
+     Chrome (topbar, navrail) stays at fixed sizes per spec. Override
+     by setting data-density on the html root. */
+  --density: 1;
+  --density-text-base: 14px;
+  --density-content-pad: calc(var(--space-5) * var(--density));
+  --density-stack-gap:   calc(var(--space-4) * var(--density));
+  --density-row-pad-y:   calc(var(--space-3) * var(--density));
+  --density-row-pad-x:   calc(var(--space-4) * var(--density));
+  --density-table-pad:   calc(var(--space-4) * var(--density));
+  --density-row-min:     calc(36px * var(--density));
+
   /* ---------- MOTION ---------- */
   --ease-standard: ease;
   --duration-fast: 100ms;
@@ -211,6 +223,7 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   font-family: var(--font-sans);
+  font-size: var(--density-text-base, 14px);
   line-height: 1.5;
   font-weight: 400;
   color: var(--text-1);
@@ -225,3 +238,19 @@ body {
 
 button, input, select { font: inherit; }
 a { color: inherit; }
+
+/* ---------- DENSITY MODES ----------
+   Compact: tools-of-people-who-stare-at-data; trims chrome between
+   rows so more fits on screen.
+   Spacious: roomier, larger base font; better for first-time use,
+   demos, or accessibility. */
+:root[data-density="compact"] {
+  --density: 0.85;
+  --density-text-base: 13px;
+}
+
+:root[data-density="spacious"] {
+  --density: 1.15;
+  --density-text-base: 15px;
+}
+
