@@ -40,6 +40,15 @@
   background: transparent;
 }
 
+/* Link-as-card variant — strips anchor chrome (underline, blue) so the
+   card retains its surface styling when wrapped in <a> or <Link>. */
+.cc-card--linklike {
+  text-decoration: none;
+  color: inherit;
+  display: grid;
+}
+.cc-card--linklike:hover { text-decoration: none; }
+
 /* Selectable variant — highlights when [aria-current=page] or .is-selected. */
 .cc-card--selectable[aria-current="page"],
 .cc-card--selectable.is-selected {
