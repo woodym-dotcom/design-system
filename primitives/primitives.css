@@ -94,6 +94,82 @@
    appears literally hundreds of times. */
 .cc-text-muted { color: var(--text-3); }
 .cc-text-error { color: var(--color-danger, var(--error, #c00)); }
+.cc-text-eyebrow {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+  margin: 0;
+}
+
+/* ---------- DRAWER ---------- */
+/* Slide-over drawer anchored to a viewport edge. CSS-only — each
+   consumer keeps its own dialog-aside component (PlannerDecisionDrawer,
+   AlertDialog, etc) and applies these classes. Shared structure
+   (header / body / footer / backdrop) keeps dialog visuals consistent
+   across apps without a cross-app React dependency. */
+.cc-drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: min(var(--drawer-width, 460px), 96vw);
+  background: var(--surface-0);
+  z-index: 70;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  box-shadow: 0 12px 32px color-mix(in oklch, black 12%, transparent);
+}
+.cc-drawer--right {
+  right: 0;
+  border-left: 1px solid var(--border-1);
+}
+.cc-drawer--left {
+  left: 0;
+  border-right: 1px solid var(--border-1);
+}
+.cc-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in oklch, black 32%, transparent);
+  z-index: 69;
+}
+.cc-drawer__header {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.cc-drawer__title {
+  font-weight: 600;
+  margin: 0;
+}
+.cc-drawer__body {
+  overflow: auto;
+  padding: var(--space-4);
+}
+.cc-drawer__footer {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border-1);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+/* Two-column metadata row for drawer detail bodies. */
+.cc-meta-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.cc-meta-row__label { color: var(--text-3); }
+.cc-meta-row__value--mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  word-break: break-all;
+}
 
 /* ---------- BUTTON ---------- */
 .cc-btn {
