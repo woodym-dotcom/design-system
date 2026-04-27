@@ -2660,3 +2660,95 @@ select.cc-input option {
   text-align: center;
 }
 
+/* ---------- TASKS TRAY ----------
+   Sibling of the notifications tray. Pops a list of in-flight and
+   recently-completed background tasks (training runs, exports, audit
+   pulls, regulatory submissions). Each task has a status, a progress
+   bar, and an optional result link. */
+.cc-tasks-list {
+  display: grid;
+  gap: 0;
+}
+.cc-tasks-list > * + * { border-top: 1px solid var(--border-1); }
+
+.cc-task {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) 0;
+}
+.cc-task__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.cc-task__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-1);
+  min-width: 0;
+}
+.cc-task__title strong {
+  color: var(--text-1);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cc-task__time {
+  flex-shrink: 0;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: var(--text-xs);
+  color: var(--text-4);
+}
+.cc-task__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-3);
+}
+.cc-task__status::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-3);
+}
+.cc-task--running .cc-task__status::before {
+  background: var(--accent-1);
+  animation: cc-task-pulse 1.6s ease-in-out infinite;
+}
+.cc-task--success .cc-task__status::before { background: var(--success); }
+.cc-task--failed  .cc-task__status::before { background: var(--error); }
+.cc-task--queued  .cc-task__status::before { background: var(--warning); }
+
+@keyframes cc-task-pulse {
+  0%, 100% { box-shadow: 0 0 0 0   color-mix(in oklch, var(--accent-1) 30%, transparent); }
+  50%      { box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent-1) 0%,  transparent); }
+}
+
+.cc-task__link {
+  flex-shrink: 0;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--accent-1);
+  font: inherit;
+  font-size: var(--text-xs);
+  cursor: pointer;
+  padding: 0;
+}
+.cc-task__link:hover { text-decoration: underline; }
+
+/* Empty state inside the popover. */
+.cc-tasks-empty {
+  padding: var(--space-5);
+  text-align: center;
+  color: var(--text-3);
+  font-size: var(--text-sm);
+}
+
