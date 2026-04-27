@@ -2153,3 +2153,50 @@ select.cc-input option {
   stroke-opacity: 0.25;
   stroke-width: 1;
 }
+
+/* ---------- SPARKLINE ----------
+   Inline micro-chart for chips, table cells, record-rows, panel
+   headers. Renders as an SVG with a path (line) and an optional path
+   (filled area). Consumers compute the path strings from data; the
+   primitive owns colour, stroke weight, and inline sizing.
+
+   Default size: 80x20 viewBox; consumer can override via inline
+   width / height attributes when embedding in tighter contexts. */
+.cc-spark {
+  display: inline-block;
+  vertical-align: middle;
+  height: 20px;
+  width: 80px;
+  overflow: visible;
+}
+.cc-spark--sm { height: 14px; width: 56px; }
+.cc-spark--lg { height: 28px; width: 120px; }
+
+.cc-spark__line {
+  fill: none;
+  stroke: var(--accent-1);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cc-spark__area {
+  fill: var(--accent-1);
+  fill-opacity: 0.12;
+  stroke: none;
+}
+.cc-spark__line--success { stroke: var(--success); }
+.cc-spark__area--success { fill: var(--success); }
+.cc-spark__line--warning { stroke: var(--warning); }
+.cc-spark__area--warning { fill: var(--warning); }
+.cc-spark__line--error   { stroke: var(--error); }
+.cc-spark__area--error   { fill: var(--error); }
+.cc-spark__line--muted   { stroke: var(--text-3); }
+.cc-spark__area--muted   { fill: var(--text-3); }
+
+/* End-of-series dot, accent-coloured, optional. */
+.cc-spark__dot { fill: var(--accent-1); }
+.cc-spark__dot--success { fill: var(--success); }
+.cc-spark__dot--warning { fill: var(--warning); }
+.cc-spark__dot--error   { fill: var(--error); }
+.cc-spark__dot--muted   { fill: var(--text-3); }
+
