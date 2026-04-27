@@ -1978,3 +1978,41 @@ select.cc-input option {
 
 /* Padded body section for cc-modal. */
 .cc-modal__body { padding: var(--space-4); }
+
+
+/* ---------- PANEL HEADER ---------- */
+/* Default flex layout for cc-panel__header — title cluster on the left,
+   actions on the right. */
+.cc-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+/* ---------- COMING-SOON PLACEHOLDER ---------- */
+/* Editorial-mode placeholder used inside Panel. */
+.cc-coming-soon { padding: var(--space-2) 0; }
+.cc-coming-soon__eyebrow {
+  color: var(--warning);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+.cc-coming-soon__title {
+  font-family: var(--font-brand, 'Playfair Display', 'Times New Roman', serif);
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 var(--space-3);
+  line-height: 1.15;
+}
+.cc-coming-soon__body {
+  margin: 0 0 var(--space-5);
+  max-width: 560px;
+  color: var(--text-3);
+}
+
+/* Filler element used to push following children to the end of a flex line. */
+.cc-flex-grow { flex: 1; }
