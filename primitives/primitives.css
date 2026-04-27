@@ -1935,3 +1935,37 @@ select.cc-input option {
 
 /* Divider line. */
 .cc-divider { border-top: 1px solid var(--border-1); }
+
+/* ---------- MODAL ---------- */
+/* Centered modal backdrop + dialog. For command palette, confirm dialogs. */
+.cc-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 12vh;
+  z-index: 1000;
+}
+.cc-modal {
+  width: min(560px, 90vw);
+  background: var(--surface-0);
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.cc-modal--lg { width: min(820px, 92vw); }
+
+/* Bare unstyled input — for inline search inputs (palette, filter rows). */
+.cc-bare-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-base);
+  border: none;
+  outline: none;
+  border-bottom: 1px solid var(--border-1);
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+}
