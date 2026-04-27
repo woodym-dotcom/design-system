@@ -147,6 +147,30 @@
    tile under a swimlane, centred horizontally. */
 .cc-row--center { justify-content: center; }
 
+/* Status dot — small coloured circle for inline indicators. Pair with
+   one of the tone modifiers, or set --dot-color directly. */
+.cc-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--dot-color, var(--text-3));
+  margin-right: var(--space-2);
+  vertical-align: middle;
+}
+.cc-dot--success { --dot-color: var(--success); }
+.cc-dot--warning { --dot-color: var(--warning); }
+.cc-dot--error   { --dot-color: var(--error); }
+.cc-dot--info    { --dot-color: var(--accent-1); }
+.cc-dot--neutral { --dot-color: var(--text-3); }
+
+/* List utility variant — strips bullets/markers entirely. Pair with
+   cc-stack for vertical spacing. */
+.cc-list--bare { list-style: none; padding: 0; margin: 0; }
+
+/* Capitalise first letter — for enum-style strings. */
+.cc-capitalize { text-transform: capitalize; }
+
 /* 2-column responsive grid that collapses to 1 column on narrow screens. */
 .cc-grid-2 {
   display: grid;
@@ -229,6 +253,19 @@
 }
 .cc-grid-auto--sm { --grid-min: 180px; }
 .cc-grid-auto--md { --grid-min: 220px; }
+
+/* 3-column responsive grid that collapses to 2 then 1 on narrow screens. */
+.cc-grid-3 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 960px) {
+  .cc-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .cc-grid-3 { grid-template-columns: 1fr; }
+}
 
 /* Asymmetric 2-pane: a fixed-ish left rail + a flexible right pane. */
 .cc-grid-rail-content {
