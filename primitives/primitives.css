@@ -785,12 +785,23 @@ select.cc-input option {
 /* ---------- PAGE HEADER ---------- */
 .cc-page-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
   margin-bottom: var(--space-5);
 }
 .cc-page-header--flush { margin-bottom: 0; }
+.cc-page-header__copy {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.cc-page-header__desc {
+  margin: 0;
+  font-size: var(--text-base);
+  color: var(--text-3);
+  line-height: 1.5;
+}
 .cc-page-header__title {
   display: inline-flex;
   align-items: center;
