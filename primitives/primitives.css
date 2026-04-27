@@ -2752,3 +2752,50 @@ select.cc-input option {
   font-size: var(--text-sm);
 }
 
+/* ---------- FILTER BAR ----------
+   Renders the active filter state as a row of removable chips. Pair
+   with a leading view picker (.cc-filter-bar__view) when saved views
+   are wired. */
+.cc-filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+}
+.cc-filter-bar__label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-4);
+  margin-right: var(--space-1);
+}
+.cc-filter-bar__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2) 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent-border);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: var(--text-xs);
+}
+.cc-filter-bar__chip-remove {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-sm);
+  line-height: 1;
+}
+.cc-filter-bar__chip-remove:hover { background: color-mix(in oklch, var(--accent-1) 20%, transparent); }
+.cc-filter-bar__spacer { flex: 1; min-width: var(--space-2); }
+
