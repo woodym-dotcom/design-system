@@ -84,6 +84,15 @@
   .cc-grid-2 { grid-template-columns: 1fr; }
 }
 
+/* Auto-fit responsive grid. Override --grid-min on the element to tune. */
+.cc-grid-auto {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(var(--grid-min, 220px), 1fr));
+}
+.cc-grid-auto--sm { --grid-min: 180px; }
+.cc-grid-auto--md { --grid-min: 220px; }
+
 /* Asymmetric 2-pane: a fixed-ish left rail + a flexible right pane. */
 .cc-grid-rail-content {
   display: grid;
@@ -97,6 +106,8 @@
 /* Muted helper-text utility — rather than inline `color: var(--text-3)` which
    appears literally hundreds of times. */
 .cc-text-muted { color: var(--text-3); }
+.cc-text-strong { font-weight: 600; color: var(--text-1); }
+.cc-num { font-variant-numeric: tabular-nums; }
 .cc-text-error { color: var(--color-danger, var(--error, #c00)); }
 .cc-text-eyebrow {
   font-size: var(--text-xs);
