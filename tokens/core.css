@@ -38,6 +38,19 @@
   --text-3: var(--gray-500);
   --text-4: var(--gray-400);
 
+  --inverse-background: var(--text-1);
+  --inverse-foreground: var(--surface-0);
+
+  /* App chrome / translucent surfaces (light) */
+  --app-background: radial-gradient(circle at top left, color-mix(in oklch, var(--viz-2, var(--info)) 12%, transparent), transparent 24%), radial-gradient(circle at top right, color-mix(in oklch, var(--viz-4, var(--accent-1, var(--info))) 10%, transparent), transparent 24%), linear-gradient(180deg, #f6f8fb 0%, #eef2f7 40%, #f7f8fc 100%);
+  --surface-glass: color-mix(in oklch, var(--surface-0) 92%, transparent);
+  --surface-glass-subtle: color-mix(in oklch, var(--surface-0) 72%, transparent);
+  --surface-hero: linear-gradient(135deg, color-mix(in oklch, var(--viz-1, var(--accent-1, var(--info))) 14%, var(--surface-0)), color-mix(in oklch, var(--viz-3, var(--accent-1, var(--info))) 10%, var(--surface-0)));
+  --surface-accent-soft: color-mix(in oklch, var(--accent-1, var(--info)) 14%, var(--surface-0));
+  --surface-accent-subtle: color-mix(in oklch, var(--accent-1, var(--info)) 4%, var(--surface-0));
+  --surface-muted: #e7ecf4;
+  --text-muted-strong: var(--gray-600);
+
   /* Status (light) */
   --error: #dc2626;
   --error-light: #fef2f2;
@@ -63,6 +76,29 @@
   --info-border: #93c5fd;
   --info-text: #1e40af;
   --info-contrast: #ffffff;
+
+  /* Canonical semantic aliases for app and utility consumption. */
+  --accent-foreground: var(--accent-contrast, var(--surface-0));
+
+  --success-soft: var(--success-light);
+  --success-foreground: var(--success-contrast);
+
+  --warning-soft: var(--warning-light);
+  --warning-foreground: var(--warning-contrast);
+
+  --danger: var(--error);
+  --danger-soft: var(--error-light);
+  --danger-border: var(--error-border);
+  --danger-text: var(--error-text);
+  --danger-strong: var(--error-strong);
+  --danger-contrast: var(--error-contrast);
+  --danger-foreground: var(--danger-contrast);
+
+  --error-soft: var(--error-light);
+  --error-foreground: var(--error-contrast);
+
+  --info-soft: var(--info-light);
+  --info-foreground: var(--info-contrast);
 
   /* ---------- RADII ---------- */
   --radius-sm: 6px;
@@ -125,6 +161,18 @@
   --text-3: #a7b3c5;
   --text-4: #7f8ba0;
 
+  --inverse-background: var(--text-1);
+  --inverse-foreground: var(--surface-0);
+
+  --app-background: radial-gradient(circle at top left, color-mix(in oklch, var(--viz-2, var(--info)) 16%, transparent), transparent 28%), radial-gradient(circle at top right, color-mix(in oklch, var(--viz-4, var(--accent-1, var(--info))) 14%, transparent), transparent 28%), linear-gradient(180deg, var(--surface-0) 0%, #0f1728 46%, var(--surface-0) 100%);
+  --surface-glass: color-mix(in oklch, var(--surface-1) 88%, transparent);
+  --surface-glass-subtle: color-mix(in oklch, var(--surface-2) 62%, transparent);
+  --surface-hero: linear-gradient(135deg, color-mix(in oklch, var(--accent-1, var(--info)) 16%, var(--surface-1)), color-mix(in oklch, var(--viz-3, var(--accent-1, var(--info))) 12%, var(--surface-1)));
+  --surface-accent-soft: color-mix(in oklch, var(--accent-1, var(--info)) 18%, var(--surface-1));
+  --surface-accent-subtle: color-mix(in oklch, var(--accent-1, var(--info)) 10%, var(--surface-1));
+  --surface-muted: var(--surface-2);
+  --text-muted-strong: var(--text-2);
+
   --error: #f87171;
   --error-light: rgba(248, 113, 113, 0.12);
   --error-border: rgba(248, 113, 113, 0.4);
@@ -172,6 +220,18 @@
     --text-2: #dbe3ee;
     --text-3: #a7b3c5;
     --text-4: #7f8ba0;
+
+    --inverse-background: var(--text-1);
+    --inverse-foreground: var(--surface-0);
+
+    --app-background: radial-gradient(circle at top left, color-mix(in oklch, var(--viz-2, var(--info)) 16%, transparent), transparent 28%), radial-gradient(circle at top right, color-mix(in oklch, var(--viz-4, var(--accent-1, var(--info))) 14%, transparent), transparent 28%), linear-gradient(180deg, var(--surface-0) 0%, #0f1728 46%, var(--surface-0) 100%);
+    --surface-glass: color-mix(in oklch, var(--surface-1) 88%, transparent);
+    --surface-glass-subtle: color-mix(in oklch, var(--surface-2) 62%, transparent);
+    --surface-hero: linear-gradient(135deg, color-mix(in oklch, var(--accent-1, var(--info)) 16%, var(--surface-1)), color-mix(in oklch, var(--viz-3, var(--accent-1, var(--info))) 12%, var(--surface-1)));
+    --surface-accent-soft: color-mix(in oklch, var(--accent-1, var(--info)) 18%, var(--surface-1));
+    --surface-accent-subtle: color-mix(in oklch, var(--accent-1, var(--info)) 10%, var(--surface-1));
+    --surface-muted: var(--surface-2);
+    --text-muted-strong: var(--text-2);
 
     --error: #f87171;
     --error-light: rgba(248, 113, 113, 0.12);
@@ -236,7 +296,10 @@ body {
               color var(--duration-base) var(--ease-standard);
 }
 
-button, input, select { font: inherit; }
+button, input, select, textarea {
+  font: inherit;
+  color-scheme: inherit;
+}
 a { color: inherit; }
 
 /* ---------- DENSITY MODES ----------

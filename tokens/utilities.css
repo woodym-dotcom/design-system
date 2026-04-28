@@ -25,3 +25,27 @@
 
 /* ---------- TIMING FUNCTION ---------- */
 .ease-ds { transition-timing-function: var(--ease-standard); }
+
+/* ---------- SEMANTIC SURFACES ---------- */
+.surface-ds-accent,
+.surface-ds-success,
+.surface-ds-warning,
+.surface-ds-danger,
+.surface-ds-error,
+.surface-ds-info {
+  border-color: transparent;
+}
+
+.surface-ds-accent { background: var(--accent-1); color: var(--accent-foreground); }
+.surface-ds-success { background: var(--success); color: var(--success-foreground); }
+.surface-ds-warning { background: var(--warning); color: var(--warning-foreground); }
+.surface-ds-danger { background: var(--danger); color: var(--danger-foreground); }
+.surface-ds-error { background: var(--error); color: var(--error-foreground); }
+.surface-ds-info { background: var(--info); color: var(--info-foreground); }
+
+.surface-ds-accent-soft { background: var(--accent-soft); border-color: var(--accent-border); color: var(--accent-text); }
+.surface-ds-success-soft { background: var(--success-soft); border-color: var(--success-border); color: var(--success-text); }
+.surface-ds-warning-soft { background: var(--warning-soft); border-color: var(--warning-border); color: var(--warning-text); }
+.surface-ds-danger-soft { background: var(--danger-soft); border-color: var(--danger-border); color: var(--danger-text); }
+.surface-ds-error-soft { background: var(--error-soft); border-color: var(--error-border); color: var(--error-text); }
+.surface-ds-info-soft { background: var(--info-soft); border-color: var(--info-border); color: var(--info-text); }
