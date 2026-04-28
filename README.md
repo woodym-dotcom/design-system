@@ -129,6 +129,41 @@ Top-of-list bar standardised across modules: title, optional subtitle, filter sl
 
 Props: `title`, `subtitle?`, `filters?`, `createAction?`, `className?`.
 
+### Filter primitives (CSS-only)
+
+Consumers compose their `FilterBar` from two CSS primitives, no React wrapper required.
+
+- **`cc-chip--button`** — toggle button rendered as a chip. Pressed state is driven by `aria-pressed="true"`; `:active` (mouse-down flash) shares the same accent-soft surface + accent-text foreground so the button never goes white-on-white in any brand or theme.
+- **`cc-filter-bar`** + **`cc-filter-bar__chip`** — bar layout for active filter chips with removable affordance.
+- **`cc-filter-bar__empty`** — empty-state label rendered when no filter chips are active. Default consumer copy is sentence-case en-GB ("Showing all"). Render it instead of leaving the bar blank, so the user can see at a glance that nothing is filtered.
+
+```tsx
+<div className="cc-filter-bar">
+  <span className="cc-filter-bar__label">Filters</span>
+  {active.length === 0 ? (
+    <span className="cc-filter-bar__empty">Showing all</span>
+  ) : (
+    active.map((f) => (
+      <span key={f.id} className="cc-filter-bar__chip">
+        {f.label}
+        <button className="cc-filter-bar__chip-remove" onClick={() => remove(f)} aria-label={`Remove ${f.label}`}>×</button>
+      </span>
+    ))
+  )}
+</div>
+```
+
+```tsx
+<button
+  type="button"
+  className="cc-chip cc-chip--button"
+  aria-pressed={selected}
+  onClick={() => setSelected((s) => !s)}
+>
+  Active
+</button>
+```
+
 ### `<DetailPane>`
 
 Right-side slide-in panel with backdrop, ARIA `role="dialog"`, focus-trap, and ESC-to-close. Width is capped at `min(560px, 100vw)`.
