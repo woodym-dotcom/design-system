@@ -26,12 +26,12 @@
 
   /* ---------- SEMANTIC — LIGHT (default) ---------- */
   --surface-0: #ffffff;
-  --surface-1: var(--gray-50);
-  --surface-2: var(--gray-100);
-  --surface-3: var(--gray-200);
+  --surface-1: #f8fafc;
+  --surface-2: #eef2f7;
+  --surface-3: #dbe3ee;
 
-  --border-1: var(--gray-200);
-  --border-2: var(--gray-300);
+  --border-1: #d7dee8;
+  --border-2: #b8c4d4;
 
   --text-1: var(--gray-900);
   --text-2: var(--gray-700);
@@ -43,13 +43,13 @@
 
   /* App chrome / translucent surfaces (light) */
   --app-background: radial-gradient(circle at top left, color-mix(in oklch, var(--viz-2, var(--info)) 12%, transparent), transparent 24%), radial-gradient(circle at top right, color-mix(in oklch, var(--viz-4, var(--accent-1, var(--info))) 10%, transparent), transparent 24%), linear-gradient(180deg, #f6f8fb 0%, #eef2f7 40%, #f7f8fc 100%);
-  --surface-glass: color-mix(in oklch, var(--surface-0) 92%, transparent);
-  --surface-glass-subtle: color-mix(in oklch, var(--surface-0) 72%, transparent);
-  --surface-hero: linear-gradient(135deg, color-mix(in oklch, var(--viz-1, var(--accent-1, var(--info))) 14%, var(--surface-0)), color-mix(in oklch, var(--viz-3, var(--accent-1, var(--info))) 10%, var(--surface-0)));
+  --surface-glass: rgba(255, 255, 255, 0.94);
+  --surface-glass-subtle: rgba(248, 250, 252, 0.88);
+  --surface-hero: linear-gradient(135deg, color-mix(in oklch, var(--viz-1, var(--accent-1, var(--info))) 12%, var(--surface-1)), color-mix(in oklch, var(--viz-3, var(--accent-1, var(--info))) 9%, var(--surface-0)));
   --surface-accent-soft: color-mix(in oklch, var(--accent-1, var(--info)) 14%, var(--surface-0));
   --surface-accent-subtle: color-mix(in oklch, var(--accent-1, var(--info)) 4%, var(--surface-0));
-  --surface-muted: #e7ecf4;
-  --text-muted-strong: var(--gray-600);
+  --surface-muted: #e8eef6;
+  --text-muted-strong: #445064;
 
   /* Status (light) */
   --error: #dc2626;
@@ -59,7 +59,7 @@
   --error-strong: #b91c1c;
   --error-contrast: #ffffff;
 
-  --success: #16a34a;
+  --success: #15803d;
   --success-light: #dcfce7;
   --success-border: #86efac;
   --success-text: #166534;
@@ -153,8 +153,8 @@
   --surface-2: #192538;   /* hover / secondary bg */
   --surface-3: #273449;
 
-  --border-1: #2d3a4f;
-  --border-2: #435169;
+  --border-1: #34445c;
+  --border-2: #53647d;
 
   --text-1: #f9fafb;
   --text-2: #dbe3ee;
@@ -165,13 +165,13 @@
   --inverse-foreground: var(--surface-0);
 
   --app-background: radial-gradient(circle at top left, color-mix(in oklch, var(--viz-2, var(--info)) 16%, transparent), transparent 28%), radial-gradient(circle at top right, color-mix(in oklch, var(--viz-4, var(--accent-1, var(--info))) 14%, transparent), transparent 28%), linear-gradient(180deg, var(--surface-0) 0%, #0f1728 46%, var(--surface-0) 100%);
-  --surface-glass: color-mix(in oklch, var(--surface-1) 88%, transparent);
-  --surface-glass-subtle: color-mix(in oklch, var(--surface-2) 62%, transparent);
-  --surface-hero: linear-gradient(135deg, color-mix(in oklch, var(--accent-1, var(--info)) 16%, var(--surface-1)), color-mix(in oklch, var(--viz-3, var(--accent-1, var(--info))) 12%, var(--surface-1)));
+  --surface-glass: rgba(17, 26, 43, 0.94);
+  --surface-glass-subtle: rgba(25, 37, 56, 0.86);
+  --surface-hero: linear-gradient(135deg, color-mix(in oklch, var(--accent-1, var(--info)) 14%, var(--surface-1)), color-mix(in oklch, var(--viz-3, var(--accent-1, var(--info))) 10%, var(--surface-2)));
   --surface-accent-soft: color-mix(in oklch, var(--accent-1, var(--info)) 18%, var(--surface-1));
   --surface-accent-subtle: color-mix(in oklch, var(--accent-1, var(--info)) 10%, var(--surface-1));
-  --surface-muted: var(--surface-2);
-  --text-muted-strong: var(--text-2);
+  --surface-muted: #202d42;
+  --text-muted-strong: #c7d2e2;
 
   --error: #f87171;
   --error-light: rgba(248, 113, 113, 0.12);
@@ -213,8 +213,8 @@
     --surface-2: #192538;
     --surface-3: #273449;
 
-    --border-1: #2d3a4f;
-    --border-2: #435169;
+    --border-1: #34445c;
+    --border-2: #53647d;
 
     --text-1: #f9fafb;
     --text-2: #dbe3ee;
@@ -225,13 +225,13 @@
     --inverse-foreground: var(--surface-0);
 
     --app-background: radial-gradient(circle at top left, color-mix(in oklch, var(--viz-2, var(--info)) 16%, transparent), transparent 28%), radial-gradient(circle at top right, color-mix(in oklch, var(--viz-4, var(--accent-1, var(--info))) 14%, transparent), transparent 28%), linear-gradient(180deg, var(--surface-0) 0%, #0f1728 46%, var(--surface-0) 100%);
-    --surface-glass: color-mix(in oklch, var(--surface-1) 88%, transparent);
-    --surface-glass-subtle: color-mix(in oklch, var(--surface-2) 62%, transparent);
-    --surface-hero: linear-gradient(135deg, color-mix(in oklch, var(--accent-1, var(--info)) 16%, var(--surface-1)), color-mix(in oklch, var(--viz-3, var(--accent-1, var(--info))) 12%, var(--surface-1)));
+    --surface-glass: rgba(17, 26, 43, 0.94);
+    --surface-glass-subtle: rgba(25, 37, 56, 0.86);
+    --surface-hero: linear-gradient(135deg, color-mix(in oklch, var(--accent-1, var(--info)) 14%, var(--surface-1)), color-mix(in oklch, var(--viz-3, var(--accent-1, var(--info))) 10%, var(--surface-2)));
     --surface-accent-soft: color-mix(in oklch, var(--accent-1, var(--info)) 18%, var(--surface-1));
     --surface-accent-subtle: color-mix(in oklch, var(--accent-1, var(--info)) 10%, var(--surface-1));
-    --surface-muted: var(--surface-2);
-    --text-muted-strong: var(--text-2);
+    --surface-muted: #202d42;
+    --text-muted-strong: #c7d2e2;
 
     --error: #f87171;
     --error-light: rgba(248, 113, 113, 0.12);

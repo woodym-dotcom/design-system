@@ -49,3 +49,22 @@
 .surface-ds-danger-soft { background: var(--danger-soft); border-color: var(--danger-border); color: var(--danger-text); }
 .surface-ds-error-soft { background: var(--error-soft); border-color: var(--error-border); color: var(--error-text); }
 .surface-ds-info-soft { background: var(--info-soft); border-color: var(--info-border); color: var(--info-text); }
+
+/* ---------- CHROME / GLASS SURFACES ---------- */
+.surface-ds-glass {
+  background: var(--surface-glass);
+  border-color: var(--border-1);
+  color: var(--text-1);
+  backdrop-filter: blur(16px) saturate(1.08);
+}
+
+.surface-ds-glass-subtle {
+  background: var(--surface-glass-subtle);
+  border-color: var(--border-1);
+  color: var(--text-1);
+  backdrop-filter: blur(12px) saturate(1.04);
+}
+
+.surface-ds-muted { background: var(--surface-muted); color: var(--text-muted-strong); }
+.surface-ds-hero { background: var(--surface-hero); color: var(--text-1); }
+.surface-ds-inverse { background: var(--inverse-background); color: var(--inverse-foreground); }

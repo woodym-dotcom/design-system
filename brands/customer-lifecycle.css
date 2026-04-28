@@ -50,8 +50,8 @@
   --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
   --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
   --accent-contrast: #111827;
-  --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
-  --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
+  --accent-soft:     color-mix(in oklch, var(--accent-1) 14%, var(--surface-1, #111827));
+  --accent-border:   color-mix(in oklch, var(--accent-1) 44%, var(--surface-3, #273449));
   --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
 }
 
@@ -61,8 +61,8 @@
     --accent-1-hover:  oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
     --accent-text:     oklch(85% calc(var(--brand-chroma) * 0.7)  var(--brand-hue));
     --accent-contrast: #111827;
-    --accent-soft:     color-mix(in oklch, var(--accent-1) 12%, transparent);
-    --accent-border:   color-mix(in oklch, var(--accent-1) 40%, transparent);
+    --accent-soft:     color-mix(in oklch, var(--accent-1) 14%, var(--surface-1, #111827));
+    --accent-border:   color-mix(in oklch, var(--accent-1) 44%, var(--surface-3, #273449));
     --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
   }
 }
