@@ -18,7 +18,15 @@
     "./react": "./react/index.ts",
     "./react/useTheme": "./react/useTheme.ts",
     "./react/ThemeToggle": "./react/ThemeToggle.tsx",
-    "./react/useDensity": "./react/useDensity.ts"
+    "./react/useDensity": "./react/useDensity.ts",
+    "./react/ModuleShell": "./react/ModuleShell.tsx",
+    "./react/CreationWizard": "./react/CreationWizard.tsx",
+    "./react/ListPageHeader": "./react/ListPageHeader.tsx",
+    "./react/DetailPane": "./react/DetailPane.tsx"
+  },
+  "scripts": {
+    "check:contrast": "node scripts/check-token-contrast.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "files": [
     "tokens",
@@ -48,8 +56,5 @@
     "react-is": "^19.2.5",
     "recharts": "^3.8.1",
     "typescript": "^5.6.0"
-  },
-  "scripts": {
-    "check:contrast": "node scripts/check-token-contrast.mjs"
   }
 }

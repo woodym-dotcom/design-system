@@ -69,6 +69,86 @@ Recommended API shape:
 
 Stacked bars should only round the top visible segment. If a series is hidden, the next visible segment becomes the rounded top.
 
+## Module primitives
+
+`@ds/core/react` exports four module-level primitives shared across consumers. CSS lives in `primitives/primitives.css` under `cc-*` selectors; React wrappers are thin and use design tokens only.
+
+### `<ModuleShell>`
+
+4-tab module wrapper: review queue, monitoring, list, configurations. Each tab is individually optional — omit a prop to hide that tab. Default tab is `list` (falls back to the first available tab if `list` is omitted). Active tab is mirrored to the URL via a search param (default `?tab=…`); `popstate` is honoured, and arrow keys / `Home` / `End` navigate between tabs.
+
+```tsx
+import { ModuleShell } from '@ds/core/react';
+
+<ModuleShell
+  title="Vendors"
+  actions={<button className="cc-btn cc-btn--primary">New vendor</button>}
+  list={{ label: 'List', render: () => <VendorList /> }}
+  review={{ label: 'Review queue', render: () => <ReviewQueue /> }}
+  configurations={{ label: 'Configurations', render: () => <Configs /> }}
+/>;
+```
+
+Props: `title`, `actions?`, `review?`, `monitoring?`, `list?`, `configurations?` (each `{ label, render }`), `searchParamName?` (default `tab`), `defaultTab?` (default `list`), `className?`.
+
+### `<CreationWizard>`
+
+Stepped form. Horizontal nav on wide viewports, vertical-pinned-to-top on narrow viewports (CSS `@media (max-width: 767px)`).
+
+```tsx
+<CreationWizard
+  initialValues={{ name: '', owner: '' }}
+  steps={[
+    { id: 'basics', label: 'Basics', render: ({ values, setValues }) => <BasicsStep values={values} onChange={setValues} /> },
+    { id: 'access', label: 'Access', render: ({ values, setValues }) => <AccessStep values={values} onChange={setValues} /> },
+  ]}
+  aiReview={{
+    label: 'AI review',
+    reviewer: async (values) => myAaOrchestratorClient.reviewCreate(values), // consumer wires AA Orchestrator
+  }}
+  onSubmit={async (values) => myApi.create(values)}
+/>;
+```
+
+Props: `steps: { id, label, render }[]`, `initialValues`, `onSubmit(values)`, `aiReview?: { label?, reviewer(values): Promise<{ summary, suggestions?, ok }> }`, `submitLabel?`, `className?`.
+
+The `reviewer` is consumer-supplied; this primitive does not import any provider SDK or call AA directly (workspace rule §18).
+
+### `<ListPageHeader>`
+
+Top-of-list bar standardised across modules: title, optional subtitle, filter slot, create-button slot.
+
+```tsx
+<ListPageHeader
+  title="Vendors"
+  subtitle="Onboarded suppliers and their risk posture"
+  filters={<VendorFilters />}
+  createAction={<button className="cc-btn cc-btn--primary">New vendor</button>}
+/>;
+```
+
+Props: `title`, `subtitle?`, `filters?`, `createAction?`, `className?`.
+
+### `<DetailPane>`
+
+Right-side slide-in panel with backdrop, ARIA `role="dialog"`, focus-trap, and ESC-to-close. Width is capped at `min(560px, 100vw)`.
+
+```tsx
+<DetailPane
+  open={selected !== null}
+  onClose={() => setSelected(null)}
+  title={selected?.name ?? ''}
+  sections={[
+    { heading: 'Owner', content: selected?.owner },
+    { heading: 'Risk score', content: <RiskBadge value={selected?.risk} /> },
+  ]}
+/>;
+```
+
+Props: `open`, `onClose`, `title`, `sections: { heading, content }[]`, `className?`.
+
+Built-in copy is sentence-case. Date defaults follow `en-GB` (DD-MON-YYYY) where the primitive owns formatting; consumers always retain control of section content.
+
 ## Contribution rules
 
 - A new component → `primitives/primitives.css` under a `cc-*` selector, colors via `var(--...)` only.
