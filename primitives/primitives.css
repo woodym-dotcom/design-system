@@ -1651,6 +1651,9 @@ select.cc-input option {
   gap: var(--space-4);
   align-items: start;
 }
+.cc-detail-layout--stable {
+  grid-template-columns: minmax(0, 1fr);
+}
 .cc-detail-layout__main {
   min-width: 0;
 }
@@ -1660,6 +1663,9 @@ select.cc-input option {
 @media (min-width: 1024px) {
   .cc-detail-layout.has-detail {
     grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .cc-detail-layout--stable.has-detail {
+    grid-template-columns: minmax(0, 1fr) var(--detail-pane-width, minmax(320px, 38vw));
   }
 }
 .cc-detail--pinned {
@@ -1748,20 +1754,23 @@ select.cc-input option {
 .cc-scrim {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--scrim-background, rgba(3, 7, 18, 0.72));
   backdrop-filter: blur(4px);
   display: grid;
   place-items: center;
   z-index: 50;
 }
 .cc-modal {
-  background: var(--surface-0);
+  background: var(--modal-surface, var(--surface-0));
+  background-image: none;
   color: var(--text-1);
   border: 1px solid var(--border-1);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
   min-width: 420px;
   box-shadow: var(--shadow-2);
+  opacity: 1;
+  isolation: isolate;
 }
 .cc-modal--sheet {
   width: min(640px, 100vw);
@@ -1783,6 +1792,40 @@ select.cc-input option {
   margin: 0;
   color: var(--text-1);
   font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+/* Async region keeps a page's existing content mounted while refetching.
+   Pair with aria-busy on the root and render the overlay only during
+   background refreshes. This prevents full page flicker on navigator clicks. */
+.cc-async-region {
+  position: relative;
+}
+.cc-async-region__overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: start end;
+  padding: var(--space-4);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklch, var(--surface-0) 72%, transparent),
+    transparent 42%
+  );
+  z-index: 5;
+}
+.cc-async-region__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-pill);
+  background: var(--surface-0);
+  color: var(--text-2);
+  box-shadow: var(--shadow-1);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
   font-weight: 600;
 }
 

@@ -26,6 +26,7 @@
   },
   "scripts": {
     "check:contrast": "node scripts/check-token-contrast.mjs",
+    "test:primitives": "node tests/primitives-regression.mjs",
     "typecheck": "tsc --noEmit"
   },
   "files": [
