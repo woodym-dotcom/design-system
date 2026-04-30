@@ -1,6 +1,6 @@
 {
   "name": "@ds/core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Shared design tokens and primitives across companyco, recruitment-woody, automationArmoury.",
   "type": "module",
@@ -23,6 +23,7 @@
     "./react/FormField": "./react/FormField.tsx",
     "./react/FilterBar": "./react/FilterBar.tsx",
     "./react/NavRail": "./react/NavRail.tsx",
+    "./react/CreateMenu": "./react/CreateMenu.tsx",
     "./react/CreationWizard": "./react/CreationWizard.tsx",
     "./react/ListPageHeader": "./react/ListPageHeader.tsx",
     "./react/DetailPane": "./react/DetailPane.tsx"
