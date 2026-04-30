@@ -30,4 +30,16 @@ assert.ok(
 assertIncludes('.cc-async-region', 'position: relative;');
 assertIncludes('.cc-async-region__overlay', 'pointer-events: none;');
 
+// G4 — form-input stability: error/hint slot must reserve height so layout
+// does not reflow when error text appears or disappears.
+// We scan raw CSS rather than blockFor() because the inline variant appears first.
+assert.ok(
+  css.includes('.cc-field__error') && css.match(/\.cc-field__error\s*\{[^}]*min-height:\s*1\.2em/),
+  '.cc-field__error must have min-height: 1.2em reserved for layout stability',
+);
+assert.ok(
+  css.includes('.cc-field__hint') && css.match(/\.cc-field__hint\s*\{[^}]*min-height:\s*1\.2em/),
+  '.cc-field__hint must have min-height: 1.2em reserved for layout stability',
+);
+
 console.log('primitive regression checks passed');

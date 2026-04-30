@@ -1,4 +1,5 @@
 export { useTheme, initTheme, type Theme } from "./useTheme";
+export { FormField, type FormFieldProps, type FormFieldType } from "./FormField";
 export { ThemeToggle, type ThemeToggleProps } from "./ThemeToggle";
 export {
   MetricChartCard,

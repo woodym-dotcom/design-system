@@ -729,6 +729,9 @@ select.cc-input option {
 
 .cc-field__error {
   margin: 0;
+  /* Reserve height even when empty so the field does not reflow on error
+     appearance/disappearance (G4 stability invariant). */
+  min-height: 1.2em;
   color: var(--error);
   font-size: 0.8rem;
   font-weight: 500;
@@ -736,6 +739,9 @@ select.cc-input option {
 
 .cc-field__hint {
   margin: 0;
+  /* Same reserved height as __error so switching between hint and error
+     never causes layout shift. */
+  min-height: 1.2em;
   color: var(--text-3);
   font-size: 0.8rem;
 }
