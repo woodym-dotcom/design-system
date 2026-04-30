@@ -1346,6 +1346,54 @@ select.cc-input option {
 }
 .cc-navrail__icon svg { width: 18px; height: 18px; }
 
+/* ---------- TEXT-LABEL NAV RAIL (G2) ----------
+   Vertical text-label navigation rail — the third nav primitive alongside
+   cc-navrail (icon-only, 52px) and cc-sidebar (72px with group/workspace
+   switcher). Used for module-level navigation in domain consoles.
+
+   Router-agnostic: items are <a> or any rendered element; consumers apply
+   the is-active class via the <NavRail> React wrapper or directly. */
+.cc-text-navrail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  min-width: 200px;
+  border-right: 1px solid var(--border-1);
+  background: var(--surface-1);
+}
+/* Item — must be an <a> or rendered-as-<a> element. */
+.cc-text-navrail__item {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  color: var(--text-2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--duration-base) var(--ease-standard),
+              color var(--duration-base) var(--ease-standard);
+}
+.cc-text-navrail__item:hover {
+  background: var(--surface-2);
+  color: var(--text-1);
+}
+/* G2 contract — selected state legible in both light and dark via tokens. */
+.cc-text-navrail__item.is-active,
+.cc-text-navrail__item[aria-current="page"] {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+.cc-text-navrail__item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-ring);
+}
+
 /* ---------- BREADCRUMBS ---------- */
 .cc-crumbs {
   display: flex;

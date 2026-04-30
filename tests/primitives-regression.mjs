@@ -42,6 +42,17 @@ assert.ok(
   '.cc-field__hint must have min-height: 1.2em reserved for layout stability',
 );
 
+// G2 — text-label NavRail: new third nav primitive alongside icon rail and sidebar.
+// Active state must use token-based colours (no hard-coded hex).
+assert.ok(
+  css.includes('.cc-text-navrail') && css.match(/\.cc-text-navrail__item\.is-active[^}]*color:\s*var\(--accent-text\)/),
+  '.cc-text-navrail__item.is-active must use var(--accent-text) for token-based colour',
+);
+assert.ok(
+  css.includes('.cc-text-navrail__item.is-active') && css.match(/\.cc-text-navrail__item\.is-active[^}]*background:\s*var\(--accent-soft\)/),
+  '.cc-text-navrail__item.is-active must use var(--accent-soft) for token-based background',
+);
+
 // G10 — filter chip selected-state contrast:
 // cc-chip--button base must set an explicit colour (no browser default).
 assert.ok(
