@@ -542,13 +542,18 @@ div.cc-progress > .cc-progress__bar {
    Pressed/selected state is driven by [aria-pressed="true"] so consumers
    never need their own colour overrides. Both :active (mouse-down flash)
    and aria-pressed resolve to the same accent-soft surface + accent-text
-   foreground, which is contrast-safe across every brand and both themes
-   (the :active default would otherwise inherit page text against an
-   accent surface and read as white-on-white in some brand palettes). */
+   foreground, which is contrast-safe across every brand and both themes.
+
+   G10 fix: the base chip's color is explicitly set to var(--text-2) so
+   the dark-mode :active transition always starts from a known colour (not
+   a browser-default that can read as white-on-white during the 120ms ease).
+   The :active state disables color transition so the snap is instantaneous
+   and no perceptible flash occurs. */
 .cc-chip--button {
   cursor: pointer;
   font-family: inherit;
   outline: none;
+  color: var(--text-2);
   transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
 }
 .cc-chip--button:hover {
@@ -560,6 +565,8 @@ div.cc-progress > .cc-progress__bar {
   background: var(--accent-soft);
   border-color: var(--accent-border);
   color: var(--accent-text);
+  /* Snap colour instantly — prevents white-on-accent flash during the ease. */
+  transition: background 120ms ease, border-color 120ms ease, color 0ms;
 }
 .cc-chip--button:focus-visible { box-shadow: 0 0 0 2px var(--accent-1); }
 
