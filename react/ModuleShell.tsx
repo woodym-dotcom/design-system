@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useModuleShellRouter } from './ModuleShellProvider';
 
 export type ModuleShellTabId = 'review' | 'monitoring' | 'list' | 'configurations';
 
@@ -10,6 +11,8 @@ export interface ModuleShellTab {
 
 export interface ModuleShellProps {
   title: string;
+  /** Optional icon rendered before the title. */
+  icon?: React.ReactNode;
   actions?: React.ReactNode;
   /**
    * Tabs to render. Each tab is individually optional; omit by leaving its
@@ -53,6 +56,7 @@ function writeTabToUrl(paramName: string, value: string) {
 
 export function ModuleShell({
   title,
+  icon,
   actions,
   review,
   monitoring,
@@ -62,6 +66,7 @@ export function ModuleShell({
   defaultTab = 'list',
   className,
 }: ModuleShellProps) {
+  const router = useModuleShellRouter();
   const tabs: ModuleShellTab[] = React.useMemo(() => {
     const ordered: Array<[ModuleShellTabId, Omit<ModuleShellTab, 'id'> | undefined]> = [
       ['review', review],
@@ -76,13 +81,35 @@ export function ModuleShell({
 
   const fallback: ModuleShellTabId | undefined = tabs.find((tab) => tab.id === defaultTab)?.id ?? tabs[0]?.id;
 
+  const readParam = React.useCallback((): string | null => {
+    if (router) return router.getParam(searchParamName);
+    return readTabFromUrl(searchParamName);
+  }, [router, searchParamName]);
+
+  const writeParam = React.useCallback((value: string) => {
+    if (router) router.setParam(searchParamName, value);
+    else writeTabToUrl(searchParamName, value);
+  }, [router, searchParamName]);
+
   const [activeId, setActiveId] = React.useState<ModuleShellTabId | undefined>(() => {
-    const fromUrl = readTabFromUrl(searchParamName) as ModuleShellTabId | null;
+    const fromUrl = readParam() as ModuleShellTabId | null;
     if (fromUrl && tabs.some((tab) => tab.id === fromUrl)) return fromUrl;
     return fallback;
   });
 
+  // Sync via router adapter subscribe
   React.useEffect(() => {
+    if (!router) return;
+    return router.subscribe(() => {
+      const fromUrl = router.getParam(searchParamName) as ModuleShellTabId | null;
+      if (fromUrl && tabs.some((tab) => tab.id === fromUrl)) setActiveId(fromUrl);
+      else setActiveId(fallback);
+    });
+  }, [router, searchParamName, tabs, fallback]);
+
+  // Fallback: popstate when no router adapter
+  React.useEffect(() => {
+    if (router) return;
     if (typeof window === 'undefined') return;
     const onPop = () => {
       const fromUrl = readTabFromUrl(searchParamName) as ModuleShellTabId | null;
@@ -91,7 +118,7 @@ export function ModuleShell({
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
-  }, [searchParamName, tabs, fallback]);
+  }, [router, searchParamName, tabs, fallback]);
 
   React.useEffect(() => {
     if (activeId && !tabs.some((tab) => tab.id === activeId)) setActiveId(fallback);
@@ -99,7 +126,7 @@ export function ModuleShell({
 
   const handleSelect = (id: ModuleShellTabId) => {
     setActiveId(id);
-    writeTabToUrl(searchParamName, id);
+    writeParam(id);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -128,7 +155,10 @@ export function ModuleShell({
   return (
     <section className={classes.join(' ')}>
       <header className="cc-module-shell__header">
-        <h1 className="cc-module-shell__title">{title}</h1>
+        <div className="cc-module-shell__title-group">
+          {icon ? <span className="cc-module-shell__icon" aria-hidden="true">{icon}</span> : null}
+          <h1 className="cc-module-shell__title">{title}</h1>
+        </div>
         {actions ? <div className="cc-module-shell__actions">{actions}</div> : null}
       </header>
       {tabs.length > 1 ? (

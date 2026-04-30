@@ -3319,3 +3319,185 @@ select.cc-input option {
   margin: 0;
 }
 .cc-detail-pane__section-content { color: var(--text-1); font-size: var(--text-base); line-height: 1.5; }
+
+/* =============================================================
+   G7 — ModuleShell sub-primitives
+   ============================================================= */
+
+/* ---------- LIST PAGE (G7) ----------
+   List renders directly in the tab panel — no surrounding card/box.
+   Composes: <CreateMenu> (G8) + filter slot (G10) + table + detail pane. */
+.cc-list-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.cc-list-page__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.cc-list-page__heading {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-1);
+  margin: 0;
+  flex: 1;
+}
+.cc-list-page__subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-3);
+}
+.cc-list-page__actions { display: flex; gap: var(--space-2); align-items: center; }
+.cc-list-page__filters { /* filter slot — consumer injects FilterBar here */ }
+.cc-list-page__table { min-width: 0; }
+.cc-list-page__empty {
+  display: grid;
+  place-items: center;
+  padding: var(--space-10, 64px) var(--space-5);
+  color: var(--text-3);
+  font-size: var(--text-sm);
+}
+.cc-list-page__pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--space-3);
+}
+
+/* ---------- CONFIGURATIONS PAGE (G7) ----------
+   Two-column layout: left section nav + right form panel. */
+.cc-config-page {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: var(--space-6);
+  min-height: 400px;
+  align-items: start;
+}
+@media (max-width: 767px) {
+  .cc-config-page { grid-template-columns: 1fr; }
+}
+.cc-config-page__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: sticky;
+  top: var(--space-4);
+}
+.cc-config-page__nav-item {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  color: var(--text-2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  text-align: left;
+  font-family: inherit;
+  transition: background var(--duration-base) var(--ease-standard),
+              color var(--duration-base) var(--ease-standard);
+}
+.cc-config-page__nav-item:hover { background: var(--surface-2); color: var(--text-1); }
+.cc-config-page__nav-item.is-active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+.cc-config-page__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+.cc-config-page__section-heading {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  margin: 0 0 var(--space-4);
+}
+
+/* ---------- REVIEW QUEUE (G7) ---------- */
+.cc-review-queue {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.cc-review-queue__item {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  align-items: flex-start;
+}
+.cc-review-queue__item-body { flex: 1; min-width: 0; }
+.cc-review-queue__item-title {
+  font-weight: 600;
+  color: var(--text-1);
+  margin: 0 0 var(--space-1);
+}
+.cc-review-queue__item-meta {
+  font-size: var(--text-xs);
+  color: var(--text-3);
+}
+.cc-review-queue__item-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+.cc-review-queue__empty {
+  display: grid;
+  place-items: center;
+  padding: var(--space-10, 64px) var(--space-5);
+  color: var(--text-3);
+  font-size: var(--text-sm);
+}
+
+/* ---------- MONITORING PAGE (G7) ---------- */
+.cc-monitoring-page { display: flex; flex-direction: column; gap: var(--space-6); }
+.cc-monitoring-page__kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-4);
+}
+.cc-kpi-tile {
+  padding: var(--space-4);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+}
+.cc-kpi-tile__label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  margin: 0 0 var(--space-1);
+}
+.cc-kpi-tile__value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-1);
+}
+.cc-kpi-tile__delta { font-size: var(--text-sm); color: var(--text-3); }
+.cc-monitoring-page__chart-section { display: flex; flex-direction: column; gap: var(--space-3); }
+.cc-monitoring-page__chart-heading {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-2);
+  margin: 0;
+}
+.cc-monitoring-page__empty {
+  display: grid;
+  place-items: center;
+  padding: var(--space-10, 64px) var(--space-5);
+  color: var(--text-3);
+  font-size: var(--text-sm);
+}
