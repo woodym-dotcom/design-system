@@ -1,6 +1,6 @@
 {
   "name": "@ds/core",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "description": "Shared design tokens and primitives across companyco, recruitment-woody, automationArmoury.",
   "type": "module",
@@ -24,6 +24,7 @@
     "./react/FilterBar": "./react/FilterBar.tsx",
     "./react/NavRail": "./react/NavRail.tsx",
     "./react/CreateMenu": "./react/CreateMenu.tsx",
+    "./react/EntityForm": "./react/entity-form/index.ts",
     "./react/CreationWizard": "./react/CreationWizard.tsx",
     "./react/ListPageHeader": "./react/ListPageHeader.tsx",
     "./react/DetailPane": "./react/DetailPane.tsx"
@@ -46,7 +47,8 @@
   ],
   "peerDependencies": {
     "react": ">=18.0.0",
-    "recharts": ">=3.0.0"
+    "recharts": ">=3.0.0",
+    "zod": ">=3.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -54,6 +56,9 @@
     },
     "recharts": {
       "optional": true
+    },
+    "zod": {
+      "optional": false
     }
   },
   "devDependencies": {
@@ -67,6 +72,7 @@
     "react-is": "^19.2.5",
     "recharts": "^3.8.1",
     "typescript": "^5.6.0",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.5",
+    "zod": "^4.4.1"
   }
 }
