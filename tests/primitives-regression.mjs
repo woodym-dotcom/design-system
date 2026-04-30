@@ -42,4 +42,21 @@ assert.ok(
   '.cc-field__hint must have min-height: 1.2em reserved for layout stability',
 );
 
+// G10 — filter chip selected-state contrast:
+// cc-chip--button base must set an explicit colour (no browser default).
+assert.ok(
+  css.match(/\.cc-chip--button\s*\{[^}]*color:\s*var\(--text-2\)/),
+  '.cc-chip--button must set explicit color: var(--text-2) to anchor dark-mode transition',
+);
+// :active and [aria-pressed="true"] blocks must use accent-soft + accent-text tokens.
+assert.ok(
+  css.includes('.cc-chip--button:active') && css.includes('color: var(--accent-text)'),
+  '.cc-chip--button:active must apply accent-text colour',
+);
+// Empty-state class must exist for filter bar.
+assert.ok(
+  css.includes('.cc-filter-bar__empty'),
+  '.cc-filter-bar__empty must be defined for empty filter state',
+);
+
 console.log('primitive regression checks passed');
