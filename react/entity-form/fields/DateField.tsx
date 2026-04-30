@@ -1,0 +1,69 @@
+/**
+ * DateField — native date picker with DD-MON-YYYY display format (X-38).
+ * Internal value: ISO 8601 string (YYYY-MM-DD).
+ * Display: formatted as DD-MON-YYYY.
+ */
+import * as React from 'react';
+import { FieldWrapper } from './FieldWrapper';
+import type { FieldPrimitiveProps } from './types';
+
+export interface DateFieldProps extends FieldPrimitiveProps<string> {
+  min?: string; // ISO 8601
+  max?: string;
+}
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function isoToDdMonYyyy(iso: string): string {
+  if (!iso) return '';
+  // Parse YYYY-MM-DD without time component to avoid timezone offset issues
+  const [yearStr, monthStr, dayStr] = iso.split('-');
+  const year = parseInt(yearStr, 10);
+  const month = parseInt(monthStr, 10);
+  const day = parseInt(dayStr, 10);
+  if (isNaN(year) || isNaN(month) || isNaN(day)) return iso;
+  const dd = String(day).padStart(2, '0');
+  const mon = MONTHS[month - 1];
+  return `${dd}-${mon}-${year}`;
+}
+
+export function DateField({ name, form, label, hint, required, disabled, readOnly, min, max }: DateFieldProps) {
+  const id = `ef-${name}`;
+  const meta = (form as any)._schema?._fieldMeta?.[name];
+  const resolvedLabel = label ?? meta?.label ?? name;
+  const resolvedHint = hint ?? meta?.hint;
+  const resolvedRequired = required ?? meta?.required ?? false;
+  const value = ((form.values as Record<string, unknown>)[name] as string) ?? '';
+  const error = form.errors[name];
+
+  // Show formatted value as a readonly text alongside the native picker.
+  const formatted = isoToDdMonYyyy(value);
+
+  return (
+    <FieldWrapper id={id} label={resolvedLabel} hint={resolvedHint} error={error} required={resolvedRequired}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+        <input
+          key={id}
+          id={id}
+          type="date"
+          value={value}
+          onChange={(e) => form.setField(name, e.target.value)}
+          onBlur={() => form.touchField(name)}
+          required={resolvedRequired}
+          disabled={disabled}
+          readOnly={readOnly}
+          min={min}
+          max={max}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={`${id}-slot`}
+          style={{ maxWidth: '160px' }}
+        />
+        {value && (
+          <span className="cc-field__date-display" aria-hidden="true" style={{ color: 'var(--text-3)', fontSize: 'var(--text-sm)' }}>
+            {formatted}
+          </span>
+        )}
+      </div>
+    </FieldWrapper>
+  );
+}
