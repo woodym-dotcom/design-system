@@ -32,7 +32,7 @@ export interface EntityFormHandle<TValues> {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function flatGet(obj: Record<string, unknown>, path: string): unknown {
+function _flatGet(obj: Record<string, unknown>, path: string): unknown {
   const parts = path.split('.');
   let current: unknown = obj;
   for (const part of parts) {

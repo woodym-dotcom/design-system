@@ -3,7 +3,6 @@
  * Internal value: ISO 8601 string (YYYY-MM-DD).
  * Display: formatted as DD-MON-YYYY.
  */
-import * as React from 'react';
 import { FieldWrapper } from './FieldWrapper';
 import type { FieldPrimitiveProps } from './types';
 

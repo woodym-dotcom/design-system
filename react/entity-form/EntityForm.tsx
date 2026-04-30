@@ -200,8 +200,6 @@ function WizardForm<S extends EntitySchema<any>>({
   submitLabel = 'Submit',
   className,
 }: WizardProps<S>) {
-  type TValues = z.infer<S['_zodSchema']>;
-
   const form = useEntityForm(schema, initialValues);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [highWaterMark, setHighWaterMark] = React.useState(0);
@@ -343,8 +341,6 @@ function EditForm<S extends EntitySchema<any>>({
   children,
   className,
 }: EditProps<S>) {
-  type TValues = z.infer<S['_zodSchema']>;
-
   const form = useEntityForm(schema, initialValues);
 
   const handleSubmit = form.handleSubmit(async (values) => {

@@ -2,7 +2,6 @@
  * MoneyField — amount (number input) + currency select.
  * Emits { amount: number, currency: string } as a single field value.
  */
-import * as React from 'react';
 import { FieldWrapper } from './FieldWrapper';
 import type { FieldPrimitiveProps } from './types';
 

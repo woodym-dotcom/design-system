@@ -2,7 +2,6 @@
  * RichTextField — textarea with optional AI-suggest.
  * AI-suggest calls the OrchestratorBridge (never a provider SDK directly).
  */
-import * as React from 'react';
 import { FieldWrapper } from './FieldWrapper';
 import type { FieldPrimitiveProps } from './types';
 
@@ -15,7 +14,7 @@ export interface RichTextFieldProps extends FieldPrimitiveProps<string> {
   };
 }
 
-export function RichTextField({ name, form, label, hint, required, disabled, readOnly, rows = 4, placeholder, aiSuggest }: RichTextFieldProps) {
+export function RichTextField({ name, form, label, hint, required, disabled, readOnly, rows = 4, placeholder }: RichTextFieldProps) {
   const id = `ef-${name}`;
   const meta = (form as any)._schema?._fieldMeta?.[name];
   const resolvedLabel = label ?? meta?.label ?? name;

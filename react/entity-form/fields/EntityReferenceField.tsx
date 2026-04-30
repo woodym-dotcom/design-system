@@ -29,7 +29,7 @@ export function EntityReferenceField({ name, form, label, hint, required, disabl
   const [query, setQuery] = React.useState('');
   const [results, setResults] = React.useState<SearchResult[]>([]);
   const [open, setOpen] = React.useState(false);
-  const [selectedLabel, setSelectedLabel] = React.useState('');
+  const [_selectedLabel, setSelectedLabel] = React.useState('');
   const abortRef = React.useRef<AbortController | null>(null);
 
   const handleQuery = React.useCallback((q: string) => {

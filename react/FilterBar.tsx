@@ -8,8 +8,6 @@
  *    selected colour (no hard-coded colours); legible in both light + dark.
  *  - Each chip has an accessible remove button.
  */
-import * as React from 'react';
-
 export interface FilterChip {
   id: string;
   label: string;

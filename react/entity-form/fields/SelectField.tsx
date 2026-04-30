@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FieldWrapper } from './FieldWrapper';
 import type { FieldPrimitiveProps } from './types';
 

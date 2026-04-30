@@ -143,7 +143,7 @@ export function MetricChartCard({
         stackId={item.stackId}
         isAnimationActive={false}
         fill={item.color}
-        onClick={(state) => setActivePointKey(String(state?.payload?.[xAxisKey] ?? ''))}
+        onClick={(state: { payload?: Record<string, unknown> }) => setActivePointKey(String(state?.payload?.[xAxisKey] ?? ''))}
         shape={(props: unknown) => {
           const rectProps = props as Record<string, unknown>;
           const payload = rectProps.payload as Record<string, unknown>;
