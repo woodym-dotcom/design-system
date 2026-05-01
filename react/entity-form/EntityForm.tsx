@@ -27,6 +27,12 @@ export interface WizardStepDef<TValues> {
   label: string;
   fields: Array<string>;
   render: (ctx: WizardStepRenderCtx<TValues>) => React.ReactNode;
+  /**
+   * Optional async hook called after field validation passes and before the
+   * wizard advances. Return false (or throw) to block advance with an optional
+   * banner reason. Use for per-step API saves (e.g. createDraftCompany).
+   */
+  onBeforeAdvance?: (values: TValues) => Promise<boolean | string>;
 }
 
 export interface WizardStepRenderCtx<TValues> {
@@ -224,6 +230,17 @@ function WizardForm<S extends EntitySchema<any>>({
         const valid = await form.validatePaths(step.fields);
         if (!valid) return;
       }
+      if (step.onBeforeAdvance) {
+        const result = await step.onBeforeAdvance(form.values as z.infer<S['_zodSchema']>);
+        if (result === false) {
+          setBlockReason('Could not save. Please try again.');
+          return;
+        }
+        if (typeof result === 'string' && result.length > 0) {
+          setBlockReason(result);
+          return;
+        }
+      }
     }
     if (activeIndex < totalSteps - 1) {
       const next = activeIndex + 1;
@@ -245,7 +262,7 @@ function WizardForm<S extends EntitySchema<any>>({
   return (
     <section className={wrapClasses}>
       {/* Step nav */}
-      <nav className="cc-wizard__nav" role="tablist" aria-label="Wizard steps" aria-orientation="vertical">
+      <nav className="cc-wizard__nav" aria-label="Wizard steps">
         {stepLabels.map((label, index) => {
           const isActive = index === activeIndex;
           const isComplete = index < highWaterMark;
@@ -256,9 +273,7 @@ function WizardForm<S extends EntitySchema<any>>({
             <button
               key={index}
               type="button"
-              role="tab"
-              aria-selected={isActive}
-              tabIndex={isActive ? 0 : -1}
+              aria-current={isActive ? 'step' : undefined}
               disabled={!reachable}
               className={cls}
               onClick={() => {

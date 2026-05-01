@@ -37,6 +37,11 @@ function flatSet(
   path: string,
   value: unknown,
 ): Record<string, unknown> {
+  // If the key exists verbatim in the object (flat dot-notation, OQ-3), update it directly.
+  if (Object.prototype.hasOwnProperty.call(obj, path)) {
+    return { ...obj, [path]: value };
+  }
+  // Otherwise treat dots as nested path separators.
   const parts = path.split('.');
   const result = { ...obj };
   let current = result as Record<string, unknown>;
