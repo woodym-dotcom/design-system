@@ -54,7 +54,10 @@ export interface AiReviewConfig<TValues> {
 type BaseProps<S extends EntitySchema<any>> = {
   schema: S;
   initialValues: z.infer<S['_zodSchema']>;
-  onSubmit: (values: z.infer<S['_zodSchema']>) => void | Promise<void>;
+  onSubmit: (
+    values: z.infer<S['_zodSchema']>,
+    form: EntityFormHandle<z.infer<S['_zodSchema']>>,
+  ) => void | Promise<void>;
   className?: string;
 };
 
@@ -254,7 +257,7 @@ function WizardForm<S extends EntitySchema<any>>({
   }, []);
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    await onSubmit(values as z.infer<S['_zodSchema']>);
+    await onSubmit(values as z.infer<S['_zodSchema']>, form as unknown as EntityFormHandle<z.infer<S['_zodSchema']>>);
   });
 
   const wrapClasses = ['cc-wizard', className].filter(Boolean).join(' ');
@@ -359,7 +362,7 @@ function EditForm<S extends EntitySchema<any>>({
   const form = useEntityForm(schema, initialValues);
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    await onSubmit(values as z.infer<S['_zodSchema']>);
+    await onSubmit(values as z.infer<S['_zodSchema']>, form as unknown as EntityFormHandle<z.infer<S['_zodSchema']>>);
   });
 
   const wrapClasses = ['cc-entity-form--edit', className].filter(Boolean).join(' ');

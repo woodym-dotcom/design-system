@@ -21,6 +21,8 @@ export interface EntityFormHandle<TValues> {
   isSubmitting: boolean;
   setField: (path: string, value: unknown) => void;
   setFields: (partial: Partial<TValues>) => void;
+  /** Merge server-side field errors (e.g. from a 400 response) into form.errors. */
+  applyServerErrors: (serverErrors: Record<string, string>) => void;
   touchField: (path: string) => void;
   reset: (values?: TValues) => void;
   validate: () => Promise<boolean>;
@@ -141,6 +143,11 @@ export function useEntityForm<TShape extends z.ZodRawShape>(
     });
   }, []);
 
+  // Expose server-side errors (e.g. from a 400 response) as inline field annotations.
+  const applyServerErrors = React.useCallback((serverErrors: Record<string, string>) => {
+    setErrors((prev) => ({ ...prev, ...serverErrors }));
+  }, [setErrors]);
+
   const touchField = React.useCallback((path: string) => {
     setTouched((prev) => {
       if (prev[path]) return prev;
@@ -196,6 +203,9 @@ export function useEntityForm<TShape extends z.ZodRawShape>(
             const valid = await validate();
             if (!valid) return;
             await onValid(valuesRef.current);
+          } catch {
+            // onValid is responsible for displaying errors; suppress the rejection
+            // so it doesn't become an unhandled promise rejection.
           } finally {
             if (mountedRef.current) setIsSubmitting(false);
           }
@@ -217,6 +227,7 @@ export function useEntityForm<TShape extends z.ZodRawShape>(
     isSubmitting,
     setField,
     setFields,
+    applyServerErrors,
     touchField,
     reset,
     validate,
