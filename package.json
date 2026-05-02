@@ -1,6 +1,6 @@
 {
   "name": "@ds/core",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "Shared design tokens and primitives across companyco, recruitment-woody, automationArmoury.",
   "type": "module",
@@ -32,7 +32,9 @@
     "./react/ListPage": "./react/ListPage.tsx",
     "./react/ConfigurationsPage": "./react/ConfigurationsPage.tsx",
     "./react/ReviewQueue": "./react/ReviewQueue.tsx",
-    "./react/MonitoringPage": "./react/MonitoringPage.tsx"
+    "./react/MonitoringPage": "./react/MonitoringPage.tsx",
+    "./react/charts": "./react/charts/index.ts",
+    "./react/charts/MetricChartCard": "./react/charts/MetricChartCard.tsx"
   },
   "scripts": {
     "check:contrast": "node scripts/check-token-contrast.mjs",
