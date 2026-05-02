@@ -45,15 +45,6 @@ export type {
 } from "./entity-form/index";
 export { ThemeToggle, type ThemeToggleProps } from "./ThemeToggle";
 export {
-  MetricChartCard,
-  type ChartAxisMeta,
-  type ChartCardData,
-  type ChartRenderKind,
-  type ChartSeriesKind,
-  type ChartSeriesMeta,
-  type MetricMeta,
-} from "./MetricChartCard";
-export {
   ModuleShell,
   type ModuleShellProps,
   type ModuleShellTab,
