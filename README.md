@@ -184,6 +184,10 @@ Props: `open`, `onClose`, `title`, `sections: { heading, content }[]`, `classNam
 
 Built-in copy is sentence-case. Date defaults follow `en-GB` (DD-MON-YYYY) where the primitive owns formatting; consumers always retain control of section content.
 
+## Storybook and visual regression
+
+Stories for all React primitives live in `stories/`. Storybook 9 (Vite framework) is configured in `.storybook/`. Run `pnpm storybook` to open the dev server on port 6006, or `pnpm build-storybook` to produce a static build in `storybook-static/`. Visual regression baselines are Playwright snapshots stored in `visual-tests/snapshots/` and committed to the repo. Run `pnpm test:visual` to compare against baselines; run `pnpm test:visual:update` to regenerate them after an intentional UI change. A CI guard (`pnpm test:visual:check-coverage`) enforces that every `stories/*.stories.tsx` file has at least one committed snapshot — add a new story then re-run `test:visual:update` and commit the new baseline. Full CI runs via `pnpm ci`.
+
 ## Contribution rules
 
 - A new component → `primitives/primitives.css` under a `cc-*` selector, colors via `var(--...)` only.
