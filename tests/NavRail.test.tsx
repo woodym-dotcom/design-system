@@ -5,10 +5,15 @@
  *  (a) Selected state legible in both themes via tokens (class-driven, not inline colour).
  *  (b) Each segment is independently routable / deep-linkable (href on each item).
  *  (c) Navigation never collapses on selection (nav always visible).
+ *
+ * Phase 2.1 additions:
+ *  - Multi-select bug regression (longest-prefix-match wins).
+ *  - a11y audit via axe-core.
  */
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
+import axe from 'axe-core';
 import { NavRail } from '../react/NavRail';
 
 const ITEMS = [
@@ -137,5 +142,73 @@ describe('G2 NavRail CSS classes', () => {
   it('custom ariaLabel is applied to nav', () => {
     render(<NavRail items={ITEMS} currentPathname="/" ariaLabel="Main navigation" />);
     expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Multi-select bug regression (AA bug fix — Phase 2.1)
+// When items share a common prefix (e.g. /vendors and /vendors/risks),
+// only the longest-matching item should be active.
+// ---------------------------------------------------------------------------
+describe('NavRail multi-select fix', () => {
+  const PREFIX_ITEMS = [
+    { id: 'vendors', to: '/vendors', label: 'Vendors' },
+    { id: 'vendors-risks', to: '/vendors/risks', label: 'Vendor Risks' },
+    { id: 'controls', to: '/controls', label: 'Controls' },
+  ];
+
+  it('only the longest prefix match is active (no multi-select)', () => {
+    render(<NavRail items={PREFIX_ITEMS} currentPathname="/vendors/risks/acme" />);
+    expect(screen.getByRole('link', { name: 'Vendor Risks' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: 'Vendors' })).not.toHaveAttribute('aria-current');
+  });
+
+  it('exact match wins over prefix match', () => {
+    render(<NavRail items={PREFIX_ITEMS} currentPathname="/vendors" />);
+    expect(screen.getByRole('link', { name: 'Vendors' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: 'Vendor Risks' })).not.toHaveAttribute('aria-current');
+  });
+
+  it('no item active when pathname does not match any item', () => {
+    render(<NavRail items={PREFIX_ITEMS} currentPathname="/settings" />);
+    for (const item of PREFIX_ITEMS) {
+      expect(screen.getByRole('link', { name: item.label })).not.toHaveAttribute('aria-current');
+    }
+  });
+
+  it('only one item can be active via pathname (never multiple)', () => {
+    render(<NavRail items={PREFIX_ITEMS} currentPathname="/vendors/risks" />);
+    const activeLinks = screen
+      .getAllByRole('link')
+      .filter((el) => el.getAttribute('aria-current') === 'page');
+    expect(activeLinks).toHaveLength(1);
+    expect(activeLinks[0]).toHaveAttribute('href', '/vendors/risks');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// a11y audit — Phase 2.1
+// ---------------------------------------------------------------------------
+describe('NavRail a11y (axe)', () => {
+  it('has no axe violations', async () => {
+    const { container } = render(<NavRail items={ITEMS} currentPathname="/vendors" />);
+    const results = await axe.run(container);
+    expect(results.violations).toHaveLength(0);
+  });
+
+  it('has no axe violations with renderItem', async () => {
+    const { container } = render(
+      <NavRail
+        items={ITEMS}
+        currentPathname="/vendors"
+        renderItem={({ item, isActive, className }) => (
+          <a href={item.to} className={className} aria-current={isActive ? 'page' : undefined}>
+            {item.label}
+          </a>
+        )}
+      />,
+    );
+    const results = await axe.run(container);
+    expect(results.violations).toHaveLength(0);
   });
 });
