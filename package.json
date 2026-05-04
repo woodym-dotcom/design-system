@@ -38,7 +38,8 @@
     "./react/MonitoringPage": "./react/MonitoringPage.tsx",
     "./react/charts": "./react/charts/index.ts",
     "./react/charts/MetricChartCard": "./react/charts/MetricChartCard.tsx",
-    "./react/CompanyGroupSwitcher": "./react/CompanyGroupSwitcher.tsx"
+    "./react/CompanyGroupSwitcher": "./react/CompanyGroupSwitcher.tsx",
+    "./react/ArtefactDetailPane": "./react/ArtefactDetailPane.tsx"
   },
   "scripts": {
     "check:contrast": "node scripts/check-token-contrast.mjs",
