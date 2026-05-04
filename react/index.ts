@@ -106,3 +106,8 @@ export {
   type TopRightCreateWizardProps,
   type TopRightCreateWizardVariant,
 } from "./TopRightCreateWizard";
+export {
+  CompanyGroupSwitcher,
+  type CompanyGroupSwitcherProps,
+  type CompanyGroupOption,
+} from "./CompanyGroupSwitcher";
