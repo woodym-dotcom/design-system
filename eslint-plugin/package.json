@@ -1,0 +1,11 @@
+{
+  "name": "@ds/eslint-plugin",
+  "version": "0.1.0",
+  "description": "ESLint guardrails for @ds/core shell primitives",
+  "main": "index.js",
+  "private": true,
+  "keywords": ["eslint", "eslint-plugin", "design-system"],
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  }
+}

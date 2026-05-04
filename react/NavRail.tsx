@@ -63,6 +63,44 @@ export interface NavRailProps {
   className?: string;
 }
 
+/**
+ * Compute which item wins the active state via pathname matching.
+ *
+ * Multi-select fix: when multiple items prefix-match the current pathname
+ * (e.g. /vendors and /vendors/risks both match /vendors/risks/acme) we take
+ * the item whose `to` path is the longest (most-specific) match. This means
+ * at most one item can win from pathname matching — multi-select eliminated.
+ *
+ * Items that supply their own `isActive` boolean bypass this logic entirely
+ * and are handled individually (consumer controls their own active state).
+ */
+function resolveActiveId(
+  items: NavRailItem[],
+  currentPathname: string | undefined,
+): string | null {
+  if (currentPathname === undefined) return null;
+
+  // Items with an explicit isActive override are consumer-controlled; skip here.
+  const candidateItems = items.filter((item) => item.isActive === undefined);
+
+  let bestId: string | null = null;
+  let bestLength = -1;
+
+  for (const item of candidateItems) {
+    if (
+      currentPathname === item.to ||
+      currentPathname.startsWith(`${item.to}/`)
+    ) {
+      if (item.to.length > bestLength) {
+        bestLength = item.to.length;
+        bestId = item.id;
+      }
+    }
+  }
+
+  return bestId;
+}
+
 export function NavRail({
   items,
   currentPathname,
@@ -73,15 +111,16 @@ export function NavRail({
   const navClasses = ['cc-text-navrail'];
   if (className) navClasses.push(className);
 
+  // Resolve at most one active item via pathname (multi-select bug fix).
+  const pathnameActiveId = resolveActiveId(items, currentPathname);
+
   return (
     <nav aria-label={ariaLabel} className={navClasses.join(' ')}>
       {items.map((item) => {
         const isActive =
           item.isActive !== undefined
             ? item.isActive
-            : currentPathname !== undefined
-              ? currentPathname === item.to || currentPathname.startsWith(`${item.to}/`)
-              : false;
+            : item.id === pathnameActiveId;
 
         const itemClass = [
           'cc-text-navrail__item',
