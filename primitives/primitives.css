@@ -3108,6 +3108,7 @@ select.cc-input option {
   grid-template-columns: 240px 1fr;
   gap: var(--space-6);
   min-width: 0;
+  background: var(--surface-0);
 }
 .cc-wizard__nav {
   display: flex;
