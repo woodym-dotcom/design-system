@@ -213,6 +213,88 @@ function isUseStateCall(callNode) {
   return false;
 }
 
+// ── Rule: no-adhoc-tenancy-selector ──────────────────────────────────────────
+
+/**
+ * Detects ad-hoc group-selector patterns that should use <CompanyGroupSwitcher>
+ * from @ds/core instead.
+ *
+ * Flags three signal patterns:
+ *  1. State variable names that look like a group picker (e.g. showGroupPicker,
+ *     groupPickerOpen, groupSwitcherOpen, activeGroupSelector).
+ *  2. JSX imports of @ds/core that don't include CompanyGroupSwitcher but do
+ *     include other tenancy-related names (heuristic — warns when a file imports
+ *     from @ds/core but rolls its own group state).
+ *  3. className strings that contain 'group-picker' or 'group-switcher'
+ *     (signals that inline CSS was written for a custom switcher).
+ *
+ * The rule is intentionally a WARN so it doesn't break legacy files that
+ * shipped before CompanyGroupSwitcher existed.
+ */
+const GROUP_PICKER_STATE_PATTERN =
+  /\b(showGroupPicker|groupPickerOpen|groupSwitcher(Open|Visible)|activeGroupSelector|groupDropdown(Open|Visible)|openGroupPicker)\b/;
+
+const GROUP_PICKER_CLASS_PATTERN = /\b(nav-group-picker|group-picker|group-switcher)\b/;
+
+const noAdhocTenancySelector = {
+  meta: {
+    type: 'suggestion',
+    docs: {
+      description:
+        'Disallow ad-hoc company-group selector implementations. Use <CompanyGroupSwitcher> from @ds/core instead.',
+      recommended: true,
+      url: 'https://github.com/woodym-dotcom/design-system/blob/main/docs/primitives.md#companygroupswitcher',
+    },
+    messages: {
+      noAdhocState:
+        'Ad-hoc group-picker state detected (variable "{{name}}"). Use <CompanyGroupSwitcher> from @ds/core. ' +
+        'See docs/primitives.md#companygroupswitcher.',
+      noAdhocClass:
+        'Ad-hoc group-picker className detected ("{{value}}"). Use <CompanyGroupSwitcher> from @ds/core. ' +
+        'See docs/primitives.md#companygroupswitcher.',
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      VariableDeclarator(node) {
+        const name =
+          node.id && node.id.type === 'Identifier' ? node.id.name : null;
+        if (name && GROUP_PICKER_STATE_PATTERN.test(name)) {
+          if (
+            node.init &&
+            node.init.type === 'CallExpression' &&
+            isUseStateCall(node.init)
+          ) {
+            context.report({
+              node,
+              messageId: 'noAdhocState',
+              data: { name },
+            });
+          }
+        }
+      },
+      JSXAttribute(node) {
+        if (
+          node.name &&
+          node.name.type === 'JSXIdentifier' &&
+          node.name.name === 'className' &&
+          node.value
+        ) {
+          const raw = getStringValue(node.value);
+          if (raw && GROUP_PICKER_CLASS_PATTERN.test(raw)) {
+            context.report({
+              node,
+              messageId: 'noAdhocClass',
+              data: { value: raw },
+            });
+          }
+        }
+      },
+    };
+  },
+};
+
 const DS_CREATE_WRAPPERS = new Set(['CreateMenu', 'TopRightCreateWizard']);
 
 function isInsideDsCreateWrapper(node) {
@@ -240,15 +322,17 @@ const plugin = {
     'no-card-entity-layout': noCardEntityLayout,
     'no-inline-edit-pattern': noInlineEditPattern,
     'no-adhoc-create-button': noAdhocCreateButton,
+    'no-adhoc-tenancy-selector': noAdhocTenancySelector,
   },
   configs: {
-    /** Recommended config: all three rules as errors. */
+    /** Recommended config: all rules as errors/warnings. */
     recommended: {
       plugins: { '@ds/core': {} /* filled by consumer */ },
       rules: {
         '@ds/core/no-card-entity-layout': 'error',
         '@ds/core/no-inline-edit-pattern': 'warn',
         '@ds/core/no-adhoc-create-button': 'warn',
+        '@ds/core/no-adhoc-tenancy-selector': 'warn',
       },
     },
   },
