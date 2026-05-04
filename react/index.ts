@@ -49,6 +49,7 @@ export {
   type ModuleShellProps,
   type ModuleShellTab,
   type ModuleShellTabId,
+  type ModuleShellTabDef,
 } from "./ModuleShell";
 export {
   ModuleShellProvider,

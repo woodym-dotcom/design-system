@@ -125,6 +125,129 @@ describe('ModuleShell', () => {
     unmount();
     expect(unsubscribe).toHaveBeenCalled();
   });
+
+  // ── tabs[] caller-controlled API ───────────────────────────────────────────
+
+  it('tabs[]: renders tabs in caller-supplied order', () => {
+    render(
+      <ModuleShell
+        title="Companies"
+        tabs={[
+          { id: 'list', label: 'List', render: () => <div>list content</div> },
+          { id: 'review-queue', label: 'Review queue', render: () => <div>review content</div> },
+          { id: 'configurations', label: 'Configurations', render: () => <div>config content</div> },
+        ]}
+      />
+    );
+    const tabButtons = screen.getAllByRole('tab');
+    expect(tabButtons[0]).toHaveTextContent('List');
+    expect(tabButtons[1]).toHaveTextContent('Review queue');
+    expect(tabButtons[2]).toHaveTextContent('Configurations');
+  });
+
+  it('tabs[]: shows first tab content by default', () => {
+    render(
+      <ModuleShell
+        title="Companies"
+        tabs={[
+          { id: 'list', label: 'List', render: () => <div>list content</div> },
+          { id: 'review-queue', label: 'Review queue', render: () => <div>review content</div> },
+        ]}
+      />
+    );
+    expect(screen.getByText('list content')).toBeInTheDocument();
+    expect(screen.queryByText('review content')).not.toBeInTheDocument();
+  });
+
+  it('tabs[]: defaultTab controls which tab is active initially', () => {
+    render(
+      <ModuleShell
+        title="Companies"
+        defaultTab="review-queue"
+        tabs={[
+          { id: 'list', label: 'List', render: () => <div>list content</div> },
+          { id: 'review-queue', label: 'Review queue', render: () => <div>review content</div> },
+        ]}
+      />
+    );
+    expect(screen.getByText('review content')).toBeInTheDocument();
+    expect(screen.queryByText('list content')).not.toBeInTheDocument();
+  });
+
+  it('tabs[]: hidden tabs are omitted from the strip and never rendered', () => {
+    render(
+      <ModuleShell
+        title="Companies"
+        tabs={[
+          { id: 'list', label: 'List', render: () => <div>list content</div> },
+          { id: 'review-queue', label: 'Review queue', hidden: true, render: () => <div>review content</div> },
+          { id: 'configurations', label: 'Configurations', render: () => <div>config content</div> },
+        ]}
+      />
+    );
+    expect(screen.queryByRole('tab', { name: 'Review queue' })).not.toBeInTheDocument();
+    expect(screen.queryByText('review content')).not.toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'List' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'Configurations' })).toBeInTheDocument();
+  });
+
+  it('tabs[]: switches tab on click', () => {
+    render(
+      <ModuleShell
+        title="Companies"
+        tabs={[
+          { id: 'list', label: 'List', render: () => <div>list content</div> },
+          { id: 'review-queue', label: 'Review queue', render: () => <div>review content</div> },
+        ]}
+      />
+    );
+    fireEvent.click(screen.getByRole('tab', { name: 'Review queue' }));
+    expect(screen.getByText('review content')).toBeInTheDocument();
+    expect(screen.queryByText('list content')).not.toBeInTheDocument();
+  });
+
+  it('tabs[]: calls router adapter setParam on tab switch', () => {
+    const adapter: ModuleShellRouterAdapter = {
+      getParam: vi.fn(() => null),
+      setParam: vi.fn(),
+      subscribe: vi.fn(() => () => {}),
+    };
+    render(
+      <ModuleShellProvider adapter={adapter}>
+        <ModuleShell
+          title="Companies"
+          tabs={[
+            { id: 'list', label: 'List', render: () => <div>list</div> },
+            { id: 'review-queue', label: 'Review queue', render: () => <div>review</div> },
+          ]}
+        />
+      </ModuleShellProvider>
+    );
+    fireEvent.click(screen.getByRole('tab', { name: 'Review queue' }));
+    expect(adapter.setParam).toHaveBeenCalledWith('tab', 'review-queue');
+  });
+
+  it('tabs[]: named props are ignored when tabs[] is provided (order is caller-controlled)', () => {
+    // Provide tabs[] with review-queue first, then list — named props order would be reversed.
+    render(
+      <ModuleShell
+        title="Companies"
+        tabs={[
+          { id: 'review-queue', label: 'Review queue', render: () => <div>review content</div> },
+          { id: 'list', label: 'List', render: () => <div>list content</div> },
+        ]}
+        // These named props should be ignored because tabs[] is present.
+        list={{ label: 'List (named)', render: () => <div>named list</div> }}
+        review={{ label: 'Review (named)', render: () => <div>named review</div> }}
+      />
+    );
+    const tabButtons = screen.getAllByRole('tab');
+    expect(tabButtons[0]).toHaveTextContent('Review queue');
+    expect(tabButtons[1]).toHaveTextContent('List');
+    // Named-prop content must not appear
+    expect(screen.queryByText('named list')).not.toBeInTheDocument();
+    expect(screen.queryByText('named review')).not.toBeInTheDocument();
+  });
 });
 
 // ── ListPage ──────────────────────────────────────────────────────────────────
