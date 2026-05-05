@@ -136,3 +136,8 @@ export {
   type ArtefactVersion,
   type ArtefactSchemaField,
 } from "./ArtefactDetailPane";
+export {
+  FileUploadField,
+  type FileUploadFieldProps,
+} from "./FileUploadField";
+export { formatFileSize, fileMatchesAccept } from "./fileUploadUtils";
