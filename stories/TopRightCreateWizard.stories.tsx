@@ -1,8 +1,12 @@
 /**
  * TopRightCreateWizard stories — Storybook CSF v3 format.
+ *
+ * Phase 6.1: AI variant wired against a mock runProcess (simulates echo-v1 process).
+ * In production, wire aiConfig.runProcess to aaApiClient.aiWizard.run.
  */
 import * as React from 'react';
 import { TopRightCreateWizard } from '../react/TopRightCreateWizard';
+import type { AiCreateConfig } from '../react/TopRightCreateWizard';
 import type { CreationWizardStep } from '../react/CreationWizard';
 
 export default {
@@ -14,8 +18,10 @@ export default {
       description: {
         component:
           'Top-right Create button that opens a wizard modal. ' +
-          'Use this instead of ad-hoc Create buttons (see @ds/eslint-plugin no-adhoc-create-button). ' +
-          'Two variants: manual (full wizard) and ai (Phase 6.1 placeholder).',
+          'Two variants: manual (full wizard) and ai (AI-assisted, Phase 6.1). ' +
+          'AI variant: user enters a prompt → processKey is fired against AA Orchestrator ' +
+          'via aiConfig.runProcess → result projected into form → human reviews before save. ' +
+          'No provider SDK is imported — all LLM dispatch goes through @aa/api-client.aiWizard.run.',
       },
     },
   },
@@ -85,6 +91,47 @@ const VENDOR_STEPS: CreationWizardStep<VendorValues>[] = [
   },
 ];
 
+/**
+ * Simulated echo process — stands in for aaApiClient.aiWizard.run({ processKey: 'echo-v1', inputs }).
+ * Parses the user's prompt to pre-fill vendor fields.
+ * In production replace with: (key, inputs) => aaApiClient.aiWizard.run({ processKey: key, inputs })
+ */
+async function mockEchoProcess(
+  processKey: string,
+  inputs: Record<string, unknown>,
+): Promise<{ output: Record<string, unknown>; parsedOk: boolean }> {
+  const prompt = String(inputs.prompt ?? '');
+  await new Promise((r) => setTimeout(r, 800)); // simulate latency
+
+  // Very naive extraction for demo purposes — real process would call regulation-decomposition-v1 etc.
+  const nameMatch = prompt.match(/called?\s+([A-Za-z][A-Za-z0-9 ]+?)(?:\s+in|\s*$)/i);
+  const catMatch = prompt.match(/software|services|infrastructure/i);
+  const ownerMatch = prompt.match(/owned? by\s+([A-Za-z][A-Za-z ]*)(?:\s*$)/i);
+
+  return {
+    output: {
+      name: nameMatch ? nameMatch[1].trim() : prompt.slice(0, 40),
+      category: catMatch ? catMatch[0].toLowerCase() : '',
+      owner: ownerMatch ? ownerMatch[1].trim() : '',
+      _processKey: processKey,
+      _echo: true,
+    },
+    parsedOk: true,
+  };
+}
+
+const vendorAiConfig: AiCreateConfig<VendorValues> = {
+  processKey: 'echo-v1',
+  runProcess: mockEchoProcess,
+  projectResult: (output) => ({
+    name: String(output.name ?? ''),
+    category: String(output.category ?? ''),
+    owner: String(output.owner ?? ''),
+  }),
+  promptLabel: 'Describe the vendor to create',
+  promptPlaceholder: 'e.g. Create a vendor called Acme Corp in the software category owned by Sarah Connor',
+};
+
 /** Golden path: manual variant with two steps */
 export function Default() {
   const [lastSubmit, setLastSubmit] = React.useState<VendorValues | null>(null);
@@ -112,10 +159,23 @@ export function Default() {
   );
 }
 
-/** AI variant — shows Phase 6.1 placeholder */
+/**
+ * AI variant — wired against mock echo-v1 process.
+ *
+ * Flow: enter a prompt → Generate with AI → result projected into form → review → save.
+ * The manual review step is always preserved. processKey is 'echo-v1' (registered in AA).
+ *
+ * Try: "Create a vendor called Acme Corp in the software category owned by Sarah Connor"
+ */
 export function AiVariant() {
+  const [lastSubmit, setLastSubmit] = React.useState<VendorValues | null>(null);
   return (
-    <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '24px' }}>
+    <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '24px', position: 'relative' }}>
+      {lastSubmit ? (
+        <p style={{ position: 'absolute', top: '80px', right: '24px', color: 'var(--success)' }}>
+          Saved (AI-assisted): {lastSubmit.name} / {lastSubmit.category}
+        </p>
+      ) : null}
       <TopRightCreateWizard<VendorValues>
         variant="ai"
         triggerLabel="+ AI-assisted"
@@ -123,8 +183,13 @@ export function AiVariant() {
         wizard={{
           steps: VENDOR_STEPS,
           initialValues: { name: '', category: '', owner: '' },
-          onSubmit: async () => {},
+          onSubmit: async (values) => {
+            await new Promise((r) => setTimeout(r, 400));
+            setLastSubmit(values);
+          },
         }}
+        aiConfig={vendorAiConfig}
+        onComplete={() => setLastSubmit((v) => v)}
       />
     </div>
   );
@@ -141,6 +206,35 @@ export function CustomLabel() {
           steps: VENDOR_STEPS,
           initialValues: { name: '', category: '', owner: '' },
           onSubmit: async () => {},
+        }}
+      />
+    </div>
+  );
+}
+
+/**
+ * AI variant — error state demo. runProcess rejects to show error handling.
+ */
+export function AiVariantError() {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '24px' }}>
+      <TopRightCreateWizard<VendorValues>
+        variant="ai"
+        triggerLabel="+ AI (error demo)"
+        modalTitle="Generate vendor with AI"
+        wizard={{
+          steps: VENDOR_STEPS,
+          initialValues: { name: '', category: '', owner: '' },
+          onSubmit: async () => {},
+        }}
+        aiConfig={{
+          processKey: 'echo-v1',
+          runProcess: async () => {
+            await new Promise((r) => setTimeout(r, 600));
+            throw new Error('POST /v1/orchestrator/ai-wizard/run failed: 503');
+          },
+          projectResult: () => ({}),
+          promptLabel: 'Describe the vendor to create',
         }}
       />
     </div>
