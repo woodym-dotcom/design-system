@@ -106,6 +106,7 @@ export {
   TopRightCreateWizard,
   type TopRightCreateWizardProps,
   type TopRightCreateWizardVariant,
+  type AiCreateConfig,
 } from "./TopRightCreateWizard";
 export {
   CompanyGroupSwitcher,
