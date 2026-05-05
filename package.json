@@ -40,7 +40,8 @@
     "./react/charts/MetricChartCard": "./react/charts/MetricChartCard.tsx",
     "./react/CompanyGroupSwitcher": "./react/CompanyGroupSwitcher.tsx",
     "./react/ArtefactDetailPane": "./react/ArtefactDetailPane.tsx",
-    "./react/FileUploadField": "./react/FileUploadField.tsx"
+    "./react/FileUploadField": "./react/FileUploadField.tsx",
+    "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {
     "check:contrast": "node scripts/check-token-contrast.mjs",
@@ -62,6 +63,7 @@
     "react",
     "assets",
     "scripts",
+    "eslint-plugin",
     "README.md"
   ],
   "peerDependencies": {
