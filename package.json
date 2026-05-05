@@ -39,7 +39,8 @@
     "./react/charts": "./react/charts/index.ts",
     "./react/charts/MetricChartCard": "./react/charts/MetricChartCard.tsx",
     "./react/CompanyGroupSwitcher": "./react/CompanyGroupSwitcher.tsx",
-    "./react/ArtefactDetailPane": "./react/ArtefactDetailPane.tsx"
+    "./react/ArtefactDetailPane": "./react/ArtefactDetailPane.tsx",
+    "./react/FileUploadField": "./react/FileUploadField.tsx"
   },
   "scripts": {
     "check:contrast": "node scripts/check-token-contrast.mjs",
