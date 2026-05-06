@@ -4,3 +4,6 @@ node_modules
 storybook-static/
 test-results/
 playwright-report/
+
+# Local agent worktrees — never commit
+.claude/worktrees/
