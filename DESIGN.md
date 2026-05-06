@@ -1,5 +1,5 @@
-> **Source of truth:** [Design System / @ds/core Spec on Notion](https://www.notion.so/358b63f3c7658169b736c2be8ebf7838) — this file is the design-system mirror. Edit the Notion page first, then sync here.
-> Last synced: 2026-05-06 from `ai-config/design.md` (1085 lines)
+> **Canonical source.** This file (`design-system/DESIGN.md`) is the authoritative spec for `@ds/core`. The [Notion page](https://www.notion.so/358b63f3c7658169b736c2be8ebf7838) is a discoverability stub only; it updates referentially but does not drive changes. On any divergence, this repo file wins.
+> Last updated: 2026-05-06
 
 ---
 name: "@ds/core"
