@@ -438,7 +438,7 @@ const plugin = {
         '@ds/core/no-inline-edit-pattern': 'warn',
         '@ds/core/no-adhoc-create-button': 'warn',
         '@ds/core/no-adhoc-tenancy-selector': 'warn',
-        '@ds/core/no-bespoke-entity-shell': 'warn',
+        '@ds/core/no-bespoke-entity-shell': 'error',
       },
     },
   },
