@@ -4,6 +4,15 @@ node_modules
 storybook-static/
 test-results/
 playwright-report/
+coverage/
+dist/
+build/
+target/
+__pycache__/
+Thumbs.db
+*.bak
+*.orig
+*.swp
 
 # Local agent worktrees — never commit
 .claude/worktrees/
