@@ -15,7 +15,7 @@
  */
 import * as React from 'react';
 import { ExpandableDetailPane } from './ExpandableDetailPane';
-import { ListView, type ListViewColumn } from './ListView';
+import { type ListViewColumn } from './ListView';
 
 // ── Domain types (mirrored from BE com.aa.platform.artefact DTOs) ─────────────
 
@@ -343,7 +343,7 @@ export interface ArtefactHistoryProps {
   onPageChange?: (page: number) => void;
 }
 
-/** Paginated execution/session history list. Reuses ListView. */
+/** Paginated execution/session history list. */
 export function ArtefactHistory({
   entries,
   totalItems,
@@ -352,18 +352,72 @@ export function ArtefactHistory({
   onPageChange,
 }: ArtefactHistoryProps) {
   return (
-    <ListView
-      columns={HISTORY_COLUMNS}
-      rows={entries}
-      heading="Execution history"
-      paginationMode="pages"
-      pagination={
-        totalItems !== undefined
-          ? { page, pageSize, totalItems }
-          : undefined
-      }
-      onPageChange={onPageChange}
-    />
+    <div className="aa-artefact-history">
+      <table className="cc-table" aria-label="Execution history">
+        <thead>
+          <tr>
+            {HISTORY_COLUMNS.map((col) => (
+              <th key={col.key} scope="col" className="cc-table__th">
+                {col.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {entries.length === 0 ? (
+            <tr>
+              <td
+                colSpan={HISTORY_COLUMNS.length}
+                className="cc-table__td"
+              >
+                <p role="status" className="aa-artefact-history__empty">
+                  No execution history available.
+                </p>
+              </td>
+            </tr>
+          ) : (
+            entries.map((entry) => (
+              <tr key={entry.id} className="cc-table__row">
+                {HISTORY_COLUMNS.map((col) => (
+                  <td key={col.key} className="cc-table__td">
+                    {col.render(entry)}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+      {totalItems !== undefined && (
+        <nav
+          className="aa-artefact-history__pagination"
+          aria-label="History pagination"
+          role="navigation"
+        >
+          <button
+            type="button"
+            className="cc-btn cc-btn--ghost cc-btn--sm"
+            disabled={page <= 1}
+            onClick={() => onPageChange?.(page - 1)}
+            aria-label="Previous page"
+          >
+            ‹ Prev
+          </button>
+          <span className="aa-artefact-history__page-info" aria-live="polite">
+            Page {page} of {Math.ceil(totalItems / pageSize)}
+          </span>
+          <button
+            type="button"
+            className="cc-btn cc-btn--ghost cc-btn--sm"
+            disabled={page >= Math.ceil(totalItems / pageSize)}
+            onClick={() => onPageChange?.(page + 1)}
+            aria-label="Next page"
+          >
+            Next ›
+          </button>
+        </nav>
+      )}
+    </div>
   );
 }
 
@@ -402,11 +456,43 @@ export interface ArtefactCallersProps {
 /** Version-aware list of callers bound to this artefact. */
 export function ArtefactCallers({ callers }: ArtefactCallersProps) {
   return (
-    <ListView
-      columns={CALLERS_COLUMNS}
-      rows={callers}
-      heading="Callers"
-    />
+    <div className="aa-artefact-callers">
+      <table className="cc-table" aria-label="Callers">
+        <thead>
+          <tr>
+            {CALLERS_COLUMNS.map((col) => (
+              <th key={col.key} scope="col" className="cc-table__th">
+                {col.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {callers.length === 0 ? (
+            <tr>
+              <td
+                colSpan={CALLERS_COLUMNS.length}
+                className="cc-table__td"
+              >
+                <p role="status" className="aa-artefact-callers__empty">
+                  No callers found.
+                </p>
+              </td>
+            </tr>
+          ) : (
+            callers.map((caller) => (
+              <tr key={caller.id} className="cc-table__row">
+                {CALLERS_COLUMNS.map((col) => (
+                  <td key={col.key} className="cc-table__td">
+                    {col.render(caller)}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
@@ -454,11 +540,43 @@ export interface ArtefactVersioningProps {
 /** Version list with active version pointer. */
 export function ArtefactVersioning({ versions }: ArtefactVersioningProps) {
   return (
-    <ListView
-      columns={VERSIONS_COLUMNS}
-      rows={versions.map((v) => ({ ...v, id: String(v.version) }))}
-      heading="Versions"
-    />
+    <div className="aa-artefact-versions">
+      <table className="cc-table" aria-label="Versions">
+        <thead>
+          <tr>
+            {VERSIONS_COLUMNS.map((col) => (
+              <th key={col.key} scope="col" className="cc-table__th">
+                {col.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {versions.length === 0 ? (
+            <tr>
+              <td
+                colSpan={VERSIONS_COLUMNS.length}
+                className="cc-table__td"
+              >
+                <p role="status" className="aa-artefact-versions__empty">
+                  No versions found.
+                </p>
+              </td>
+            </tr>
+          ) : (
+            versions.map((version) => (
+              <tr key={String(version.version)} className="cc-table__row">
+                {VERSIONS_COLUMNS.map((col) => (
+                  <td key={col.key} className="cc-table__td">
+                    {col.render(version)}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
