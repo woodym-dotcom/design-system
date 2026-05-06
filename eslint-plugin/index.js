@@ -295,6 +295,64 @@ const noAdhocTenancySelector = {
   },
 };
 
+// ── Rule: no-bespoke-entity-shell ──────────────────────────────────────────────
+
+/**
+ * Detects the bespoke entity-shell bypass pattern:
+ * rendering ModuleShell alongside sibling DetailPane / FilterBar / BulkActionBar
+ * outside of ListPage's standardized slots.
+ *
+ * This bypasses the canonical entity-surface design and fragments the UX.
+ * Use <ListPage> with the appropriate sub-objects instead.
+ */
+const noBespokeEntityShell = {
+  meta: {
+    type: 'suggestion',
+    docs: {
+      description:
+        'Disallow bespoke entity-shell patterns outside <ListPage>. Use <ListPage> with detail, filters, and bulk sub-objects instead.',
+      recommended: true,
+      url: 'https://www.notion.so/Canonical-Entity-Surface-Patterns-358b63f3c7658120ae1afeeccbd7fd4d',
+    },
+    messages: {
+      noBespokeShell:
+        'Bespoke entity-shell pattern detected: ModuleShell with sibling DetailPane/FilterBar/BulkActionBar. ' +
+        'Use <ListPage> with detail, filters, and bulk sub-objects instead. ' +
+        'See canonical patterns: https://www.notion.so/Canonical-Entity-Surface-Patterns-358b63f3c7658120ae1afeeccbd7fd4d ' +
+        'and design-system/DESIGN.md § Entity Surface Patterns.',
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      JSXElement(node) {
+        const opening = node.openingElement;
+        if (
+          !opening ||
+          opening.name.type !== 'JSXIdentifier' ||
+          opening.name.name !== 'ModuleShell'
+        ) {
+          return;
+        }
+
+        // Check if this ModuleShell is directly inside a ListPage
+        if (isInsideListPage(node)) {
+          return;
+        }
+
+        // Check if any sibling or uncle JSX element has the anti-pattern names
+        const ancestors = getAncestorElements(node);
+        if (ancestors.some((ancestor) => hasBespokeDetailOrFilterSibling(ancestor))) {
+          context.report({
+            node,
+            messageId: 'noBespokeShell',
+          });
+        }
+      },
+    };
+  },
+};
+
 const DS_CREATE_WRAPPERS = new Set(['CreateMenu', 'TopRightCreateWizard']);
 
 function isInsideDsCreateWrapper(node) {
@@ -311,6 +369,52 @@ function isInsideDsCreateWrapper(node) {
   return false;
 }
 
+function isInsideListPage(node) {
+  let current = node.parent;
+  while (current) {
+    if (current.type === 'JSXElement') {
+      const name = current.openingElement?.name;
+      if (name && name.type === 'JSXIdentifier' && name.name === 'ListPage') {
+        return true;
+      }
+    }
+    current = current.parent;
+  }
+  return false;
+}
+
+function getAncestorElements(node) {
+  const ancestors = [];
+  let current = node.parent;
+  while (current) {
+    if (current.type === 'JSXElement') {
+      ancestors.push(current);
+    }
+    current = current.parent;
+  }
+  return ancestors;
+}
+
+function hasBespokeDetailOrFilterSibling(containerNode) {
+  if (!containerNode.children) return false;
+  const antiBespokeNames = new Set([
+    'DetailPane',
+    'ExpandableDetailPane',
+    'FilterBar',
+    'BulkActionBar',
+  ]);
+
+  return containerNode.children.some((child) => {
+    if (child.type !== 'JSXElement') return false;
+    const name = child.openingElement?.name;
+    return (
+      name &&
+      name.type === 'JSXIdentifier' &&
+      antiBespokeNames.has(name.name)
+    );
+  });
+}
+
 // ── Plugin export ─────────────────────────────────────────────────────────────
 
 const plugin = {
@@ -323,6 +427,7 @@ const plugin = {
     'no-inline-edit-pattern': noInlineEditPattern,
     'no-adhoc-create-button': noAdhocCreateButton,
     'no-adhoc-tenancy-selector': noAdhocTenancySelector,
+    'no-bespoke-entity-shell': noBespokeEntityShell,
   },
   configs: {
     /** Recommended config: all rules as errors/warnings. */
@@ -333,6 +438,7 @@ const plugin = {
         '@ds/core/no-inline-edit-pattern': 'warn',
         '@ds/core/no-adhoc-create-button': 'warn',
         '@ds/core/no-adhoc-tenancy-selector': 'warn',
+        '@ds/core/no-bespoke-entity-shell': 'warn',
       },
     },
   },

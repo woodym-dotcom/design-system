@@ -584,14 +584,14 @@ function DetailShell({
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-const EMPTY_LIST = { columns: [], rows: [] } as ListPageListProps<{ id: string }>;
+const EMPTY_LIST = { columns: [], rows: [] };
 
 export function ListPage<TRow extends { id: string } = { id: string }>({
   heading,
   subtitle,
   breadcrumb,
   createMenu,
-  list = EMPTY_LIST as ListPageListProps<TRow>,
+  list = EMPTY_LIST as unknown as ListPageListProps<TRow>,
   filters,
   detail,
   bulk,
