@@ -47,7 +47,7 @@ const noCardEntityLayout = {
     messages: {
       noCardClass:
         'Card-based entity layout detected (className "{{value}}"). Use <ListView> from @ds/core for entity lists. ' +
-        'See docs/primitives.md#listview.',
+        'See canonical patterns: https://www.notion.so/Canonical-Entity-Surface-Patterns-358b63f3c7658120ae1afeeccbd7fd4d',
     },
     schema: [],
   },
@@ -93,8 +93,8 @@ const noInlineEditPattern = {
     },
     messages: {
       noInlineEdit:
-        'Inline-edit pattern detected (variable "{{name}}"). Use <ExpandableDetailPane> from @ds/core. ' +
-        'See docs/primitives.md#expandabledetailpane.',
+        'Inline-edit pattern detected (variable "{{name}}"). Use <ExpandableDetailPane> from @ds/core — detail-pane edit pattern only. ' +
+        'See canonical patterns: https://www.notion.so/Canonical-Entity-Surface-Patterns-358b63f3c7658120ae1afeeccbd7fd4d',
     },
     schema: [],
   },
@@ -147,8 +147,8 @@ const noAdhocCreateButton = {
     },
     messages: {
       noAdhocCreate:
-        'Ad-hoc Create/+ button detected. Use <TopRightCreateWizard> or <CreateMenu> from @ds/core. ' +
-        'See docs/primitives.md#toprightcreatewizard.',
+        'Ad-hoc Create/+ button detected. Use ListPage.createMenu — see canonical patterns: ' +
+        'https://www.notion.so/Canonical-Entity-Surface-Patterns-358b63f3c7658120ae1afeeccbd7fd4d',
     },
     schema: [],
   },
