@@ -739,6 +739,12 @@ Wrap rows or cards in `.cc-record-list` to get consistent `space-2` gap between 
 
 For consumers that need a resizable detail panel (user-drag left edge) and mobile-fullscreen behavior, extend with `.cc-detail--resizable`. The consumer provides the React state and sets the width via inline style; the primitive supplies `.cc-detail__resize-handle` (12px column on the left edge, accent-tinted on hover / `.is-resizing`) and collapses the panel to 100% width below 640px. Structural children: `.cc-detail__header` (h2 + close), `.cc-detail__body` (scrollable), `.cc-detail__footer` (optional).
 
+**`DetailPane` component (`@ds/core/react/DetailPane`)** — RW-lift additions (Phase 1):
+
+- `subtitle?: string` — renders below the title in the header (entity state / role / status line).
+- `resizeKey?: string` — enables drag-resize on the left edge; persists user-chosen width to `localStorage["ds-detailpane-width-${resizeKey}"]`. Omit to use fixed default width.
+- `fullscreen?: boolean` + `onFullscreenChange?: (fs: boolean) => void` — fullscreen toggle button in the header. When neither prop is supplied, fullscreen is managed internally. When `fullscreen` prop is provided, the component is fully controlled. Escape key exits fullscreen first; a second Escape closes the pane.
+
 ### Modals
 
 `.cc-modal` is `surface-0`, `radius-lg`, `space-6` padding, `min-width: 420px`, `shadow-2`. Wrap in `.cc-scrim` for the backdrop (rgba(0,0,0,0.3) + 4px backdrop blur). Modals are centered via `place-items: center` on the scrim.
@@ -799,6 +805,31 @@ Pair with the `tasksStore` module (`startTask` / `updateTask` / `finishTask` / `
 - `__spacer` — pushes trailing content (typically a "Save view" button) to the right edge
 
 Use the `FilterBar` component in `@aa/ui` plus the `useSavedViews(surface)` hook in `apps/frontend`. The hook talks to `/v1/platform/views` (CRUD on the `saved_views` table); each saved view stores filter / sort / shared as JSONB. The pattern is per-surface: `risk.alerts`, `quality.reviews`, `regulatory.filings` each have their own namespace of personal + shared views.
+
+**`FilterBar` layout modes (`@ds/core/react/FilterBar`)** — RW-lift additions (Phase 1):
+
+`layout` prop selects the visual mode; default is `"horizontal"` (backward-compatible):
+
+- `"horizontal"` — flat chip row (existing behavior, unchanged).
+- `"sidebar"` — sticky `220px` left rail (`cc-filter-bar--sidebar`). Options are rendered as grouped pill chips by the `group` field on each `FilterChip`. Within each group: "All {group}" appears first (`aria-pressed=true` when no group items are active); individual chips follow. A `count` badge on each chip renders when `count > 0`.
+- `"responsive"` — `"sidebar"` at or above `collapsedAt` px (default 768), `"horizontal"` below.
+
+**`useUrlFilterState` hook (`@ds/core/react/hooks/useUrlFilterState`)** — RW-lift addition (Phase 1):
+
+Persist filter state to `URLSearchParams` so filter selections survive page reload, back-button navigation, and are shareable via URL.
+
+```ts
+const [filters, setFilters] = useUrlFilterState(
+  { status: [], role: [] },          // initial shape — keys define managed params
+  { paramPrefix: 'f_', debounceMs: 200 },   // optional
+);
+```
+
+- Multi-value: encoded as comma-separated — `?status=active,pending`.
+- Malformed URL → falls back to `initial` with a `console.warn`.
+- `paramPrefix` namespaces params when multiple filter states share one URL.
+- `debounceMs` defers URL writes (state updates immediately).
+- Back-button safe: listens to `popstate` and re-decodes URL on navigation.
 
 ### Global search
 

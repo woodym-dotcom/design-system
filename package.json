@@ -41,6 +41,7 @@
     "./react/CompanyGroupSwitcher": "./react/CompanyGroupSwitcher.tsx",
     "./react/ArtefactDetailPane": "./react/ArtefactDetailPane.tsx",
     "./react/FileUploadField": "./react/FileUploadField.tsx",
+    "./react/hooks/useUrlFilterState": "./react/hooks/useUrlFilterState.ts",
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {

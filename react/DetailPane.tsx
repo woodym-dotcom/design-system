@@ -11,15 +11,122 @@ export interface DetailPaneProps {
   title: string;
   sections: DetailPaneSection[];
   className?: string;
+  /** Optional subtitle rendered below the title in the header. */
+  subtitle?: string;
+  /**
+   * When provided, enables drag-to-resize on the left edge and persists the
+   * user-chosen width to `localStorage[ds-detailpane-width-${resizeKey}]`.
+   */
+  resizeKey?: string;
+  /**
+   * Controlled fullscreen state. When omitted, fullscreen is managed
+   * internally. Use together with `onFullscreenChange` for controlled usage.
+   */
+  fullscreen?: boolean;
+  /** Called when the fullscreen state toggles. */
+  onFullscreenChange?: (fs: boolean) => void;
 }
 
 const FOCUSABLE_SELECTOR =
   'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable=true]';
 
-export function DetailPane({ open, onClose, title, sections, className }: DetailPaneProps) {
+const MIN_WIDTH = 320;
+const MAX_WIDTH_VW = 95;
+const STORAGE_PREFIX = 'ds-detailpane-width-';
+const DEFAULT_WIDTH = 480;
+
+function clampWidth(px: number): number {
+  if (typeof window === 'undefined') return Math.max(MIN_WIDTH, px);
+  const max = Math.floor((window.innerWidth * MAX_WIDTH_VW) / 100);
+  return Math.min(Math.max(MIN_WIDTH, Math.round(px)), max);
+}
+
+function readStoredWidth(key: string, fallback: number): number {
+  if (typeof window === 'undefined') return fallback;
+  try {
+    const stored = window.localStorage.getItem(key);
+    if (!stored) return fallback;
+    const n = parseInt(stored, 10);
+    return Number.isFinite(n) ? clampWidth(n) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+export function DetailPane({
+  open,
+  onClose,
+  title,
+  sections,
+  className,
+  subtitle,
+  resizeKey,
+  fullscreen: fullscreenProp,
+  onFullscreenChange,
+}: DetailPaneProps) {
   const paneRef = React.useRef<HTMLDivElement | null>(null);
   const previouslyFocused = React.useRef<HTMLElement | null>(null);
 
+  // Fullscreen — controlled if `fullscreen` prop provided, otherwise internal.
+  const isControlled = fullscreenProp !== undefined;
+  const [internalFullscreen, setInternalFullscreen] = React.useState(false);
+  const fullscreen = isControlled ? fullscreenProp : internalFullscreen;
+
+  const toggleFullscreen = React.useCallback(() => {
+    const next = !fullscreen;
+    if (!isControlled) setInternalFullscreen(next);
+    onFullscreenChange?.(next);
+  }, [fullscreen, isControlled, onFullscreenChange]);
+
+  // Resize state — only active when resizeKey provided.
+  const storageKey = resizeKey ? `${STORAGE_PREFIX}${resizeKey}` : null;
+  const [panelWidth, setPanelWidth] = React.useState<number>(() =>
+    storageKey ? readStoredWidth(storageKey, DEFAULT_WIDTH) : DEFAULT_WIDTH,
+  );
+  const [resizing, setResizing] = React.useState(false);
+  const startXRef = React.useRef(0);
+  const startWidthRef = React.useRef(0);
+
+  const beginResize = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      startXRef.current = e.clientX;
+      startWidthRef.current = panelWidth;
+      setResizing(true);
+      try {
+        (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      } catch {
+        /* pointer capture is best-effort */
+      }
+    },
+    [panelWidth],
+  );
+
+  React.useEffect(() => {
+    if (!resizing) return;
+    const onMove = (e: PointerEvent) => {
+      const dx = startXRef.current - e.clientX;
+      setPanelWidth(clampWidth(startWidthRef.current + dx));
+    };
+    const onUp = () => {
+      setResizing(false);
+      if (storageKey) {
+        try {
+          window.localStorage.setItem(storageKey, String(panelWidth));
+        } catch {
+          /* localStorage may be unavailable (private mode); ignore. */
+        }
+      }
+    };
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+    return () => {
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+    };
+  }, [resizing, panelWidth, storageKey]);
+
+  // Focus management.
   React.useEffect(() => {
     if (!open) return;
     if (typeof document === 'undefined') return;
@@ -34,20 +141,26 @@ export function DetailPane({ open, onClose, title, sections, className }: Detail
     };
   }, [open]);
 
+  // Keyboard: Escape exits fullscreen first, then closes on second press.
   React.useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         event.stopPropagation();
+        if (fullscreen) {
+          if (!isControlled) setInternalFullscreen(false);
+          onFullscreenChange?.(false);
+          return;
+        }
         onClose();
         return;
       }
       if (event.key !== 'Tab') return;
       const node = paneRef.current;
       if (!node) return;
-      const focusables = Array.from(node.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
-        (element) => !element.hasAttribute('disabled'),
-      );
+      const focusables = Array.from(
+        node.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+      ).filter((el) => !el.hasAttribute('disabled'));
       if (focusables.length === 0) {
         event.preventDefault();
         node.focus();
@@ -66,11 +179,17 @@ export function DetailPane({ open, onClose, title, sections, className }: Detail
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [open, onClose]);
+  }, [open, onClose, fullscreen, isControlled, onFullscreenChange]);
 
   const classes = ['cc-detail-pane'];
   if (open) classes.push('is-open');
+  if (fullscreen) classes.push('cc-detail-pane--fullscreen');
   if (className) classes.push(className);
+
+  const widthStyle =
+    resizeKey && !fullscreen
+      ? { width: panelWidth, maxWidth: `${MAX_WIDTH_VW}vw` }
+      : undefined;
 
   return (
     <>
@@ -87,23 +206,57 @@ export function DetailPane({ open, onClose, title, sections, className }: Detail
         aria-hidden={!open}
         tabIndex={-1}
         className={classes.join(' ')}
+        style={widthStyle}
       >
+        {/* Drag-resize handle — only when resizeKey provided and not fullscreen */}
+        {resizeKey && !fullscreen && (
+          <div
+            role="separator"
+            aria-orientation="vertical"
+            aria-label="Resize panel"
+            onPointerDown={beginResize}
+            className={`cc-detail-pane__resize-handle${resizing ? ' is-resizing' : ''}`}
+          />
+        )}
+
         <header className="cc-detail-pane__header">
-          <h2 id="cc-detail-pane-title" className="cc-detail-pane__title">{title}</h2>
-          <button
-            type="button"
-            className="cc-detail-pane__close"
-            onClick={onClose}
-            aria-label="Close panel"
-          >
-            Close
-          </button>
+          <div className="cc-detail-pane__header-title">
+            <h2 id="cc-detail-pane-title" className="cc-detail-pane__title">
+              {title}
+            </h2>
+            {subtitle && (
+              <p className="cc-detail-pane__subtitle">{subtitle}</p>
+            )}
+          </div>
+          <div className="cc-detail-pane__header-actions">
+            <button
+              type="button"
+              className="cc-detail-pane__fullscreen-toggle"
+              onClick={toggleFullscreen}
+              aria-label={fullscreen ? 'Exit full screen' : 'Full screen panel'}
+              aria-pressed={fullscreen}
+            >
+              {fullscreen ? 'Minimize' : 'Maximize'}
+            </button>
+            <button
+              type="button"
+              className="cc-detail-pane__close"
+              onClick={onClose}
+              aria-label="Close panel"
+            >
+              Close
+            </button>
+          </div>
         </header>
         <div className="cc-detail-pane__body">
           {sections.map((section, index) => (
             <section key={index} className="cc-detail-pane__section">
-              <h3 className="cc-detail-pane__section-heading">{section.heading}</h3>
-              <div className="cc-detail-pane__section-content">{section.content}</div>
+              <h3 className="cc-detail-pane__section-heading">
+                {section.heading}
+              </h3>
+              <div className="cc-detail-pane__section-content">
+                {section.content}
+              </div>
             </section>
           ))}
         </div>
