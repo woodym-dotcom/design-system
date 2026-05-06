@@ -37,8 +37,8 @@ describe('@ds/core/no-bespoke-entity-shell ESLint rule', () => {
     expect(rule.meta.messages.noBespokeShell).toMatch(/ListPage/);
   });
 
-  it('should be in the recommended config as warn', () => {
+  it('should be in the recommended config as error', () => {
     const recommended = plugin.configs.recommended.rules;
-    expect(recommended['@ds/core/no-bespoke-entity-shell']).toBe('warn');
+    expect(recommended['@ds/core/no-bespoke-entity-shell']).toBe('error');
   });
 });
