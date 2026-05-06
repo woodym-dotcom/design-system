@@ -1,5 +1,11 @@
 export { useTheme, initTheme, type Theme } from "./useTheme";
-export { useUrlFilterState, type UseUrlFilterStateOptions } from "./hooks/useUrlFilterState";
+export {
+  useUrlFilterState,
+  useUrlFilterStateRouter,
+  type UseUrlFilterStateOptions,
+  type UrlFilterStateRouterAdapter,
+  type TanStackRouterAdapterInput,
+} from "./hooks/useUrlFilterState";
 export { FormField, type FormFieldProps, type FormFieldType } from "./FormField";
 export { FilterBar, type FilterBarProps, type FilterChip } from "./FilterBar";
 export { NavRail, type NavRailProps, type NavRailItem, type NavRailRenderItemContext } from "./NavRail";
@@ -61,6 +67,15 @@ export {
 export {
   ListPage,
   type ListPageProps,
+  type ListPageListProps,
+  type ListPageDetailProps,
+  type ListPageFilters,
+  type ListPageFiltersChips,
+  type ListPageFiltersSidebar,
+  type ListPageFiltersResponsive,
+  type ListPageUrlState,
+  type ListPagePermissions,
+  type BulkAction,
 } from "./ListPage";
 export {
   ConfigurationsPage,
@@ -89,14 +104,14 @@ export {
 } from "./CreationWizard";
 export { ListPageHeader, type ListPageHeaderProps } from "./ListPageHeader";
 export { DetailPane, type DetailPaneProps, type DetailPaneSection } from "./DetailPane";
-export {
-  ListView,
-  type ListViewProps,
-  type ListViewColumn,
-  type ListViewScopeFilter,
-  type ListViewPaginationMode,
-  type ListViewPaginationState,
-  type SortDirection,
+// ListView deleted — zero consumers; use ListPage.list.{columns,rows} instead.
+// Types re-exported for consumers that reference them directly.
+export type {
+  ListViewColumn,
+  ListViewScopeFilter,
+  ListViewPaginationMode,
+  ListViewPaginationState,
+  SortDirection,
 } from "./ListView";
 export {
   ExpandableDetailPane,

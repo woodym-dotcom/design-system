@@ -1,5 +1,5 @@
 > **Canonical source.** This file (`design-system/DESIGN.md`) is the authoritative spec for `@ds/core`. The [Notion page](https://www.notion.so/358b63f3c7658169b736c2be8ebf7838) is a discoverability stub only; it updates referentially but does not drive changes. On any divergence, this repo file wins.
-> Last updated: 2026-05-06
+> Last updated: 2026-05-06 (Phase 2: ListPage keystone, ListView deleted)
 
 ---
 name: "@ds/core"
@@ -638,6 +638,59 @@ The radius scale is tight — `sm: 6px`, `md: 8px`, `lg: 10px`. There are no ver
 - **Record rows and combobox options** — `md` (8px): slightly softer for list items that need to feel selectable without dominating
 - **Panels, modals, detail panels, and the app shell** — `lg` (10px): the largest surfaces use the largest radius; the increment from `md` is subtle but prevents the UI from looking rectangular
 - **Chips and identity badges** — `pill`: the only place where full-round corners appear, used specifically to distinguish non-interactive labels from interactive controls at a glance
+
+## Entity surface composition
+
+`ListPage` is the canonical **keystone primitive** for every entity list surface across CC / AA / CL. Every route that renders a list of entities mounts exactly one `<ListPage>` — no hand-rolled tables, no local FilterBar re-implementations, no bespoke pagination.
+
+### Architecture
+
+```
+ModuleShell (tab chrome + URL state for active tab)
+  └─ ListPage (heading, filters, table, detail pane, bulk bar, URL state for filters/selection/fullscreen)
+       ├─ FilterBar (chips / sidebar / responsive — via filters prop)
+       ├─ TableRegion (embedded; folds former ListView)
+       ├─ PaginationBar
+       ├─ DetailShell (controlled by detail.selectedId; edit-mode button owned by ListPage)
+       └─ BulkBar (z-50; below fullscreen pane at z-60)
+```
+
+`ListView` was deleted in Phase 2 (342 LOC, zero consumers). Its table render logic lives in `ListPage`'s internal `TableRegion`.
+
+### Escape hatches
+
+`ExpandableDetailPane`, `FilterBar`, `CreationWizard` remain importable for non-entity-surface uses (e.g. artefact viewers in AA). The `list.children` escape hatch is available for surfaces that cannot express their body as `list.{columns, rows}`.
+
+### z-index contract
+
+| Layer | z-index | When |
+|---|---|---|
+| Normal detail pane | 40 | `detail.fullscreen=false` |
+| Bulk action bar | 50 | Any selection active |
+| Fullscreen detail pane | 60 | `detail.fullscreen=true` |
+
+### URL state
+
+`urlState` prop opts in to URL persistence via `useUrlFilterState`. Three axes:
+- Filter arrays → comma-separated `?{prefix}status=active,pending`
+- `selectedId` scalar → `?{prefix}_selectedId=abc`
+- `fullscreen` boolean → `?{prefix}_fullscreen=1`
+
+TanStack Router adapter: call `useUrlFilterStateRouter(input)` to get an `UrlFilterStateRouterAdapter` and pass it as `urlState.router`. Mirrors `useModuleShellRouter` adapter pattern.
+
+### Permission gating
+
+`permissions.canCreate=false` → CreateMenu hidden (not disabled).
+`permissions.canEdit=false` → edit toggle hidden from detail pane header.
+`permissions.canDelete=false` → bulk delete action hidden.
+
+Rationale: hiding is the established CC/CL pattern; disabled buttons for inaccessible affordances are noise.
+
+### Phase 3 migration
+
+~12 consumer routes across CC (4), AA (4), CL (2) + others will migrate to `ListPage` in Phase 3. The Phase 2 PR ships the keystone; consumer adoption is Phase 3.
+
+---
 
 ## Components
 

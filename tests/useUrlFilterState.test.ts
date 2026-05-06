@@ -232,3 +232,138 @@ describe('debounceMs option', () => {
     vi.useRealTimers();
   });
 });
+
+// ---------------------------------------------------------------------------
+// Phase 2 — scalar string + boolean support
+// ---------------------------------------------------------------------------
+
+describe('useUrlFilterState — scalar string values (Phase 2)', () => {
+  beforeEach(() => {
+    setSearch('');
+    vi.spyOn(window.history, 'replaceState').mockImplementation(() => {});
+  });
+  afterEach(() => vi.restoreAllMocks());
+
+  it('encodes non-empty scalar string to URL', () => {
+    const { result } = renderHook(() =>
+      useUrlFilterState({ selectedId: '' }),
+    );
+    act(() => {
+      result.current[1]({ selectedId: 'abc-123' });
+    });
+    const call = (window.history.replaceState as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(call[2]).toContain('selectedId=abc-123');
+  });
+
+  it('removes scalar param from URL when value is empty string', () => {
+    const { result } = renderHook(() =>
+      useUrlFilterState({ selectedId: 'old' }),
+    );
+    act(() => {
+      result.current[1]({ selectedId: '' });
+    });
+    const call = (window.history.replaceState as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(call[2]).not.toContain('selectedId');
+  });
+
+  it('decodes scalar string from URL on init', () => {
+    setSearch('?selectedId=xyz');
+    const { result } = renderHook(() =>
+      useUrlFilterState({ selectedId: '' }),
+    );
+    expect(result.current[0].selectedId).toBe('xyz');
+  });
+});
+
+describe('useUrlFilterState — boolean values (Phase 2)', () => {
+  beforeEach(() => {
+    setSearch('');
+    vi.spyOn(window.history, 'replaceState').mockImplementation(() => {});
+  });
+  afterEach(() => vi.restoreAllMocks());
+
+  it('encodes true boolean as "1" in URL', () => {
+    const { result } = renderHook(() =>
+      useUrlFilterState({ fullscreen: false }),
+    );
+    act(() => {
+      result.current[1]({ fullscreen: true });
+    });
+    const call = (window.history.replaceState as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(call[2]).toContain('fullscreen=1');
+  });
+
+  it('removes boolean param from URL when false', () => {
+    const { result } = renderHook(() =>
+      useUrlFilterState({ fullscreen: true }),
+    );
+    act(() => {
+      result.current[1]({ fullscreen: false });
+    });
+    const call = (window.history.replaceState as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(call[2]).not.toContain('fullscreen');
+  });
+
+  it('decodes "1" from URL as true boolean', () => {
+    setSearch('?fullscreen=1');
+    const { result } = renderHook(() =>
+      useUrlFilterState({ fullscreen: false }),
+    );
+    expect(result.current[0].fullscreen).toBe(true);
+  });
+
+  it('treats absent boolean param as false', () => {
+    setSearch('');
+    const { result } = renderHook(() =>
+      useUrlFilterState({ fullscreen: false }),
+    );
+    expect(result.current[0].fullscreen).toBe(false);
+  });
+
+  it('warns and returns false for unexpected boolean value', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    setSearch('?fullscreen=yes');
+    const { result } = renderHook(() =>
+      useUrlFilterState({ fullscreen: false }),
+    );
+    expect(result.current[0].fullscreen).toBe(false);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Unexpected boolean'));
+    warnSpy.mockRestore();
+  });
+});
+
+describe('useUrlFilterState — router adapter (Phase 2)', () => {
+  it('reads search from router.getSearch when adapter provided', () => {
+    const getSearch = vi.fn().mockReturnValue('?status=active');
+    const setSearch = vi.fn();
+    const subscribe = vi.fn().mockReturnValue(() => {});
+
+    const { result } = renderHook(() =>
+      useUrlFilterState(
+        { status: [] },
+        { router: { getSearch, setSearch, subscribe } },
+      ),
+    );
+
+    expect(result.current[0].status).toEqual(['active']);
+  });
+
+  it('calls router.setSearch when state changes', () => {
+    const getSearch = vi.fn().mockReturnValue('');
+    const setSearch = vi.fn();
+    const subscribe = vi.fn().mockReturnValue(() => {});
+
+    const { result } = renderHook(() =>
+      useUrlFilterState(
+        { status: [] },
+        { router: { getSearch, setSearch, subscribe } },
+      ),
+    );
+
+    act(() => {
+      result.current[1]({ status: ['active'] });
+    });
+
+    expect(setSearch).toHaveBeenCalledWith(expect.stringContaining('status=active'));
+  });
+});
