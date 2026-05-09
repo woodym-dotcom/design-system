@@ -324,3 +324,74 @@ describe('formatFileSize utility', () => {
     expect(formatFileSize(2 * 1024 * 1024)).toBe('2.0 MB');
   });
 });
+
+// ---------------------------------------------------------------------------
+// 11. fileMatchesAccept utility — zero-MIME-type files matched by extension
+// ---------------------------------------------------------------------------
+describe('fileMatchesAccept utility', () => {
+  it('returns true when accept is empty or undefined', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const file = makeFile('test.whl', 100, '');
+    expect(fileMatchesAccept(file)).toBe(true);
+    expect(fileMatchesAccept(file, '')).toBe(true);
+    expect(fileMatchesAccept(file, undefined)).toBe(true);
+  });
+
+  it('matches file with zero-MIME-type by extension when accept specifies extension', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const file = makeFile('archive.whl', 100, '');
+    expect(fileMatchesAccept(file, '.whl')).toBe(true);
+  });
+
+  it('does NOT match file with zero-MIME-type and non-matching extension', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const file = makeFile('data.bin', 100, '');
+    expect(fileMatchesAccept(file, '.whl')).toBe(false);
+  });
+
+  it('does NOT match file with zero-MIME-type against */* accept pattern', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const file = makeFile('data.bin', 100, '');
+    expect(fileMatchesAccept(file, '*/*')).toBe(false);
+  });
+
+  it('falls through to extension check for zero-MIME-type when image/* does not match', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const file = makeFile('photo.whl', 100, '');
+    expect(fileMatchesAccept(file, 'image/*')).toBe(false);
+  });
+
+  it('matches MIME type exactly for files with MIME type', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const file = makeFile('document.pdf', 100, 'application/pdf');
+    expect(fileMatchesAccept(file, 'application/pdf')).toBe(true);
+  });
+
+  it('matches wildcard MIME type for files with MIME type', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const file = makeFile('photo.jpg', 100, 'image/jpeg');
+    expect(fileMatchesAccept(file, 'image/*')).toBe(true);
+  });
+
+  it('does NOT match MIME type when file has different type', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const file = makeFile('document.pdf', 100, 'application/pdf');
+    expect(fileMatchesAccept(file, 'application/json')).toBe(false);
+  });
+
+  it('matches multiple comma-separated patterns', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const pdfFile = makeFile('doc.pdf', 100, 'application/pdf');
+    const jpgFile = makeFile('photo.jpg', 100, 'image/jpeg');
+    expect(fileMatchesAccept(pdfFile, 'application/pdf,image/*')).toBe(true);
+    expect(fileMatchesAccept(jpgFile, 'application/pdf,image/*')).toBe(true);
+  });
+
+  it('handles mixed extension and MIME type patterns', async () => {
+    const { fileMatchesAccept } = await import('../react/fileUploadUtils');
+    const csvFile = makeFile('data.csv', 100, '');
+    const pdfFile = makeFile('doc.pdf', 100, 'application/pdf');
+    expect(fileMatchesAccept(csvFile, '.csv,application/pdf')).toBe(true);
+    expect(fileMatchesAccept(pdfFile, '.csv,application/pdf')).toBe(true);
+  });
+});
