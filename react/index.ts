@@ -157,3 +157,8 @@ export {
   type FileUploadFieldProps,
 } from "./FileUploadField";
 export { formatFileSize, fileMatchesAccept } from "./fileUploadUtils";
+export {
+  LifecycleStateBadge,
+  type LifecycleStateBadgeProps,
+  type ChipTone,
+} from "./LifecycleStateBadge";
