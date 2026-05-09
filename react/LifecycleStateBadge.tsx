@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export type ChipTone = 'neutral' | 'accent' | 'success' | 'warning' | 'info' | 'danger'
 
