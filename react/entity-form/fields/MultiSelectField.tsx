@@ -13,7 +13,8 @@ export interface MultiSelectFieldProps extends FieldPrimitiveProps<string[]> {
 }
 
 export function MultiSelectField({ name, form, label, hint, required, disabled, options, placeholder }: MultiSelectFieldProps) {
-  const id = `ef-${name}`;
+  const reactId = React.useId();
+  const id = `ef-${reactId}-${name}`;
   const meta = (form as any)._schema?._fieldMeta?.[name];
   const resolvedLabel = label ?? meta?.label ?? name;
   const resolvedHint = hint ?? meta?.hint;

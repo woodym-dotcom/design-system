@@ -144,6 +144,13 @@ export function ExpandableDetailPane({
 
   const activeTab = tabs.find((t) => t.id === activeTabId) ?? tabs[0];
   const showTabBar = tabs.length > 1;
+  const tabRefs = React.useRef<Record<string, HTMLButtonElement | null>>({});
+
+  const focusTab = (id: string) => {
+    setActiveTabId(id);
+    // Defer focus until the new tab's tabIndex flips to 0.
+    queueMicrotask(() => tabRefs.current[id]?.focus());
+  };
 
   const classes = [
     'cc-expandable-pane',
@@ -212,6 +219,9 @@ export function ExpandableDetailPane({
             {tabs.map((tab) => (
               <button
                 key={tab.id}
+                ref={(el) => {
+                  tabRefs.current[tab.id] = el;
+                }}
                 type="button"
                 role="tab"
                 id={`${tabPanelId}-tab-${tab.id}`}
@@ -229,16 +239,16 @@ export function ExpandableDetailPane({
                   const idx = tabs.findIndex((t) => t.id === tab.id);
                   if (e.key === 'ArrowRight') {
                     e.preventDefault();
-                    setActiveTabId(tabs[(idx + 1) % tabs.length].id);
+                    focusTab(tabs[(idx + 1) % tabs.length].id);
                   } else if (e.key === 'ArrowLeft') {
                     e.preventDefault();
-                    setActiveTabId(tabs[(idx - 1 + tabs.length) % tabs.length].id);
+                    focusTab(tabs[(idx - 1 + tabs.length) % tabs.length].id);
                   } else if (e.key === 'Home') {
                     e.preventDefault();
-                    setActiveTabId(tabs[0].id);
+                    focusTab(tabs[0].id);
                   } else if (e.key === 'End') {
                     e.preventDefault();
-                    setActiveTabId(tabs[tabs.length - 1].id);
+                    focusTab(tabs[tabs.length - 1].id);
                   }
                 }}
               >

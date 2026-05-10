@@ -3,6 +3,7 @@
  * Internal value: ISO 8601 string (YYYY-MM-DD).
  * Display: formatted as DD-MON-YYYY.
  */
+import { useId } from 'react';
 import { FieldWrapper } from './FieldWrapper';
 import type { FieldPrimitiveProps } from './types';
 
@@ -27,7 +28,8 @@ function isoToDdMonYyyy(iso: string): string {
 }
 
 export function DateField({ name, form, label, hint, required, disabled, readOnly, min, max }: DateFieldProps) {
-  const id = `ef-${name}`;
+  const reactId = useId();
+  const id = `ef-${reactId}-${name}`;
   const meta = (form as any)._schema?._fieldMeta?.[name];
   const resolvedLabel = label ?? meta?.label ?? name;
   const resolvedHint = hint ?? meta?.hint;

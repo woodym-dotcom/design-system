@@ -2,11 +2,13 @@
  * MoneyField — amount (number input) + currency select.
  * Emits { amount: number, currency: string } as a single field value.
  */
+import { useId as useReactId } from 'react';
 import { FieldWrapper } from './FieldWrapper';
 import type { FieldPrimitiveProps } from './types';
 
 export interface MoneyValue {
-  amount: number;
+  /** `null` represents an empty input (distinct from a real `0`). */
+  amount: number | null;
   currency: string;
 }
 
@@ -16,15 +18,16 @@ export interface MoneyFieldProps extends FieldPrimitiveProps<MoneyValue> {
 }
 
 export function MoneyField({ name, form, label, hint, required, disabled, currencies, defaultCurrency }: MoneyFieldProps) {
-  const id = `ef-${name}`;
+  const reactId = useReactId();
+  const id = `ef-${reactId}-${name}`;
   const meta = (form as any)._schema?._fieldMeta?.[name];
   const resolvedLabel = label ?? meta?.label ?? name;
   const resolvedHint = hint ?? meta?.hint;
   const resolvedRequired = required ?? meta?.required ?? false;
-  const current = ((form.values as Record<string, unknown>)[name] as MoneyValue) ?? { amount: 0, currency: defaultCurrency ?? currencies[0] ?? 'USD' };
+  const current = ((form.values as Record<string, unknown>)[name] as MoneyValue) ?? { amount: null, currency: defaultCurrency ?? currencies[0] ?? 'USD' };
   const error = form.errors[name];
 
-  const setAmount = (amount: number) => form.setField(name, { ...current, amount });
+  const setAmount = (amount: number | null) => form.setField(name, { ...current, amount });
   const setCurrency = (currency: string) => form.setField(name, { ...current, currency });
 
   return (
@@ -34,8 +37,11 @@ export function MoneyField({ name, form, label, hint, required, disabled, curren
           key={`${id}-amount`}
           id={id}
           type="number"
-          value={current.amount}
-          onChange={(e) => setAmount(e.target.valueAsNumber || 0)}
+          value={current.amount ?? ''}
+          onChange={(e) => {
+            const n = e.target.valueAsNumber;
+            setAmount(Number.isNaN(n) ? null : n);
+          }}
           onBlur={() => form.touchField(name)}
           required={resolvedRequired}
           disabled={disabled}

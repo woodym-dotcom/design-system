@@ -15,10 +15,13 @@ export interface SearchResult {
 export interface EntityReferenceFieldProps extends FieldPrimitiveProps<string> {
   search: (query: string) => Promise<SearchResult[]>;
   placeholder?: string;
+  /** Pre-resolved label for an existing `value` (edit mode). */
+  initialLabel?: string;
 }
 
-export function EntityReferenceField({ name, form, label, hint, required, disabled, search, placeholder }: EntityReferenceFieldProps) {
-  const id = `ef-${name}`;
+export function EntityReferenceField({ name, form, label, hint, required, disabled, search, placeholder, initialLabel }: EntityReferenceFieldProps) {
+  const reactId = React.useId();
+  const id = `ef-${reactId}-${name}`;
   const meta = (form as any)._schema?._fieldMeta?.[name];
   const resolvedLabel = label ?? meta?.label ?? name;
   const resolvedHint = hint ?? meta?.hint;
@@ -26,17 +29,19 @@ export function EntityReferenceField({ name, form, label, hint, required, disabl
   const selectedValue = ((form.values as Record<string, unknown>)[name] as string) ?? '';
   const error = form.errors[name];
 
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = React.useState(() => initialLabel ?? (selectedValue ? selectedValue : ''));
   const [results, setResults] = React.useState<SearchResult[]>([]);
   const [open, setOpen] = React.useState(false);
-  const abortRef = React.useRef<AbortController | null>(null);
+  // Guards against out-of-order responses: a slow earlier request landing
+  // after a newer one would otherwise overwrite the latest results.
+  const requestIdRef = React.useRef(0);
 
   const handleQuery = React.useCallback((q: string) => {
     setQuery(q);
     if (!q) { setResults([]); setOpen(false); return; }
-    abortRef.current?.abort();
-    abortRef.current = new AbortController();
+    const myId = ++requestIdRef.current;
     search(q).then((r) => {
+      if (myId !== requestIdRef.current) return;
       setResults(r);
       setOpen(r.length > 0);
     }).catch(() => {});

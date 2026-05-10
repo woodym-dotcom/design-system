@@ -104,7 +104,7 @@ export function ConfigurationsPage({
                 <button
                   type="button"
                   className={`cc-config-page__nav-item${isActive ? ' is-active' : ''}`}
-                  aria-current={isActive ? 'true' : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                   onClick={() => handleSelect(section.id)}
                 >
                   {section.label}

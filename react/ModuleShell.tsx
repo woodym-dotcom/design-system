@@ -109,6 +109,8 @@ export function ModuleShell({
   className,
 }: ModuleShellProps) {
   const router = useModuleShellRouter();
+  const idScope = React.useId();
+  const tabRefs = React.useRef<Record<string, HTMLButtonElement | null>>({});
 
   // Resolve the effective tab list: caller-controlled array takes precedence.
   const tabs: ModuleShellTab[] = React.useMemo(() => {
@@ -183,22 +185,27 @@ export function ModuleShell({
     writeParam(id);
   };
 
+  const handleSelectAndFocus = (id: string) => {
+    handleSelect(id);
+    queueMicrotask(() => tabRefs.current[id]?.focus());
+  };
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (!activeId) return;
     const currentIndex = tabs.findIndex((tab) => tab.id === activeId);
     if (currentIndex === -1) return;
     if (event.key === 'ArrowRight') {
       event.preventDefault();
-      handleSelect(tabs[(currentIndex + 1) % tabs.length].id as string);
+      handleSelectAndFocus(tabs[(currentIndex + 1) % tabs.length].id as string);
     } else if (event.key === 'ArrowLeft') {
       event.preventDefault();
-      handleSelect(tabs[(currentIndex - 1 + tabs.length) % tabs.length].id as string);
+      handleSelectAndFocus(tabs[(currentIndex - 1 + tabs.length) % tabs.length].id as string);
     } else if (event.key === 'Home') {
       event.preventDefault();
-      handleSelect(tabs[0].id as string);
+      handleSelectAndFocus(tabs[0].id as string);
     } else if (event.key === 'End') {
       event.preventDefault();
-      handleSelect(tabs[tabs.length - 1].id as string);
+      handleSelectAndFocus(tabs[tabs.length - 1].id as string);
     }
   };
 
@@ -227,11 +234,14 @@ export function ModuleShell({
             return (
               <button
                 key={tab.id}
+                ref={(el) => {
+                  tabRefs.current[tab.id] = el;
+                }}
                 type="button"
                 role="tab"
-                id={`cc-module-shell-tab-${tab.id}`}
+                id={`cc-module-shell-tab-${idScope}-${tab.id}`}
                 aria-selected={isActive}
-                aria-controls={`cc-module-shell-panel-${tab.id}`}
+                aria-controls={`cc-module-shell-panel-${idScope}-${tab.id}`}
                 tabIndex={isActive ? 0 : -1}
                 className={`cc-tab${isActive ? ' is-active' : ''}`}
                 onClick={() => handleSelect(tab.id)}
@@ -244,9 +254,9 @@ export function ModuleShell({
       ) : null}
       {active ? (
         <div
-          id={`cc-module-shell-panel-${active.id}`}
+          id={`cc-module-shell-panel-${idScope}-${active.id}`}
           role="tabpanel"
-          aria-labelledby={`cc-module-shell-tab-${active.id}`}
+          aria-labelledby={`cc-module-shell-tab-${idScope}-${active.id}`}
           className="cc-module-shell__panel"
         >
           {active.render()}
