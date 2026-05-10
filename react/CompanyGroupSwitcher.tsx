@@ -198,7 +198,17 @@ export function CompanyGroupSwitcher({
           {loading ? '…' : currentGroup ? initials(currentGroup.name) : '?'}
         </span>
         {currentGroup && (
-          <span className="cc-group-switcher__name">{currentGroup.name}</span>
+          <span
+            className="cc-group-switcher__name"
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              minWidth: 0,
+            }}
+          >
+            {currentGroup.name}
+          </span>
         )}
       </button>
 
@@ -268,7 +278,16 @@ export function CompanyGroupSwitcher({
                     >
                       {initials(m.name)}
                     </span>
-                    <span className="cc-group-switcher__option-name">
+                    <span
+                      className="cc-group-switcher__option-name"
+                      title={m.name}
+                      style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        minWidth: 0,
+                      }}
+                    >
                       {m.name}
                     </span>
                   </li>
