@@ -591,7 +591,7 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
   subtitle,
   breadcrumb,
   createMenu,
-  list = EMPTY_LIST as unknown as ListPageListProps<TRow>,
+  list: listProp,
   filters,
   detail,
   bulk,
@@ -609,6 +609,12 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
   selectedId: legacySelectedId = null,
   children,
 }: ListPageProps<TRow>) {
+  // Legacy callers may pass only `children` and omit `list`. In that case we
+  // skip the TableRegion entirely so its built-in empty state ("No items
+  // found.") doesn't collide with the caller-rendered legacy content.
+  const hasExplicitList = listProp !== undefined;
+  const list = listProp ?? (EMPTY_LIST as unknown as ListPageListProps<TRow>);
+
   // ── URL state (opt-in) ────────────────────────────────────────────────────
   const urlOpts: UseUrlFilterStateOptions = urlState
     ? { paramPrefix: urlState.paramPrefix ?? '', router: urlState.router }
@@ -779,22 +785,24 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
       {/* Main content: list + detail pane */}
       <div className="cc-list-page__content">
         <div className="cc-list-page__list">
-          <TableRegion
-            list={list}
-            effectiveEmptyState={effectiveEmptyState}
-            bulkSelectedIds={bulk?.selectedIds ?? []}
-            onSelectRow={
-              bulk
-                ? (id) => {
-                    const next = bulk.selectedIds.includes(id)
-                      ? bulk.selectedIds.filter((x) => x !== id)
-                      : [...bulk.selectedIds, id];
-                    bulk.onChange(next);
-                  }
-                : undefined
-            }
-            detailSelectedId={detail?.selectedId ?? legacySelectedId}
-          />
+          {hasExplicitList ? (
+            <TableRegion
+              list={list}
+              effectiveEmptyState={effectiveEmptyState}
+              bulkSelectedIds={bulk?.selectedIds ?? []}
+              onSelectRow={
+                bulk
+                  ? (id) => {
+                      const next = bulk.selectedIds.includes(id)
+                        ? bulk.selectedIds.filter((x) => x !== id)
+                        : [...bulk.selectedIds, id];
+                      bulk.onChange(next);
+                    }
+                  : undefined
+              }
+              detailSelectedId={detail?.selectedId ?? legacySelectedId}
+            />
+          ) : null}
 
           {/* Legacy children slot */}
           {children ? (
