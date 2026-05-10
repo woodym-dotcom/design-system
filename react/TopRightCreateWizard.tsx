@@ -135,6 +135,7 @@ function AiPanel<TValues, TProcessKey extends string>({
 }: AiPanelProps<TValues, TProcessKey>) {
   const [prompt, setPrompt] = React.useState('');
   const [runState, setRunState] = React.useState<AiRunState>({ phase: 'idle' });
+  const promptId = React.useId();
 
   const promptLabel = config.promptLabel ?? 'Describe what to create';
   const promptPlaceholder =
@@ -158,11 +159,11 @@ function AiPanel<TValues, TProcessKey extends string>({
   return (
     <div className="cc-ai-panel">
       <div className="cc-ai-panel__prompt-row">
-        <label className="cc-ai-panel__label" htmlFor="cc-ai-prompt">
+        <label className="cc-ai-panel__label" htmlFor={promptId}>
           {promptLabel}
         </label>
         <textarea
-          id="cc-ai-prompt"
+          id={promptId}
           className="cc-ai-panel__textarea"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}

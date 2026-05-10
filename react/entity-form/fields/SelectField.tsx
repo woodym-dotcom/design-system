@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { FieldWrapper } from './FieldWrapper';
 import type { FieldPrimitiveProps } from './types';
 
@@ -14,7 +15,8 @@ export interface SelectFieldProps<T extends string = string> extends FieldPrimit
 export function SelectField<T extends string = string>({
   name, form, label, hint, required, disabled, readOnly, options, placeholder,
 }: SelectFieldProps<T>) {
-  const id = `ef-${name}`;
+  const reactId = useId();
+  const id = `ef-${reactId}-${name}`;
   const meta = (form as any)._schema?._fieldMeta?.[name];
   const resolvedLabel = label ?? meta?.label ?? name;
   const resolvedHint = hint ?? meta?.hint;

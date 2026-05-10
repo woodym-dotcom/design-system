@@ -159,6 +159,12 @@ export function CompanyGroupSwitcher({
       optionRefs.current[0]?.focus();
       setFocusedIndex(0);
     }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const last = Math.max(filtered.length - 1, 0);
+      optionRefs.current[last]?.focus();
+      setFocusedIndex(last);
+    }
   };
 
   const handleSelect = (uuid: string) => {

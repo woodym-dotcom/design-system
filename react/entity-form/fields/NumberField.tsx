@@ -10,7 +10,8 @@ export interface NumberFieldProps extends FieldPrimitiveProps<number> {
 }
 
 export function NumberField({ name, form, label, hint, required, disabled, readOnly, min, max, step, placeholder }: NumberFieldProps) {
-  const id = `ef-${name}`;
+  const reactId = React.useId();
+  const id = `ef-${reactId}-${name}`;
   const meta = (form as any)._schema?._fieldMeta?.[name];
   const resolvedLabel = label ?? meta?.label ?? name;
   const resolvedHint = hint ?? meta?.hint;

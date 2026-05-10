@@ -404,12 +404,12 @@ export function ArtefactHistory({
             ‹ Prev
           </button>
           <span className="aa-artefact-history__page-info" aria-live="polite">
-            Page {page} of {Math.ceil(totalItems / pageSize)}
+            Page {page} of {Math.max(1, Math.ceil(totalItems / pageSize))}
           </span>
           <button
             type="button"
             className="cc-btn cc-btn--ghost cc-btn--sm"
-            disabled={page >= Math.ceil(totalItems / pageSize)}
+            disabled={page >= Math.max(1, Math.ceil(totalItems / pageSize))}
             onClick={() => onPageChange?.(page + 1)}
             aria-label="Next page"
           >

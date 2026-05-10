@@ -83,7 +83,11 @@ export const FileUploadField = React.memo(function FileUploadField({
   }
 
   function processFiles(incoming: File[]) {
-    const { valid, error } = validate(incoming);
+    // In single-file mode, the native <input> with multiple=false would only
+    // ever pass one file, but drag-and-drop bypasses that gate. Truncate so
+    // dropping multiple files behaves the same as picking via the input.
+    const limited = multiple ? incoming : incoming.slice(0, 1);
+    const { valid, error } = validate(limited);
     if (error) {
       setInternalError(error);
       return;

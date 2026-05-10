@@ -100,9 +100,15 @@ export function MetricChartCard({
   const isMobile = useIsMobile();
   const xAxisKey = card.meta.axes?.x?.key ?? 'day';
   const series = card.meta.series ?? [];
+  // Stable signature so the reset effect below only fires when the *contents*
+  // of `series` (keys + defaults) change, not on every parent re-render.
+  const seriesSignature = series
+    .map((item) => `${item.key}:${item.defaultVisible === false ? 0 : 1}`)
+    .join('|');
   const defaultHiddenKeys = useMemo(
     () => new Set(series.filter((item) => item.defaultVisible === false).map((item) => item.key)),
-    [series],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [seriesSignature],
   );
   const [hiddenKeys, setHiddenKeys] = useState<Set<string>>(defaultHiddenKeys);
   const [showInfo, setShowInfo] = useState(false);

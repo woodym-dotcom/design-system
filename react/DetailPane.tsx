@@ -66,6 +66,7 @@ export function DetailPane({
 }: DetailPaneProps) {
   const paneRef = React.useRef<HTMLDivElement | null>(null);
   const previouslyFocused = React.useRef<HTMLElement | null>(null);
+  const titleId = React.useId();
 
   // Fullscreen — controlled if `fullscreen` prop provided, otherwise internal.
   const isControlled = fullscreenProp !== undefined;
@@ -86,6 +87,13 @@ export function DetailPane({
   const [resizing, setResizing] = React.useState(false);
   const startXRef = React.useRef(0);
   const startWidthRef = React.useRef(0);
+  // Mirrors `panelWidth` so the resize-end handler can read the latest value
+  // without forcing the effect (and its pointer listeners) to re-attach on
+  // every pointermove.
+  const panelWidthRef = React.useRef(panelWidth);
+  React.useEffect(() => {
+    panelWidthRef.current = panelWidth;
+  }, [panelWidth]);
 
   const beginResize = React.useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
@@ -112,7 +120,7 @@ export function DetailPane({
       setResizing(false);
       if (storageKey) {
         try {
-          window.localStorage.setItem(storageKey, String(panelWidth));
+          window.localStorage.setItem(storageKey, String(panelWidthRef.current));
         } catch {
           /* localStorage may be unavailable (private mode); ignore. */
         }
@@ -124,7 +132,7 @@ export function DetailPane({
       document.removeEventListener('pointermove', onMove);
       document.removeEventListener('pointerup', onUp);
     };
-  }, [resizing, panelWidth, storageKey]);
+  }, [resizing, storageKey]);
 
   // Focus management.
   React.useEffect(() => {
@@ -202,7 +210,7 @@ export function DetailPane({
         ref={paneRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="cc-detail-pane-title"
+        aria-labelledby={titleId}
         aria-hidden={!open}
         tabIndex={-1}
         className={classes.join(' ')}
@@ -221,7 +229,7 @@ export function DetailPane({
 
         <header className="cc-detail-pane__header">
           <div className="cc-detail-pane__header-title">
-            <h2 id="cc-detail-pane-title" className="cc-detail-pane__title">
+            <h2 id={titleId} className="cc-detail-pane__title">
               {title}
             </h2>
             {subtitle && (

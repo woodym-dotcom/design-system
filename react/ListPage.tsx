@@ -649,14 +649,17 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
   const [internalFullscreen, setInternalFullscreen] = React.useState(false);
 
   // ── Edge case 1: close pane if selectedId drops out of rows ──────────────
+  // Skip while the list is loading: a refetch can briefly empty `rows` before
+  // the new page arrives, and we don't want to close the user's open pane.
   React.useEffect(() => {
     if (!detail?.selectedId) return;
+    if (list.loading) return;
     const stillInRows = list.rows.some((r) => r.id === detail.selectedId);
     if (!stillInRows) {
       detail.onClose();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [list.rows, detail?.selectedId]);
+  }, [list.rows, list.loading, detail?.selectedId]);
 
   // ── Resolve filters ───────────────────────────────────────────────────────
   const resolvedFilters: ListPageFilters | undefined =

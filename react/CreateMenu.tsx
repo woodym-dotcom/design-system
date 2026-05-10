@@ -68,6 +68,7 @@ export function CreateMenu({
   className,
 }: CreateMenuProps) {
   const [open, setOpen] = React.useState(false);
+  const menuId = React.useId();
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const menuRef = React.useRef<HTMLDivElement>(null);
   const itemRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
@@ -107,8 +108,18 @@ export function CreateMenu({
   };
 
   const handleMenuKeyDown = (e: React.KeyboardEvent) => {
-    const activeItems = items.filter((it) => !it.disabled);
-    const refs = itemRefs.current.filter(Boolean) as HTMLButtonElement[];
+    // Only enabled items participate in arrow navigation; disabled <button>s
+    // can't receive focus, so calling .focus() on them is a no-op.
+    const refs = itemRefs.current.filter(
+      (ref, idx): ref is HTMLButtonElement => Boolean(ref) && !items[idx]?.disabled,
+    );
+    if (refs.length === 0) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+      }
+      return;
+    }
     const focusedIndex = refs.findIndex((r) => r === document.activeElement);
 
     if (e.key === 'Escape') {
@@ -129,7 +140,6 @@ export function CreateMenu({
       e.preventDefault();
       refs[refs.length - 1]?.focus();
     }
-    void activeItems; // suppress unused warning
   };
 
   const handleItemClick = (item: CreateMenuItem) => {
@@ -149,7 +159,7 @@ export function CreateMenu({
         className="cc-btn cc-btn--primary"
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-controls={open ? 'cc-create-menu' : undefined}
+        aria-controls={open ? `cc-create-menu-${menuId}` : undefined}
         onClick={() => setOpen((o) => !o)}
         onKeyDown={handleTriggerKeyDown}
       >
@@ -158,7 +168,7 @@ export function CreateMenu({
 
       {open ? (
         <div
-          id="cc-create-menu"
+          id={`cc-create-menu-${menuId}`}
           ref={menuRef}
           role="menu"
           aria-label={menuLabel}

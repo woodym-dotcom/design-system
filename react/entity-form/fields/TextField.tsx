@@ -22,7 +22,8 @@ export function TextField({
   placeholder,
   type = 'text',
 }: TextFieldProps) {
-  const id = `ef-${name}`;
+  const reactId = React.useId();
+  const id = `ef-${reactId}-${name}`;
   const meta = (form as any)._schema?._fieldMeta?.[name];
   const resolvedLabel = label ?? meta?.label ?? name;
   const resolvedHint = hint ?? meta?.hint;
