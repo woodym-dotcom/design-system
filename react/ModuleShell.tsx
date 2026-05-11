@@ -51,8 +51,20 @@ export interface ModuleShellProps {
    *
    * When this prop is supplied the legacy named props (`review`, `monitoring`,
    * `list`, `configurations`) are ignored.
+   *
+   * **Canonical ordering:** the shell sorts canonical tab ids
+   * (`monitoring → list → review-queue → configurations`) into a fixed order
+   * regardless of supplied position. Non-canonical ids keep their relative
+   * order and are spliced in at their first canonical neighbour's slot.
+   * Configurations always renders last when present. Pass `enforceTabOrder`
+   * to disable.
    */
   tabs?: ModuleShellTabDef[];
+  /**
+   * When false, tab order is exactly as supplied (no canonical sorting).
+   * Default: true.
+   */
+  enforceTabOrder?: boolean;
   /**
    * **Legacy API — named props.** Each tab is individually optional; omit by
    * leaving the prop undefined. Ignored when the `tabs` array prop is present.
@@ -82,6 +94,38 @@ const DEFAULT_LABELS: Record<ModuleShellTabId, string> = {
   configurations: 'Configurations',
 };
 
+/**
+ * Canonical tab order for the standard module shell. Tabs whose id matches
+ * one of these values are sorted into this order regardless of how the
+ * caller supplied them; tabs with other ids retain their relative order
+ * and slot in at the position of their nearest canonical sibling.
+ */
+const CANONICAL_TAB_ORDER: readonly string[] = [
+  'monitoring',
+  'list',
+  'review-queue',
+  'review',
+  'configurations',
+];
+
+function sortByCanonicalOrder(tabs: ModuleShellTab[]): ModuleShellTab[] {
+  const rank = (id: string): number => {
+    const idx = CANONICAL_TAB_ORDER.indexOf(id);
+    return idx === -1 ? CANONICAL_TAB_ORDER.length : idx;
+  };
+  // Stable sort by canonical rank. Configurations is the last canonical entry
+  // so it always renders last when present.
+  return [...tabs]
+    .map((t, i) => ({ t, i }))
+    .sort((a, b) => {
+      const ra = rank(a.t.id as string);
+      const rb = rank(b.t.id as string);
+      if (ra !== rb) return ra - rb;
+      return a.i - b.i;
+    })
+    .map(({ t }) => t);
+}
+
 function readTabFromUrl(paramName: string): string | null {
   if (typeof window === 'undefined') return null;
   const params = new URLSearchParams(window.location.search);
@@ -100,6 +144,7 @@ export function ModuleShell({
   icon,
   actions,
   tabs: tabsProp,
+  enforceTabOrder = true,
   review,
   monitoring,
   list,
@@ -114,21 +159,24 @@ export function ModuleShell({
 
   // Resolve the effective tab list: caller-controlled array takes precedence.
   const tabs: ModuleShellTab[] = React.useMemo(() => {
+    let resolved: ModuleShellTab[];
     if (tabsProp) {
-      return tabsProp
+      resolved = tabsProp
         .filter((t) => !t.hidden)
         .map((t) => ({ id: t.id as ModuleShellTabId, label: t.label, render: t.render }));
+    } else {
+      const ordered: Array<[ModuleShellTabId, Omit<ModuleShellTab, 'id'> | undefined]> = [
+        ['monitoring', monitoring],
+        ['list', list],
+        ['review', review],
+        ['configurations', configurations],
+      ];
+      resolved = ordered
+        .filter((entry): entry is [ModuleShellTabId, Omit<ModuleShellTab, 'id'>] => entry[1] !== undefined)
+        .map(([id, tab]) => ({ id, label: tab.label || DEFAULT_LABELS[id], render: tab.render }));
     }
-    const ordered: Array<[ModuleShellTabId, Omit<ModuleShellTab, 'id'> | undefined]> = [
-      ['review', review],
-      ['monitoring', monitoring],
-      ['list', list],
-      ['configurations', configurations],
-    ];
-    return ordered
-      .filter((entry): entry is [ModuleShellTabId, Omit<ModuleShellTab, 'id'>] => entry[1] !== undefined)
-      .map(([id, tab]) => ({ id, label: tab.label || DEFAULT_LABELS[id], render: tab.render }));
-  }, [tabsProp, review, monitoring, list, configurations]);
+    return enforceTabOrder ? sortByCanonicalOrder(resolved) : resolved;
+  }, [tabsProp, review, monitoring, list, configurations, enforceTabOrder]);
 
   // Default-tab resolution: caller-supplied > 'list' (named-props mode) > first visible tab.
   const resolvedDefaultTab: string =

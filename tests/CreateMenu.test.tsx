@@ -117,8 +117,11 @@ describe('G8 — ARIA semantics', () => {
 describe('G8 — disabled item', () => {
   it('disabled item has aria-disabled', () => {
     const onSelect = vi.fn();
+    // Need ≥2 enabled items so the menu renders (1 enabled collapses).
     const items: CreateMenuItem[] = [
       { kind: 'manual', onSelect, disabled: true },
+      { kind: 'ai-generated', onSelect: vi.fn() },
+      { kind: 'import', onSelect: vi.fn() },
     ];
     render(<CreateMenu items={items} />);
     openMenu();
@@ -130,6 +133,8 @@ describe('G8 — disabled item', () => {
     const onSelect = vi.fn();
     const items: CreateMenuItem[] = [
       { kind: 'manual', onSelect, disabled: true },
+      { kind: 'ai-generated', onSelect: vi.fn() },
+      { kind: 'import', onSelect: vi.fn() },
     ];
     render(<CreateMenu items={items} />);
     openMenu();
@@ -144,12 +149,66 @@ describe('G8 — disabled item', () => {
 describe('G8 — onSelect', () => {
   it('clicking an item calls onSelect and closes menu', () => {
     const onSelect = vi.fn();
-    const items: CreateMenuItem[] = [{ kind: 'manual', onSelect }];
+    // Multiple items so the menu doesn't collapse to direct-action mode.
+    const items: CreateMenuItem[] = [
+      { kind: 'manual', onSelect },
+      { kind: 'ai-generated', onSelect: vi.fn() },
+    ];
     render(<CreateMenu items={items} />);
     openMenu();
     fireEvent.click(screen.getByRole('menuitem', { name: 'Create manually' }));
     expect(onSelect).toHaveBeenCalledOnce();
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Single-item collapse — direct-action mode
+// ---------------------------------------------------------------------------
+describe('CreateMenu — single-item collapse', () => {
+  it('renders no menu when only one enabled item exists', () => {
+    const items: CreateMenuItem[] = [{ kind: 'manual', onSelect: vi.fn() }];
+    render(<CreateMenu items={items} />);
+    expect(screen.queryByRole('button', { name: '+' })).toBeInTheDocument();
+    // The trigger doesn't advertise a popup in direct-action mode.
+    expect(screen.getByRole('button', { name: '+' })).not.toHaveAttribute(
+      'aria-haspopup',
+    );
+  });
+
+  it('clicking the trigger calls onSelect directly', () => {
+    const onSelect = vi.fn();
+    const items: CreateMenuItem[] = [{ kind: 'manual', onSelect }];
+    render(<CreateMenu items={items} />);
+    fireEvent.click(screen.getByRole('button', { name: '+' }));
+    expect(onSelect).toHaveBeenCalledOnce();
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('ignores disabled items when counting enabled entries', () => {
+    const onlyEnabled = vi.fn();
+    const items: CreateMenuItem[] = [
+      { kind: 'manual', onSelect: vi.fn(), disabled: true },
+      { kind: 'ai-generated', onSelect: onlyEnabled },
+    ];
+    render(<CreateMenu items={items} />);
+    // One enabled → direct-action mode.
+    fireEvent.click(screen.getByRole('button', { name: '+' }));
+    expect(onlyEnabled).toHaveBeenCalledOnce();
+  });
+
+  it('still renders the dropdown for 2+ enabled items', () => {
+    const items: CreateMenuItem[] = [
+      { kind: 'manual', onSelect: vi.fn() },
+      { kind: 'ai-generated', onSelect: vi.fn() },
+    ];
+    render(<CreateMenu items={items} />);
+    expect(screen.getByRole('button', { name: '+' })).toHaveAttribute(
+      'aria-haspopup',
+      'menu',
+    );
+    fireEvent.click(screen.getByRole('button', { name: '+' }));
+    expect(screen.getByRole('menu')).toBeInTheDocument();
   });
 });
 
@@ -167,7 +226,11 @@ describe('G8 — built-in kind labels', () => {
   });
 
   it('custom kind uses provided label', () => {
-    const items: CreateMenuItem[] = [{ kind: 'custom', label: 'Bulk add', onSelect: vi.fn() }];
+    // Two items so the menu renders (single enabled → direct-action mode).
+    const items: CreateMenuItem[] = [
+      { kind: 'custom', label: 'Bulk add', onSelect: vi.fn() },
+      { kind: 'manual', onSelect: vi.fn() },
+    ];
     render(<CreateMenu items={items} />);
     openMenu();
     expect(screen.getByRole('menuitem', { name: 'Bulk add' })).toBeInTheDocument();

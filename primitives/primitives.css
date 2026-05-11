@@ -1361,6 +1361,36 @@ select.cc-input option {
   min-width: 200px;
   border-right: 1px solid var(--border-1);
   background: var(--surface-1);
+  /* Token-based colour for the entire rail so it flips correctly under
+     dark mode. The bottom (footer) group inherits from the same token
+     stack — no hard-coded colours that get stuck in light mode. */
+  color: var(--text-2);
+}
+/* Main group fills the available height; footer pins to the bottom of the
+   rail with a divider above. */
+.cc-text-navrail__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.cc-text-navrail__group--main { flex: 1; }
+.cc-text-navrail__group--footer {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-1);
+}
+/* Compact variant — narrower rail, icon-only items, tooltip-on-hover. */
+.cc-text-navrail--compact {
+  min-width: 56px;
+  align-items: center;
+}
+.cc-text-navrail--compact .cc-text-navrail__item {
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: var(--text-base);
+  font-weight: 600;
 }
 /* Item — must be an <a> or rendered-as-<a> element. */
 .cc-text-navrail__item {
@@ -3352,6 +3382,25 @@ select.cc-input option {
   color: var(--text-3);
 }
 .cc-list-page__actions { display: flex; gap: var(--space-2); align-items: center; }
+/* Primary action — pinned to the flex-end (right) of the header row, with
+   the DS primary-button treatment supplied by CreateMenu's trigger. */
+.cc-list-page__primary-action {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+/* Search/toolbar slot — sticks to the top of the scroll container so the
+   search bar stays visible on long lists where the page header has scrolled
+   away. */
+.cc-list-page__search {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  background: var(--surface-0);
+}
 .cc-list-page__filters { /* filter slot — consumer injects FilterBar here */ }
 .cc-list-page__table { min-width: 0; }
 .cc-list-page__empty {
@@ -3831,3 +3880,246 @@ select.cc-input option {
   color: var(--text-2);
 }
 .cc-create-wizard-trigger { margin-left: auto; }
+
+/* ---------- DETAIL PRIMITIVES (DetailRow / DetailSection / DetailMetric) ----
+   Grid-aligned label/value rows and drill-down sections. Replace ad-hoc
+   <div class="detail-row"> markup with these primitives so labels and
+   values line up across the entire detail pane regardless of caller. */
+.cc-detail-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 30%) 1fr;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-1);
+  margin: 0;
+}
+.cc-detail-row:last-child { border-bottom: 0; }
+.cc-detail-row__label {
+  color: var(--text-3);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  margin: 0;
+}
+.cc-detail-row__value {
+  color: var(--text-1);
+  font-size: var(--text-sm);
+  margin: 0;
+  min-width: 0;
+}
+
+.cc-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+}
+.cc-detail-section__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.cc-detail-section__title {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-1);
+}
+.cc-detail-section__toggle {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-2);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+}
+.cc-detail-section__toggle:hover { background: var(--surface-2); color: var(--text-1); }
+.cc-detail-section__summary { color: var(--text-2); }
+.cc-detail-section__chevron { color: var(--text-3); }
+.cc-detail-section__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cc-detail-metric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+}
+.cc-detail-metric__header {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: baseline;
+  gap: var(--space-2);
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+.cc-detail-metric__header:disabled { cursor: default; }
+.cc-detail-metric__label {
+  font-size: var(--text-sm);
+  color: var(--text-3);
+}
+.cc-detail-metric__value {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-1);
+}
+.cc-detail-metric__caption {
+  font-size: var(--text-xs);
+  color: var(--text-3);
+}
+.cc-detail-metric__chevron { color: var(--text-3); }
+.cc-detail-metric__body {
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border-1);
+}
+
+/* ---------- ENTITY CARD ---------------------------------------------------
+   Used for shareholders, officers, branches, beneficial-owner cards inside
+   detail panes. Compact density drops padding and hides secondary metadata
+   behind a disclosure chevron. */
+.cc-entity-card {
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  display: flex;
+  flex-direction: column;
+}
+.cc-entity-card--standard { padding: var(--space-4); gap: var(--space-3); }
+.cc-entity-card--compact { padding: var(--space-2) var(--space-3); gap: var(--space-1); }
+.cc-entity-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+.cc-entity-card__header--clickable { cursor: pointer; }
+.cc-entity-card__leading {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-weight: 600;
+  font-size: var(--text-xs);
+}
+.cc-entity-card--compact .cc-entity-card__leading {
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
+}
+.cc-entity-card__primary {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cc-entity-card--compact .cc-entity-card__primary {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.cc-entity-card__title {
+  font-weight: 600;
+  color: var(--text-1);
+  font-size: var(--text-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cc-entity-card__subtitle {
+  color: var(--text-3);
+  font-size: var(--text-xs);
+}
+.cc-entity-card__trailing { margin-left: auto; }
+.cc-entity-card__disclosure {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--text-3);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+.cc-entity-card__disclosure:hover { background: var(--surface-2); color: var(--text-1); }
+.cc-entity-card__metadata {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  color: var(--text-2);
+  font-size: var(--text-sm);
+}
+.cc-entity-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.cc-entity-card-list--virtualised {
+  overflow-y: auto;
+}
+
+/* ---------- COMPANY GROUP SWITCHER — breadcrumb hierarchy ----------------- */
+.cc-group-switcher__crumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-3);
+  padding: 0 var(--space-1);
+  margin-bottom: var(--space-1);
+}
+.cc-group-switcher__crumb {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--text-3);
+  cursor: pointer;
+  padding: 2px var(--space-1);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}
+.cc-group-switcher__crumb:hover { background: var(--surface-2); color: var(--text-1); }
+.cc-group-switcher__crumb--static { cursor: default; }
+.cc-group-switcher__crumb--static:hover { background: transparent; color: var(--text-3); }
+.cc-group-switcher__crumb-sep { color: var(--text-4); }
+
+/* ---------- DETAIL PANE — fullscreen actually full screen ----------------- */
+.cc-detail-pane--fullscreen {
+  position: fixed;
+  inset: 0;
+  width: 100vw !important;
+  height: 100vh;
+  max-width: none !important;
+  z-index: 60;
+  background: var(--surface-0);
+}

@@ -162,3 +162,18 @@ export {
   type LifecycleStateBadgeProps,
   type ChipTone,
 } from "./LifecycleStateBadge";
+export {
+  DetailRow,
+  DetailSection,
+  DetailMetric,
+  type DetailRowProps,
+  type DetailSectionProps,
+  type DetailMetricProps,
+} from "./DetailPrimitives";
+export {
+  EntityCard,
+  EntityCardList,
+  type EntityCardProps,
+  type EntityCardListProps,
+  type EntityCardDensity,
+} from "./EntityCard";

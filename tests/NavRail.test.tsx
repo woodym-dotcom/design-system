@@ -212,3 +212,46 @@ describe('NavRail a11y (axe)', () => {
     expect(results.violations).toHaveLength(0);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Footer items + dedupe + compact variant
+// ---------------------------------------------------------------------------
+describe('NavRail — footer + compact variant', () => {
+  it('renders footer items in a separate group', () => {
+    const { container } = render(
+      <NavRail
+        items={ITEMS}
+        footerItems={[{ id: 'settings', to: '/settings', label: 'Settings' }]}
+        currentPathname="/vendors"
+      />,
+    );
+    expect(screen.getByRole('link', { name: 'Settings' })).toBeInTheDocument();
+    expect(container.querySelector('.cc-text-navrail__group--footer')).toBeInTheDocument();
+  });
+
+  it('dedupes Settings appearing in both main and footer (footer wins)', () => {
+    render(
+      <NavRail
+        items={[
+          ...ITEMS,
+          { id: 'settings', to: '/settings', label: 'Settings (main)' },
+        ]}
+        footerItems={[
+          { id: 'settings', to: '/settings', label: 'Settings' },
+        ]}
+        currentPathname="/vendors"
+      />,
+    );
+    // Only one Settings link — the footer entry — should render.
+    expect(screen.queryByText('Settings (main)')).not.toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: 'Settings' })).toHaveLength(1);
+  });
+
+  it('compact variant renders aria-label and title for tooltip-only display', () => {
+    render(<NavRail items={ITEMS} variant="compact" currentPathname="/vendors" />);
+    const link = screen.getByRole('link', { name: 'Vendors' });
+    expect(link).toHaveAttribute('title', 'Vendors');
+    // The visible text is just the initial — full label exposed via aria.
+    expect(link).toHaveAttribute('aria-label', 'Vendors');
+  });
+});

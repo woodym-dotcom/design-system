@@ -153,6 +153,12 @@ export interface ListPageProps<TRow extends { id: string } = { id: string }> {
   /** ReactNode rendered above the heading (e.g. a Breadcrumb strip). */
   breadcrumb?: React.ReactNode;
   createMenu?: Pick<CreateMenuProps, 'items' | 'triggerLabel'>;
+  /**
+   * Optional search/toolbar slot rendered above the filter bar and list.
+   * Stays sticky to the top of the scroll container so it remains visible
+   * on long lists where the page header has scrolled away.
+   */
+  search?: React.ReactNode;
 
   // ── list region
   // Required in Phase 2. For backward-compat callers that use only `children`,
@@ -591,6 +597,7 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
   subtitle,
   breadcrumb,
   createMenu,
+  search,
   list: listProp,
   filters,
   detail,
@@ -715,7 +722,7 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
         <div className="cc-list-page__breadcrumb">{breadcrumb}</div>
       ) : null}
 
-      {/* Header */}
+      {/* Header — heading on the left, create action pinned flex-end (right). */}
       <div className="cc-list-page__header">
         <div className="cc-list-page__heading-group">
           <h2 className="cc-list-page__heading">{heading}</h2>
@@ -724,12 +731,20 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
           ) : null}
         </div>
         {createMenu && canCreate ? (
-          <CreateMenu
-            items={createMenu.items}
-            triggerLabel={createMenu.triggerLabel}
-          />
+          <div className="cc-list-page__primary-action">
+            <CreateMenu
+              items={createMenu.items}
+              triggerLabel={createMenu.triggerLabel}
+            />
+          </div>
         ) : null}
       </div>
+
+      {/* Search/toolbar slot — sticky so it stays above the visible list as
+          the page scrolls (the page header may scroll away on long lists). */}
+      {search ? (
+        <div className="cc-list-page__search">{search}</div>
+      ) : null}
 
       {/* Filters */}
       {resolvedFilters ? (

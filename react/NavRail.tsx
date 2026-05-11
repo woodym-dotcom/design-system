@@ -41,6 +41,13 @@ export interface NavRailRenderItemContext {
 export interface NavRailProps {
   items: NavRailItem[];
   /**
+   * Optional items pinned to the bottom of the rail (Settings, account, theme
+   * toggle, etc.). Rendered in a separate `<div>` group with a divider above
+   * and the same active-state styling as the main items. Deduplicated by id;
+   * if a footer item shares an id with a main item, the footer entry wins.
+   */
+  footerItems?: NavRailItem[];
+  /**
    * Current pathname used for the default active detection (prefix-match).
    * Pass `window.location.pathname` or your router's current path.
    * Ignored when an item supplies its own `isActive` boolean.
@@ -60,6 +67,14 @@ export interface NavRailProps {
   renderItem?: (ctx: NavRailRenderItemContext) => React.ReactNode;
   /** Accessible label for the nav element. Default: "Modules". */
   ariaLabel?: string;
+  /**
+   * Rail layout density.
+   *  - "expanded" (default): renders the text label inline; no tooltip.
+   *  - "compact": renders the label as a `title` tooltip only — items show
+   *    their icon/initial and the label appears on hover via the browser
+   *    tooltip. Eliminates the static-label + hover-label duplication.
+   */
+  variant?: 'expanded' | 'compact';
   className?: string;
 }
 
@@ -103,51 +118,90 @@ function resolveActiveId(
 
 export function NavRail({
   items,
+  footerItems,
   currentPathname,
   renderItem,
   ariaLabel = 'Modules',
+  variant = 'expanded',
   className,
 }: NavRailProps) {
   const navClasses = ['cc-text-navrail'];
+  if (variant === 'compact') navClasses.push('cc-text-navrail--compact');
   if (className) navClasses.push(className);
 
+  // Dedupe: footer items take precedence over main items with the same id.
+  // This handles consumers that accidentally pass "Settings" in both groups —
+  // only one entry renders, no double-Settings at the bottom of the rail.
+  const footerIds = new Set((footerItems ?? []).map((f) => f.id));
+  const mainItems = items.filter((item) => !footerIds.has(item.id));
+
   // Resolve at most one active item via pathname (multi-select bug fix).
-  const pathnameActiveId = resolveActiveId(items, currentPathname);
+  // Compute against the merged set so an active footer item wins where it
+  // would otherwise match against a main-item prefix.
+  const allItems = [...mainItems, ...(footerItems ?? [])];
+  const pathnameActiveId = resolveActiveId(allItems, currentPathname);
+
+  const renderOne = (item: NavRailItem) => {
+    const isActive =
+      item.isActive !== undefined
+        ? item.isActive
+        : item.id === pathnameActiveId;
+
+    const itemClass = [
+      'cc-text-navrail__item',
+      isActive ? 'is-active' : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    if (renderItem) {
+      return (
+        <React.Fragment key={item.id}>
+          {renderItem({ item, isActive, className: itemClass })}
+        </React.Fragment>
+      );
+    }
+
+    // Compact mode shows the label as a native tooltip only — the visible
+    // text is the first character/initial. This avoids the "label + hover
+    // tooltip both show" duplication reported in NavRail consumers.
+    if (variant === 'compact') {
+      return (
+        <a
+          key={item.id}
+          href={item.to}
+          className={itemClass}
+          aria-current={isActive ? 'page' : undefined}
+          aria-label={item.label}
+          title={item.label}
+        >
+          <span aria-hidden="true">{item.label.slice(0, 1).toUpperCase()}</span>
+        </a>
+      );
+    }
+
+    return (
+      <a
+        key={item.id}
+        href={item.to}
+        className={itemClass}
+        aria-current={isActive ? 'page' : undefined}
+      >
+        {item.label}
+      </a>
+    );
+  };
 
   return (
     <nav aria-label={ariaLabel} className={navClasses.join(' ')}>
-      {items.map((item) => {
-        const isActive =
-          item.isActive !== undefined
-            ? item.isActive
-            : item.id === pathnameActiveId;
-
-        const itemClass = [
-          'cc-text-navrail__item',
-          isActive ? 'is-active' : '',
-        ]
-          .filter(Boolean)
-          .join(' ');
-
-        if (renderItem) {
-          return (
-            <React.Fragment key={item.id}>
-              {renderItem({ item, isActive, className: itemClass })}
-            </React.Fragment>
-          );
-        }
-
-        return (
-          <a
-            key={item.id}
-            href={item.to}
-            className={itemClass}
-            aria-current={isActive ? 'page' : undefined}
-          >
-            {item.label}
-          </a>
-        );
-      })}
+      <div className="cc-text-navrail__group cc-text-navrail__group--main">
+        {mainItems.map(renderOne)}
+      </div>
+      {footerItems && footerItems.length > 0 ? (
+        <div className="cc-text-navrail__group cc-text-navrail__group--footer">
+          {footerItems.map(renderOne)}
+        </div>
+      ) : null}
     </nav>
   );
 }

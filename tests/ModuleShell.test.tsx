@@ -227,11 +227,13 @@ describe('ModuleShell', () => {
     expect(adapter.setParam).toHaveBeenCalledWith('tab', 'review-queue');
   });
 
-  it('tabs[]: named props are ignored when tabs[] is provided (order is caller-controlled)', () => {
-    // Provide tabs[] with review-queue first, then list — named props order would be reversed.
+  it('tabs[]: named props are ignored when tabs[] is provided', () => {
+    // Provide tabs[] with review-queue first, then list. With enforceTabOrder
+    // disabled the caller's order is preserved verbatim.
     render(
       <ModuleShell
         title="Companies"
+        enforceTabOrder={false}
         tabs={[
           { id: 'review-queue', label: 'Review queue', render: () => <div>review content</div> },
           { id: 'list', label: 'List', render: () => <div>list content</div> },
@@ -247,6 +249,28 @@ describe('ModuleShell', () => {
     // Named-prop content must not appear
     expect(screen.queryByText('named list')).not.toBeInTheDocument();
     expect(screen.queryByText('named review')).not.toBeInTheDocument();
+  });
+
+  // Tab-order convention enforcement (canonical: monitoring → list → review-queue → configurations).
+  it('tabs[]: enforces canonical order (configurations always last)', () => {
+    render(
+      <ModuleShell
+        title="Companies"
+        tabs={[
+          { id: 'configurations', label: 'Configurations', render: () => <div>config</div> },
+          { id: 'list', label: 'List', render: () => <div>list</div> },
+          { id: 'review-queue', label: 'Review queue', render: () => <div>review</div> },
+          { id: 'monitoring', label: 'Monitoring', render: () => <div>monitoring</div> },
+        ]}
+      />
+    );
+    const tabButtons = screen.getAllByRole('tab');
+    expect(tabButtons.map((b) => b.textContent)).toEqual([
+      'Monitoring',
+      'List',
+      'Review queue',
+      'Configurations',
+    ]);
   });
 });
 

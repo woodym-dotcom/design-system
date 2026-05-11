@@ -253,3 +253,85 @@ All four primitives pass axe-core at build time (see `tests/ListView.test.tsx`, 
 ## Visual Regression
 
 Stories live in `stories/`. Run `npx storybook dev` once Storybook is added to the repo to capture visual baselines. The primitives use only `cc-*` token-driven CSS — no inline colours — so cross-theme visual regressions will not be silently masked.
+
+---
+
+## Detail-pane primitives (Phase 3 — drill-down)
+
+Three primitives replace ad-hoc `<div className="detail-row">` markup with
+grid-aligned, drill-down-aware composables. They live in
+`react/DetailPrimitives.tsx`:
+
+- `<DetailRow label="…">value</DetailRow>` — grid-aligned label/value row.
+  Empty values are hidden by default (drill-down hygiene: no "—" carcasses).
+  Pass `showEmpty` to keep the alignment slot in editable forms.
+- `<DetailSection title summary?>children</DetailSection>` — section with an
+  optional one-line summary + chevron. Pass `empty={data.length === 0}` so
+  sections without data don't render at all.
+- `<DetailMetric label value detail?>` — headline number with optional
+  expandable drill-down content.
+
+```tsx
+import { DetailRow, DetailSection, DetailMetric } from '@ds/core/react';
+
+<DetailSection title="Branches" summary={`${branches.length} branches`} empty={branches.length === 0}>
+  {branches.map((b) => (
+    <DetailRow key={b.id} label={b.name}>{b.location}</DetailRow>
+  ))}
+</DetailSection>
+```
+
+## EntityCard (Phase 3 — list density)
+
+`<EntityCard>` is the canonical record card used for shareholders, officers,
+branches, beneficial owners and other entity lists inside detail panes.
+Density variants:
+
+- `density="standard"` (default): padded card with primary + secondary
+  metadata visible inline.
+- `density="compact"`: tighter row, secondary metadata behind a disclosure
+  chevron. Use when a parent list might grow large (30-100 entries).
+
+For very large lists, wrap with `<EntityCardList virtualiseAbove={20}>` —
+above the threshold the list windowed-renders rows.
+
+## ModuleShell tab order (Phase 3)
+
+`<ModuleShell tabs={…}>` enforces the canonical tab order:
+
+```
+monitoring → list → review-queue → configurations
+```
+
+Configurations always renders last. Pass `enforceTabOrder={false}` to opt
+out of sorting and keep the caller's exact order (rarely needed).
+
+## NavRail footer items + compact variant (Phase 3)
+
+- `footerItems` prop pins entries (Settings, account, theme toggle) to the
+  bottom of the rail in a separate group with a divider above. Footer
+  entries deduplicate against main `items` by id (footer wins) — accidental
+  duplicate Settings entries collapse to one.
+- `variant="compact"` renders icon-only items with the label exposed via
+  `aria-label`/`title` tooltip only — eliminates the label + hover-tooltip
+  duplication.
+
+## CompanyGroupSwitcher hierarchy (Phase 3)
+
+Pass `ancestors` to render a breadcrumb of upper-tenancy levels above the
+active company:
+
+```tsx
+<CompanyGroupSwitcher
+  currentGroupUuid={uuid}
+  memberships={memberships}
+  onChange={setUuid}
+  ancestors={[
+    { id: 'account', label: 'CompanyCo', onSelect: openAccountSwitcher },
+    { id: 'group', label: 'Corner Cafe', onSelect: openGroupSwitcher },
+  ]}
+/>
+```
+
+Replaces the legacy three-stacked-rows account → group → company shell
+layout with a single compact switcher.
