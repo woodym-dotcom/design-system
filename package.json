@@ -42,6 +42,8 @@
     "./react/ArtefactDetailPane": "./react/ArtefactDetailPane.tsx",
     "./react/FileUploadField": "./react/FileUploadField.tsx",
     "./react/LifecycleStateBadge": "./react/LifecycleStateBadge.tsx",
+    "./react/DetailPrimitives": "./react/DetailPrimitives.tsx",
+    "./react/EntityCard": "./react/EntityCard.tsx",
     "./react/hooks/useUrlFilterState": "./react/hooks/useUrlFilterState.ts",
     "./eslint-plugin": "./eslint-plugin/index.js"
   },

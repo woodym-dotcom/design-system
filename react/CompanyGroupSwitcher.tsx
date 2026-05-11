@@ -25,6 +25,26 @@ export interface CompanyGroupOption {
   name: string;
 }
 
+/**
+ * An upper-tenancy level shown as a breadcrumb segment above the active
+ * company in the trigger. Click-to-switch is delegated to `onSelect`.
+ *
+ * Example: an account → group → company hierarchy renders as
+ *   `Account · Group › Company`
+ * with each upper crumb opening its own popover when clicked.
+ */
+export interface CompanyGroupAncestor {
+  /** Stable id for this hierarchy level. */
+  id: string;
+  /** Display label (e.g. account name, group name). */
+  label: string;
+  /**
+   * Called when the user clicks this crumb. Consumers typically open their
+   * own selector or navigate. Omit for non-clickable display-only crumbs.
+   */
+  onSelect?: () => void;
+}
+
 export interface CompanyGroupSwitcherProps {
   /** The currently active group UUID. */
   currentGroupUuid: string | null;
@@ -32,6 +52,12 @@ export interface CompanyGroupSwitcherProps {
   memberships: CompanyGroupOption[];
   /** Called when the user selects a different group. */
   onChange: (companyGroupUuid: string) => void;
+  /**
+   * Optional upper-tenancy hierarchy rendered as a breadcrumb in the trigger.
+   * Replaces the legacy "three stacked rows for account → group → company"
+   * shell layout with a single compact switcher.
+   */
+  ancestors?: CompanyGroupAncestor[];
   /** Accessible label for the combobox. Default: "Switch company group". */
   ariaLabel?: string;
   /** Whether the switcher is in a loading state. */
@@ -46,6 +72,7 @@ export function CompanyGroupSwitcher({
   currentGroupUuid,
   memberships,
   onChange,
+  ancestors,
   ariaLabel = 'Switch company group',
   loading = false,
   className,
@@ -187,6 +214,36 @@ export function CompanyGroupSwitcher({
 
   return (
     <div className={containerClasses} ref={containerRef}>
+      {ancestors && ancestors.length > 0 ? (
+        <nav
+          className="cc-group-switcher__crumbs"
+          aria-label="Tenancy hierarchy"
+        >
+          {ancestors.map((a, idx) => (
+            <React.Fragment key={a.id}>
+              {a.onSelect ? (
+                <button
+                  type="button"
+                  className="cc-group-switcher__crumb"
+                  onClick={a.onSelect}
+                >
+                  {a.label}
+                </button>
+              ) : (
+                <span className="cc-group-switcher__crumb cc-group-switcher__crumb--static">
+                  {a.label}
+                </span>
+              )}
+              <span
+                className="cc-group-switcher__crumb-sep"
+                aria-hidden="true"
+              >
+                {idx === ancestors.length - 1 ? '›' : '·'}
+              </span>
+            </React.Fragment>
+          ))}
+        </nav>
+      ) : null}
       <button
         type="button"
         role="combobox"

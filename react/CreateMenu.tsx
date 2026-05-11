@@ -73,6 +73,12 @@ export function CreateMenu({
   const menuRef = React.useRef<HTMLDivElement>(null);
   const itemRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
 
+  // When exactly one enabled item exists, collapse the menu: clicking the
+  // trigger runs that item's onSelect directly (no dropdown). The dropdown
+  // is reserved for the 2+ item case.
+  const enabledItems = items.filter((i) => !i.disabled);
+  const singleEnabled = enabledItems.length === 1 ? enabledItems[0] : null;
+
   // Close on outside click
   React.useEffect(() => {
     if (!open) return;
@@ -150,6 +156,24 @@ export function CreateMenu({
 
   const anchorClasses = ['cc-menu-anchor'];
   if (className) anchorClasses.push(className);
+
+  if (singleEnabled) {
+    // Direct-action mode — render a button that calls onSelect on click.
+    // The button keeps the primary-button chrome but drops the menu ARIA so
+    // assistive tech announces it as a plain action, not a popup trigger.
+    return (
+      <div className={anchorClasses.join(' ')}>
+        <button
+          ref={triggerRef}
+          type="button"
+          className="cc-btn cc-btn--primary"
+          onClick={() => singleEnabled.onSelect()}
+        >
+          {triggerLabel}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={anchorClasses.join(' ')}>

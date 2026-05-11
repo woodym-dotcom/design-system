@@ -1,4 +1,8 @@
 import * as React from 'react';
+// Fullscreen mode portals the pane to <body> so it covers ModuleShell +
+// NavRail chrome that would otherwise clip it. react-dom types come from
+// the local shim in react-dom-shim.d.ts.
+import { createPortal } from 'react-dom';
 
 export interface DetailPaneSection {
   heading: string;
@@ -199,7 +203,7 @@ export function DetailPane({
       ? { width: panelWidth, maxWidth: `${MAX_WIDTH_VW}vw` }
       : undefined;
 
-  return (
+  const content = (
     <>
       <div
         className={`cc-detail-pane__backdrop${open ? ' is-open' : ''}`}
@@ -244,7 +248,7 @@ export function DetailPane({
               aria-label={fullscreen ? 'Exit full screen' : 'Full screen panel'}
               aria-pressed={fullscreen}
             >
-              {fullscreen ? 'Minimize' : 'Maximize'}
+              {fullscreen ? 'Exit full screen' : 'Full screen'}
             </button>
             <button
               type="button"
@@ -271,4 +275,13 @@ export function DetailPane({
       </div>
     </>
   );
+
+  // In fullscreen the pane must cover the surrounding ModuleShell + NavRail
+  // chrome (a stacking-context inside a transformed parent would otherwise
+  // clip it). Portal to <body> when fullscreen is active and the DOM is
+  // available; render in-tree otherwise (SSR-safe fallback).
+  if (fullscreen && open && typeof document !== 'undefined') {
+    return createPortal(content, document.body);
+  }
+  return content;
 }
