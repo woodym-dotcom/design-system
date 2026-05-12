@@ -22,6 +22,15 @@
   --accent-text:     oklch(35% var(--brand-chroma) var(--brand-hue));
   --accent-contrast: #ffffff;
   --accent-ring:     color-mix(in oklch, var(--accent-1) 18%, transparent);
+
+  /* Bridge aliases — map @ds/core semantic surface tokens to the legacy
+     --bg-* / --background / --foreground / --ring names used by NavBar,
+     PrincipalHeader, BootstrapWizard and modal components. */
+  --bg-1:       var(--surface-1);
+  --bg-2:       var(--surface-2);
+  --background: var(--surface-0);
+  --foreground: var(--text-1);
+  --ring:       var(--accent-1);
 }
 
 :root[data-theme="dark"] {

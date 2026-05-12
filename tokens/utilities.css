@@ -68,3 +68,12 @@
 .surface-ds-muted { background: var(--surface-muted); color: var(--text-muted-strong); }
 .surface-ds-hero { background: var(--surface-hero); color: var(--text-1); }
 .surface-ds-inverse { background: var(--inverse-background); color: var(--inverse-foreground); }
+
+/* ---------- BACKGROUND / FOREGROUND ALIASES ---------- */
+/* Convenience classes that mirror the --background / --foreground bridge
+   tokens defined in recruitment.css. Useful for NavBar inverted-pill and
+   FA modal patterns without consumers reaching for inline styles. */
+.text-background { color: var(--surface-0); }
+.bg-background   { background-color: var(--surface-0); }
+.bg-foreground   { background: var(--text-1); }
+.text-foreground { color: var(--text-1); }

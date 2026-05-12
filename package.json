@@ -18,7 +18,10 @@
     "./react": "./react/index.ts",
     "./react/useTheme": "./react/useTheme.ts",
     "./react/ThemeToggle": "./react/ThemeToggle.tsx",
-    "./react/useDensity": "./react/useDensity.ts"
+    "./react/useDensity": "./react/useDensity.ts",
+    "./react/Stepper": "./react/Stepper.tsx",
+    "./react/Card": "./react/Card.tsx",
+    "./react/AuditLogList": "./react/AuditLogList.tsx"
   },
   "files": [
     "tokens",
