@@ -4123,3 +4123,369 @@ select.cc-input option {
   z-index: 60;
   background: var(--surface-0);
 }
+
+/* ==========================================================================
+   DASHBOARD PRIMITIVES (Phase 1A)
+   Components: StatusPill, MetadataChip, SectionHeader, EmptyState,
+               CompactListRow, DashboardChartCard.
+   ========================================================================== */
+
+/* ---------- STATUS PILL --------------------------------------------------- */
+.cc-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2, 6px);
+  border-radius: var(--radius-pill, 9999px);
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.cc-status-pill--md {
+  padding: 0.3rem 0.65rem;
+}
+
+.cc-status-pill--sm {
+  padding: 0.18rem 0.5rem;
+  font-size: var(--text-micro, 0.625rem);
+}
+
+/* Dot base */
+.cc-status-pill__dot {
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+/* Shape variants — both colour and shape encode status (WCAG 1.4.1) */
+.cc-status-pill__dot--round  { border-radius: 50%; }
+.cc-status-pill__dot--diamond {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+.cc-status-pill__dot--square { border-radius: 2px; }
+
+/* Colour variants */
+.cc-status-pill--ok      { background: color-mix(in oklch, var(--success, #22c55e) 14%, var(--surface-1)); color: var(--success-text, #166534); }
+.cc-status-pill--ok      .cc-status-pill__dot { background: var(--success, #22c55e); }
+
+.cc-status-pill--warning { background: color-mix(in oklch, var(--warning, #f59e0b) 14%, var(--surface-1)); color: var(--warning-text, #92400e); }
+.cc-status-pill--warning .cc-status-pill__dot { background: var(--warning, #f59e0b); }
+
+.cc-status-pill--error   { background: color-mix(in oklch, var(--error, #ef4444) 14%, var(--surface-1)); color: var(--error-text, #991b1b); }
+.cc-status-pill--error   .cc-status-pill__dot { background: var(--error, #ef4444); }
+
+.cc-status-pill--info    { background: color-mix(in oklch, var(--info, #3b82f6) 12%, var(--surface-1)); color: var(--info-text, #1e40af); }
+.cc-status-pill--info    .cc-status-pill__dot { background: var(--info, #3b82f6); }
+
+.cc-status-pill--neutral { background: var(--surface-muted, var(--surface-1)); color: var(--text-muted-strong, var(--text-2)); }
+.cc-status-pill--neutral .cc-status-pill__dot { background: var(--border-2); }
+
+/* Interactive variant (rendered as <button>) */
+button.cc-status-pill {
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  min-height: 44px; /* touch target */
+  min-width: 44px;
+}
+
+/* ---------- METADATA CHIP ------------------------------------------------- */
+.cc-metadata-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cc-metadata-chip__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;   /* WCAG 2.5.5 touch target */
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--text-3);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.cc-metadata-chip__trigger:hover  { color: var(--text-1); }
+.cc-metadata-chip__trigger:focus-visible {
+  outline: 2px solid var(--accent-border, var(--ring));
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.cc-metadata-chip__icon {
+  font-size: var(--text-sm, 0.8125rem);
+  line-height: 1;
+}
+
+/* Expanded metadata panel — inline, not absolutely positioned, viewport-safe */
+.cc-metadata-chip__panel {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+  background: var(--surface-0);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md, 8px);
+  padding: var(--space-3, 8px) var(--space-4, 12px);
+  box-shadow: var(--shadow-2);
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--text-2);
+  white-space: nowrap;
+  z-index: 20;
+  /* Inline flow — stays in document flow, viewport-safe by default */
+}
+
+.cc-metadata-chip__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 6px);
+}
+
+.cc-metadata-chip__label {
+  color: var(--text-3);
+  font-weight: 500;
+  min-width: 4.5rem;
+}
+
+.cc-metadata-chip__value {
+  color: var(--text-1);
+}
+
+.cc-metadata-chip__badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill, 9999px);
+  padding: 0.12rem 0.5rem;
+  font-size: var(--text-micro, 0.625rem);
+  font-weight: 600;
+}
+
+.cc-metadata-chip__badge--private {
+  background: color-mix(in oklch, var(--text-3) 10%, var(--surface-0));
+  color: var(--text-2);
+}
+
+.cc-metadata-chip__badge--shared {
+  background: color-mix(in oklch, var(--accent-soft) 60%, var(--surface-0));
+  color: var(--accent-text);
+}
+
+.cc-metadata-chip__inspect {
+  color: var(--accent-text);
+  text-decoration: none;
+  font-weight: 500;
+}
+.cc-metadata-chip__inspect:hover { text-decoration: underline; }
+
+/* ---------- SECTION HEADER ------------------------------------------------ */
+.cc-section-header {
+  display: grid;
+  gap: var(--space-1, 4px);
+}
+
+.cc-section-header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3, 8px);
+}
+
+.cc-section-header__title {
+  margin: 0;
+  min-width: 0;
+}
+
+.cc-section-header__trailing {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 6px);
+  flex-shrink: 0;
+}
+
+.cc-section-header__description {
+  margin: 0;
+}
+
+/* ---------- EMPTY STATE --------------------------------------------------- */
+.cc-empty-state {
+  display: grid;
+  place-items: center;
+  gap: var(--space-3, 8px);
+  padding: var(--space-6, 24px) var(--space-5, 16px);
+  border: 1px dashed var(--border-1);
+  border-radius: var(--radius-lg, 10px);
+  text-align: center;
+  color: var(--text-2);
+}
+
+.cc-empty-state__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--surface-muted, var(--surface-1));
+  color: var(--text-3);
+  font-size: 1.15rem;
+}
+
+.cc-empty-state__title {
+  margin: 0;
+  font-size: var(--text-base, 0.875rem);
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.cc-empty-state__description {
+  margin: 0;
+  font-size: var(--text-sm, 0.8125rem);
+  color: var(--text-2);
+}
+
+.cc-empty-state__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font: inherit;
+  font-size: var(--text-sm, 0.8125rem);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.cc-empty-state__cta:hover {
+  background: var(--surface-2, var(--surface-muted));
+}
+
+/* ---------- COMPACT LIST ROW --------------------------------------------- */
+.cc-compact-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3, 8px);
+  min-height: 44px; /* WCAG 2.5.5 touch target */
+  padding: var(--space-2, 6px) var(--space-3, 8px);
+  border-bottom: 1px solid var(--border-1);
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  background: transparent;
+  width: 100%;
+}
+
+/* Interactive states (when rendered as <a> or <button>) */
+a.cc-compact-row,
+button.cc-compact-row {
+  cursor: pointer;
+  border: none;
+  font: inherit;
+}
+
+a.cc-compact-row:hover,
+button.cc-compact-row:hover {
+  background: var(--surface-muted, color-mix(in oklch, var(--surface-1) 80%, var(--surface-0)));
+}
+
+a.cc-compact-row:focus-visible,
+button.cc-compact-row:focus-visible {
+  outline: 2px solid var(--accent-border, var(--ring));
+  outline-offset: 2px;
+  border-radius: var(--radius-sm, 6px);
+}
+
+.cc-compact-row.is-selected {
+  background: var(--accent-soft);
+  border-bottom-color: var(--accent-border);
+}
+
+.cc-compact-row__main {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.cc-compact-row__title {
+  font-size: var(--text-base, 0.875rem);
+  font-weight: 600;
+  color: var(--text-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cc-compact-row__subtitle {
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cc-compact-row__trailing {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 6px);
+  flex-shrink: 0;
+}
+
+/* ---------- DASHBOARD CHART CARD (promoted from dashboard) ---------------- */
+/*
+ * cc-chart-frame is defined in apps/dashboard/client/src/index.css.
+ * DashboardChartCard uses those classes (cc-chart-frame, cc-chart-frame__scroll,
+ * cc-chart-frame__plot, cc-chart-frame__legend, cc-chart-frame__legend-item,
+ * cc-chart-frame__legend-swatch) as-is; the dashboard imports the frame CSS.
+ * The component adds its own cc-dashboard-chart__ namespace for new features.
+ */
+
+.cc-dashboard-chart {
+  /* No additional layout beyond .chart-shell — the component composes with it. */
+}
+
+.cc-dashboard-chart__title-wrap {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.cc-dashboard-chart__title {
+  /* Inherits .t-h3 from SectionHeader convention */
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-1);
+}
+
+.cc-dashboard-chart__caption {
+  margin: 0;
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--text-3);
+  line-height: 1.4;
+}
+
+.cc-dashboard-chart__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border: 1px dashed var(--border-1);
+  font-size: var(--text-sm, 0.8125rem);
+  color: var(--text-2);
+}
+
+.cc-dashboard-chart__empty--deferred {
+  gap: var(--space-2, 6px);
+}

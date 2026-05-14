@@ -177,3 +177,42 @@ export {
   type EntityCardListProps,
   type EntityCardDensity,
 } from "./EntityCard";
+
+// Dashboard primitives (Phase 1A)
+export {
+  StatusPill,
+  type StatusPillProps,
+  type StatusPillStatus,
+} from "./StatusPill";
+
+export {
+  MetadataChip,
+  type MetadataChipProps,
+  type MetadataChipFreshness,
+} from "./MetadataChip";
+
+export {
+  SectionHeader,
+  type SectionHeaderProps,
+} from "./SectionHeader";
+
+export {
+  EmptyState,
+  type EmptyStateProps,
+  type EmptyStateAction,
+} from "./EmptyState";
+
+export {
+  CompactListRow,
+  type CompactListRowProps,
+} from "./CompactListRow";
+
+export {
+  DashboardChartCard,
+  type DashboardChartCardData,
+  type DashboardChartCardProps,
+  type DashboardChartKind,
+  type DashboardChartMeta,
+  type DashboardChartReference,
+  type DashboardSeriesPoint,
+} from "./charts/DashboardChartCard";
