@@ -1,0 +1,31 @@
+/* =============================================================
+   @ds/core — breakpoint tokens
+
+   CSS custom properties that encode the canonical viewport widths.
+   Use these in media queries so every consumer shares the same grid.
+
+   Usage (in a stylesheet):
+     @media (max-width: var(--bp-sm)) { … }   ← not valid CSS
+     @media (max-width: 640px)        { … }   ← reference the variable value
+
+   These variables are NOT valid inside @media query expressions (the CSS
+   spec does not allow var() inside @media).  They exist as documentation
+   anchors and for JS consumers (e.g. matchMedia utilities).  When writing
+   media queries in CSS, use the values directly.  The variable definitions
+   keep them in one canonical place so they are easy to find and update.
+
+   Breakpoint scale:
+     xs   480px  — large phones in portrait (iPhone Pro Max ~430px + thumb room)
+     sm   640px  — phones landscape / small tablets
+     md   768px  — tablets in portrait
+     lg   960px  — tablets landscape / small laptops
+     xl  1280px  — standard laptop / desktop
+   ============================================================= */
+
+:root {
+  --bp-xs: 480px;
+  --bp-sm: 640px;
+  --bp-md: 768px;
+  --bp-lg: 960px;
+  --bp-xl: 1280px;
+}
