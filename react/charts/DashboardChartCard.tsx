@@ -469,18 +469,24 @@ export function DashboardChartCard({
   const showBelowLegend =
     legendProp === 'below' || (legendProp === 'inline' && mobile);
 
+  // Date-axis labels: enforce a minimum gap that prevents overlap on dense
+  // series. "10 Mar" is ~32px at 10px font; "1" (logXLine) is ~6px. The gap
+  // applies after the interval filter, so it's a safety net rather than the
+  // primary spacer.
+  const xMinTickGap = isDateAxis ? (mobile ? 30 : 42) : (mobile ? 8 : 14);
+
   const renderCommonAxes = () => (
     <>
       <CartesianGrid stroke={GRID_COLOR} strokeOpacity={0.55} vertical={false} />
       <XAxis
         dataKey={xKey}
         interval={tickEvery}
-        minTickGap={mobile ? 8 : 14}
+        minTickGap={xMinTickGap}
         allowDuplicatedCategory={false}
         tickFormatter={xTickFormatter}
         tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }}
-        height={24}
-        tickMargin={4}
+        height={mobile ? 28 : 30}
+        tickMargin={mobile ? 5 : 6}
       />
       <YAxis
         orientation="right"
@@ -554,12 +560,12 @@ export function DashboardChartCard({
           <XAxis
             dataKey={xKey}
             interval={tickEvery}
-            minTickGap={mobile ? 8 : 14}
+            minTickGap={xMinTickGap}
             allowDuplicatedCategory={false}
             tickFormatter={xTickFormatter}
             tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }}
-            height={24}
-            tickMargin={4}
+            height={mobile ? 28 : 30}
+            tickMargin={mobile ? 5 : 6}
           />
           <YAxis yAxisId="left" hide width={0} domain={yDomain} />
           <YAxis yAxisId="right" orientation="right" tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }} width={axisWidth} />
