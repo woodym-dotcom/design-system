@@ -4282,8 +4282,45 @@ button.cc-status-pill {
   color: var(--accent-text);
   text-decoration: none;
   font-weight: 500;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: inherit;
 }
 .cc-metadata-chip__inspect:hover { text-decoration: underline; }
+
+/* Staleness dot — rendered on the trigger button when data is stale/missing */
+.cc-metadata-chip__staleness-dot {
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  margin-right: 0.15rem;
+}
+
+/* Staleness badge variants in the expanded panel */
+.cc-metadata-chip__badge--stale {
+  background: color-mix(in oklch, #eab308 15%, var(--surface-0));
+  color: #92611a;
+}
+.cc-metadata-chip__badge--missing {
+  background: color-mix(in oklch, var(--text-3) 12%, var(--surface-0));
+  color: var(--text-2);
+}
+
+/* Inline inspect content: pre-formatted data block */
+.cc-metadata-chip__inspect-content {
+  display: block;
+  margin-top: var(--space-1, 4px);
+  width: 100%;
+}
+.cc-metadata-chip__item--inspect-inline {
+  flex-direction: column;
+  align-items: flex-start;
+}
 
 /* ---------- SECTION HEADER ------------------------------------------------ */
 .cc-section-header {
