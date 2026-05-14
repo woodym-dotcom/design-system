@@ -1,0 +1,14 @@
+:root {
+  --density-page-padding-block-compact: 1rem;
+  --density-section-gap-compact: 1.15rem;
+  --density-card-padding-compact: 0.85rem;
+  --density-list-gap-compact: 0.35rem;
+  --density-list-row-padding-block-compact: 0.24rem;
+}
+[data-density="compact"] {
+  --density-page-padding-block: var(--density-page-padding-block-compact);
+  --density-section-gap: var(--density-section-gap-compact);
+  --density-card-padding: var(--density-card-padding-compact);
+  --density-list-gap: var(--density-list-gap-compact);
+  --density-list-row-padding-block: var(--density-list-row-padding-block-compact);
+}
