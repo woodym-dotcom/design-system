@@ -394,7 +394,7 @@ function HeatmapGrid({
   const cellSize = 12;
   const gap = 2;
   return (
-    <div role="img" aria-label={ariaLabel} style={{ display: 'flex', flexWrap: 'wrap', gap, padding: '8px 0', overflowX: 'hidden' }}>
+    <div role="img" aria-label={ariaLabel} style={{ display: 'flex', flexWrap: 'wrap', gap, padding: '8px 0' }}>
       {columns.map((col) => (
         <div key={col.key} style={{ display: 'grid', gridTemplateRows: `repeat(7, ${cellSize}px)`, gap }}>
           {[1, 2, 3, 4, 5, 6, 0].map((dayOfWeek) => {
