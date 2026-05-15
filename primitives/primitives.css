@@ -4499,12 +4499,20 @@ button.cc-compact-row:focus-visible {
   min-width: 0;
 }
 
+.cc-dashboard-chart__title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
 .cc-dashboard-chart__title {
   /* Inherits .t-h3 from SectionHeader convention */
   font-size: 1rem;
   font-weight: 600;
   margin: 0;
   color: var(--text-1);
+  min-width: 0;
 }
 
 .cc-dashboard-chart__caption {
@@ -4512,6 +4520,47 @@ button.cc-compact-row:focus-visible {
   font-size: var(--text-xs, 0.75rem);
   color: var(--text-3);
   line-height: 1.4;
+}
+
+.cc-dashboard-chart__caption-toggle {
+  /* Hidden on desktop — caption is always rendered as a block. The trigger
+     only becomes visible at the mobile breakpoint. Min 32×32 target for
+     finger-friendliness without dominating the title row. */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: -6px 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-3);
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 999px;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.cc-dashboard-chart__caption-toggle:hover,
+.cc-dashboard-chart__caption-toggle:focus-visible {
+  color: var(--text-1);
+  background: var(--surface-muted, color-mix(in oklch, var(--surface-1) 80%, var(--surface-0)));
+  outline: none;
+}
+.cc-dashboard-chart__caption-toggle:focus-visible {
+  outline: 2px solid var(--accent-border, var(--ring));
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .cc-dashboard-chart__caption-toggle { display: inline-flex; }
+  /* Mobile: caption hidden until the trigger is pressed. data-caption-open
+     attribute on the title-wrap controls the disclosure. Display:none rather
+     than visibility/0-height so it doesn't claim layout when closed. */
+  .cc-dashboard-chart__title-wrap[data-caption-open="false"] .cc-dashboard-chart__caption {
+    display: none;
+  }
 }
 
 .cc-dashboard-chart__empty {
