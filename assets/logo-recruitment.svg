@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" width="220" height="48">
+  <g transform="translate(0,8)">
+    <circle cx="16" cy="16" r="16" fill="oklch(55% 0.15 30)"></circle>
+    <path d="M9 22 L 9 7 L 19 7 L 19 14 L 9 14 M 14 14 L 23 22" fill="none" stroke="#fafaf8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+  </g>
+  <text x="44" y="32" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="20" letter-spacing="-0.02em" fill="#0f172a">Recruiting</text>
+</svg>

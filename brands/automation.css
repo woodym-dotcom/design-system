@@ -7,11 +7,11 @@
 /* Fonts are loaded by the consumer (e.g. @fontsource/inter, @fontsource/jetbrains-mono). */
 
 :root {
-  --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   /* Brand seed — change these to rebrand. */
-  --brand-hue: 210;      /* cyan */
+  --brand-hue: 30;       /* ember — unified palette */
   --brand-chroma: 0.15;
 
   /* Derived accent tokens — light mode */
@@ -48,8 +48,8 @@
   --ink-1:     #1a1a1a;
   --paper:     #fafaf8;
   --paper-ink: #f5f0eb;
-  --font-brand:      "Playfair Display", Georgia, serif;
-  --font-brand-sans: "DM Sans", sans-serif;
+  --font-brand:      "Georgia", "Times New Roman", Times, serif;
+  --font-brand-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 :root[data-theme="dark"] {

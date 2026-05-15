@@ -1,0 +1,13 @@
+/* =============================================================
+   @ds/core — fonts
+   Using STANDARDIZED WEB FONTS (system-ui stack + standard
+   monospace) — no Google Fonts dependency.
+
+   Sans:  system-ui → SF / Segoe UI / Roboto / Helvetica → sans-serif
+   Serif: Georgia → Times New Roman → serif
+   Mono:  ui-monospace → SF Mono / Menlo / Consolas → monospace
+
+   Production may swap these for branded webfonts; the design
+   system is built against the system stack so it works offline
+   and on every device.
+   ============================================================= */

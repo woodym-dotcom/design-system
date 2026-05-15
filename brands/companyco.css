@@ -9,14 +9,14 @@
    @fontsource/playfair-display, @fontsource/dm-sans, @fontsource/jetbrains-mono). */
 
 :root {
-  /* FONT STACKS */
-  --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
-  --font-brand: "Playfair Display", Georgia, serif;
-  --font-brand-sans: "DM Sans", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* FONT STACKS — standardized system fonts (no webfont dependency). */
+  --font-sans:       system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-brand:      Georgia, "Times New Roman", Times, serif;
+  --font-brand-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:       ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   /* Brand seed — change these to rebrand the product surface. */
-  --brand-hue: 210;      /* cyan — paired with automationArmoury */
+  --brand-hue: 30;       /* ember — unified palette */
   --brand-chroma: 0.15;
 
   /* Derived accent tokens — light mode */

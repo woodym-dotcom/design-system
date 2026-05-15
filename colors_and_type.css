@@ -1,0 +1,38 @@
+/* =============================================================
+   @ds/core — colors_and_type.css
+   One-shot import for prototypes. Composes the full token cascade:
+     fonts → core tokens → type scale → viz → brand → primitives
+   By default the CompanyCo brand is active. To switch:
+     <link rel="stylesheet" href="brands/recruitment.css" />
+   AFTER this file (each brand re-declares --accent-* / --font-*).
+   ============================================================= */
+
+@import "./fonts/fonts.css";
+@import "./tokens/core.css";
+@import "./tokens/type-scale.css";
+@import "./tokens/viz.css";
+@import "./brands/companyco.css";  /* default brand — override by replacing this line */
+@import "./primitives/primitives.css";
+
+/* -------------------------------------------------------------
+   Semantic shortcuts (h1, h2, p, code, kbd) wired to the
+   t-* / cc-* classes already defined upstream. These let plain
+   HTML inherit the type scale without applying t-* classes by hand.
+   ------------------------------------------------------------- */
+
+h1 { font-size: var(--text-2xl); font-weight: 600; line-height: 32px; letter-spacing: -0.02em; color: var(--text-1); }
+h2 { font-size: var(--text-lg);  font-weight: 600; line-height: 28px; letter-spacing: -0.02em; color: var(--text-1); }
+h3 { font-size: var(--text-md);  font-weight: 600; line-height: 24px; color: var(--text-1); }
+h4 { font-size: var(--text-base); font-weight: 600; color: var(--text-1); }
+
+p  { font-size: var(--text-base); line-height: 1.5; color: var(--text-2); margin: 0; }
+
+small { font-size: var(--text-xs); color: var(--text-3); }
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 20px;
+}
+code { color: var(--text-1); background: var(--surface-2); padding: 1px 6px; border-radius: var(--radius-sm); }
+kbd  { display: inline-block; padding: 1px 4px; border: 1px solid var(--border-1); border-radius: 3px; background: var(--surface-1); font-size: 11px; color: var(--text-2); }

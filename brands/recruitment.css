@@ -7,8 +7,8 @@
 /* Fonts are loaded by the consumer (e.g. @fontsource/inter). */
 
 :root {
-  --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   /* Brand seed — change these two values to rebrand. */
   --brand-hue: 30;       /* warm orange / ember */

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>recruitment-woody · Pipeline</title>
+  <link rel="stylesheet" href="../../colors_and_type.css" />
+  <link rel="stylesheet" href="../../brands/recruitment.css" />
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { background: var(--surface-0); }
+    #root { height: 100vh; }
+  </style>
+</head>
+<body data-screen-label="01 Pipeline">
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script src="./data.js"></script>
+  <script type="text/babel" src="./Sidebar.jsx"></script>
+  <script type="text/babel" src="./Pipeline.jsx"></script>
+
+  <script type="text/babel">
+    const { useState, useMemo } = React;
+
+    function App() {
+      const [nav, setNav] = useState("pipeline");
+      const [roleFilter, setRoleFilter] = useState("all");
+      const [selectedId, setSelectedId] = useState("c5");
+
+      const filtered = useMemo(() => {
+        if (roleFilter === "all") return RW_CANDIDATES;
+        const map = {
+          "senior-backend": "Senior backend",
+          "product-designer": "Staff product designer",
+          "engineering-manager": "Engineering manager",
+        };
+        return RW_CANDIDATES.filter(c => c.role === map[roleFilter]);
+      }, [roleFilter]);
+
+      const selected = RW_CANDIDATES.find(c => c.id === selectedId);
+
+      return (
+        <div style={{ display: "grid", gridTemplateColumns: "72px 1fr", height: "100vh" }}>
+          <Sidebar active={nav} onChange={setNav} />
+          <div style={{ position: "relative", display: "grid", gridTemplateColumns: selected ? "1fr 420px" : "1fr", minHeight: 0 }}>
+            <PipelinePage
+              candidates={filtered}
+              roleFilter={roleFilter}
+              onRoleFilter={setRoleFilter}
+              onSelect={setSelectedId}
+              selectedId={selectedId}
+            />
+            {selected && <CandidatePane candidate={selected} onClose={() => setSelectedId(null)} />}
+          </div>
+        </div>
+      );
+    }
+
+    function CandidatePane({ candidate, onClose }) {
+      return (
+        <aside style={{
+          borderLeft: "1px solid var(--border-1)",
+          background: "var(--surface-0)",
+          display: "grid", gridTemplateRows: "auto 1fr auto", minHeight: 0,
+        }}>
+          <header style={{
+            display: "flex", alignItems: "center", gap: 12,
+            padding: "14px 18px", borderBottom: "1px solid var(--border-1)",
+          }}>
+            <Avatar name={candidate.name} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-4)" }}>Candidate</div>
+              <h2 style={{ fontSize: 18, fontWeight: 600, letterSpacing: "-0.02em", color: "var(--text-1)", margin: "4px 0 0" }}>{candidate.name}</h2>
+            </div>
+            <button className="cc-btn cc-btn--ghost cc-btn--icon" aria-label="Close" onClick={onClose}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          </header>
+
+          <div style={{ overflow: "auto", padding: 18, display: "grid", gap: 18 }}>
+            <Section title="Role">
+              <KV label="Position">{candidate.role}</KV>
+              <KV label="Experience">{candidate.years} years</KV>
+              <KV label="Source">{candidate.source}</KV>
+            </Section>
+            <Section title="Pipeline">
+              <KV label="Stage"><span className={RW_PHASE_CLASS[candidate.phase]}>{candidate.phase}</span></KV>
+              <KV label="Owner">{candidate.owner}</KV>
+              <KV label="Last update" mono>{candidate.when}</KV>
+              {candidate.score && <KV label="Score" mono>{candidate.score} / 10</KV>}
+            </Section>
+            <Section title="Loop">
+              <LoopRow role="Phone screen" who="Mara Okafor"   state="done" />
+              <LoopRow role="Technical 1"  who="Jin Park"      state="done" />
+              <LoopRow role="Technical 2"  who="Adaeze Iyenoma" state={candidate.phase === "score" || candidate.phase === "approve" ? "done" : "scheduled"} />
+              <LoopRow role="Hiring panel" who="Yara Mendes"   state={candidate.phase === "approve" || candidate.phase === "complete" ? "done" : "pending"} />
+            </Section>
+          </div>
+
+          <footer style={{
+            display: "flex", gap: 8, padding: 12,
+            borderTop: "1px solid var(--border-1)", background: "var(--surface-1)",
+          }}>
+            <button className="cc-btn cc-btn--secondary cc-btn--sm">Schedule</button>
+            <div style={{ flex: 1 }}/>
+            <button className="cc-btn cc-btn--ghost cc-btn--sm" style={{ color: "var(--error)" }}>Reject</button>
+            <button className="cc-btn cc-btn--primary cc-btn--sm">Advance</button>
+          </footer>
+        </aside>
+      );
+    }
+
+    function Section({ title, children }) {
+      return (
+        <section>
+          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-4)", marginBottom: 8 }}>{title}</div>
+          <div style={{ display: "grid", gap: 8 }}>{children}</div>
+        </section>
+      );
+    }
+    function KV({ label, children, mono }) {
+      return (
+        <div style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 8, alignItems: "center" }}>
+          <span style={{ fontSize: 12, color: "var(--text-3)" }}>{label}</span>
+          <span style={{ fontSize: 13, color: "var(--text-1)", fontFamily: mono ? "var(--font-mono)" : "inherit" }}>{children}</span>
+        </div>
+      );
+    }
+    function LoopRow({ role, who, state }) {
+      const meta = {
+        done:      { color: "var(--success)",   label: "Done" },
+        scheduled: { color: "var(--accent-1)",  label: "Scheduled" },
+        pending:   { color: "var(--text-4)",    label: "Pending" },
+      }[state];
+      return (
+        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 10, alignItems: "center", padding: "6px 0", borderTop: "1px solid var(--border-1)" }}>
+          <span style={{ width: 8, height: 8, borderRadius: 999, background: meta.color }}/>
+          <div>
+            <div style={{ fontSize: 13, color: "var(--text-1)" }}>{role}</div>
+            <div style={{ fontSize: 11, color: "var(--text-3)" }}>{who}</div>
+          </div>
+          <span style={{ fontSize: 11, color: meta.color, fontWeight: 500 }}>{meta.label}</span>
+        </div>
+      );
+    }
+    function Avatar({ name }) {
+      const initials = name.split(/\s+/).map(p => p[0]).slice(0,2).join("").toUpperCase();
+      const hue = [...name].reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
+      return (
+        <div style={{
+          width: 36, height: 36, borderRadius: 999,
+          background: `oklch(85% 0.06 ${hue})`,
+          color: `oklch(35% 0.12 ${hue})`,
+          fontSize: 13, fontWeight: 600,
+          display: "grid", placeItems: "center",
+        }}>{initials}</div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

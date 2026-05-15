@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>automationArmoury · Runs</title>
+  <link rel="stylesheet" href="../../colors_and_type.css" />
+  <link rel="stylesheet" href="../../brands/automation.css" />
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { background: var(--surface-0); }
+    #root { height: 100vh; }
+  </style>
+</head>
+<body data-screen-label="01 Runs">
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script src="./data.js"></script>
+  <script type="text/babel" src="./AAShell.jsx"></script>
+  <script type="text/babel" src="./RunsList.jsx"></script>
+  <script type="text/babel" src="./RunPane.jsx"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Read URL deep-link: ?run=run-id&full=1
+    function readUrlState() {
+      try {
+        const sp = new URLSearchParams(window.location.search);
+        return {
+          runId: sp.get("run"),
+          full:  sp.get("full") === "1",
+        };
+      } catch { return { runId: null, full: false }; }
+    }
+
+    function App() {
+      const initial = readUrlState();
+      const [nav, setNav] = useState("runs");
+      const [selected, setSelected] = useState(initial.runId || "run-7a4f");
+      const [paneWidth, setPaneWidth] = useState(520);
+      const [paneFullscreen, setPaneFullscreen] = useState(initial.full);
+      const [expanded, setExpanded] = useState(new Set(["run-7a4f"]));
+
+      const run = AA_RUNS.find(r => r.id === selected);
+      const paneOpen = !!run;
+
+      // Sync URL <-> state so deep-links and "Open in new tab" work
+      useEffect(() => {
+        const sp = new URLSearchParams(window.location.search);
+        if (selected) sp.set("run", selected); else sp.delete("run");
+        if (paneFullscreen) sp.set("full", "1"); else sp.delete("full");
+        const newUrl = window.location.pathname + (sp.toString() ? "?" + sp.toString() : "");
+        window.history.replaceState(null, "", newUrl);
+      }, [selected, paneFullscreen]);
+
+      const toggleExpand = id => {
+        setExpanded(prev => {
+          const next = new Set(prev);
+          next.has(id) ? next.delete(id) : next.add(id);
+          return next;
+        });
+      };
+
+      const openInNewTab = id => {
+        const sp = new URLSearchParams();
+        sp.set("run", id);
+        sp.set("full", "1");
+        window.open(window.location.pathname + "?" + sp.toString(), "_blank");
+      };
+
+      const gridTemplate = !paneOpen
+        ? "1fr"
+        : paneFullscreen
+          ? "0fr 1fr"
+          : `1fr ${paneWidth}px`;
+
+      const navLabels = { runs: "Runs", schedules: "Schedules", datasets: "Datasets", pipelines: "Pipelines" };
+      const visibleRuns = AA_RUNS;
+      const parents = visibleRuns.filter(r => !r.parent);
+      const runningCount = parents.filter(r => r.state === "running").length;
+      const failedCount  = parents.filter(r => r.state === "failed").length;
+
+      return (
+        <AAShell
+          activeNav={nav}
+          onNavChange={setNav}
+          breadcrumbs={[
+            "Automation",
+            navLabels[nav],
+            ...(paneFullscreen && run ? [run.id] : []),
+          ]}
+        >
+          <div style={{
+            display: "grid", gridTemplateColumns: gridTemplate,
+            height: "100%", minHeight: 0,
+            transition: "grid-template-columns 180ms ease",
+          }}>
+            <div style={{
+              padding: "20px 24px",
+              overflow: paneFullscreen ? "hidden" : "auto",
+              minWidth: 0,
+            }}>
+              <RunsPageHeader count={parents.length} runningCount={runningCount} failedCount={failedCount} />
+              <RunsList
+                runs={visibleRuns}
+                selected={selected}
+                onSelect={setSelected}
+                expanded={expanded}
+                onToggleExpand={toggleExpand}
+                onOpenInNewTab={openInNewTab}
+              />
+            </div>
+            <RunPane
+              run={run}
+              width={paneWidth}
+              onWidthChange={setPaneWidth}
+              fullscreen={paneFullscreen}
+              onFullscreenChange={setPaneFullscreen}
+              onOpenInNewTab={() => run && openInNewTab(run.id)}
+              onClose={() => { setSelected(null); setPaneFullscreen(false); }}
+            />
+          </div>
+        </AAShell>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
