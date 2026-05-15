@@ -441,7 +441,6 @@ export function DashboardChartCard({
   expand,
 }: DashboardChartCardProps) {
   const mobile = useIsMobile();
-  const [zoomed, setZoomed] = React.useState(false);
   const hasData = card.data.length > 0;
   const height = mobile ? 230 : 280;
   const axisWidth = mobile ? 42 : 52;
@@ -454,10 +453,6 @@ export function DashboardChartCard({
   const series = [...bars, ...lines];
   const targetTicks = mobile ? 4 : 6;
   const tickEvery = Math.max(0, Math.ceil(card.data.length / targetTicks) - 1);
-  const plotMinWidth = React.useMemo(() => {
-    if (!zoomed) return 0;
-    return Math.max(720, card.data.length * (mobile ? 34 : 42));
-  }, [card.data.length, mobile, zoomed]);
 
   const isDateAxis = xKey === 'day';
   const xTickFormatter = (v: unknown) => isDateAxis ? dayTick(String(v), mobile) : String(v);
@@ -652,8 +647,8 @@ export function DashboardChartCard({
           <h3 className="cc-dashboard-chart__title t-h3">{card.meta.title}</h3>
           {caption && <p className="cc-dashboard-chart__caption t-caption">{caption}</p>}
         </div>
-        <div className="chart-actions">
-          {expand ? (
+        {expand ? (
+          <div className="chart-actions">
             <button
               type="button"
               className="chart-zoom-toggle"
@@ -662,27 +657,8 @@ export function DashboardChartCard({
             >
               Expand
             </button>
-          ) : (
-            hasData && kind !== 'heatmap' ? (
-              <button
-                type="button"
-                className="chart-zoom-toggle"
-                aria-label={`${card.meta.title} ${zoomed ? 'fit chart' : 'zoom chart'}`}
-                aria-pressed={zoomed}
-                onClick={() => setZoomed((v) => !v)}
-              >
-                {zoomed ? 'Fit' : 'Zoom'}
-              </button>
-            ) : null
-          )}
-          {!expand && (
-            <details className="chart-details">
-              <summary>Details</summary>
-              <p>{card.meta.definition}</p>
-              <div>{card.meta.freshness}</div>
-            </details>
-          )}
-        </div>
+          </div>
+        ) : null}
       </div>
 
       {headline ? <div className="chart-headline" style={{ marginBottom: 8 }}>{headline}</div> : null}
@@ -701,9 +677,9 @@ export function DashboardChartCard({
         ) : noDataPlaceholder
       ) : hasData ? (
         <div
-          className={`cc-chart-frame${zoomed ? ' is-zoomed' : ''}`}
+          className="cc-chart-frame"
           style={{
-            '--chart-plot-min-width': zoomed ? `${plotMinWidth}px` : '100%',
+            '--chart-plot-min-width': '100%',
             '--chart-height': `${height}px`,
           } as React.CSSProperties}
         >
