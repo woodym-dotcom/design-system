@@ -442,6 +442,12 @@ export function DashboardChartCard({
 }: DashboardChartCardProps) {
   const mobile = useIsMobile();
   const hasData = card.data.length > 0;
+  // Caption disclosure: on mobile the caption is hidden by default to claw
+  // back vertical space; tapping the info trigger reveals it. On desktop the
+  // CSS overrides keep the caption block visible regardless of state and the
+  // trigger is hidden, so this state is a no-op there.
+  const [captionOpen, setCaptionOpen] = React.useState(false);
+  const captionId = `${card.meta.id}-caption`;
   const height = mobile ? 230 : 280;
   const axisWidth = mobile ? 42 : 52;
 
@@ -644,9 +650,31 @@ export function DashboardChartCard({
     <figure className="chart-shell cc-dashboard-chart" role="group" aria-label={chartAriaLabel}>
       {/* Header: title + caption + actions */}
       <div className="chart-heading mb-3">
-        <div className="cc-dashboard-chart__title-wrap">
-          <h3 className="cc-dashboard-chart__title t-h3">{card.meta.title}</h3>
-          {caption && <p className="cc-dashboard-chart__caption t-caption">{caption}</p>}
+        <div className="cc-dashboard-chart__title-wrap" data-caption-open={captionOpen ? 'true' : 'false'}>
+          <div className="cc-dashboard-chart__title-row">
+            <h3 className="cc-dashboard-chart__title t-h3">{card.meta.title}</h3>
+            {caption && (
+              <button
+                type="button"
+                className="cc-dashboard-chart__caption-toggle"
+                aria-controls={captionId}
+                aria-expanded={captionOpen}
+                aria-label={`About ${card.meta.title}`}
+                onClick={() => setCaptionOpen((open) => !open)}
+              >
+                {/* Unicode circled-i — keeps DS icon-dep-free */}
+                <span aria-hidden="true">ⓘ</span>
+              </button>
+            )}
+          </div>
+          {caption && (
+            <p
+              id={captionId}
+              className="cc-dashboard-chart__caption t-caption"
+            >
+              {caption}
+            </p>
+          )}
         </div>
         {expand ? (
           <div className="chart-actions">
