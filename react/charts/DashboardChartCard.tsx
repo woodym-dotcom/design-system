@@ -482,9 +482,9 @@ export function DashboardChartCard({
         tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }}
         height={mobile ? 28 : 30}
         tickMargin={mobile ? 5 : 6}
+        padding={{ left: 12, right: 12 }}
       />
       <YAxis
-        orientation="right"
         width={axisWidth}
         domain={yDomain}
         tickFormatter={(v) => axisNumber(Number(v))}
@@ -515,7 +515,7 @@ export function DashboardChartCard({
     if (kind === 'bar' || kind === 'hStackedBar') {
       const layout = kind === 'hStackedBar' ? ('vertical' as const) : ('horizontal' as const);
       return (
-        <ComposedChart data={card.data} layout={layout} margin={{ top: 14, right: 22, left: 0, bottom: 8 }}>
+        <ComposedChart data={card.data} layout={layout} margin={{ top: 14, right: 8, left: 4, bottom: 8 }}>
           {renderCommonAxes()}
           {bars.map((key, index) => {
             const isTop = bars.length === 1 || index === bars.length - 1;
@@ -550,7 +550,7 @@ export function DashboardChartCard({
 
     if (kind === 'dualAxis') {
       return (
-        <ComposedChart data={card.data} margin={{ top: 14, right: 32, left: 0, bottom: 8 }}>
+        <ComposedChart data={card.data} margin={{ top: 14, right: 8, left: 4, bottom: 8 }}>
           <CartesianGrid stroke={GRID_COLOR} strokeOpacity={0.55} vertical={false} />
           <XAxis
             dataKey={xKey}
@@ -561,8 +561,9 @@ export function DashboardChartCard({
             tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }}
             height={mobile ? 28 : 30}
             tickMargin={mobile ? 5 : 6}
+            padding={{ left: 12, right: 12 }}
           />
-          <YAxis yAxisId="left" hide width={0} domain={yDomain} />
+          <YAxis yAxisId="left" width={axisWidth} domain={yDomain} tickFormatter={(v) => axisNumber(Number(v))} tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }} axisLine={{ stroke: GRID_COLOR }} tickLine={{ stroke: GRID_COLOR }} />
           <YAxis yAxisId="right" orientation="right" tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }} width={axisWidth} />
           <Tooltip
             contentStyle={TOOLTIP_STYLE}
@@ -590,7 +591,7 @@ export function DashboardChartCard({
 
     if (kind === 'scatter') {
       return (
-        <ScatterChart margin={{ top: 14, right: 22, left: 0, bottom: 8 }}>
+        <ScatterChart margin={{ top: 14, right: 8, left: 4, bottom: 8 }}>
           {renderCommonAxes()}
           {lines.map((key, index) => (
             <Scatter key={key} name={legendFormatter(key)} data={card.data} dataKey={key} fill={CHART_COLORS[index % CHART_COLORS.length]} />
@@ -601,7 +602,7 @@ export function DashboardChartCard({
 
     if (kind === 'logXLine') {
       return (
-        <LineChart data={card.data} margin={{ top: 14, right: 22, left: 0, bottom: 8 }}>
+        <LineChart data={card.data} margin={{ top: 14, right: 8, left: 4, bottom: 8 }}>
           {renderCommonAxes()}
           {lines.map((key, index) => (
             <Line key={key} type="monotone" dataKey={key} name={legendFormatter(key)} stroke={CHART_COLORS[index % CHART_COLORS.length]} strokeWidth={2} dot connectNulls isAnimationActive={false} />
@@ -612,7 +613,7 @@ export function DashboardChartCard({
 
     // Default: line chart
     return (
-      <LineChart data={card.data} margin={{ top: 14, right: 22, left: 0, bottom: 8 }}>
+      <LineChart data={card.data} margin={{ top: 14, right: 8, left: 4, bottom: 8 }}>
         {renderCommonAxes()}
         {lines.map((key, index) => (
           <Line key={key} type="monotone" dataKey={key} name={legendFormatter(key)} stroke={CHART_COLORS[index % CHART_COLORS.length]} strokeWidth={2} dot={false} isAnimationActive={false} connectNulls />
