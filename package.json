@@ -226,7 +226,7 @@
     "test:visual:update": "playwright test --update-snapshots",
     "test:visual:check-coverage": "node scripts/check-visual-coverage.mjs",
     "ci": "pnpm test && pnpm typecheck && pnpm build-storybook && pnpm test:visual:check-coverage && pnpm test:visual",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && node scripts/add-js-extensions.mjs",
     "prepare": "pnpm run build"
   },
   "files": [
