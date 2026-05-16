@@ -31,5 +31,4 @@ export { MetadataChip, type MetadataChipProps, type MetadataChipFreshness, } fro
 export { SectionHeader, type SectionHeaderProps, } from "./SectionHeader.js";
 export { EmptyState, type EmptyStateProps, type EmptyStateAction, } from "./EmptyState.js";
 export { CompactListRow, type CompactListRowProps, } from "./CompactListRow.js";
-export { DashboardChartCard, type DashboardChartCardData, type DashboardChartCardProps, type DashboardChartKind, type DashboardChartMeta, type DashboardChartReference, type DashboardSeriesPoint, } from "./charts/DashboardChartCard.js";
 //# sourceMappingURL=index.d.ts.map

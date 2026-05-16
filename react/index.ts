@@ -207,12 +207,7 @@ export {
   type CompactListRowProps,
 } from "./CompactListRow";
 
-export {
-  DashboardChartCard,
-  type DashboardChartCardData,
-  type DashboardChartCardProps,
-  type DashboardChartKind,
-  type DashboardChartMeta,
-  type DashboardChartReference,
-  type DashboardSeriesPoint,
-} from "./charts/DashboardChartCard";
+// DashboardChartCard intentionally NOT re-exported here.
+// Import directly from "@ds/core/react/charts/DashboardChartCard" — keeps
+// recharts (optional peer) out of the bundle path for consumers that don't
+// use charts.

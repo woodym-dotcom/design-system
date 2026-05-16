@@ -31,5 +31,8 @@ export { MetadataChip, } from "./MetadataChip.js";
 export { SectionHeader, } from "./SectionHeader.js";
 export { EmptyState, } from "./EmptyState.js";
 export { CompactListRow, } from "./CompactListRow.js";
-export { DashboardChartCard, } from "./charts/DashboardChartCard.js";
+// DashboardChartCard intentionally NOT re-exported here.
+// Import directly from "@ds/core/react/charts/DashboardChartCard" — keeps
+// recharts (optional peer) out of the bundle path for consumers that don't
+// use charts.
 //# sourceMappingURL=index.js.map
