@@ -11,7 +11,6 @@
  *  - When interactive (onClick), the host element is a <button> with
  *    minimum 44×44px touch target (via padding + min-height).
  */
-import * as React from 'react';
 
 export type StatusPillStatus = 'ok' | 'warning' | 'error' | 'info' | 'neutral';
 

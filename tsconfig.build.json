@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": "react",
+    "emitDeclarationOnly": false
+  },
+  "include": ["react/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "react/**/*.test.ts",
+    "react/**/*.test.tsx",
+    "react/**/*.spec.ts",
+    "react/**/*.spec.tsx",
+    "react/**/__tests__/**"
+  ]
+}

@@ -16,3 +16,4 @@ Thumbs.db
 
 # Local agent worktrees — never commit
 .claude/worktrees/
+ds-core-*.tgz
