@@ -1,0 +1,5 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+export function EmptyState({ title, description, action, icon, className }) {
+    return (_jsxs("div", { className: ['cc-empty-state', className].filter(Boolean).join(' '), role: "status", children: [icon && _jsx("span", { className: "cc-empty-state__icon", "aria-hidden": "true", children: icon }), _jsx("p", { className: "cc-empty-state__title", children: title }), description && _jsx("p", { className: "cc-empty-state__description", children: description }), action && (action.href ? (_jsx("a", { href: action.href, className: "cc-empty-state__cta", children: action.label })) : (_jsx("button", { type: "button", className: "cc-empty-state__cta", onClick: action.onClick, children: action.label })))] }));
+}
+//# sourceMappingURL=EmptyState.js.map

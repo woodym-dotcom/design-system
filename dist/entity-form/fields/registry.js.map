@@ -1,0 +1,1 @@
+{"version":3,"file":"registry.js","sourceRoot":"","sources":["../../../react/entity-form/fields/registry.ts"],"names":[],"mappings":"AAOA,MAAM,QAAQ,GAAG,IAAI,GAAG,EAAyD,CAAC;AAElF,MAAM,UAAU,iBAAiB,CAC/B,IAAY,EACZ,SAAwD;IAExD,QAAQ,CAAC,GAAG,CAAC,IAAI,EAAE,SAAS,CAAC,CAAC;AAChC,CAAC;AAED,MAAM,UAAU,qBAAqB,CACnC,IAAY;IAEZ,OAAO,QAAQ,CAAC,GAAG,CAAC,IAAI,CAAC,CAAC;AAC5B,CAAC"}
