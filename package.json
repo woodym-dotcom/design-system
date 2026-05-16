@@ -17,45 +17,201 @@
     "./brands/customer-lifecycle.css": "./brands/customer-lifecycle.css",
     "./brands/automation.css": "./brands/automation.css",
     "./primitives/primitives.css": "./primitives/primitives.css",
-    "./react": "./react/index.ts",
-    "./react/useTheme": "./react/useTheme.ts",
-    "./react/ThemeToggle": "./react/ThemeToggle.tsx",
-    "./react/useDensity": "./react/useDensity.ts",
-    "./react/ModuleShell": "./react/ModuleShell.tsx",
-    "./react/FormField": "./react/FormField.tsx",
-    "./react/FilterBar": "./react/FilterBar.tsx",
-    "./react/NavRail": "./react/NavRail.tsx",
-    "./react/CreateMenu": "./react/CreateMenu.tsx",
-    "./react/EntityForm": "./react/entity-form/index.ts",
-    "./react/CreationWizard": "./react/CreationWizard.tsx",
-    "./react/ListPageHeader": "./react/ListPageHeader.tsx",
-    "./react/DetailPane": "./react/DetailPane.tsx",
-    "./react/ListView": "./react/ListView.tsx",
-    "./react/ExpandableDetailPane": "./react/ExpandableDetailPane.tsx",
-    "./react/TopRightCreateWizard": "./react/TopRightCreateWizard.tsx",
-    "./react/ModuleShellProvider": "./react/ModuleShellProvider.tsx",
-    "./react/ListPage": "./react/ListPage.tsx",
-    "./react/ConfigurationsPage": "./react/ConfigurationsPage.tsx",
-    "./react/ReviewQueue": "./react/ReviewQueue.tsx",
-    "./react/MonitoringPage": "./react/MonitoringPage.tsx",
-    "./react/charts": "./react/charts/index.ts",
-    "./react/charts/MetricChartCard": "./react/charts/MetricChartCard.tsx",
-    "./react/charts/DashboardChartCard": "./react/charts/DashboardChartCard.tsx",
-    "./react/StatusPill": "./react/StatusPill.tsx",
-    "./react/MetadataChip": "./react/MetadataChip.tsx",
-    "./react/SectionHeader": "./react/SectionHeader.tsx",
-    "./react/EmptyState": "./react/EmptyState.tsx",
-    "./react/CompactListRow": "./react/CompactListRow.tsx",
-    "./react/Card": "./react/Card.tsx",
-    "./react/Stepper": "./react/Stepper.tsx",
-    "./react/AuditLogList": "./react/AuditLogList.tsx",
-    "./react/CompanyGroupSwitcher": "./react/CompanyGroupSwitcher.tsx",
-    "./react/ArtefactDetailPane": "./react/ArtefactDetailPane.tsx",
-    "./react/FileUploadField": "./react/FileUploadField.tsx",
-    "./react/LifecycleStateBadge": "./react/LifecycleStateBadge.tsx",
-    "./react/DetailPrimitives": "./react/DetailPrimitives.tsx",
-    "./react/EntityCard": "./react/EntityCard.tsx",
-    "./react/hooks/useUrlFilterState": "./react/hooks/useUrlFilterState.ts",
+    "./react": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./react/useTheme": {
+      "types": "./dist/useTheme.d.ts",
+      "import": "./dist/useTheme.js",
+      "default": "./dist/useTheme.js"
+    },
+    "./react/ThemeToggle": {
+      "types": "./dist/ThemeToggle.d.ts",
+      "import": "./dist/ThemeToggle.js",
+      "default": "./dist/ThemeToggle.js"
+    },
+    "./react/useDensity": {
+      "types": "./dist/useDensity.d.ts",
+      "import": "./dist/useDensity.js",
+      "default": "./dist/useDensity.js"
+    },
+    "./react/ModuleShell": {
+      "types": "./dist/ModuleShell.d.ts",
+      "import": "./dist/ModuleShell.js",
+      "default": "./dist/ModuleShell.js"
+    },
+    "./react/FormField": {
+      "types": "./dist/FormField.d.ts",
+      "import": "./dist/FormField.js",
+      "default": "./dist/FormField.js"
+    },
+    "./react/FilterBar": {
+      "types": "./dist/FilterBar.d.ts",
+      "import": "./dist/FilterBar.js",
+      "default": "./dist/FilterBar.js"
+    },
+    "./react/NavRail": {
+      "types": "./dist/NavRail.d.ts",
+      "import": "./dist/NavRail.js",
+      "default": "./dist/NavRail.js"
+    },
+    "./react/CreateMenu": {
+      "types": "./dist/CreateMenu.d.ts",
+      "import": "./dist/CreateMenu.js",
+      "default": "./dist/CreateMenu.js"
+    },
+    "./react/EntityForm": {
+      "types": "./dist/entity-form/index.d.ts",
+      "import": "./dist/entity-form/index.js",
+      "default": "./dist/entity-form/index.js"
+    },
+    "./react/CreationWizard": {
+      "types": "./dist/CreationWizard.d.ts",
+      "import": "./dist/CreationWizard.js",
+      "default": "./dist/CreationWizard.js"
+    },
+    "./react/ListPageHeader": {
+      "types": "./dist/ListPageHeader.d.ts",
+      "import": "./dist/ListPageHeader.js",
+      "default": "./dist/ListPageHeader.js"
+    },
+    "./react/DetailPane": {
+      "types": "./dist/DetailPane.d.ts",
+      "import": "./dist/DetailPane.js",
+      "default": "./dist/DetailPane.js"
+    },
+    "./react/ListView": {
+      "types": "./dist/ListView.d.ts",
+      "import": "./dist/ListView.js",
+      "default": "./dist/ListView.js"
+    },
+    "./react/ExpandableDetailPane": {
+      "types": "./dist/ExpandableDetailPane.d.ts",
+      "import": "./dist/ExpandableDetailPane.js",
+      "default": "./dist/ExpandableDetailPane.js"
+    },
+    "./react/TopRightCreateWizard": {
+      "types": "./dist/TopRightCreateWizard.d.ts",
+      "import": "./dist/TopRightCreateWizard.js",
+      "default": "./dist/TopRightCreateWizard.js"
+    },
+    "./react/ModuleShellProvider": {
+      "types": "./dist/ModuleShellProvider.d.ts",
+      "import": "./dist/ModuleShellProvider.js",
+      "default": "./dist/ModuleShellProvider.js"
+    },
+    "./react/ListPage": {
+      "types": "./dist/ListPage.d.ts",
+      "import": "./dist/ListPage.js",
+      "default": "./dist/ListPage.js"
+    },
+    "./react/ConfigurationsPage": {
+      "types": "./dist/ConfigurationsPage.d.ts",
+      "import": "./dist/ConfigurationsPage.js",
+      "default": "./dist/ConfigurationsPage.js"
+    },
+    "./react/ReviewQueue": {
+      "types": "./dist/ReviewQueue.d.ts",
+      "import": "./dist/ReviewQueue.js",
+      "default": "./dist/ReviewQueue.js"
+    },
+    "./react/MonitoringPage": {
+      "types": "./dist/MonitoringPage.d.ts",
+      "import": "./dist/MonitoringPage.js",
+      "default": "./dist/MonitoringPage.js"
+    },
+    "./react/charts": {
+      "types": "./dist/charts/index.d.ts",
+      "import": "./dist/charts/index.js",
+      "default": "./dist/charts/index.js"
+    },
+    "./react/charts/MetricChartCard": {
+      "types": "./dist/charts/MetricChartCard.d.ts",
+      "import": "./dist/charts/MetricChartCard.js",
+      "default": "./dist/charts/MetricChartCard.js"
+    },
+    "./react/charts/DashboardChartCard": {
+      "types": "./dist/charts/DashboardChartCard.d.ts",
+      "import": "./dist/charts/DashboardChartCard.js",
+      "default": "./dist/charts/DashboardChartCard.js"
+    },
+    "./react/StatusPill": {
+      "types": "./dist/StatusPill.d.ts",
+      "import": "./dist/StatusPill.js",
+      "default": "./dist/StatusPill.js"
+    },
+    "./react/MetadataChip": {
+      "types": "./dist/MetadataChip.d.ts",
+      "import": "./dist/MetadataChip.js",
+      "default": "./dist/MetadataChip.js"
+    },
+    "./react/SectionHeader": {
+      "types": "./dist/SectionHeader.d.ts",
+      "import": "./dist/SectionHeader.js",
+      "default": "./dist/SectionHeader.js"
+    },
+    "./react/EmptyState": {
+      "types": "./dist/EmptyState.d.ts",
+      "import": "./dist/EmptyState.js",
+      "default": "./dist/EmptyState.js"
+    },
+    "./react/CompactListRow": {
+      "types": "./dist/CompactListRow.d.ts",
+      "import": "./dist/CompactListRow.js",
+      "default": "./dist/CompactListRow.js"
+    },
+    "./react/Card": {
+      "types": "./dist/Card.d.ts",
+      "import": "./dist/Card.js",
+      "default": "./dist/Card.js"
+    },
+    "./react/Stepper": {
+      "types": "./dist/Stepper.d.ts",
+      "import": "./dist/Stepper.js",
+      "default": "./dist/Stepper.js"
+    },
+    "./react/AuditLogList": {
+      "types": "./dist/AuditLogList.d.ts",
+      "import": "./dist/AuditLogList.js",
+      "default": "./dist/AuditLogList.js"
+    },
+    "./react/CompanyGroupSwitcher": {
+      "types": "./dist/CompanyGroupSwitcher.d.ts",
+      "import": "./dist/CompanyGroupSwitcher.js",
+      "default": "./dist/CompanyGroupSwitcher.js"
+    },
+    "./react/ArtefactDetailPane": {
+      "types": "./dist/ArtefactDetailPane.d.ts",
+      "import": "./dist/ArtefactDetailPane.js",
+      "default": "./dist/ArtefactDetailPane.js"
+    },
+    "./react/FileUploadField": {
+      "types": "./dist/FileUploadField.d.ts",
+      "import": "./dist/FileUploadField.js",
+      "default": "./dist/FileUploadField.js"
+    },
+    "./react/LifecycleStateBadge": {
+      "types": "./dist/LifecycleStateBadge.d.ts",
+      "import": "./dist/LifecycleStateBadge.js",
+      "default": "./dist/LifecycleStateBadge.js"
+    },
+    "./react/DetailPrimitives": {
+      "types": "./dist/DetailPrimitives.d.ts",
+      "import": "./dist/DetailPrimitives.js",
+      "default": "./dist/DetailPrimitives.js"
+    },
+    "./react/EntityCard": {
+      "types": "./dist/EntityCard.d.ts",
+      "import": "./dist/EntityCard.js",
+      "default": "./dist/EntityCard.js"
+    },
+    "./react/hooks/useUrlFilterState": {
+      "types": "./dist/hooks/useUrlFilterState.d.ts",
+      "import": "./dist/hooks/useUrlFilterState.js",
+      "default": "./dist/hooks/useUrlFilterState.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {
@@ -69,7 +225,9 @@
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
     "test:visual:check-coverage": "node scripts/check-visual-coverage.mjs",
-    "ci": "pnpm test && pnpm typecheck && pnpm build-storybook && pnpm test:visual:check-coverage && pnpm test:visual"
+    "ci": "pnpm test && pnpm typecheck && pnpm build-storybook && pnpm test:visual:check-coverage && pnpm test:visual",
+    "build": "tsc -p tsconfig.build.json",
+    "prepare": "pnpm run build"
   },
   "files": [
     "tokens",
@@ -79,7 +237,8 @@
     "assets",
     "scripts",
     "eslint-plugin",
-    "README.md"
+    "README.md",
+    "dist"
   ],
   "peerDependencies": {
     "react": ">=18.0.0",

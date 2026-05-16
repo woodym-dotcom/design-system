@@ -493,7 +493,7 @@ export function DashboardChartCard({
       <YAxis
         width={axisWidth}
         domain={yDomain}
-        tickFormatter={(v) => axisNumber(Number(v))}
+        tickFormatter={(v: unknown) => axisNumber(Number(v))}
         tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }}
         axisLine={{ stroke: GRID_COLOR }}
         tickLine={{ stroke: GRID_COLOR }}
@@ -503,12 +503,12 @@ export function DashboardChartCard({
         labelStyle={TOOLTIP_LABEL_STYLE}
         itemStyle={{ color: 'var(--text-1)' }}
         labelFormatter={xLabelFormatter}
-        formatter={(value, name) => [value as number, legendFormatter(String(name))]}
+        formatter={(value: unknown, name: unknown) => [value as number, legendFormatter(String(name))]}
       />
       {showInlineLegend && (
         <Legend
           wrapperStyle={LEGEND_WRAPPER_STYLE}
-          formatter={(value) => (
+          formatter={(value: unknown) => (
             <span style={LEGEND_WRAPPER_STYLE}>{legendFormatter(String(value))}</span>
           )}
         />
@@ -569,19 +569,19 @@ export function DashboardChartCard({
             tickMargin={mobile ? 5 : 6}
             padding={{ left: 12, right: 12 }}
           />
-          <YAxis yAxisId="left" width={axisWidth} domain={yDomain} tickFormatter={(v) => axisNumber(Number(v))} tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }} axisLine={{ stroke: GRID_COLOR }} tickLine={{ stroke: GRID_COLOR }} />
+          <YAxis yAxisId="left" width={axisWidth} domain={yDomain} tickFormatter={(v: unknown) => axisNumber(Number(v))} tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }} axisLine={{ stroke: GRID_COLOR }} tickLine={{ stroke: GRID_COLOR }} />
           <YAxis yAxisId="right" orientation="right" tick={{ fontSize: mobile ? 9 : 10, fill: AXIS_COLOR }} width={axisWidth} />
           <Tooltip
             contentStyle={TOOLTIP_STYLE}
             labelStyle={TOOLTIP_LABEL_STYLE}
             itemStyle={{ color: 'var(--text-1)' }}
             labelFormatter={xLabelFormatter}
-            formatter={(value, name) => [value as number, legendFormatter(String(name))]}
+            formatter={(value: unknown, name: unknown) => [value as number, legendFormatter(String(name))]}
           />
           {showInlineLegend && (
             <Legend
               wrapperStyle={LEGEND_WRAPPER_STYLE}
-              formatter={(value) => <span style={LEGEND_WRAPPER_STYLE}>{legendFormatter(String(value))}</span>}
+              formatter={(value: unknown) => <span style={LEGEND_WRAPPER_STYLE}>{legendFormatter(String(value))}</span>}
             />
           )}
           {renderReferences(references)}
