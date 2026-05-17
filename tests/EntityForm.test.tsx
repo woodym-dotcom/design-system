@@ -220,7 +220,11 @@ describe('G3 §3 — edit mode patch flow', () => {
     );
     fireEvent.change(screen.getByDisplayValue('Acme'), { target: { value: 'Acme Corp' } });
     await act(async () => fireEvent.click(screen.getByText('Save')));
-    expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({ name: 'Acme Corp' }));
+    // EntityForm calls onSubmit(values, formHandle); match values + ignore handle.
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      expect.objectContaining({ name: 'Acme Corp' }),
+      expect.anything(),
+    );
   });
 
   it('edit mode blocks submit when validation fails', async () => {

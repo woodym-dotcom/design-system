@@ -827,6 +827,13 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
             <div className="cc-list-page__body">{children}</div>
           ) : null}
 
+          {/* Legacy empty-state slot — when caller supplies neither a `list`
+              prop nor children, render the empty-state directly so the page
+              still has body content (instead of an empty <div>). */}
+          {!hasExplicitList && !children && effectiveEmptyState ? (
+            <div className="cc-list-page__body">{effectiveEmptyState}</div>
+          ) : null}
+
           {/* Pagination */}
           {list.pagination ? (
             <PaginationBar pagination={list.pagination} />
