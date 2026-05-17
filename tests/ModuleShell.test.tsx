@@ -373,7 +373,8 @@ describe('ConfigurationsPage', () => {
   it('marks active nav item with aria-current', () => {
     render(<ConfigurationsPage sections={sections} />);
     const generalBtn = screen.getByRole('button', { name: 'General' });
-    expect(generalBtn).toHaveAttribute('aria-current', 'true');
+    // Canonical ARIA value for the current item in a set of pages is "page".
+    expect(generalBtn).toHaveAttribute('aria-current', 'page');
   });
 });
 

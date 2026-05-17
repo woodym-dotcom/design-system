@@ -257,12 +257,14 @@
   --text-muted-strong: #b8b3ab;
 
   /* Status — desaturated, warm-leaning. */
-  --error:        #c2563f;
-  --error-light:  rgba(194, 86, 63, 0.14);
-  --error-border: rgba(194, 86, 63, 0.36);
+  --error:        #b8523c;
+  --error-light:  rgba(184, 82, 60, 0.14);
+  --error-border: rgba(184, 82, 60, 0.36);
   --error-text:   #e0917e;
   --error-strong: #d06b53;
-  --error-contrast: #161513;
+  /* White-on-terracotta gives 5.07:1 vs. 4.08:1 on near-black — keeps the
+     destructive button readable in dark mode without re-toning the palette. */
+  --error-contrast: #ffffff;
 
   --success:        #6b9970;
   --success-light:  rgba(107, 153, 112, 0.14);
@@ -318,12 +320,14 @@
     --surface-muted: #1f1e1c;
     --text-muted-strong: #b8b3ab;
 
-    --error:        #c2563f;
-    --error-light:  rgba(194, 86, 63, 0.14);
-    --error-border: rgba(194, 86, 63, 0.36);
+    --error:        #b8523c;
+    --error-light:  rgba(184, 82, 60, 0.14);
+    --error-border: rgba(184, 82, 60, 0.36);
     --error-text:   #e0917e;
     --error-strong: #d06b53;
-    --error-contrast: #161513;
+    /* Matches the explicit `[data-theme="dark"]` block — white-on-terracotta
+       is 5.07:1 vs. 4.08:1 on near-black. */
+    --error-contrast: #ffffff;
 
     --success:        #6b9970;
     --success-light:  rgba(107, 153, 112, 0.14);
