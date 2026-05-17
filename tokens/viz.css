@@ -1,115 +1,118 @@
 /* =============================================================
    @ds/core — viz tokens (status / severity / tier)
-   Respects data-theme, falls back to OS preference.
+   Softened palette · respects data-theme, falls back to OS preference.
    ============================================================= */
 
 :root {
-  --status-healthy: #22c55e;
-  --status-warning: #f59e0b;
-  --status-critical: #ef4444;
-  --status-unknown: #94a3b8;
+  /* Service health — desaturated. */
+  --status-healthy:  #5d8d62;
+  --status-warning:  #b08039;
+  --status-critical: #a64936;
+  --status-unknown:  #8b8479;
 
-  --tier-core: #3b82f6;
-  --tier-domain: #8b5cf6;
-  --tier-bespoke: #6b7280;
+  /* Compliance tier — same warm neutral family. */
+  --tier-core:    #5c6f8a;
+  --tier-domain:  #7c6b8a;
+  --tier-bespoke: #8a847a;
 
-  --severity-low: #22c55e;
-  --severity-medium: #f59e0b;
-  --severity-high: #f97316;
-  --severity-critical: #ef4444;
+  /* Severity — graduated warm scale. */
+  --severity-low:      #5d8d62;
+  --severity-medium:   #b08039;
+  --severity-high:     #c2683a;
+  --severity-critical: #a64936;
 
-  /* Phase palette — workflow state chips (light) */
-  --phase-screen-bg:     #eff6ff;
-  --phase-screen-border: #bfdbfe;
-  --phase-screen-text:   #1d4ed8;
+  /* Phase palette (light) — soft warm tints. */
+  --phase-screen-bg:     #ecedf2;
+  --phase-screen-border: #c8cdda;
+  --phase-screen-text:   #3f4a63;
 
-  --phase-allocate-bg:     #fef3c7;
-  --phase-allocate-border: #fde68a;
-  --phase-allocate-text:   #b45309;
+  --phase-allocate-bg:     #f4ecdb;
+  --phase-allocate-border: #d6c39a;
+  --phase-allocate-text:   #6b4a07;
 
-  --phase-score-bg:     #f5f3ff;
-  --phase-score-border: #ddd6fe;
-  --phase-score-text:   #6d28d9;
+  --phase-score-bg:     #efecf1;
+  --phase-score-border: #cfc6d4;
+  --phase-score-text:   #5d4c66;
 
-  --phase-approve-bg:     #fff1f2;
-  --phase-approve-border: #fecdd3;
-  --phase-approve-text:   #be123c;
+  --phase-approve-bg:     #f4e9e6;
+  --phase-approve-border: #d9bdb6;
+  --phase-approve-text:   #6e3a2c;
 
-  --phase-complete-bg:     #f0fdf4;
-  --phase-complete-border: #bbf7d0;
-  --phase-complete-text:   #15803d;
+  --phase-complete-bg:     #e7eee8;
+  --phase-complete-border: #c5d2c8;
+  --phase-complete-text:   #1f4d2e;
 }
 
 :root[data-theme="dark"] {
-  --status-healthy: #4ade80;
-  --status-warning: #fbbf24;
-  --status-critical: #f87171;
-  --status-unknown: #64748b;
+  --status-healthy:  #6b9970;
+  --status-warning:  #c89352;
+  --status-critical: #c2563f;
+  --status-unknown:  #6e6962;
 
-  --tier-core: #60a5fa;
-  --tier-domain: #a78bfa;
-  --tier-bespoke: #9ca3af;
+  --tier-core:    #7a8aa3;
+  --tier-domain:  #9586a3;
+  --tier-bespoke: #8b8479;
 
-  --severity-low: #4ade80;
-  --severity-medium: #fbbf24;
-  --severity-high: #fb923c;
-  --severity-critical: #f87171;
+  --severity-low:      #6b9970;
+  --severity-medium:   #c89352;
+  --severity-high:     #d07a52;
+  --severity-critical: #c2563f;
 
-  --phase-screen-bg:     rgba(96, 165, 250, 0.12);
-  --phase-screen-border: rgba(96, 165, 250, 0.4);
-  --phase-screen-text:   #93c5fd;
+  --phase-screen-bg:     rgba(122, 138, 163, 0.14);
+  --phase-screen-border: rgba(122, 138, 163, 0.36);
+  --phase-screen-text:   #a8b4c8;
 
-  --phase-allocate-bg:     rgba(251, 191, 36, 0.12);
-  --phase-allocate-border: rgba(251, 191, 36, 0.4);
-  --phase-allocate-text:   #fde68a;
+  --phase-allocate-bg:     rgba(200, 147, 82, 0.14);
+  --phase-allocate-border: rgba(200, 147, 82, 0.36);
+  --phase-allocate-text:   #dfb380;
 
-  --phase-score-bg:     rgba(167, 139, 250, 0.12);
-  --phase-score-border: rgba(167, 139, 250, 0.4);
-  --phase-score-text:   #c4b5fd;
+  --phase-score-bg:     rgba(149, 134, 163, 0.14);
+  --phase-score-border: rgba(149, 134, 163, 0.36);
+  --phase-score-text:   #c2b4cf;
 
-  --phase-approve-bg:     rgba(251, 113, 133, 0.12);
-  --phase-approve-border: rgba(251, 113, 133, 0.4);
-  --phase-approve-text:   #fda4af;
+  --phase-approve-bg:     rgba(208, 122, 82, 0.14);
+  --phase-approve-border: rgba(208, 122, 82, 0.36);
+  --phase-approve-text:   #e6a48a;
 
-  --phase-complete-bg:     rgba(74, 222, 128, 0.12);
-  --phase-complete-border: rgba(74, 222, 128, 0.4);
-  --phase-complete-text:   #86efac;
+  --phase-complete-bg:     rgba(107, 153, 112, 0.14);
+  --phase-complete-border: rgba(107, 153, 112, 0.36);
+  --phase-complete-text:   #a3c4a6;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --status-healthy: #4ade80;
-    --status-warning: #fbbf24;
-    --status-critical: #f87171;
-    --status-unknown: #64748b;
+    --status-healthy:  #6b9970;
+    --status-warning:  #c89352;
+    --status-critical: #c2563f;
+    --status-unknown:  #6e6962;
 
-    --tier-core: #60a5fa;
-    --tier-domain: #a78bfa;
-    --tier-bespoke: #9ca3af;
+    --tier-core:    #7a8aa3;
+    --tier-domain:  #9586a3;
+    --tier-bespoke: #8b8479;
 
-    --severity-low: #4ade80;
-    --severity-medium: #fbbf24;
-    --severity-high: #fb923c;
-    --severity-critical: #f87171;
+    --severity-low:      #6b9970;
+    --severity-medium:   #c89352;
+    --severity-high:     #d07a52;
+    --severity-critical: #c2563f;
 
-    --phase-screen-bg:     rgba(96, 165, 250, 0.12);
-    --phase-screen-border: rgba(96, 165, 250, 0.4);
-    --phase-screen-text:   #93c5fd;
+    --phase-screen-bg:     rgba(122, 138, 163, 0.14);
+    --phase-screen-border: rgba(122, 138, 163, 0.36);
+    --phase-screen-text:   #a8b4c8;
 
-    --phase-allocate-bg:     rgba(251, 191, 36, 0.12);
-    --phase-allocate-border: rgba(251, 191, 36, 0.4);
-    --phase-allocate-text:   #fde68a;
+    --phase-allocate-bg:     rgba(200, 147, 82, 0.14);
+    --phase-allocate-border: rgba(200, 147, 82, 0.36);
+    --phase-allocate-text:   #dfb380;
 
-    --phase-score-bg:     rgba(167, 139, 250, 0.12);
-    --phase-score-border: rgba(167, 139, 250, 0.4);
-    --phase-score-text:   #c4b5fd;
+    --phase-score-bg:     rgba(149, 134, 163, 0.14);
+    --phase-score-border: rgba(149, 134, 163, 0.36);
+    --phase-score-text:   #c2b4cf;
 
-    --phase-approve-bg:     rgba(251, 113, 133, 0.12);
-    --phase-approve-border: rgba(251, 113, 133, 0.4);
-    --phase-approve-text:   #fda4af;
+    --phase-approve-bg:     rgba(208, 122, 82, 0.14);
+    --phase-approve-border: rgba(208, 122, 82, 0.36);
+    --phase-approve-text:   #e6a48a;
 
-    --phase-complete-bg:     rgba(74, 222, 128, 0.12);
-    --phase-complete-border: rgba(74, 222, 128, 0.4);
-    --phase-complete-text:   #86efac;
+    --phase-complete-bg:     rgba(107, 153, 112, 0.14);
+    --phase-complete-border: rgba(107, 153, 112, 0.36);
+    --phase-complete-text:   #a3c4a6;
   }
 }

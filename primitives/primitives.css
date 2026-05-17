@@ -2397,7 +2397,7 @@ select.cc-input option {
   margin-bottom: var(--space-3);
 }
 .cc-coming-soon__title {
-  font-family: var(--font-brand, 'Playfair Display', 'Times New Roman', serif);
+  font-family: var(--font-brand, Georgia, "Times New Roman", serif);
   font-size: 32px;
   font-weight: 600;
   margin: 0 0 var(--space-3);
