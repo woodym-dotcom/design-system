@@ -12,6 +12,7 @@
     "./tokens/utilities.css": "./tokens/utilities.css",
     "./tokens/density.css": "./tokens/density.css",
     "./tokens/breakpoints.css": "./tokens/breakpoints.css",
+    "./tokens/print.css": "./tokens/print.css",
     "./brands/companyco.css": "./brands/companyco.css",
     "./brands/recruitment.css": "./brands/recruitment.css",
     "./brands/customer-lifecycle.css": "./brands/customer-lifecycle.css",

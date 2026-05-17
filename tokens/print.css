@@ -1,0 +1,79 @@
+/* =============================================================
+   @ds/core — print stylesheet
+   Loaded with `@import "@ds/core/tokens/print.css"` to make any
+   surface (Evidence, Decision-Record, audit, etc.) print cleanly.
+
+   Hides app chrome, expands collapsed surfaces, forces high-contrast
+   ink, and unwraps tables so each row stays together.
+   ============================================================= */
+
+@media print {
+  :root {
+    /* Use high-contrast text + neutral surfaces; ignore dark themes. */
+    color-scheme: light;
+    --surface-0: #ffffff;
+    --surface-1: #ffffff;
+    --surface-2: #ffffff;
+    --text-1: #000000;
+    --text-2: #1a1a1a;
+    --text-3: #333333;
+    --border-1: #cccccc;
+    --border-2: #999999;
+    --motion-respect: 0;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+  }
+
+  /* Hide chrome that has no meaning on paper. */
+  .cc-navrail,
+  .cc-topbar,
+  .cc-create-menu,
+  .cc-toast-stack,
+  .cc-cmdk,
+  .cc-bulkbar,
+  .cc-detail-pane__fullscreen-toggle,
+  .cc-modal__close,
+  .cc-drawer__close,
+  [data-print-hide="true"] {
+    display: none !important;
+  }
+
+  /* Expand collapsed surfaces so the whole record is visible. */
+  details,
+  details > summary {
+    display: block !important;
+  }
+  details > summary {
+    list-style: none !important;
+    cursor: default !important;
+  }
+
+  /* Keep tables / list rows together. */
+  tr, .cc-record-row, .cc-tray__item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Reset shadows + radii — paper has neither. */
+  .cc-card, .cc-panel, .cc-detail-pane, .cc-modal, .cc-drawer {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* Force links to print their target so the reader can find the source. */
+  a[href]:not([href^="#"])::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555555;
+  }
+
+  /* Avoid breaking headings from their following content. */
+  h1, h2, h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}

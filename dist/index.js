@@ -35,4 +35,37 @@ export { CompactListRow, } from "./CompactListRow.js";
 // Import directly from "@ds/core/react/charts/DashboardChartCard" — keeps
 // recharts (optional peer) out of the bundle path for consumers that don't
 // use charts.
+// ── Phase 2 foundation primitives ────────────────────────────────────────────
+// Accessibility utilities
+export { useReducedMotion } from "./a11y/useReducedMotion.js";
+export { useFocusTrap } from "./a11y/useFocusTrap.js";
+export { LiveRegion, AnnounceProvider, useAnnounce, } from "./a11y/LiveRegion.js";
+// Toast — provider + hook are the public surface; consumers should not
+// render an individual toast manually. The `Toast` type is exported below.
+export { ToastProvider, useToast, } from "./Toast.js";
+// Modal + Drawer
+export { Modal, } from "./Modal.js";
+export { Drawer, } from "./Drawer.js";
+// Kbd, Tooltip, Avatar, Skeleton bundle
+export { Kbd } from "./Kbd.js";
+export { Tooltip } from "./Tooltip.js";
+export { Avatar, } from "./Avatar.js";
+export { Skeleton, } from "./Skeleton.js";
+// Locale / timezone / currency Fmt + Lens
+export { FmtProvider, useFmt, Fmt, DEFAULT_FMT, } from "./fmt/Fmt.js";
+export { Lens } from "./fmt/Lens.js";
+// Multi-select hook + BulkBar
+export { useMultiSelect, } from "./hooks/useMultiSelect.js";
+export { BulkBar, } from "./BulkBar.js";
+// Saved views (deep-link sharing) + back stack
+export { useSavedViews, } from "./hooks/useSavedViews.js";
+export { useBackStack, } from "./hooks/useBackStack.js";
+// Breadcrumbs
+export { Breadcrumbs, } from "./Breadcrumbs.js";
+// Command palette (Cmd+K)
+export { CommandPalette, } from "./CommandPalette.js";
+// Trays — TasksTray + NotificationsTray (notifications digest contract)
+export { TasksTray, NotificationsTray, } from "./Trays.js";
+// Print + shareable read-only link
+export { ShareReadOnlyLink, } from "./ShareReadOnlyLink.js";
 //# sourceMappingURL=index.js.map
