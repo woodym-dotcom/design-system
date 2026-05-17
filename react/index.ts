@@ -211,3 +211,131 @@ export {
 // Import directly from "@ds/core/react/charts/DashboardChartCard" — keeps
 // recharts (optional peer) out of the bundle path for consumers that don't
 // use charts.
+
+// ── Phase 2 foundation primitives ────────────────────────────────────────────
+// Accessibility utilities
+export { useReducedMotion } from "./a11y/useReducedMotion";
+export { useFocusTrap, type UseFocusTrapOptions } from "./a11y/useFocusTrap";
+export {
+  LiveRegion,
+  AnnounceProvider,
+  useAnnounce,
+  type LiveRegionProps,
+  type LiveRegionPoliteness,
+  type AnnounceProviderProps,
+} from "./a11y/LiveRegion";
+
+// Toast — provider + hook are the public surface; consumers should not
+// render an individual toast manually. The `Toast` type is exported below.
+export {
+  ToastProvider,
+  useToast,
+} from "./Toast";
+export type {
+  Toast,
+  ToastTone,
+  ToastAction,
+  ToastInput,
+  ToastContextValue,
+  ToastProviderProps,
+} from "./Toast";
+
+// Modal + Drawer
+export {
+  Modal,
+  type ModalProps,
+  type ModalSize,
+} from "./Modal";
+export {
+  Drawer,
+  type DrawerProps,
+  type DrawerSide,
+  type DrawerSize,
+} from "./Drawer";
+
+// Kbd, Tooltip, Avatar, Skeleton bundle
+export { Kbd, type KbdProps } from "./Kbd";
+export { Tooltip, type TooltipProps, type TooltipPlacement } from "./Tooltip";
+export {
+  Avatar,
+  type AvatarProps,
+  type AvatarSize,
+  type AvatarShape,
+} from "./Avatar";
+export {
+  Skeleton,
+  type SkeletonProps,
+  type SkeletonShape,
+} from "./Skeleton";
+
+// Locale / timezone / currency Fmt + Lens
+export {
+  FmtProvider,
+  useFmt,
+  Fmt,
+  DEFAULT_FMT,
+  type FmtSettings,
+  type FmtProviderProps,
+  type DateProps as FmtDateProps,
+  type MoneyProps as FmtMoneyProps,
+  type NumberProps as FmtNumberProps,
+  type RelativeProps as FmtRelativeProps,
+} from "./fmt/Fmt";
+export { Lens, type LensProps } from "./fmt/Lens";
+
+// Multi-select hook + BulkBar
+export {
+  useMultiSelect,
+  type UseMultiSelectOptions,
+  type UseMultiSelectResult,
+} from "./hooks/useMultiSelect";
+export {
+  BulkBar,
+  type BulkBarProps,
+  type BulkBarAction,
+} from "./BulkBar";
+
+// Saved views (deep-link sharing) + back stack
+export {
+  useSavedViews,
+  type SavedView,
+  type UseSavedViewsOptions,
+  type UseSavedViewsResult,
+} from "./hooks/useSavedViews";
+export {
+  useBackStack,
+  type BackStackEntry,
+  type UseBackStackOptions,
+  type UseBackStackResult,
+} from "./hooks/useBackStack";
+
+// Breadcrumbs
+export {
+  Breadcrumbs,
+  type BreadcrumbsProps,
+  type BreadcrumbItem,
+} from "./Breadcrumbs";
+
+// Command palette (Cmd+K)
+export {
+  CommandPalette,
+  type CommandPaletteProps,
+  type CommandItem,
+} from "./CommandPalette";
+
+// Trays — TasksTray + NotificationsTray (notifications digest contract)
+export {
+  TasksTray,
+  NotificationsTray,
+  type TasksTrayProps,
+  type NotificationsTrayProps,
+  type TrayTask,
+  type TrayNotification,
+} from "./Trays";
+
+// Print + shareable read-only link
+export {
+  ShareReadOnlyLink,
+  type ShareReadOnlyLinkProps,
+} from "./ShareReadOnlyLink";
+
