@@ -1,6 +1,6 @@
-import { jsxs as _jsxs, jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
+import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import * as React from 'react';
-import { FmtProvider, useFmt } from './Fmt.js';
+import { FmtProvider } from './Fmt.js';
 /**
  * Read-only Lens toggle. Wraps a subtree and lets the user temporarily
  * swap locale/timezone/currency for evidence/decision-record review —
@@ -13,26 +13,19 @@ export function Lens({ label, children, defaultOn = false, on: controlled, onCha
     const [internalOn, setInternalOn] = React.useState(defaultOn);
     const isControlled = controlled !== undefined;
     const on = isControlled ? controlled : internalOn;
-    const parent = useFmt();
     const toggle = () => {
         const next = !on;
         if (!isControlled)
             setInternalOn(next);
         onChange?.(next);
     };
-    return (_jsxs("div", { className: ['cc-lens', on && 'cc-lens--on', className].filter(Boolean).join(' '), children: [_jsxs("div", { className: "cc-lens__toolbar", children: [_jsxs("button", { type: "button", className: "cc-lens__toggle", "aria-pressed": on, onClick: toggle, children: [on ? 'Showing' : 'Show', " ", label] }), on && (_jsx("span", { className: "cc-lens__hint", role: "note", children: "Read-only view. Underlying data is unchanged." }))] }), on ? (_jsx(FmtProviderLens, { parent: parent, overrides: overrides, children: children })) : (children)] }));
+    return (_jsxs("div", { className: ['cc-lens', on && 'cc-lens--on', className].filter(Boolean).join(' '), children: [_jsxs("div", { className: "cc-lens__toolbar", children: [_jsxs("button", { type: "button", className: "cc-lens__toggle", "aria-pressed": on, onClick: toggle, children: [on ? 'Showing' : 'Show', " ", label] }), on && (_jsx("span", { className: "cc-lens__hint", role: "note", children: "Read-only view. Underlying data is unchanged." }))] }), on ? (_jsx(LensProvider, { overrides: overrides, children: children })) : (children)] }));
 }
 /**
- * Internal wrapper that flips lensActive=true while the lens overrides apply.
+ * Internal wrapper that flips `useFmt().lensActive` to true and sets
+ * `html[data-lens-active="true"]` for analytics / theming hooks.
  */
-function FmtProviderLens({ parent, overrides, children, }) {
-    // Use FmtProvider for the locale/tz/currency overrides; lensActive is
-    // declared by re-exposing via a thin context layer.
-    return (_jsx(FmtProvider, { ...overrides, children: _jsx(LensActiveMarker, { parentLensActive: parent.lensActive, children: children }) }));
-}
-function LensActiveMarker({ parentLensActive: _parentLensActive, children, }) {
-    // Mounted only while the lens is on, so unconditionally mark the active
-    // state on <html> for analytics / theming hooks.
+function LensProvider({ overrides, children, }) {
     React.useEffect(() => {
         if (typeof document === 'undefined')
             return;
@@ -41,6 +34,6 @@ function LensActiveMarker({ parentLensActive: _parentLensActive, children, }) {
             delete document.documentElement.dataset.lensActive;
         };
     }, []);
-    return _jsx(_Fragment, { children: children });
+    return (_jsx(FmtProvider, { lensActive: true, ...overrides, children: children }));
 }
 //# sourceMappingURL=Lens.js.map

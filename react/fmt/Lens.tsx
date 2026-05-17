@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FmtProvider, useFmt, type FmtSettings } from './Fmt';
+import { FmtProvider, type FmtSettings } from './Fmt';
 
 export interface LensProps extends Partial<FmtSettings> {
   /** Lens label rendered in the toggle (e.g. "EU view"). */
@@ -34,7 +34,6 @@ export function Lens({
   const [internalOn, setInternalOn] = React.useState(defaultOn);
   const isControlled = controlled !== undefined;
   const on = isControlled ? controlled : internalOn;
-  const parent = useFmt();
 
   const toggle = () => {
     const next = !on;
@@ -60,9 +59,7 @@ export function Lens({
         )}
       </div>
       {on ? (
-        <FmtProviderLens parent={parent} overrides={overrides}>
-          {children}
-        </FmtProviderLens>
+        <LensProvider overrides={overrides}>{children}</LensProvider>
       ) : (
         children
       )}
@@ -71,35 +68,16 @@ export function Lens({
 }
 
 /**
- * Internal wrapper that flips lensActive=true while the lens overrides apply.
+ * Internal wrapper that flips `useFmt().lensActive` to true and sets
+ * `html[data-lens-active="true"]` for analytics / theming hooks.
  */
-function FmtProviderLens({
-  parent,
+function LensProvider({
   overrides,
   children,
 }: {
-  parent: ReturnType<typeof useFmt>;
   overrides: Partial<FmtSettings>;
   children: React.ReactNode;
 }) {
-  // Use FmtProvider for the locale/tz/currency overrides; lensActive is
-  // declared by re-exposing via a thin context layer.
-  return (
-    <FmtProvider {...overrides}>
-      <LensActiveMarker parentLensActive={parent.lensActive}>{children}</LensActiveMarker>
-    </FmtProvider>
-  );
-}
-
-function LensActiveMarker({
-  parentLensActive: _parentLensActive,
-  children,
-}: {
-  parentLensActive: boolean;
-  children: React.ReactNode;
-}) {
-  // Mounted only while the lens is on, so unconditionally mark the active
-  // state on <html> for analytics / theming hooks.
   React.useEffect(() => {
     if (typeof document === 'undefined') return;
     document.documentElement.dataset.lensActive = 'true';
@@ -107,5 +85,9 @@ function LensActiveMarker({
       delete document.documentElement.dataset.lensActive;
     };
   }, []);
-  return <>{children}</>;
+  return (
+    <FmtProvider lensActive {...overrides}>
+      {children}
+    </FmtProvider>
+  );
 }

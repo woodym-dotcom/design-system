@@ -14,14 +14,14 @@ const FmtContext = React.createContext({
  * every Fmt.* primitive consumes. Override any of the three on a per-
  * provider basis (e.g. a tenant-scoped provider near the root).
  */
-export function FmtProvider({ children, ...overrides }) {
+export function FmtProvider({ children, lensActive, ...overrides }) {
     const parent = React.useContext(FmtContext);
     const value = React.useMemo(() => ({
         locale: overrides.locale ?? parent.locale,
         timezone: overrides.timezone ?? parent.timezone,
         currency: overrides.currency ?? parent.currency,
-        lensActive: parent.lensActive,
-    }), [overrides.locale, overrides.timezone, overrides.currency, parent.locale, parent.timezone, parent.currency, parent.lensActive]);
+        lensActive: lensActive ?? parent.lensActive,
+    }), [overrides.locale, overrides.timezone, overrides.currency, lensActive, parent.locale, parent.timezone, parent.currency, parent.lensActive]);
     return _jsx(FmtContext.Provider, { value: value, children: children });
 }
 export function useFmt() {

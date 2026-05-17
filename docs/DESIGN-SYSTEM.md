@@ -99,6 +99,9 @@ that needs to print cleanly (Evidence, Decision Records, audit views).
 
 - **`useSavedViews({ scope })`** — per-scope saved view CRUD with
   `shareableUrl(state)` for read-only deep-link sharing.
+- **`<SavedViewsMenu views onSelect onSaveCurrent onTogglePin onRemove />`** —
+  dropdown picker on top of `useSavedViews()`. Click-outside and ESC
+  close; active view marked `aria-checked`; pinned views sort first.
 - **`useBackStack()`** — sessionStorage-backed back stack; pairs with
   `<Breadcrumbs>` so cross-module navigation returns the user to where
   they were.
@@ -125,6 +128,15 @@ that needs to print cleanly (Evidence, Decision Records, audit views).
   ordering, mark-all-read, optional per-item mark-read.
 - **`<ShareReadOnlyLink url variant="button|inline" />`** — copy-to-
   clipboard share affordance. Pairs with `useSavedViews().shareableUrl`.
+- **`<FirstRunGuide title steps onComplete />`** — empty-tenant
+  onboarding pattern. Accordion-style checklist; auto-expands the first
+  not-done step; fires `onComplete` once when every step is done.
+  Composes on `EmptyState` semantics — drop into an empty-tenant body.
+- **`<HomepageCards viewerRoles cards loading emptyState />`** — role-
+  aware homepage grid. Filters cards by `roles ∩ viewerRoles`, orders
+  by `priority`, falls back to `<EmptyState variant="permissioned-out">`
+  when the viewer can see nothing, renders per-card `<Skeleton>`s when
+  `loading`.
 
 ## Composition examples
 

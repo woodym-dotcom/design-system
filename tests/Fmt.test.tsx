@@ -81,6 +81,24 @@ describe('Lens', () => {
     expect(screen.getByTestId('loc').textContent).toBe('en-US|USD');
   });
 
+  it('flips useFmt().lensActive inside the wrapped subtree', () => {
+    function Probe() {
+      const { lensActive } = useFmt();
+      return <span data-testid="active">{lensActive ? 'yes' : 'no'}</span>;
+    }
+    render(
+      <FmtProvider locale="en-GB">
+        <Probe />
+        <Lens label="US view" locale="en-US" defaultOn>
+          <Probe />
+        </Lens>
+      </FmtProvider>,
+    );
+    const probes = screen.getAllByTestId('active');
+    expect(probes[0].textContent).toBe('no');
+    expect(probes[1].textContent).toBe('yes');
+  });
+
   it('shows the read-only hint when on', () => {
     render(
       <Lens label="EU view" locale="fr-FR" defaultOn>

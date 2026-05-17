@@ -52,4 +52,7 @@ export { Breadcrumbs, type BreadcrumbsProps, type BreadcrumbItem, } from "./Brea
 export { CommandPalette, type CommandPaletteProps, type CommandItem, } from "./CommandPalette.js";
 export { TasksTray, NotificationsTray, type TasksTrayProps, type NotificationsTrayProps, type TrayTask, type TrayNotification, } from "./Trays.js";
 export { ShareReadOnlyLink, type ShareReadOnlyLinkProps, } from "./ShareReadOnlyLink.js";
+export { SavedViewsMenu, type SavedViewsMenuProps, } from "./SavedViewsMenu.js";
+export { FirstRunGuide, type FirstRunGuideProps, type FirstRunStep, } from "./FirstRunGuide.js";
+export { HomepageCards, type HomepageCardsProps, type HomepageCard, } from "./HomepageCards.js";
 //# sourceMappingURL=index.d.ts.map

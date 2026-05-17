@@ -14,13 +14,19 @@ interface FmtContextValue extends FmtSettings {
 }
 export interface FmtProviderProps extends Partial<FmtSettings> {
     children: React.ReactNode;
+    /**
+     * Marks the wrapped subtree as a Lens override. Consumers can read
+     * `useFmt().lensActive` to render a "Showing in X view" banner. Set
+     * by the `<Lens>` primitive; rarely set by application code directly.
+     */
+    lensActive?: boolean;
 }
 /**
  * Wraps an app subtree with locale / timezone / currency defaults that
  * every Fmt.* primitive consumes. Override any of the three on a per-
  * provider basis (e.g. a tenant-scoped provider near the root).
  */
-export declare function FmtProvider({ children, ...overrides }: FmtProviderProps): import("react/jsx-runtime").JSX.Element;
+export declare function FmtProvider({ children, lensActive, ...overrides }: FmtProviderProps): import("react/jsx-runtime").JSX.Element;
 export declare function useFmt(): FmtContextValue;
 export interface DateProps {
     /** Date, ISO 8601 string, or millisecond timestamp. */
