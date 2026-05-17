@@ -27,6 +27,12 @@ const FmtContext = React.createContext<FmtContextValue>({
 
 export interface FmtProviderProps extends Partial<FmtSettings> {
   children: React.ReactNode;
+  /**
+   * Marks the wrapped subtree as a Lens override. Consumers can read
+   * `useFmt().lensActive` to render a "Showing in X view" banner. Set
+   * by the `<Lens>` primitive; rarely set by application code directly.
+   */
+  lensActive?: boolean;
 }
 
 /**
@@ -34,16 +40,16 @@ export interface FmtProviderProps extends Partial<FmtSettings> {
  * every Fmt.* primitive consumes. Override any of the three on a per-
  * provider basis (e.g. a tenant-scoped provider near the root).
  */
-export function FmtProvider({ children, ...overrides }: FmtProviderProps) {
+export function FmtProvider({ children, lensActive, ...overrides }: FmtProviderProps) {
   const parent = React.useContext(FmtContext);
   const value = React.useMemo<FmtContextValue>(
     () => ({
       locale: overrides.locale ?? parent.locale,
       timezone: overrides.timezone ?? parent.timezone,
       currency: overrides.currency ?? parent.currency,
-      lensActive: parent.lensActive,
+      lensActive: lensActive ?? parent.lensActive,
     }),
-    [overrides.locale, overrides.timezone, overrides.currency, parent.locale, parent.timezone, parent.currency, parent.lensActive],
+    [overrides.locale, overrides.timezone, overrides.currency, lensActive, parent.locale, parent.timezone, parent.currency, parent.lensActive],
   );
   return <FmtContext.Provider value={value}>{children}</FmtContext.Provider>;
 }

@@ -39,6 +39,11 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'Trays-Tasks',              storyId: 'foundation-trays--tasks' },
   { name: 'ShareReadOnlyLink-Inline', storyId: 'foundation-sharereadonlylink--inline' },
   { name: 'Fmt-DefaultLocale',        storyId: 'foundation-fmt--default-locale' },
+
+  // Follow-up Phase 2 primitives (saved-views picker, onboarding, homepage).
+  { name: 'SavedViewsMenu-Open',      storyId: 'foundation-savedviewsmenu--open' },
+  { name: 'FirstRunGuide-Default',    storyId: 'foundation-firstrunguide--default' },
+  { name: 'HomepageCards-AdminView',  storyId: 'foundation-homepagecards--admin-view' },
 ];
 
 for (const story of STORIES) {

@@ -339,3 +339,23 @@ export {
   type ShareReadOnlyLinkProps,
 } from "./ShareReadOnlyLink";
 
+// Saved-views picker UI (on top of `useSavedViews`)
+export {
+  SavedViewsMenu,
+  type SavedViewsMenuProps,
+} from "./SavedViewsMenu";
+
+// First-run / empty-tenant onboarding
+export {
+  FirstRunGuide,
+  type FirstRunGuideProps,
+  type FirstRunStep,
+} from "./FirstRunGuide";
+
+// Role-aware homepage cards
+export {
+  HomepageCards,
+  type HomepageCardsProps,
+  type HomepageCard,
+} from "./HomepageCards";
+

@@ -47,6 +47,11 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'NotificationsTray', storyId: 'foundation-trays--notifications' },
   { name: 'ShareReadOnlyLink', storyId: 'foundation-sharereadonlylink--inline' },
   { name: 'Fmt',             storyId: 'foundation-fmt--default-locale' },
+
+  // Follow-up Phase 2 primitives.
+  { name: 'SavedViewsMenu',  storyId: 'foundation-savedviewsmenu--open' },
+  { name: 'FirstRunGuide',   storyId: 'foundation-firstrunguide--default' },
+  { name: 'HomepageCards',   storyId: 'foundation-homepagecards--admin-view' },
 ];
 
 for (const story of STORIES) {

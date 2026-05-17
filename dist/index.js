@@ -68,4 +68,10 @@ export { CommandPalette, } from "./CommandPalette.js";
 export { TasksTray, NotificationsTray, } from "./Trays.js";
 // Print + shareable read-only link
 export { ShareReadOnlyLink, } from "./ShareReadOnlyLink.js";
+// Saved-views picker UI (on top of `useSavedViews`)
+export { SavedViewsMenu, } from "./SavedViewsMenu.js";
+// First-run / empty-tenant onboarding
+export { FirstRunGuide, } from "./FirstRunGuide.js";
+// Role-aware homepage cards
+export { HomepageCards, } from "./HomepageCards.js";
 //# sourceMappingURL=index.js.map
