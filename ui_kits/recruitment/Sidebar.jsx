@@ -60,7 +60,7 @@ function Logo() {
       background: "var(--accent-1)",
       display: "grid", placeItems: "center",
     }}>
-      <div style={{ width: 18, height: 18, borderRadius: 999, background: "var(--paper, #fafaf8)" }}/>
+      <div style={{ width: 18, height: 18, borderRadius: 999, background: "var(--surface-0)" }}/>
     </div>
   );
 }

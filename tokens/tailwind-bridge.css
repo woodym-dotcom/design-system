@@ -37,34 +37,36 @@
   --text-4-hsl: var(--gray-400-hsl);
 }
 
+/* Dark mirrors of the warm-charcoal core dark palette.
+   Stays in sync with tokens/core.css. */
 :root[data-theme="dark"] {
-  --surface-0-hsl: 220 49% 8%;
-  --surface-1-hsl: 219 43% 12%;
-  --surface-2-hsl: 216 39% 16%;
-  --surface-3-hsl: 216 31% 22%;
+  --surface-0-hsl: 30 8% 8%;     /* #161513 */
+  --surface-1-hsl: 40 7% 11%;    /* #1d1c1a */
+  --surface-2-hsl: 38 8% 14%;    /* #262522 */
+  --surface-3-hsl: 35 9% 19%;    /* #34322e */
 
-  --border-1-hsl: 216 28% 28%;
-  --border-2-hsl: 216 20% 41%;
+  --border-1-hsl: 36 7% 17%;     /* #2e2d2a */
+  --border-2-hsl: 40 7% 25%;     /* #44423e */
 
-  --text-1-hsl: 210 20% 98%;
-  --text-2-hsl: 220 13% 91%;
-  --text-3-hsl: 218 11% 65%;
-  --text-4-hsl: 220 9% 46%;
+  --text-1-hsl: 40 24% 95%;      /* #f4f3f0 */
+  --text-2-hsl: 35 9% 79%;       /* #cfccc6 */
+  --text-3-hsl: 34 7% 58%;       /* #9a958d */
+  --text-4-hsl: 34 5% 41%;       /* #6e6962 */
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --surface-0-hsl: 220 49% 8%;
-    --surface-1-hsl: 219 43% 12%;
-    --surface-2-hsl: 216 39% 16%;
-    --surface-3-hsl: 216 31% 22%;
+    --surface-0-hsl: 30 8% 8%;
+    --surface-1-hsl: 40 7% 11%;
+    --surface-2-hsl: 38 8% 14%;
+    --surface-3-hsl: 35 9% 19%;
 
-    --border-1-hsl: 216 28% 28%;
-    --border-2-hsl: 216 20% 41%;
+    --border-1-hsl: 36 7% 17%;
+    --border-2-hsl: 40 7% 25%;
 
-    --text-1-hsl: 210 20% 98%;
-    --text-2-hsl: 220 13% 91%;
-    --text-3-hsl: 218 11% 65%;
-    --text-4-hsl: 220 9% 46%;
+    --text-1-hsl: 40 24% 95%;
+    --text-2-hsl: 35 9% 79%;
+    --text-3-hsl: 34 7% 58%;
+    --text-4-hsl: 34 5% 41%;
   }
 }
