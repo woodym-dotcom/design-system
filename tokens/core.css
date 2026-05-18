@@ -71,7 +71,7 @@
   --warning-light: #f4ecdb;
   --warning-border: #d6c39a;
   --warning-text: #6b4a07;
-  --warning-contrast: #ffffff;
+  --warning-contrast: #161513;
 
   --info: #3c5d8a;
   --info-light: #e6eaf0;
@@ -180,9 +180,9 @@
   --text-muted-strong: #b8b3ab;
 
   /* Status — desaturated, warm-leaning. */
-  --error:        #c2563f;
-  --error-light:  rgba(194, 86, 63, 0.14);
-  --error-border: rgba(194, 86, 63, 0.36);
+  --error:        #cc6450;
+  --error-light:  rgba(204, 100, 80, 0.14);
+  --error-border: rgba(204, 100, 80, 0.36);
   --error-text:   #e0917e;
   --error-strong: #d06b53;
   --error-contrast: #161513;
@@ -242,9 +242,9 @@
     --surface-muted: #1f1e1c;
     --text-muted-strong: #b8b3ab;
 
-    --error:        #c2563f;
-    --error-light:  rgba(194, 86, 63, 0.14);
-    --error-border: rgba(194, 86, 63, 0.36);
+    --error:        #cc6450;
+    --error-light:  rgba(204, 100, 80, 0.14);
+    --error-border: rgba(204, 100, 80, 0.36);
     --error-text:   #e0917e;
     --error-strong: #d06b53;
     --error-contrast: #161513;

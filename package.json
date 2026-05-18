@@ -218,6 +218,7 @@
   "scripts": {
     "check:contrast": "node scripts/check-token-contrast.mjs",
     "test:primitives": "node tests/primitives-regression.mjs",
+    "test:tokens": "node tests/token-contract.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
@@ -226,7 +227,7 @@
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
     "test:visual:check-coverage": "node scripts/check-visual-coverage.mjs",
-    "ci": "pnpm test && pnpm typecheck && pnpm build-storybook && pnpm test:visual:check-coverage && pnpm test:visual",
+    "ci": "pnpm test && pnpm typecheck && pnpm check:contrast && pnpm test:primitives && pnpm test:tokens && pnpm build-storybook && pnpm test:visual:check-coverage && pnpm test:visual",
     "build": "tsc -p tsconfig.build.json && node scripts/add-js-extensions.mjs"
   },
   "files": [
