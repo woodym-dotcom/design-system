@@ -2,9 +2,15 @@
 
 Source of truth for visual tokens and primitives across:
 
-- `companyco` (GRC admin, indigo + amber editorial)
-- `recruitment-woody` (terracotta)
-- `automationArmoury` (TBD)
+- `companyco` (GRC admin, cyan)
+- `recruitment-woody` (warm orange / ember)
+- `automationArmoury` (cyan, mono-forward; runtime-status palette)
+- `customer-lifecycle` (indigo)
+
+Chroma is held constant (`--brand-chroma: 0.15`) across every brand so the
+family shares one saturation character; only the hue moves. Auth, marketing,
+and product UI all share the same `system-ui` sans stack — there is no
+editorial / serif layer.
 
 ## Shape
 
@@ -14,9 +20,10 @@ tokens/
   type-scale.css  — size/weight/line-height scale (font-family supplied by brand)
   viz.css         — status / severity / tier palettes with dark-mode override
 brands/
-  companyco.css   — indigo accent, amber editorial, Inter + Playfair + DM Sans
-  recruitment.css — terracotta accent, Inter-only
-  automation.css  — stub
+  companyco.css         — cyan accent (hue 210)
+  recruitment.css       — ember accent (hue 30)
+  automation.css        — cyan accent (hue 210), runtime-status palette
+  customer-lifecycle.css — indigo accent (hue 265)
 primitives/
   primitives.css  — cc-* classes (panel, btn, chip, field, record-row, combobox, ...)
 source/           — extracted Claude Design bundle (historical reference)
@@ -48,7 +55,7 @@ All tokens are defined for **both light and dark**. Resolution:
 
 Out of the box, both themes should be readable. Consumers should not rely on forcing light mode to hide dark-theme contrast bugs.
 
-To let users toggle, set `document.documentElement.dataset.theme = "dark" | "light"` (persist in localStorage). If a consumer wants OS-follow behaviour, persist `system` and omit the attribute. Companyco's `--amber/--ink/--paper` are theme-invariant — the auth/editorial surface stays dark on purpose.
+To let users toggle, set `document.documentElement.dataset.theme = "dark" | "light"` (persist in localStorage). If a consumer wants OS-follow behaviour, persist `system` and omit the attribute.
 
 ## Charts
 
@@ -196,6 +203,6 @@ Stories for all React primitives live in `stories/`. Storybook 9 (Vite framework
 
 - A new component → `primitives/primitives.css` under a `cc-*` selector, colors via `var(--...)` only.
 - A new React primitive should export from `react/index.ts` and prefer shared metadata-driven APIs over consumer-specific prop lists.
-- A new brand → `brands/<name>.css`. Must set `--accent-*`, `--font-sans`, optionally `--font-brand*`.
+- A new brand → `brands/<name>.css`. Must set `--brand-hue` and `--brand-chroma` (the accent set is derived via `oklch()`); may override `--font-sans` / `--font-mono` but the system default is `system-ui` / `ui-monospace`.
 - Never hardcode hex inside `primitives/` or `tokens/core.css`.
 - The `source/` dir is the frozen export from claude.ai/design; do not edit it.

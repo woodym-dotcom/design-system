@@ -51,27 +51,29 @@
   --surface-muted: #e8eef6;
   --text-muted-strong: #445064;
 
-  /* Status (light) */
-  --error: #7a2418;
+  /* Status (light) — understated but recognisable as red/amber/green/blue.
+     Each status reads as itself at a glance; the warm-leaning hues keep
+     them on-brand with the rest of the palette. */
+  --error: #b04432;
   --error-light: #f7e6e0;
   --error-border: #d9a094;
   --error-text: #5a1b12;
   --error-strong: #5e1b11;
   --error-contrast: #ffffff;
 
-  --success: #15803d;
+  --success: #2f7a4a;
   --success-light: #e7eee8;
   --success-border: #c5d2c8;
   --success-text: #1f4d2e;
   --success-contrast: #ffffff;
 
-  --warning: #92660a;
+  --warning: #b8821e;
   --warning-light: #f4ecdb;
   --warning-border: #d6c39a;
   --warning-text: #6b4a07;
-  --warning-contrast: #ffffff;
+  --warning-contrast: #161513;
 
-  --info: #2c5282;
+  --info: #3c5d8a;
   --info-light: #e6eaf0;
   --info-border: #b7c2d2;
   --info-text: #2a4365;
@@ -100,11 +102,13 @@
   --info-soft: var(--info-light);
   --info-foreground: var(--info-contrast);
 
-  /* ---------- RADII ---------- */
+  /* ---------- RADII ----------
+     Tight scale. Pill is a true pill (used by chips, status pills,
+     identity avatars). No hero-radius components inside product UI. */
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 10px;
-  --radius-pill: 3px;  /* tightened — chips and avatars are nearly square */
+  --radius-pill: 9999px;
 
   /* ---------- SHADOWS (light) ---------- */
   --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -133,93 +137,12 @@
   --density-table-pad:   calc(var(--space-4) * var(--density));
   --density-row-min:     calc(36px * var(--density));
 
-  /* ---------- MOTION ----------
-     Raw durations + eases. Prefer the semantic --motion-* tokens below
-     when wiring transitions on a primitive — they fall to 0ms under
-     `prefers-reduced-motion`. */
+  /* ---------- MOTION ---------- */
   --ease-standard: ease;
-  --ease-emphatic: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ease-decel:    cubic-bezier(0, 0, 0.2, 1);
-  --ease-accel:    cubic-bezier(0.4, 0, 1, 1);
-
   --duration-fast: 100ms;
   --duration-base: 120ms;
-  --duration-med:  150ms;
+  --duration-med: 150ms;
   --duration-slow: 200ms;
-
-  /* Motion respect rail. Multiply any motion duration by --motion-respect
-     so a single media query can disable transitions/animations system-wide.
-     0 = no motion, 1 = full motion. */
-  --motion-respect: 1;
-
-  /* Semantic durations consumed by primitives. They evaluate to 0ms when
-     the user prefers reduced motion (see media query below). */
-  --motion-instant:   calc(0ms  * var(--motion-respect));
-  --motion-fast:      calc(var(--duration-fast) * var(--motion-respect));
-  --motion-base:      calc(var(--duration-base) * var(--motion-respect));
-  --motion-med:       calc(var(--duration-med)  * var(--motion-respect));
-  --motion-slow:      calc(var(--duration-slow) * var(--motion-respect));
-  --motion-emphatic:  calc(280ms * var(--motion-respect));
-
-  /* Canonical transition shorthands — compose these on `transition` rules
-     so reduced-motion respects propagate without per-rule wiring. */
-  --transition-colors:     color var(--motion-base) var(--ease-standard),
-                           background-color var(--motion-base) var(--ease-standard),
-                           border-color var(--motion-base) var(--ease-standard);
-  --transition-transform:  transform var(--motion-med) var(--ease-emphatic);
-  --transition-opacity:    opacity var(--motion-base) var(--ease-standard);
-  --transition-shadow:     box-shadow var(--motion-base) var(--ease-standard);
-
-  /* ---------- HIGH-CONTRAST RAIL ----------
-     When data-contrast="high" is set on <html>, primitives that compose
-     on --border-strong / --text-strong get a heavier border and a deeper
-     text colour. Default rail matches normal contrast. */
-  --border-strong: var(--border-2);
-  --text-strong:   var(--text-1);
-  --focus-ring:    var(--accent-1, var(--info));
-  --focus-ring-offset: 2px;
-  --focus-ring-width:  2px;
-}
-
-/* High contrast mode — opt-in via html[data-contrast="high"] OR system
-   preference. Strengthens borders, focus ring, and muted text. */
-:root[data-contrast="high"],
-@media (prefers-contrast: more) {
-  :root:not([data-contrast="standard"]) {
-    --border-1: var(--text-3);
-    --border-2: var(--text-2);
-    --border-strong: var(--text-1);
-    --text-3: var(--text-2);
-    --focus-ring-width: 3px;
-  }
-}
-
-/* Reduced motion — flips the motion-respect rail to 0 so all semantic
-   --motion-* tokens evaluate to 0ms. Primitives that use the raw
-   --duration-* tokens directly should migrate to the --motion-* tokens
-   so this guard catches them automatically. */
-@media (prefers-reduced-motion: reduce) {
-  :root:not([data-motion="full"]) {
-    --motion-respect: 0;
-  }
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Explicit opt-in to reduced motion via data-motion="reduced" on <html>. */
-:root[data-motion="reduced"] {
-  --motion-respect: 0;
-}
-:root[data-motion="reduced"] *,
-:root[data-motion="reduced"] *::before,
-:root[data-motion="reduced"] *::after {
-  animation-duration: 0.001ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.001ms !important;
 }
 
 /* =============================================================
@@ -257,14 +180,12 @@
   --text-muted-strong: #b8b3ab;
 
   /* Status — desaturated, warm-leaning. */
-  --error:        #b8523c;
-  --error-light:  rgba(184, 82, 60, 0.14);
-  --error-border: rgba(184, 82, 60, 0.36);
+  --error:        #cc6450;
+  --error-light:  rgba(204, 100, 80, 0.14);
+  --error-border: rgba(204, 100, 80, 0.36);
   --error-text:   #e0917e;
   --error-strong: #d06b53;
-  /* White-on-terracotta gives 5.07:1 vs. 4.08:1 on near-black — keeps the
-     destructive button readable in dark mode without re-toning the palette. */
-  --error-contrast: #ffffff;
+  --error-contrast: #161513;
 
   --success:        #6b9970;
   --success-light:  rgba(107, 153, 112, 0.14);
@@ -290,7 +211,8 @@
   --shadow-3: 0 -4px 12px rgba(0, 0, 0, 0.32);
 }
 
-/* OS dark preference — only applies when no explicit data-theme is set */
+/* OS dark preference — only applies when no explicit data-theme is set.
+   Explicit data-theme="light" or data-theme="dark" wins. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
     color-scheme: dark;
@@ -320,14 +242,12 @@
     --surface-muted: #1f1e1c;
     --text-muted-strong: #b8b3ab;
 
-    --error:        #b8523c;
-    --error-light:  rgba(184, 82, 60, 0.14);
-    --error-border: rgba(184, 82, 60, 0.36);
+    --error:        #cc6450;
+    --error-light:  rgba(204, 100, 80, 0.14);
+    --error-border: rgba(204, 100, 80, 0.36);
     --error-text:   #e0917e;
     --error-strong: #d06b53;
-    /* Matches the explicit `[data-theme="dark"]` block — white-on-terracotta
-       is 5.07:1 vs. 4.08:1 on near-black. */
-    --error-contrast: #ffffff;
+    --error-contrast: #161513;
 
     --success:        #6b9970;
     --success-light:  rgba(107, 153, 112, 0.14);

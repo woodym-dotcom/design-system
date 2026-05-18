@@ -1,3 +1,20 @@
+/* =============================================================
+   @ds/core — page-level density
+
+   These vars control PAGE chrome (outer padding, gaps between
+   page sections, top-level card padding). They are independent of
+   the primitive-level density vars in tokens/core.css
+   (--density-content-pad, --density-row-pad-y, etc.), which scale
+   row/cell paddings inside components proportionally to --density.
+
+   Rule of thumb:
+     - Use the *core.css* density vars inside cc-* primitives.
+     - Use the *density.css* vars when laying out page sections
+       at the consumer-app level.
+
+   Only the compact mode is currently parameterised; cozy and
+   spacious inherit the default values inline at the call site.
+   ============================================================= */
 :root {
   --density-page-padding-block-compact: 1rem;
   --density-section-gap-compact: 1.15rem;

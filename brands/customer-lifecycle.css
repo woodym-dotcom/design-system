@@ -6,19 +6,15 @@
    automationArmoury.
    ============================================================= */
 
-/* Fonts are loaded by the consumer (e.g. @fontsource/inter,
-   @fontsource/playfair-display, @fontsource/dm-sans, @fontsource/jetbrains-mono). */
-
 :root {
-  /* FONT STACKS */
-  --font-sans: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
-  --font-brand: "Playfair Display", Georgia, serif;
-  --font-brand-sans: "DM Sans", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* FONT STACKS — platform fonts, no webfont dependency. */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Brand seed — change these to rebrand the product surface. */
-  --brand-hue: 265;      /* indigo */
-  --brand-chroma: 0.18;
+  /* Brand seed — change --brand-hue to rebrand. Chroma is held
+     constant at 0.15 across the family. */
+  --brand-hue: 265;      /* indigo — institutional authority */
+  --brand-chroma: 0.15;
 
   /* Derived accent tokens — light mode */
   --accent-1:        oklch(55% var(--brand-chroma) var(--brand-hue));
@@ -28,21 +24,6 @@
   --accent-text:     oklch(35% var(--brand-chroma) var(--brand-hue));
   --accent-contrast: #ffffff;
   --accent-ring:     color-mix(in oklch, var(--accent-1) 18%, transparent);
-
-  /* Editorial surface — theme-invariant (always dark ink on warm paper).
-     Shared across the customer-lifecycle family; mirrors the CompanyCo
-     editorial palette so AuthScreens feel visually cohesive. */
-  --amber-50:  #fdf7ef;
-  --amber-100: #f5e9d4;
-  --amber-200: #e8b87a;
-  --amber-300: #d4a574;
-  --amber-400: #c9956a;
-  --amber-500: #b8865c;
-  --amber-600: #9a6f48;
-  --ink-0:     #0c0c0c;
-  --ink-1:     #1a1a1a;
-  --paper:     #fafaf8;
-  --paper-ink: #f5f0eb;
 }
 
 :root[data-theme="dark"] {
@@ -66,3 +47,4 @@
     --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
   }
 }
+

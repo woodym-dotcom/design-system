@@ -1,6 +1,14 @@
 /* =============================================================
-   @ds/core — viz tokens (status / severity / tier)
-   Softened palette · respects data-theme, falls back to OS preference.
+   @ds/core — viz tokens (status / severity / tier / phase)
+   Softened palette — respects html[data-theme="dark"] explicitly,
+   falls back to prefers-color-scheme when no data-theme is set.
+
+   Note on phase↔status overlap: --phase-allocate-text and
+   --phase-complete-text intentionally match --warning-text and
+   --success-text respectively. The phases that *semantically* map
+   onto a status ("allocate" ≈ attention/warning, "complete" ≈
+   success) reuse the status text colour so the eye reads the same
+   meaning twice; their bg/border triples remain phase-distinct.
    ============================================================= */
 
 :root {
@@ -116,3 +124,4 @@
     --phase-complete-text:   #a3c4a6;
   }
 }
+

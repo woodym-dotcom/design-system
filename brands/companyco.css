@@ -1,22 +1,19 @@
 /* =============================================================
    @ds/core — companyco brand
    Hue-driven algorithmic product palette. Change --brand-hue to rebrand.
-   Editorial surface (amber / ink / paper) is theme-invariant and
-   remains hand-picked.
    ============================================================= */
 
-/* Fonts are loaded by the consumer (e.g. @fontsource/inter,
-   @fontsource/playfair-display, @fontsource/dm-sans, @fontsource/jetbrains-mono). */
+/* Fonts are standard web stacks — no external dependency. */
 
 :root {
-  /* FONT STACKS — standardized system fonts (no webfont dependency). */
-  --font-sans:       system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-brand:      Georgia, "Times New Roman", Times, serif;
-  --font-brand-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono:       ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  /* FONT STACKS — platform fonts, no webfont dependency. */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Brand seed — change these to rebrand the product surface. */
-  --brand-hue: 30;       /* ember — unified palette */
+  /* Brand seed — change --brand-hue to rebrand. Chroma is held
+     constant at 0.15 across the family so every brand has the same
+     saturation character; only the hue moves. */
+  --brand-hue: 210;      /* cyan — indigo-leaning */
   --brand-chroma: 0.15;
 
   /* Derived accent tokens — light mode */
@@ -27,20 +24,6 @@
   --accent-text:     oklch(35% var(--brand-chroma) var(--brand-hue));
   --accent-contrast: #ffffff;
   --accent-ring:     color-mix(in oklch, var(--accent-1) 18%, transparent);
-
-  /* Editorial surface — theme-invariant (always dark ink on warm paper).
-     Hand-picked to preserve the specific look of the auth/marketing layer. */
-  --amber-50:  #fdf7ef;
-  --amber-100: #f5e9d4;
-  --amber-200: #e8b87a;
-  --amber-300: #d4a574;
-  --amber-400: #c9956a;
-  --amber-500: #b8865c;
-  --amber-600: #9a6f48;
-  --ink-0:     #0c0c0c;
-  --ink-1:     #1a1a1a;
-  --paper:     #fafaf8;
-  --paper-ink: #f5f0eb;
 }
 
 :root[data-theme="dark"] {
@@ -64,3 +47,4 @@
     --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
   }
 }
+

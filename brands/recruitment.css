@@ -4,13 +4,14 @@
    All accent tokens derive from the hue/chroma pair via oklch().
    ============================================================= */
 
-/* Fonts are loaded by the consumer (e.g. @fontsource/inter). */
+/* Fonts are standard web stacks — no external dependency. */
 
 :root {
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Brand seed — change these two values to rebrand. */
+  /* Brand seed — change --brand-hue to rebrand. Chroma is held
+     constant at 0.15 across the family. */
   --brand-hue: 30;       /* warm orange / ember */
   --brand-chroma: 0.15;
 
@@ -45,3 +46,4 @@
     --accent-ring:     color-mix(in oklch, var(--accent-1) 25%, transparent);
   }
 }
+
