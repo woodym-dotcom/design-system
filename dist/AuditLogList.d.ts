@@ -31,6 +31,13 @@ export interface AuditLogListProps {
     collapseConsecutive?: boolean;
     /** Maximum rows visible per category band (default: 10). */
     maxVisible?: number;
+    /**
+     * Layout variant.
+     *  - "flat" (default): existing condensed list, unchanged.
+     *  - "timeline": groups events by ISO day with a vertical spine + dots
+     *    on each row.
+     */
+    variant?: "flat" | "timeline";
 }
-export declare function AuditLogList({ events, notableOnlyByDefault, collapseConsecutive, maxVisible, }: AuditLogListProps): React.ReactElement;
+export declare function AuditLogList({ events, notableOnlyByDefault, collapseConsecutive, maxVisible, variant, }: AuditLogListProps): React.ReactElement;
 //# sourceMappingURL=AuditLogList.d.ts.map

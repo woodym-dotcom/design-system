@@ -29,6 +29,12 @@ export interface NavRailItem {
      * should pass their router's active detection here or via renderItem.
      */
     isActive?: boolean;
+    /**
+     * Optional icon node.
+     *  - In `variant="compact"`, the icon replaces the single-letter initial.
+     *  - In `variant="expanded"`, the icon is rendered adjacent to the label.
+     */
+    icon?: React.ReactNode;
 }
 export interface NavRailRenderItemContext {
     item: NavRailItem;

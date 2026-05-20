@@ -74,4 +74,32 @@ export { SavedViewsMenu, } from "./SavedViewsMenu.js";
 export { FirstRunGuide, } from "./FirstRunGuide.js";
 // Role-aware homepage cards
 export { HomepageCards, } from "./HomepageCards.js";
+// ── @aa/ui retirement — Phase 1 foundational primitives ──────────────────────
+export { Button, } from "./Button.js";
+export { Spinner, } from "./Spinner.js";
+export { Chip, Badge, } from "./Chip.js";
+export { Tabs, } from "./Tabs.js";
+export { Sparkline, } from "./charts/Sparkline.js";
+// ── @aa/ui retirement — Phase 2 utility surfaces ─────────────────────────────
+export { AwaitingState, } from "./AwaitingState.js";
+export { StaleDataPill, } from "./StaleDataPill.js";
+export { StateBanner, } from "./StateBanner.js";
+export { OfflineBanner, } from "./OfflineBanner.js";
+export { Diff, diffLines, } from "./Diff.js";
+// ── @aa/ui retirement — Phase 3 extensions of existing components ─────────────
+// Card now exported here (was previously only available via the ./react/Card
+// subpath) so the extended `actions`, `footer`, `padded` props are discoverable
+// from the barrel.
+export { Card } from "./Card.js";
+// AuditLogList — new `variant: "flat" | "timeline"` prop.
+export { AuditLogList, } from "./AuditLogList.js";
+// ── @aa/ui retirement — Phase 4 composed primitives ──────────────────────────
+export { useSplitPane, } from "./hooks/useSplitPane.js";
+export { DrilldownLayout, } from "./DrilldownLayout.js";
+export { FullScreenDetail, } from "./FullScreenDetail.js";
+// ── @aa/ui retirement — Phase 5 shell layer ──────────────────────────────────
+export { TopBar, } from "./TopBar.js";
+export { AppShell, } from "./AppShell.js";
+// ── @aa/ui retirement — Phase 6 navigation hook ──────────────────────────────
+export { useNavigateWithOrigin, encodeOrigin, decodeOrigin, buildUrlWithOrigin, } from "./hooks/useNavigateWithOrigin.js";
 //# sourceMappingURL=index.js.map

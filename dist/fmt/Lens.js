@@ -1,6 +1,6 @@
 import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import * as React from 'react';
-import { FmtProvider } from './Fmt.js';
+import { FmtProvider, useFmt } from './Fmt.js';
 /**
  * Read-only Lens toggle. Wraps a subtree and lets the user temporarily
  * swap locale/timezone/currency for evidence/decision-record review —
@@ -9,7 +9,8 @@ import { FmtProvider } from './Fmt.js';
  * announced via the FmtContext `lensActive` flag so callers can render
  * a banner ("Showing data in EU view") when appropriate.
  */
-export function Lens({ label, children, defaultOn = false, on: controlled, onChange, className, ...overrides }) {
+export function Lens({ label, children, defaultOn = false, on: controlled, onChange, className, bindShowRaw, ...overrides }) {
+    const fmtCtx = useFmt();
     const [internalOn, setInternalOn] = React.useState(defaultOn);
     const isControlled = controlled !== undefined;
     const on = isControlled ? controlled : internalOn;
@@ -18,6 +19,9 @@ export function Lens({ label, children, defaultOn = false, on: controlled, onCha
         if (!isControlled)
             setInternalOn(next);
         onChange?.(next);
+        if (bindShowRaw) {
+            fmtCtx.setShowRaw(next);
+        }
     };
     return (_jsxs("div", { className: ['cc-lens', on && 'cc-lens--on', className].filter(Boolean).join(' '), children: [_jsxs("div", { className: "cc-lens__toolbar", children: [_jsxs("button", { type: "button", className: "cc-lens__toggle", "aria-pressed": on, onClick: toggle, children: [on ? 'Showing' : 'Show', " ", label] }), on && (_jsx("span", { className: "cc-lens__hint", role: "note", children: "Read-only view. Underlying data is unchanged." }))] }), on ? (_jsx(LensProvider, { overrides: overrides, children: children })) : (children)] }));
 }

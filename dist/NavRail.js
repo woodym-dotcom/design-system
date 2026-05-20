@@ -76,12 +76,13 @@ export function NavRail({ items, footerItems, currentPathname, renderItem, ariaL
             return (_jsx(React.Fragment, { children: renderItem({ item, isActive, className: itemClass }) }, item.id));
         }
         // Compact mode shows the label as a native tooltip only — the visible
-        // text is the first character/initial. This avoids the "label + hover
-        // tooltip both show" duplication reported in NavRail consumers.
+        // text is the first character/initial OR the supplied icon. This avoids
+        // the "label + hover tooltip both show" duplication reported in NavRail
+        // consumers.
         if (variant === 'compact') {
-            return (_jsx("a", { href: item.to, className: itemClass, "aria-current": isActive ? 'page' : undefined, "aria-label": item.label, title: item.label, children: _jsx("span", { "aria-hidden": "true", children: item.label.slice(0, 1).toUpperCase() }) }, item.id));
+            return (_jsx("a", { href: item.to, className: itemClass, "aria-current": isActive ? 'page' : undefined, "aria-label": item.label, title: item.label, children: item.icon ? (_jsx("span", { className: "cc-text-navrail__icon", "aria-hidden": "true", children: item.icon })) : (_jsx("span", { "aria-hidden": "true", children: item.label.slice(0, 1).toUpperCase() })) }, item.id));
         }
-        return (_jsx("a", { href: item.to, className: itemClass, "aria-current": isActive ? 'page' : undefined, children: item.label }, item.id));
+        return (_jsxs("a", { href: item.to, className: itemClass, "aria-current": isActive ? 'page' : undefined, children: [item.icon ? (_jsx("span", { className: "cc-text-navrail__icon", "aria-hidden": "true", children: item.icon })) : null, _jsx("span", { className: "cc-text-navrail__label", children: item.label })] }, item.id));
     };
     return (_jsxs("nav", { "aria-label": ariaLabel, className: navClasses.join(' '), children: [_jsx("div", { className: "cc-text-navrail__group cc-text-navrail__group--main", children: mainItems.map(renderOne) }), footerItems && footerItems.length > 0 ? (_jsx("div", { className: "cc-text-navrail__group cc-text-navrail__group--footer", children: footerItems.map(renderOne) })) : null] }));
 }

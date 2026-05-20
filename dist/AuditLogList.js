@@ -48,8 +48,39 @@ function EventRow({ ev }) {
             fontSize: "0.82rem",
         }, children: [_jsx("span", { style: { color: "var(--text-1)" }, children: ev.category }), _jsxs("span", { style: { color: "var(--text-2)" }, children: ["\u00B7 ", ev.source] }), ev.detail ? (_jsxs("span", { style: { color: "var(--text-2)" }, children: ["\u00B7 ", ev.detail] })) : null, ev.count > 1 ? (_jsxs("span", { style: { color: "var(--text-2)", fontSize: "0.72rem" }, children: ["\u00D7 ", ev.count] })) : null, _jsx("span", { style: { color: "var(--text-2)", fontSize: "0.72rem", marginLeft: "auto" }, children: formatTimestamp(ev.timestamp) })] }));
 }
-export function AuditLogList({ events, notableOnlyByDefault = true, collapseConsecutive = true, maxVisible = 10, }) {
+function groupByDay(events) {
+    const out = new Map();
+    for (const ev of events) {
+        let day;
+        try {
+            day = new Date(ev.timestamp).toISOString().slice(0, 10);
+        }
+        catch {
+            day = ev.timestamp.slice(0, 10);
+        }
+        let bucket = out.get(day);
+        if (!bucket) {
+            bucket = [];
+            out.set(day, bucket);
+        }
+        bucket.push(ev);
+    }
+    return Array.from(out.entries());
+}
+function TimelineView({ events }) {
+    const days = groupByDay(events);
+    return (_jsx("ol", { className: "cc-audit-log cc-audit-log--timeline", children: days.map(([day, items]) => (_jsxs("li", { className: "cc-audit-log__day", children: [_jsx("div", { className: "cc-audit-log__day-marker", children: day }), _jsx("ul", { className: "cc-audit-log__day-items", children: items.map((item) => (_jsxs("li", { className: "cc-audit-log__row", children: [_jsx("span", { className: "cc-audit-log__dot", "aria-hidden": true }), _jsx("time", { dateTime: item.timestamp, children: formatTimestamp(item.timestamp) }), _jsx("span", { className: "cc-audit-log__category", children: item.category }), item.detail ? (_jsx("span", { className: "cc-audit-log__detail", children: item.detail })) : null] }, item.id))) })] }, day))) }));
+}
+export function AuditLogList({ events, notableOnlyByDefault = true, collapseConsecutive = true, maxVisible = 10, variant = "flat", }) {
+    // Hooks must run unconditionally — keep showRoutine state at the top, even
+    // if the timeline branch ignores it.
     const [showRoutine, setShowRoutine] = React.useState(!notableOnlyByDefault);
+    if (variant === "timeline") {
+        if (events.length === 0) {
+            return (_jsx("p", { style: { color: "var(--text-2)", fontSize: "0.88rem", margin: 0 }, children: "No audit events yet." }));
+        }
+        return _jsx(TimelineView, { events: events });
+    }
     const notable = events.filter((ev) => ev.notable);
     const routine = events.filter((ev) => !ev.notable);
     const processedNotable = collapseConsecutive

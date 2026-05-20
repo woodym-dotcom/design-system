@@ -11,6 +11,13 @@ export interface LensProps extends Partial<FmtSettings> {
     /** Called when the user toggles the lens. */
     onChange?: (on: boolean) => void;
     className?: string;
+    /**
+     * When true, the lens additionally drives the `showRaw` FmtContext flag.
+     * Switching the lens on enables raw-value rendering; switching it off
+     * disables it. When a provider is mounted above, the change is propagated
+     * via `setShowRaw`; otherwise the lens uses local state.
+     */
+    bindShowRaw?: boolean;
 }
 /**
  * Read-only Lens toggle. Wraps a subtree and lets the user temporarily
@@ -20,5 +27,5 @@ export interface LensProps extends Partial<FmtSettings> {
  * announced via the FmtContext `lensActive` flag so callers can render
  * a banner ("Showing data in EU view") when appropriate.
  */
-export declare function Lens({ label, children, defaultOn, on: controlled, onChange, className, ...overrides }: LensProps): import("react/jsx-runtime").JSX.Element;
+export declare function Lens({ label, children, defaultOn, on: controlled, onChange, className, bindShowRaw, ...overrides }: LensProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=Lens.d.ts.map

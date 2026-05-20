@@ -8,9 +8,13 @@ export interface FmtSettings {
     currency: string;
 }
 export declare const DEFAULT_FMT: FmtSettings;
-interface FmtContextValue extends FmtSettings {
+export interface FmtContextValue extends FmtSettings {
     /** True when a Lens override is currently active (lens stack non-empty). */
     lensActive: boolean;
+    /** True when consumers should render the raw value alongside formatted. */
+    showRaw: boolean;
+    /** Toggle the showRaw context value. */
+    setShowRaw: (next: boolean) => void;
 }
 export interface FmtProviderProps extends Partial<FmtSettings> {
     children: React.ReactNode;
@@ -20,14 +24,36 @@ export interface FmtProviderProps extends Partial<FmtSettings> {
      * by the `<Lens>` primitive; rarely set by application code directly.
      */
     lensActive?: boolean;
+    /**
+     * Initial value for the `showRaw` context flag. Default false.
+     */
+    defaultShowRaw?: boolean;
+    /**
+     * Controlled showRaw state — when provided, takes precedence over the
+     * internal value.
+     */
+    showRaw?: boolean;
+    /**
+     * Called when a descendant (e.g. <Lens>) flips showRaw. Required when
+     * `showRaw` is controlled.
+     */
+    onShowRawChange?: (next: boolean) => void;
 }
 /**
  * Wraps an app subtree with locale / timezone / currency defaults that
  * every Fmt.* primitive consumes. Override any of the three on a per-
  * provider basis (e.g. a tenant-scoped provider near the root).
  */
-export declare function FmtProvider({ children, lensActive, ...overrides }: FmtProviderProps): import("react/jsx-runtime").JSX.Element;
-export declare function useFmt(): FmtContextValue;
+export declare function FmtProvider({ children, lensActive, defaultShowRaw, showRaw: controlledShowRaw, onShowRawChange, ...overrides }: FmtProviderProps): import("react/jsx-runtime").JSX.Element;
+export interface UseFmtOptions {
+    /**
+     * When true, throws if no FmtProvider is mounted above. Use this in code
+     * paths that genuinely require app-level tenant settings (e.g. money
+     * rendering where the wrong currency is a correctness issue).
+     */
+    strict?: boolean;
+}
+export declare function useFmt(opts?: UseFmtOptions): FmtContextValue;
 export interface DateProps {
     /** Date, ISO 8601 string, or millisecond timestamp. */
     value: Date | string | number;
@@ -69,8 +95,24 @@ export interface RelativeProps {
     locale?: string;
 }
 declare function FmtRelative({ value, now, locale }: RelativeProps): import("react/jsx-runtime").JSX.Element;
+export interface DateTimeProps {
+    /** Value to format. */
+    value: Date | string | number;
+    /**
+     * Rendering mode.
+     *  - "absolute" (default): Intl.DateTimeFormat output.
+     *  - "relative": relative-to-now (e.g. "2 hours ago").
+     *  - "both": "<relative> (<absolute>)".
+     */
+    mode?: 'relative' | 'absolute' | 'both';
+    locale?: string;
+    timezone?: string;
+    className?: string;
+}
+declare function FmtDateTime({ value, mode, locale, timezone, className, }: DateTimeProps): import("react/jsx-runtime").JSX.Element;
 export declare const Fmt: {
     Date: typeof FmtDate;
+    DateTime: typeof FmtDateTime;
     Money: typeof FmtMoney;
     Number: typeof FmtNumber;
     Relative: typeof FmtRelative;
