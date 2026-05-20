@@ -288,6 +288,11 @@
       "import": "./dist/AppShell.js",
       "default": "./dist/AppShell.js"
     },
+    "./react/hooks/useNavigateWithOrigin": {
+      "types": "./dist/hooks/useNavigateWithOrigin.d.ts",
+      "import": "./dist/hooks/useNavigateWithOrigin.js",
+      "default": "./dist/hooks/useNavigateWithOrigin.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {

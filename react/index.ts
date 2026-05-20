@@ -459,3 +459,12 @@ export {
   type AppShellProps,
 } from "./AppShell";
 
+// ── @aa/ui retirement — Phase 6 navigation hook ──────────────────────────────
+export {
+  useNavigateWithOrigin,
+  encodeOrigin,
+  decodeOrigin,
+  buildUrlWithOrigin,
+  type OriginContext,
+} from "./hooks/useNavigateWithOrigin";
+
