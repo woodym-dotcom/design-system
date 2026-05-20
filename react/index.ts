@@ -449,3 +449,13 @@ export {
   type FullScreenDetailProps,
 } from "./FullScreenDetail";
 
+// ── @aa/ui retirement — Phase 5 shell layer ──────────────────────────────────
+export {
+  TopBar,
+  type TopBarProps,
+} from "./TopBar";
+export {
+  AppShell,
+  type AppShellProps,
+} from "./AppShell";
+

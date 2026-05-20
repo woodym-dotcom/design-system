@@ -5034,3 +5034,106 @@ a.cc-btn[aria-disabled="true"] {
   border-top: 1px solid var(--border-1);
   z-index: 2;
 }
+
+/* =============================================================
+   @aa/ui retirement — Phase 5 (TopBar, AppShell)
+   ============================================================= */
+
+/* ---------- TOP BAR ---------- */
+.cc-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--border-1);
+}
+.cc-topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--text-1);
+}
+.cc-topbar__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.cc-topbar__cmdk { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.cc-topbar__cmdk-label { color: var(--text-3); }
+.cc-topbar__identity {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-1);
+  background: var(--surface-2);
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-1);
+  cursor: pointer;
+}
+.cc-topbar__identity:hover { background: var(--surface-3); }
+.cc-topbar__identity:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-ring, var(--accent-1));
+}
+
+/* ---------- APP SHELL ---------- */
+.cc-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--surface-0);
+  color: var(--text-1);
+}
+.cc-shell__body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+.cc-shell__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  min-width: 0;
+}
+.cc-shell__group {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft, var(--surface-2));
+  color: var(--accent-text, var(--text-1));
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+.cc-skip-link {
+  position: absolute;
+  left: -9999px;
+  top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-0);
+  color: var(--text-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-sm);
+  z-index: 100;
+}
+.cc-skip-link:focus,
+.cc-skip-link:focus-visible {
+  left: var(--space-3);
+  outline: 2px solid var(--accent-1);
+}
+.cc-text-navrail__label { display: inline-block; }
+.cc-text-navrail__icon { display: inline-flex; }

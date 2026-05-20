@@ -278,6 +278,16 @@
       "import": "./dist/FullScreenDetail.js",
       "default": "./dist/FullScreenDetail.js"
     },
+    "./react/TopBar": {
+      "types": "./dist/TopBar.d.ts",
+      "import": "./dist/TopBar.js",
+      "default": "./dist/TopBar.js"
+    },
+    "./react/AppShell": {
+      "types": "./dist/AppShell.d.ts",
+      "import": "./dist/AppShell.js",
+      "default": "./dist/AppShell.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {
