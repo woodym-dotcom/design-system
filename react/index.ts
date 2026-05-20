@@ -390,3 +390,31 @@ export {
   type SparklineSize,
 } from "./charts/Sparkline";
 
+// ── @aa/ui retirement — Phase 2 utility surfaces ─────────────────────────────
+export {
+  AwaitingState,
+  type AwaitingStateProps,
+  type AwaitingStatus,
+} from "./AwaitingState";
+export {
+  StaleDataPill,
+  type StaleDataPillProps,
+} from "./StaleDataPill";
+export {
+  StateBanner,
+  type StateBannerProps,
+  type StateBannerKind,
+  type StateBannerAction,
+} from "./StateBanner";
+export {
+  OfflineBanner,
+  type OfflineBannerProps,
+} from "./OfflineBanner";
+export {
+  Diff,
+  diffLines,
+  type DiffProps,
+  type DiffMode,
+  type DiffLine,
+} from "./Diff";
+

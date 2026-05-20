@@ -238,6 +238,31 @@
       "import": "./dist/charts/Sparkline.js",
       "default": "./dist/charts/Sparkline.js"
     },
+    "./react/AwaitingState": {
+      "types": "./dist/AwaitingState.d.ts",
+      "import": "./dist/AwaitingState.js",
+      "default": "./dist/AwaitingState.js"
+    },
+    "./react/StaleDataPill": {
+      "types": "./dist/StaleDataPill.d.ts",
+      "import": "./dist/StaleDataPill.js",
+      "default": "./dist/StaleDataPill.js"
+    },
+    "./react/StateBanner": {
+      "types": "./dist/StateBanner.d.ts",
+      "import": "./dist/StateBanner.js",
+      "default": "./dist/StateBanner.js"
+    },
+    "./react/OfflineBanner": {
+      "types": "./dist/OfflineBanner.d.ts",
+      "import": "./dist/OfflineBanner.js",
+      "default": "./dist/OfflineBanner.js"
+    },
+    "./react/Diff": {
+      "types": "./dist/Diff.d.ts",
+      "import": "./dist/Diff.js",
+      "default": "./dist/Diff.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {
