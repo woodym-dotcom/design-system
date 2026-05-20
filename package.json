@@ -263,6 +263,21 @@
       "import": "./dist/Diff.js",
       "default": "./dist/Diff.js"
     },
+    "./react/hooks/useSplitPane": {
+      "types": "./dist/hooks/useSplitPane.d.ts",
+      "import": "./dist/hooks/useSplitPane.js",
+      "default": "./dist/hooks/useSplitPane.js"
+    },
+    "./react/DrilldownLayout": {
+      "types": "./dist/DrilldownLayout.d.ts",
+      "import": "./dist/DrilldownLayout.js",
+      "default": "./dist/DrilldownLayout.js"
+    },
+    "./react/FullScreenDetail": {
+      "types": "./dist/FullScreenDetail.d.ts",
+      "import": "./dist/FullScreenDetail.js",
+      "default": "./dist/FullScreenDetail.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {

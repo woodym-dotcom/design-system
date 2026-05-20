@@ -434,3 +434,18 @@ export {
   type AuditEvent,
 } from "./AuditLogList";
 
+// ── @aa/ui retirement — Phase 4 composed primitives ──────────────────────────
+export {
+  useSplitPane,
+  type UseSplitPaneOptions,
+  type UseSplitPaneResult,
+} from "./hooks/useSplitPane";
+export {
+  DrilldownLayout,
+  type DrilldownLayoutProps,
+} from "./DrilldownLayout";
+export {
+  FullScreenDetail,
+  type FullScreenDetailProps,
+} from "./FullScreenDetail";
+
