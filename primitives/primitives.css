@@ -4665,6 +4665,10 @@ a.cc-btn[aria-disabled="true"] {
   outline: none;
   box-shadow: 0 0 0 2px var(--accent-ring, var(--accent-1));
 }
+.cc-tabs__label {
+  display: inline-flex;
+  align-items: center;
+}
 .cc-tabs__count {
   display: inline-flex;
   align-items: center;
@@ -4758,6 +4762,13 @@ a.cc-btn[aria-disabled="true"] {
   background: var(--surface-2);
   border-radius: 3px;
 }
+/* State-specific accent on the left border so the surface reads at-a-glance. */
+.cc-awaiting--awaiting     { border-left: 3px solid var(--info, var(--accent-1)); }
+.cc-awaiting--opening      { border-left: 3px solid var(--info, var(--accent-1)); }
+.cc-awaiting--retrying     { border-left: 3px solid var(--warning, var(--accent-1)); }
+.cc-awaiting--rate_limited { border-left: 3px solid var(--warning, var(--accent-1)); }
+.cc-awaiting--expired      { border-left: 3px solid var(--error, var(--border-1)); }
+.cc-awaiting--invalid      { border-left: 3px solid var(--error, var(--border-1)); }
 
 /* ---------- STALE DATA PILL ---------- */
 .cc-stale-pill {
@@ -4848,6 +4859,7 @@ a.cc-btn[aria-disabled="true"] {
   color: var(--text-3);
 }
 .cc-diff__label { padding: var(--space-1) var(--space-3); }
+.cc-diff__label--left { /* base styles cover left label; modifier present for symmetry */ }
 .cc-diff__label--right { border-left: 1px solid var(--border-1); }
 
 .cc-diff__split { display: grid; grid-template-columns: 1fr 1fr; }
@@ -4861,6 +4873,16 @@ a.cc-btn[aria-disabled="true"] {
   background: var(--surface-1);
 }
 .cc-diff__pane--right { border-left: 1px solid var(--border-1); }
+.cc-diff__pane--unified {
+  /* Single full-width pane (no side-by-side split). Lines use the default
+     4-col grid: old lineno, new lineno, sigil, text. */
+  width: 100%;
+}
+.cc-diff__text {
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+}
 .cc-diff__line {
   display: grid;
   grid-template-columns: 3em 3em 1.5em 1fr;
