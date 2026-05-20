@@ -213,6 +213,31 @@
       "import": "./dist/hooks/useUrlFilterState.js",
       "default": "./dist/hooks/useUrlFilterState.js"
     },
+    "./react/Button": {
+      "types": "./dist/Button.d.ts",
+      "import": "./dist/Button.js",
+      "default": "./dist/Button.js"
+    },
+    "./react/Spinner": {
+      "types": "./dist/Spinner.d.ts",
+      "import": "./dist/Spinner.js",
+      "default": "./dist/Spinner.js"
+    },
+    "./react/Chip": {
+      "types": "./dist/Chip.d.ts",
+      "import": "./dist/Chip.js",
+      "default": "./dist/Chip.js"
+    },
+    "./react/Tabs": {
+      "types": "./dist/Tabs.d.ts",
+      "import": "./dist/Tabs.js",
+      "default": "./dist/Tabs.js"
+    },
+    "./react/charts/Sparkline": {
+      "types": "./dist/charts/Sparkline.d.ts",
+      "import": "./dist/charts/Sparkline.js",
+      "default": "./dist/charts/Sparkline.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {

@@ -359,3 +359,34 @@ export {
   type HomepageCard,
 } from "./HomepageCards";
 
+// ── @aa/ui retirement — Phase 1 foundational primitives ──────────────────────
+export {
+  Button,
+  type ButtonProps,
+  type ButtonVariant,
+  type ButtonSize,
+} from "./Button";
+export {
+  Spinner,
+  type SpinnerProps,
+  type SpinnerSize,
+} from "./Spinner";
+export {
+  Chip,
+  Badge,
+  type ChipProps,
+  type ChipTone as ChipPaletteTone,
+  type BadgeProps,
+} from "./Chip";
+export {
+  Tabs,
+  type TabsProps,
+  type TabItem,
+} from "./Tabs";
+export {
+  Sparkline,
+  type SparklineProps,
+  type SparklineTone,
+  type SparklineSize,
+} from "./charts/Sparkline";
+
