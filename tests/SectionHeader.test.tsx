@@ -71,3 +71,21 @@ describe('SectionHeader — contract (d): type-scale classes', () => {
     expect(heading.className).toContain('t-h1');
   });
 });
+
+describe('SectionHeader — titleExtras', () => {
+  it('renders titleExtras inside the heading element', () => {
+    render(
+      <SectionHeader
+        title="Stats"
+        titleExtras={<span data-testid="x">badge</span>}
+      />,
+    );
+    const heading = screen.getByRole('heading', { level: 2 });
+    expect(heading.querySelector('[data-testid="x"]')).toBeTruthy();
+  });
+
+  it('absent titleExtras adds no extra wrapper', () => {
+    const { container } = render(<SectionHeader title="x" />);
+    expect(container.querySelector('.cc-section-header__title-extras')).toBeNull();
+  });
+});

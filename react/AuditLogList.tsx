@@ -33,6 +33,13 @@ export interface AuditLogListProps {
   collapseConsecutive?: boolean;
   /** Maximum rows visible per category band (default: 10). */
   maxVisible?: number;
+  /**
+   * Layout variant.
+   *  - "flat" (default): existing condensed list, unchanged.
+   *  - "timeline": groups events by ISO day with a vertical spine + dots
+   *    on each row.
+   */
+  variant?: "flat" | "timeline";
 }
 
 interface CollapsedEvent extends AuditEvent {
@@ -88,13 +95,73 @@ function EventRow({ ev }: { ev: CollapsedEvent }) {
   );
 }
 
+function groupByDay(events: AuditEvent[]): Array<[string, AuditEvent[]]> {
+  const out = new Map<string, AuditEvent[]>();
+  for (const ev of events) {
+    let day: string;
+    try {
+      day = new Date(ev.timestamp).toISOString().slice(0, 10);
+    } catch {
+      day = ev.timestamp.slice(0, 10);
+    }
+    let bucket = out.get(day);
+    if (!bucket) {
+      bucket = [];
+      out.set(day, bucket);
+    }
+    bucket.push(ev);
+  }
+  return Array.from(out.entries());
+}
+
+function TimelineView({ events }: { events: AuditEvent[] }): React.ReactElement {
+  const days = groupByDay(events);
+  return (
+    <ol className="cc-audit-log cc-audit-log--timeline">
+      {days.map(([day, items]) => (
+        <li key={day} className="cc-audit-log__day">
+          <div className="cc-audit-log__day-marker">{day}</div>
+          <ul className="cc-audit-log__day-items">
+            {items.map((item) => (
+              <li key={item.id} className="cc-audit-log__row">
+                <span className="cc-audit-log__dot" aria-hidden />
+                <time dateTime={item.timestamp}>
+                  {formatTimestamp(item.timestamp)}
+                </time>
+                <span className="cc-audit-log__category">{item.category}</span>
+                {item.detail ? (
+                  <span className="cc-audit-log__detail">{item.detail}</span>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export function AuditLogList({
   events,
   notableOnlyByDefault = true,
   collapseConsecutive = true,
   maxVisible = 10,
+  variant = "flat",
 }: AuditLogListProps): React.ReactElement {
+  // Hooks must run unconditionally — keep showRoutine state at the top, even
+  // if the timeline branch ignores it.
   const [showRoutine, setShowRoutine] = React.useState(!notableOnlyByDefault);
+
+  if (variant === "timeline") {
+    if (events.length === 0) {
+      return (
+        <p style={{ color: "var(--text-2)", fontSize: "0.88rem", margin: 0 }}>
+          No audit events yet.
+        </p>
+      );
+    }
+    return <TimelineView events={events} />;
+  }
 
   const notable = events.filter((ev) => ev.notable);
   const routine = events.filter((ev) => !ev.notable);

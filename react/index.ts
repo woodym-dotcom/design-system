@@ -6,7 +6,7 @@ export {
   type UrlFilterStateRouterAdapter,
   type TanStackRouterAdapterInput,
 } from "./hooks/useUrlFilterState";
-export { FormField, type FormFieldProps, type FormFieldType } from "./FormField";
+export { FormField, type FormFieldProps, type FormFieldType, type FormFieldAs } from "./FormField";
 export { FilterBar, type FilterBarProps, type FilterChip } from "./FilterBar";
 export { NavRail, type NavRailProps, type NavRailItem, type NavRailRenderItemContext } from "./NavRail";
 export { CreateMenu, type CreateMenuProps, type CreateMenuItem, type CreateMenuKind } from "./CreateMenu";
@@ -276,7 +276,10 @@ export {
   DEFAULT_FMT,
   type FmtSettings,
   type FmtProviderProps,
+  type FmtContextValue,
+  type UseFmtOptions,
   type DateProps as FmtDateProps,
+  type DateTimeProps as FmtDateTimeProps,
   type MoneyProps as FmtMoneyProps,
   type NumberProps as FmtNumberProps,
   type RelativeProps as FmtRelativeProps,
@@ -417,4 +420,17 @@ export {
   type DiffMode,
   type DiffLine,
 } from "./Diff";
+
+// ── @aa/ui retirement — Phase 3 extensions of existing components ─────────────
+// Card now exported here (was previously only available via the ./react/Card
+// subpath) so the extended `actions`, `footer`, `padded` props are discoverable
+// from the barrel.
+export { Card, type CardProps } from "./Card";
+
+// AuditLogList — new `variant: "flat" | "timeline"` prop.
+export {
+  AuditLogList,
+  type AuditLogListProps,
+  type AuditEvent,
+} from "./AuditLogList";
 

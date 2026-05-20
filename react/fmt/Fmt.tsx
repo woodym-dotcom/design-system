@@ -15,15 +15,30 @@ export const DEFAULT_FMT: FmtSettings = {
   currency: 'GBP',
 };
 
-interface FmtContextValue extends FmtSettings {
+export interface FmtContextValue extends FmtSettings {
   /** True when a Lens override is currently active (lens stack non-empty). */
   lensActive: boolean;
+  /** True when consumers should render the raw value alongside formatted. */
+  showRaw: boolean;
+  /** Toggle the showRaw context value. */
+  setShowRaw: (next: boolean) => void;
 }
 
-const FmtContext = React.createContext<FmtContextValue>({
+/**
+ * Internal sentinel — when this context value is in scope we know we are
+ * outside of any FmtProvider tree and can throw under `useFmt({ strict })`.
+ */
+const NO_PROVIDER: FmtContextValue = {
   ...DEFAULT_FMT,
   lensActive: false,
-});
+  showRaw: false,
+  setShowRaw: () => {
+    /* no-op outside provider */
+  },
+};
+
+const FmtContext = React.createContext<FmtContextValue>(NO_PROVIDER);
+const FmtProvidedFlag = React.createContext<boolean>(false);
 
 export interface FmtProviderProps extends Partial<FmtSettings> {
   children: React.ReactNode;
@@ -33,6 +48,20 @@ export interface FmtProviderProps extends Partial<FmtSettings> {
    * by the `<Lens>` primitive; rarely set by application code directly.
    */
   lensActive?: boolean;
+  /**
+   * Initial value for the `showRaw` context flag. Default false.
+   */
+  defaultShowRaw?: boolean;
+  /**
+   * Controlled showRaw state — when provided, takes precedence over the
+   * internal value.
+   */
+  showRaw?: boolean;
+  /**
+   * Called when a descendant (e.g. <Lens>) flips showRaw. Required when
+   * `showRaw` is controlled.
+   */
+  onShowRawChange?: (next: boolean) => void;
 }
 
 /**
@@ -40,22 +69,88 @@ export interface FmtProviderProps extends Partial<FmtSettings> {
  * every Fmt.* primitive consumes. Override any of the three on a per-
  * provider basis (e.g. a tenant-scoped provider near the root).
  */
-export function FmtProvider({ children, lensActive, ...overrides }: FmtProviderProps) {
+export function FmtProvider({
+  children,
+  lensActive,
+  defaultShowRaw,
+  showRaw: controlledShowRaw,
+  onShowRawChange,
+  ...overrides
+}: FmtProviderProps) {
   const parent = React.useContext(FmtContext);
+  const parentProvided = React.useContext(FmtProvidedFlag);
+
+  const [internalShowRaw, setInternalShowRaw] = React.useState<boolean>(
+    defaultShowRaw ?? parent.showRaw ?? false,
+  );
+  const isControlledShowRaw = controlledShowRaw !== undefined;
+  const effectiveShowRaw = isControlledShowRaw ? controlledShowRaw : internalShowRaw;
+
+  const setShowRaw = React.useCallback(
+    (next: boolean) => {
+      if (!isControlledShowRaw) setInternalShowRaw(next);
+      onShowRawChange?.(next);
+    },
+    [isControlledShowRaw, onShowRawChange],
+  );
+
   const value = React.useMemo<FmtContextValue>(
     () => ({
-      locale: overrides.locale ?? parent.locale,
-      timezone: overrides.timezone ?? parent.timezone,
-      currency: overrides.currency ?? parent.currency,
-      lensActive: lensActive ?? parent.lensActive,
+      locale: overrides.locale ?? (parentProvided ? parent.locale : DEFAULT_FMT.locale),
+      timezone: overrides.timezone ?? (parentProvided ? parent.timezone : DEFAULT_FMT.timezone),
+      currency: overrides.currency ?? (parentProvided ? parent.currency : DEFAULT_FMT.currency),
+      lensActive: lensActive ?? (parentProvided ? parent.lensActive : false),
+      showRaw: effectiveShowRaw,
+      setShowRaw,
     }),
-    [overrides.locale, overrides.timezone, overrides.currency, lensActive, parent.locale, parent.timezone, parent.currency, parent.lensActive],
+    [
+      overrides.locale,
+      overrides.timezone,
+      overrides.currency,
+      lensActive,
+      effectiveShowRaw,
+      setShowRaw,
+      parent.locale,
+      parent.timezone,
+      parent.currency,
+      parent.lensActive,
+      parentProvided,
+    ],
   );
-  return <FmtContext.Provider value={value}>{children}</FmtContext.Provider>;
+  return (
+    <FmtProvidedFlag.Provider value={true}>
+      <FmtContext.Provider value={value}>{children}</FmtContext.Provider>
+    </FmtProvidedFlag.Provider>
+  );
 }
 
-export function useFmt(): FmtContextValue {
-  return React.useContext(FmtContext);
+export interface UseFmtOptions {
+  /**
+   * When true, throws if no FmtProvider is mounted above. Use this in code
+   * paths that genuinely require app-level tenant settings (e.g. money
+   * rendering where the wrong currency is a correctness issue).
+   */
+  strict?: boolean;
+}
+
+export function useFmt(opts?: UseFmtOptions): FmtContextValue {
+  const provided = React.useContext(FmtProvidedFlag);
+  const ctx = React.useContext(FmtContext);
+  if (opts?.strict && !provided) {
+    throw new Error(
+      '@ds/core: useFmt({ strict: true }) called outside an <FmtProvider>.',
+    );
+  }
+  return provided ? ctx : { ...NO_PROVIDER };
+}
+
+/** Internal helper: render the raw value in a small dim monospace span. */
+function RawSibling({ value }: { value: React.ReactNode }) {
+  return (
+    <span className="cc-fmt__raw" aria-hidden="true">
+      {value}
+    </span>
+  );
 }
 
 export interface DateProps {
@@ -86,13 +181,16 @@ function FmtDate({ value, dateStyle = 'medium', timeStyle, locale, timezone }: D
     timeZone: timezone ?? ctx.timezone,
   });
   return (
-    <time
-      className="cc-fmt cc-fmt--date"
-      dateTime={d.toISOString()}
-      title={d.toISOString()}
-    >
-      {fmt.format(d)}
-    </time>
+    <span className="cc-fmt cc-fmt--with-raw">
+      <time
+        className="cc-fmt cc-fmt--date"
+        dateTime={d.toISOString()}
+        title={d.toISOString()}
+      >
+        {fmt.format(d)}
+      </time>
+      {ctx.showRaw ? <RawSibling value={d.toISOString()} /> : null}
+    </span>
   );
 }
 
@@ -116,7 +214,12 @@ function FmtMoney({ value, currency, locale, fractionDigits }: MoneyProps) {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
-  return <span className="cc-fmt cc-fmt--money" data-currency={cur}>{fmt.format(value)}</span>;
+  return (
+    <span className="cc-fmt cc-fmt--money" data-currency={cur}>
+      {fmt.format(value)}
+      {ctx.showRaw ? <RawSibling value={`${value} ${cur}`} /> : null}
+    </span>
+  );
 }
 
 export interface NumberProps {
@@ -134,7 +237,12 @@ function FmtNumber({ value, locale, maxFractionDigits, style = 'decimal' }: Numb
     style,
     maximumFractionDigits: maxFractionDigits,
   });
-  return <span className="cc-fmt cc-fmt--number">{fmt.format(value)}</span>;
+  return (
+    <span className="cc-fmt cc-fmt--number">
+      {fmt.format(value)}
+      {ctx.showRaw ? <RawSibling value={String(value)} /> : null}
+    </span>
+  );
 }
 
 export interface RelativeProps {
@@ -145,13 +253,13 @@ export interface RelativeProps {
   locale?: string;
 }
 
-function FmtRelative({ value, now, locale }: RelativeProps) {
-  const ctx = useFmt();
-  const d = toDate(value);
-  if (!d) return <span className="cc-fmt cc-fmt--invalid">—</span>;
-  const anchor = now ? (typeof now === 'number' ? now : now.getTime()) : Date.now();
+function formatRelativeText(
+  d: Date,
+  anchor: number,
+  locale: string,
+): string {
   const diffSec = Math.round((d.getTime() - anchor) / 1000);
-  const rtf = new Intl.RelativeTimeFormat(locale ?? ctx.locale, { numeric: 'auto' });
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
   const abs = Math.abs(diffSec);
   let unit: Intl.RelativeTimeFormatUnit = 'second';
   let div = 1;
@@ -161,15 +269,83 @@ function FmtRelative({ value, now, locale }: RelativeProps) {
   else if (abs >= 60 * 60 * 24) { unit = 'day'; div = 60 * 60 * 24; }
   else if (abs >= 60 * 60) { unit = 'hour'; div = 60 * 60; }
   else if (abs >= 60) { unit = 'minute'; div = 60; }
+  return rtf.format(Math.round(diffSec / div), unit);
+}
+
+function FmtRelative({ value, now, locale }: RelativeProps) {
+  const ctx = useFmt();
+  const d = toDate(value);
+  if (!d) return <span className="cc-fmt cc-fmt--invalid">—</span>;
+  const anchor = now ? (typeof now === 'number' ? now : now.getTime()) : Date.now();
+  const text = formatRelativeText(d, anchor, locale ?? ctx.locale);
   return (
     <time className="cc-fmt cc-fmt--relative" dateTime={d.toISOString()} title={d.toISOString()}>
-      {rtf.format(Math.round(diffSec / div), unit)}
+      {text}
+      {ctx.showRaw ? <RawSibling value={d.toISOString()} /> : null}
+    </time>
+  );
+}
+
+export interface DateTimeProps {
+  /** Value to format. */
+  value: Date | string | number;
+  /**
+   * Rendering mode.
+   *  - "absolute" (default): Intl.DateTimeFormat output.
+   *  - "relative": relative-to-now (e.g. "2 hours ago").
+   *  - "both": "<relative> (<absolute>)".
+   */
+  mode?: 'relative' | 'absolute' | 'both';
+  locale?: string;
+  timezone?: string;
+  className?: string;
+}
+
+function FmtDateTime({
+  value,
+  mode = 'absolute',
+  locale,
+  timezone,
+  className,
+}: DateTimeProps) {
+  const ctx = useFmt();
+  const d = toDate(value);
+  if (!d) return <span className="cc-fmt cc-fmt--invalid">—</span>;
+  const iso = d.toISOString();
+
+  const absolute = new Intl.DateTimeFormat(locale ?? ctx.locale, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: timezone ?? ctx.timezone,
+  }).format(d);
+
+  const relative =
+    mode === 'absolute'
+      ? null
+      : formatRelativeText(d, Date.now(), locale ?? ctx.locale);
+
+  const text =
+    mode === 'relative'
+      ? relative
+      : mode === 'both'
+        ? `${relative} (${absolute})`
+        : absolute;
+
+  return (
+    <time
+      className={['cc-fmt', 'cc-fmt--datetime', className].filter(Boolean).join(' ')}
+      dateTime={iso}
+      title={iso}
+    >
+      {text}
+      {ctx.showRaw ? <RawSibling value={iso} /> : null}
     </time>
   );
 }
 
 export const Fmt = {
   Date: FmtDate,
+  DateTime: FmtDateTime,
   Money: FmtMoney,
   Number: FmtNumber,
   Relative: FmtRelative,

@@ -4894,3 +4894,37 @@ a.cc-btn[aria-disabled="true"] {
   color: var(--text-3);
   font-size: var(--text-sm);
 }
+
+/* =============================================================
+   @aa/ui retirement — Phase 3 extensions
+   ============================================================= */
+
+/* ---------- CARD additions: header/body/footer slots ---------- */
+.cc-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border-1);
+}
+.cc-card__copy { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.cc-card__title {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-1);
+}
+.cc-card__subtitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-2);
+}
+.cc-card__actions { display: inline-flex; align-items: center; gap: var(--space-2); }
+.cc-card__body { padding: var(--space-5); }
+.cc-card__footer {
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--border-1);
+  background: var(--surface-1);
+}
+.cc-card--flush .cc-card__body { padding: 0; }

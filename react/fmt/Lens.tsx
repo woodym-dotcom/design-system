@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FmtProvider, type FmtSettings } from './Fmt';
+import { FmtProvider, useFmt, type FmtSettings } from './Fmt';
 
 export interface LensProps extends Partial<FmtSettings> {
   /** Lens label rendered in the toggle (e.g. "EU view"). */
@@ -12,6 +12,13 @@ export interface LensProps extends Partial<FmtSettings> {
   /** Called when the user toggles the lens. */
   onChange?: (on: boolean) => void;
   className?: string;
+  /**
+   * When true, the lens additionally drives the `showRaw` FmtContext flag.
+   * Switching the lens on enables raw-value rendering; switching it off
+   * disables it. When a provider is mounted above, the change is propagated
+   * via `setShowRaw`; otherwise the lens uses local state.
+   */
+  bindShowRaw?: boolean;
 }
 
 /**
@@ -29,8 +36,10 @@ export function Lens({
   on: controlled,
   onChange,
   className,
+  bindShowRaw,
   ...overrides
 }: LensProps) {
+  const fmtCtx = useFmt();
   const [internalOn, setInternalOn] = React.useState(defaultOn);
   const isControlled = controlled !== undefined;
   const on = isControlled ? controlled : internalOn;
@@ -39,6 +48,9 @@ export function Lens({
     const next = !on;
     if (!isControlled) setInternalOn(next);
     onChange?.(next);
+    if (bindShowRaw) {
+      fmtCtx.setShowRaw(next);
+    }
   };
 
   return (

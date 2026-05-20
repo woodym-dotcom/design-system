@@ -30,6 +30,12 @@ export interface NavRailItem {
    * should pass their router's active detection here or via renderItem.
    */
   isActive?: boolean;
+  /**
+   * Optional icon node.
+   *  - In `variant="compact"`, the icon replaces the single-letter initial.
+   *  - In `variant="expanded"`, the icon is rendered adjacent to the label.
+   */
+  icon?: React.ReactNode;
 }
 
 export interface NavRailRenderItemContext {
@@ -163,8 +169,9 @@ export function NavRail({
     }
 
     // Compact mode shows the label as a native tooltip only — the visible
-    // text is the first character/initial. This avoids the "label + hover
-    // tooltip both show" duplication reported in NavRail consumers.
+    // text is the first character/initial OR the supplied icon. This avoids
+    // the "label + hover tooltip both show" duplication reported in NavRail
+    // consumers.
     if (variant === 'compact') {
       return (
         <a
@@ -175,7 +182,13 @@ export function NavRail({
           aria-label={item.label}
           title={item.label}
         >
-          <span aria-hidden="true">{item.label.slice(0, 1).toUpperCase()}</span>
+          {item.icon ? (
+            <span className="cc-text-navrail__icon" aria-hidden="true">
+              {item.icon}
+            </span>
+          ) : (
+            <span aria-hidden="true">{item.label.slice(0, 1).toUpperCase()}</span>
+          )}
         </a>
       );
     }
@@ -187,7 +200,12 @@ export function NavRail({
         className={itemClass}
         aria-current={isActive ? 'page' : undefined}
       >
-        {item.label}
+        {item.icon ? (
+          <span className="cc-text-navrail__icon" aria-hidden="true">
+            {item.icon}
+          </span>
+        ) : null}
+        <span className="cc-text-navrail__label">{item.label}</span>
       </a>
     );
   };

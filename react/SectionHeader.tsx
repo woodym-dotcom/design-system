@@ -14,6 +14,13 @@ export interface SectionHeaderProps {
   /** Optional supporting copy rendered below the title. */
   description?: string;
   /**
+   * Optional ReactNode rendered INSIDE the heading element next to the title
+   * text (e.g. a small chip or pill that belongs visually to the title).
+   * Stays inside the heading tag so screen readers treat it as part of the
+   * heading.
+   */
+  titleExtras?: React.ReactNode;
+  /**
    * Trailing metadata slot. Typically a <MetadataChip> but accepts any node.
    * Positioned at the right end of the heading row.
    */
@@ -30,6 +37,7 @@ export interface SectionHeaderProps {
 export function SectionHeader({
   title,
   description,
+  titleExtras,
   metadata,
   actions,
   className,
@@ -40,7 +48,12 @@ export function SectionHeader({
   return (
     <header className={['cc-section-header', className].filter(Boolean).join(' ')}>
       <div className="cc-section-header__row">
-        <Heading className={`cc-section-header__title ${headingClass}`}>{title}</Heading>
+        <Heading className={`cc-section-header__title ${headingClass}`}>
+          {title}
+          {titleExtras ? (
+            <span className="cc-section-header__title-extras">{titleExtras}</span>
+          ) : null}
+        </Heading>
         {(metadata || actions) && (
           <div className="cc-section-header__trailing">
             {metadata}

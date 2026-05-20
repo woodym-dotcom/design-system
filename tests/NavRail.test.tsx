@@ -255,3 +255,30 @@ describe('NavRail — footer + compact variant', () => {
     expect(link).toHaveAttribute('aria-label', 'Vendors');
   });
 });
+
+describe('NavRail icon support (B.5)', () => {
+  it('renders icon adjacent to label in expanded variant', () => {
+    const items = [
+      { id: 'home', to: '/home', label: 'Home', icon: <svg data-testid="home-icon" /> },
+    ];
+    const { container } = render(<NavRail items={items} />);
+    expect(container.querySelector('[data-testid="home-icon"]')).toBeTruthy();
+    expect(container.querySelector('.cc-text-navrail__label')?.textContent).toBe('Home');
+  });
+
+  it('renders icon instead of initial in compact variant', () => {
+    const items = [
+      { id: 'home', to: '/home', label: 'Home', icon: <svg data-testid="home-icon" /> },
+    ];
+    const { container } = render(<NavRail items={items} variant="compact" />);
+    expect(container.querySelector('[data-testid="home-icon"]')).toBeTruthy();
+    // initial "H" should NOT appear.
+    expect(container.textContent).not.toContain('H');
+  });
+
+  it('falls back to initial in compact variant when no icon set', () => {
+    const items = [{ id: 'home', to: '/home', label: 'Home' }];
+    const { container } = render(<NavRail items={items} variant="compact" />);
+    expect(container.textContent).toContain('H');
+  });
+});
