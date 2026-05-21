@@ -1,5 +1,9 @@
 /**
- * <StatusPill> — coloured dot + label for status indication.
+ * StatusPill — coloured dot + label for status indication.
+ *
+ * @deprecated Use `Tag` with `variant="pill"` and `dot` from `@ds/core/react` instead.
+ * `<StatusPill status="ok" label="OK" />` → `<Tag variant="pill" tone="success" dot>OK</Tag>`
+ * Cutover: DS-SIMPLIFY 14.
  *
  * Used for system health, rules-evidence rows, source freshness, and any
  * place that needs a scannable ok/warning/error/info/neutral signal.
