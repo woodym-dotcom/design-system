@@ -333,6 +333,11 @@
       "import": "./dist/Disclosure.js",
       "default": "./dist/Disclosure.js"
     },
+    "./react/Overlay": {
+      "types": "./dist/Overlay.d.ts",
+      "import": "./dist/Overlay.js",
+      "default": "./dist/Overlay.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {

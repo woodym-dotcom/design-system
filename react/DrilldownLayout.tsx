@@ -26,6 +26,10 @@ export interface DrilldownLayoutProps {
   className?: string;
 }
 
+/**
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="drilldown">`
+ *   instead. Removed at v1.0 (DS-SIMPLIFY 14).
+ */
 export function DrilldownLayout({
   listSlot,
   detailSlot,

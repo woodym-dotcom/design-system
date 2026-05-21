@@ -31,6 +31,10 @@ export interface DrawerProps {
  * Generic slide-in drawer. Distinct from `DetailPane` (which is a record
  * detail surface with a fixed section list) — use Drawer when you need
  * a side panel that hosts arbitrary content (filters, settings, wizards).
+ *
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="drawer-right">`
+ *   or `<Overlay placement="drawer-left">` instead. Removed at v1.0
+ *   (DS-SIMPLIFY 14).
  */
 export function Drawer({
   open,
