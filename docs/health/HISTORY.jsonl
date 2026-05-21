@@ -1,0 +1,1 @@
+{"date":"2026-05-21","commit":"96af27498457346e1489a226f4c1f7ee88020040","overall":9.5,"components":{"typecheck":10,"unit":10,"tokens":10,"lint":5,"contrast":10,"build":10,"deps":10,"deadcode":10},"notes":"First baseline run; build fixed (Windows fileURLToPath bug in add-js-extensions.mjs); lint scored 5 — no ESLint config present in repo."}
