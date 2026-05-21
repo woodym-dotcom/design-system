@@ -1,3 +1,10 @@
+/**
+ * AuditLogList — backward-compat tests via the deprecated alias.
+ *
+ * AuditLogList now delegates to ActivityTimeline under the hood.
+ * These tests verify that the old API surface still renders correctly
+ * through the alias (DS-SIMPLIFY 09 back-compat requirement).
+ */
 import * as React from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
@@ -30,14 +37,16 @@ const events: AuditEvent[] = [
 ];
 
 describe("AuditLogList — flat (default)", () => {
-  it("renders flat list with timestamps", () => {
+  it("renders flat list with entries", () => {
     const { container } = render(<AuditLogList events={events} />);
-    expect(container.querySelector(".cc-audit-log--timeline")).toBeNull();
+    // AuditLogList now delegates to ActivityTimeline — uses at--flat class
+    expect(container.querySelector(".at--flat")).toBeTruthy();
   });
 
   it("renders empty-state message when no events", () => {
     render(<AuditLogList events={[]} />);
-    expect(screen.getByText("No audit events yet.")).toBeTruthy();
+    // ActivityTimeline default empty state
+    expect(screen.getByText("No activity yet.")).toBeTruthy();
   });
 });
 
@@ -46,18 +55,19 @@ describe("AuditLogList — timeline variant", () => {
     const { container } = render(
       <AuditLogList events={events} variant="timeline" />,
     );
-    expect(container.querySelector(".cc-audit-log--timeline")).toBeTruthy();
-    const markers = container.querySelectorAll(".cc-audit-log__day-marker");
-    expect(markers).toHaveLength(2);
-    expect(markers[0].textContent).toBe("2024-03-01");
-    expect(markers[1].textContent).toBe("2024-03-02");
+    // AuditLogList with variant="timeline" calls ActivityTimeline with groupByDay=true
+    const headers = container.querySelectorAll(".at-day-header");
+    expect(headers).toHaveLength(2);
+    expect(headers[0].textContent).toBe("2024-03-01");
+    expect(headers[1].textContent).toBe("2024-03-02");
   });
 
   it("renders a dot per row", () => {
     const { container } = render(
       <AuditLogList events={events} variant="timeline" />,
     );
-    expect(container.querySelectorAll(".cc-audit-log__dot")).toHaveLength(3);
+    // Timeline variant renders .at-dot per entry
+    expect(container.querySelectorAll(".at-dot")).toHaveLength(3);
   });
 
   it("uses <time dateTime> for each timestamp", () => {

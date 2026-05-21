@@ -52,6 +52,11 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'SavedViewsMenu',  storyId: 'foundation-savedviewsmenu--open' },
   { name: 'FirstRunGuide',   storyId: 'foundation-firstrunguide--default' },
   { name: 'HomepageCards',   storyId: 'foundation-homepagecards--admin-view' },
+
+  // DS-SIMPLIFY 09 — ActivityTimeline.
+  { name: 'ActivityTimeline-FlatDefault',     storyId: 'primitives-activitytimeline--flat-default' },
+  { name: 'ActivityTimeline-ExpandableDiffs', storyId: 'primitives-activitytimeline--expandable-diffs' },
+  { name: 'ActivityTimeline-AllFeatures',     storyId: 'primitives-activitytimeline--all-features-combined' },
 ];
 
 for (const story of STORIES) {

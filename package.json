@@ -178,6 +178,11 @@
       "import": "./dist/Stepper.js",
       "default": "./dist/Stepper.js"
     },
+    "./react/ActivityTimeline": {
+      "types": "./dist/ActivityTimeline.d.ts",
+      "import": "./dist/ActivityTimeline.js",
+      "default": "./dist/ActivityTimeline.js"
+    },
     "./react/AuditLogList": {
       "types": "./dist/AuditLogList.d.ts",
       "import": "./dist/AuditLogList.js",
