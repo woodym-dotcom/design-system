@@ -451,7 +451,14 @@ export {
 // from the barrel.
 export { Card, type CardProps } from "./Card";
 
-// AuditLogList — new `variant: "flat" | "timeline"` prop.
+// ── DS-SIMPLIFY 09: ActivityTimeline (supersedes AuditLogList) ────────────────
+export {
+  ActivityTimeline,
+  type ActivityTimelineProps,
+  type ActivityEntry,
+} from "./ActivityTimeline";
+
+// AuditLogList — deprecated alias; kept for back-compat until v1.0 (SIMPLIFY 14).
 export {
   AuditLogList,
   type AuditLogListProps,

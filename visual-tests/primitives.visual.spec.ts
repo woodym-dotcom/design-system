@@ -49,6 +49,18 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'State-AllVariantsPage',   storyId: 'primitives-state--all-variants-page' },
   { name: 'State-AllVariantsBanner', storyId: 'primitives-state--all-variants-banner' },
   { name: 'State-AllVariantsChip',   storyId: 'primitives-state--all-variants-chip' },
+
+  // DS-SIMPLIFY 09 — ActivityTimeline primitive.
+  { name: 'ActivityTimeline-FlatDefault',       storyId: 'primitives-activitytimeline--flat-default' },
+  { name: 'ActivityTimeline-TimelineVariant',   storyId: 'primitives-activitytimeline--timeline-variant' },
+  { name: 'ActivityTimeline-FlatGroupByDay',    storyId: 'primitives-activitytimeline--flat-group-by-day' },
+  { name: 'ActivityTimeline-TimelineGroupByDay', storyId: 'primitives-activitytimeline--timeline-group-by-day' },
+  { name: 'ActivityTimeline-DensityCompact',    storyId: 'primitives-activitytimeline--density-compact' },
+  { name: 'ActivityTimeline-DensitySpacious',   storyId: 'primitives-activitytimeline--density-spacious' },
+  { name: 'ActivityTimeline-ExpandableDiffs',   storyId: 'primitives-activitytimeline--expandable-diffs' },
+  { name: 'ActivityTimeline-LoadingEmpty',      storyId: 'primitives-activitytimeline--loading-empty' },
+  { name: 'ActivityTimeline-EmptyState',        storyId: 'primitives-activitytimeline--empty-state' },
+  { name: 'ActivityTimeline-AllFeatures',       storyId: 'primitives-activitytimeline--all-features-combined' },
 ];
 
 for (const story of STORIES) {
