@@ -505,6 +505,28 @@ export {
   type OriginContext,
 } from "./hooks/useNavigateWithOrigin";
 
+// ── DS-SIMPLIFY 08: Graph — unified data-viz primitive ───────────────────────
+// Subsumes Sparkline, MetricChartCard, DashboardChartCard, KpiTile, HeatmapChart,
+// RelationshipGraph, DistributionPlot into one layout-discriminated primitive.
+// force/hierarchical layouts are stubbed — coming in v1.1 with @xyflow/react.
+export { Graph } from "./Graph";
+export type {
+  GraphProps,
+  GraphLayout,
+  GraphData,
+  LegendDef,
+  LegendItem,
+  TimeSeriesData,
+  TimeSeriesPoint,
+  HeatmapData,
+  HeatmapCell,
+  DistributionData,
+  DistributionBin,
+  NetworkData,
+  GraphNode,
+  GraphEdge,
+} from "./Graph.types";
+
 // ── DS-SIMPLIFY 12: layout atoms cluster ─────────────────────────────────────
 export {
   Stack,
