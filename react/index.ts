@@ -527,6 +527,13 @@ export type {
   GraphEdge,
 } from "./Graph.types";
 
+// ── DS-SIMPLIFY 10: AISuggestionsPane — canonical AI-review surface ──────────
+export {
+  AISuggestionsPane,
+  type AISuggestionsPaneProps,
+  type Suggestion,
+} from "./AISuggestionsPane";
+
 // ── DS-SIMPLIFY 12: layout atoms cluster ─────────────────────────────────────
 export {
   Stack,

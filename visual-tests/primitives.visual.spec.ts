@@ -74,6 +74,13 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'Overlay-DetailRight',  storyId: 'primitives-overlay--detail-right' },
   { name: 'Overlay-Drilldown',    storyId: 'primitives-overlay--drilldown' },
   { name: 'Overlay-Fullscreen',   storyId: 'primitives-overlay--fullscreen' },
+
+  // DS-SIMPLIFY 10 — AISuggestionsPane: canonical AI-review surface.
+  { name: 'AISuggestionsPane-Empty',        storyId: 'primitives-aisuggestionspane--empty' },
+  { name: 'AISuggestionsPane-Populated',    storyId: 'primitives-aisuggestionspane--populated' },
+  { name: 'AISuggestionsPane-Loading',      storyId: 'primitives-aisuggestionspane--loading' },
+  { name: 'AISuggestionsPane-Error',        storyId: 'primitives-aisuggestionspane--error-state' },
+  { name: 'AISuggestionsPane-MidEdit',      storyId: 'primitives-aisuggestionspane--mid-edit' },
 ];
 
 for (const story of STORIES) {
