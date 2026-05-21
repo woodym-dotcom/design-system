@@ -338,6 +338,11 @@
       "import": "./dist/Overlay.js",
       "default": "./dist/Overlay.js"
     },
+    "./react/EntityPicker": {
+      "types": "./dist/EntityPicker.d.ts",
+      "import": "./dist/EntityPicker.js",
+      "default": "./dist/EntityPicker.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {

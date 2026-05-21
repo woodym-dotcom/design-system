@@ -534,6 +534,9 @@ export {
   type Suggestion,
 } from "./AISuggestionsPane";
 
+// ── DS-SIMPLIFY 07: EntityPicker — standalone search + inline-create combobox ─
+export { EntityPicker, type EntityPickerProps } from "./EntityPicker";
+
 // ── DS-SIMPLIFY 12: layout atoms cluster ─────────────────────────────────────
 export {
   Stack,

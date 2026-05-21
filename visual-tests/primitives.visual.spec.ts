@@ -81,6 +81,12 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'AISuggestionsPane-Loading',      storyId: 'primitives-aisuggestionspane--loading' },
   { name: 'AISuggestionsPane-Error',        storyId: 'primitives-aisuggestionspane--error-state' },
   { name: 'AISuggestionsPane-MidEdit',      storyId: 'primitives-aisuggestionspane--mid-edit' },
+
+  // DS-SIMPLIFY 07 — EntityPicker primitive, 4 canonical states.
+  { name: 'EntityPicker-Empty',        storyId: 'primitives-entitypicker--empty' },
+  { name: 'EntityPicker-Typing',       storyId: 'primitives-entitypicker--typing' },
+  { name: 'EntityPicker-WithSelection', storyId: 'primitives-entitypicker--with-selection' },
+  { name: 'EntityPicker-MultiSelect',  storyId: 'primitives-entitypicker--multi-select' },
 ];
 
 for (const story of STORIES) {
