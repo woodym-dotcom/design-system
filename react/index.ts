@@ -162,6 +162,20 @@ export {
   type LifecycleStateBadgeProps,
   type ChipTone,
 } from "./LifecycleStateBadge";
+
+// ── DS-SIMPLIFY 03: Tag primitive ─────────────────────────────────────────────
+// Canonical tone-coded text-indicator. Subsumes Chip, Badge, StatusPill,
+// LifecycleStateBadge, and MetadataChip inline badge patterns.
+export {
+  Tag,
+  type TagProps,
+  type TagVariant,
+  type TagSize,
+  // TagTone is the canonical tone vocabulary going forward.
+  type TagTone,
+} from "./Tag";
+// Deprecated alias for TagTone — use TagTone directly for new code.
+export type { TagTone as ChipPaletteToneCanonical } from "./Tag";
 export {
   DetailRow,
   DetailSection,

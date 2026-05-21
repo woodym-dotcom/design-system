@@ -228,6 +228,11 @@
       "import": "./dist/Spinner.js",
       "default": "./dist/Spinner.js"
     },
+    "./react/Tag": {
+      "types": "./dist/Tag.d.ts",
+      "import": "./dist/Tag.js",
+      "default": "./dist/Tag.js"
+    },
     "./react/Chip": {
       "types": "./dist/Chip.d.ts",
       "import": "./dist/Chip.js",

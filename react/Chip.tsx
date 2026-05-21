@@ -1,6 +1,10 @@
 /**
  * Chip — inline tag / badge primitive.
  *
+ * @deprecated Use `Tag` from `@ds/core/react` instead.
+ * `<Chip tone="success">label</Chip>` → `<Tag tone="success">label</Tag>`
+ * Cutover: DS-SIMPLIFY 14.
+ *
  * Tones (neutral/success/warning/error/info/accent) drive the colour
  * treatment via tokenised CSS variables. Pass `onClick` to render an
  * interactive chip (renders as a <button>); pass `onRemove` to add a small

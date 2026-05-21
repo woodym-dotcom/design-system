@@ -1,3 +1,11 @@
+/**
+ * LifecycleStateBadge — maps governance lifecycle status strings to colour-coded badges.
+ *
+ * @deprecated Use `Tag` from `@ds/core/react` with an explicit `tone` prop instead.
+ * Map the status → TagTone at the call site and pass `variant="badge"`.
+ * Note: the legacy `'danger'` tone is accepted by Tag as a back-compat alias for `'error'`.
+ * Cutover: DS-SIMPLIFY 14.
+ */
 import type { ReactNode } from 'react'
 
 export type ChipTone = 'neutral' | 'accent' | 'success' | 'warning' | 'info' | 'danger'

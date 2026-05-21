@@ -1,0 +1,165 @@
+/**
+ * Tag — unified tone-coded text-indicator primitive.
+ *
+ * Subsumes Chip, Badge, StatusPill, LifecycleStateBadge, and MetadataChip's
+ * inline badge usage into a single `variant × tone × size` API.
+ *
+ * Variants:
+ *  - `chip`  — small rounded rectangle (current Chip shape)
+ *  - `pill`  — pill-shape (current StatusPill shape)
+ *  - `badge` — tight number/dot badge for counts
+ *  - `meta`  — subtle inline indicator (current MetadataChip inline usage)
+ *
+ * Tones: neutral | accent | success | warning | error | info
+ * The legacy tone value `'danger'` is accepted as a back-compat alias and
+ * mapped to `'error'` during the deprecation window.
+ *
+ * Accessibility contract:
+ *  - Interactive tags (onClick) render as <button> with Enter/Space activation.
+ *  - Non-interactive tags render as <span>.
+ *  - The remove button has an aria-label and suppresses event propagation.
+ *  - The leading dot is aria-hidden.
+ */
+import * as React from "react";
+
+export type TagVariant = "chip" | "pill" | "badge" | "meta";
+export type TagTone =
+  | "neutral"
+  | "accent"
+  | "success"
+  | "warning"
+  | "error"
+  | "info";
+export type TagSize = "sm" | "md" | "lg";
+
+/** Back-compat: `'danger'` maps to `'error'` during the deprecation window. */
+type TagToneInput = TagTone | "danger";
+
+export interface TagProps {
+  /** Visual shape variant. Default: `'chip'`. */
+  variant?: TagVariant;
+  /** Colour tone. Default: `'neutral'`. Also accepts `'danger'` (deprecated → maps to `'error'`). */
+  tone?: TagToneInput;
+  /** Size variant. Default: `'md'`. */
+  size?: TagSize;
+  /** Render a small leading colour dot. */
+  dot?: boolean;
+  /** Leading icon node (rendered before the label). */
+  icon?: React.ReactNode;
+  /** When provided, renders a trailing × button that calls this handler. */
+  onRemove?: () => void;
+  /** When provided, the tag renders as a <button> with this click handler. */
+  onClick?: () => void;
+  /** Tag label / content. */
+  children: React.ReactNode;
+  /** Accessible label override. */
+  "aria-label"?: string;
+  className?: string;
+}
+
+/** Resolve back-compat tone alias. */
+function resolveTone(tone: TagToneInput): TagTone {
+  return tone === "danger" ? "error" : tone;
+}
+
+function tagClasses(
+  variant: TagVariant,
+  tone: TagTone,
+  size: TagSize,
+  interactive: boolean,
+  className?: string,
+): string {
+  return [
+    "cc-tag",
+    `cc-tag--${variant}`,
+    `cc-tag--${tone}`,
+    `cc-tag--${size}`,
+    interactive ? "cc-tag--interactive" : null,
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+export function Tag({
+  variant = "chip",
+  tone: toneProp = "neutral",
+  size = "md",
+  dot = false,
+  icon,
+  onRemove,
+  onClick,
+  children,
+  className,
+  ...rest
+}: TagProps): React.ReactElement {
+  const tone = resolveTone(toneProp);
+  const interactive = typeof onClick === "function";
+  const cls = tagClasses(variant, tone, size, interactive, className);
+
+  const handleKeyDown = interactive
+    ? (e: React.KeyboardEvent) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick!();
+        }
+      }
+    : undefined;
+
+  const inner = (
+    <>
+      {dot ? (
+        <span
+          className={`cc-tag__dot cc-tag__dot--${tone}`}
+          aria-hidden="true"
+        />
+      ) : null}
+      {icon ? (
+        <span className="cc-tag__icon" aria-hidden="true">
+          {icon}
+        </span>
+      ) : null}
+      <span className="cc-tag__label">{children}</span>
+      {onRemove ? (
+        <button
+          type="button"
+          className="cc-tag__remove"
+          aria-label="Remove"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              e.stopPropagation();
+              onRemove();
+            }
+          }}
+        >
+          ×
+        </button>
+      ) : null}
+    </>
+  );
+
+  if (interactive) {
+    return (
+      <button
+        type="button"
+        className={cls}
+        onClick={onClick}
+        onKeyDown={handleKeyDown}
+        aria-label={rest["aria-label"]}
+      >
+        {inner}
+      </button>
+    );
+  }
+
+  return (
+    <span className={cls} aria-label={rest["aria-label"]}>
+      {inner}
+    </span>
+  );
+}
