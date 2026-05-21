@@ -4,8 +4,9 @@
 // resolve extensionless paths inside `node_modules/`, even though Vite can.
 import { readdir, readFile, writeFile, stat } from 'node:fs/promises';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const DIST = new URL('../dist/', import.meta.url).pathname;
+const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
 
 async function* walk(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
