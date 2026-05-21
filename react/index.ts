@@ -468,3 +468,44 @@ export {
   type OriginContext,
 } from "./hooks/useNavigateWithOrigin";
 
+// ── DS-SIMPLIFY 12: layout atoms cluster ─────────────────────────────────────
+export {
+  Stack,
+  type StackProps,
+  type StackGap,
+  type StackAlign,
+} from "./Stack";
+export {
+  Row,
+  type RowProps,
+  type RowAlign,
+  type RowJustify,
+} from "./Row";
+export {
+  Text,
+  type TextProps,
+  type TextSize,
+  type TextWeight,
+  type TextTone,
+  type TextAs,
+} from "./Text";
+export {
+  Menu,
+  MenuItem,
+  MenuSeparator,
+  MenuLabel,
+  type MenuProps,
+  type MenuItemProps,
+  type MenuSeparatorProps,
+  type MenuLabelProps,
+  type MenuPlacement,
+} from "./Menu";
+export {
+  Disclosure,
+  Accordion,
+  type DisclosureProps,
+  type DisclosureIcon,
+  type AccordionProps,
+  type AccordionItem,
+} from "./Disclosure";
+

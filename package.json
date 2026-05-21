@@ -293,6 +293,31 @@
       "import": "./dist/hooks/useNavigateWithOrigin.js",
       "default": "./dist/hooks/useNavigateWithOrigin.js"
     },
+    "./react/Stack": {
+      "types": "./dist/Stack.d.ts",
+      "import": "./dist/Stack.js",
+      "default": "./dist/Stack.js"
+    },
+    "./react/Row": {
+      "types": "./dist/Row.d.ts",
+      "import": "./dist/Row.js",
+      "default": "./dist/Row.js"
+    },
+    "./react/Text": {
+      "types": "./dist/Text.d.ts",
+      "import": "./dist/Text.js",
+      "default": "./dist/Text.js"
+    },
+    "./react/Menu": {
+      "types": "./dist/Menu.d.ts",
+      "import": "./dist/Menu.js",
+      "default": "./dist/Menu.js"
+    },
+    "./react/Disclosure": {
+      "types": "./dist/Disclosure.d.ts",
+      "import": "./dist/Disclosure.js",
+      "default": "./dist/Disclosure.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {
