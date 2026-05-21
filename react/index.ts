@@ -11,21 +11,16 @@ export { FilterBar, type FilterBarProps, type FilterChip } from "./FilterBar";
 export { NavRail, type NavRailProps, type NavRailItem, type NavRailRenderItemContext } from "./NavRail";
 export { CreateMenu, type CreateMenuProps, type CreateMenuItem, type CreateMenuKind } from "./CreateMenu";
 
-// EntityForm module (G3)
+// EntityForm module (G3) — canonical public surface
+// Individual field components (TextField, NumberField, etc.) are NOT exported here.
+// Use <EntityForm schema={...}> for schema-driven forms or <FormField as="shell">
+// for arbitrary child inputs. Custom field types use registerFieldType().
 export {
   buildEntitySchema,
   setOrchestratorBridge,
   getOrchestratorBridge,
   useEntityForm,
   EntityForm,
-  TextField,
-  NumberField,
-  SelectField,
-  MultiSelectField,
-  DateField,
-  MoneyField,
-  EntityReferenceField,
-  RichTextField,
   registerFieldType,
   getFieldTypeComponent,
 } from "./entity-form/index";
