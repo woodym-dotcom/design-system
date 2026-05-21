@@ -1,4 +1,7 @@
 /**
+ * @deprecated Use `<State variant="loading" density="…">` from `./State` instead.
+ * This component will be removed in v1.0 (DS-SIMPLIFY 14).
+ *
  * AwaitingState — status surface for in-flight upstream calls.
  *
  * Combines Spinner + Chip on one row with default copy per status. When

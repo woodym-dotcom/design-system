@@ -43,6 +43,11 @@
       "import": "./dist/ModuleShell.js",
       "default": "./dist/ModuleShell.js"
     },
+    "./react/State": {
+      "types": "./dist/State.d.ts",
+      "import": "./dist/State.js",
+      "default": "./dist/State.js"
+    },
     "./react/FormField": {
       "types": "./dist/FormField.d.ts",
       "import": "./dist/FormField.js",

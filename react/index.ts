@@ -393,7 +393,17 @@ export {
   type SparklineSize,
 } from "./charts/Sparkline";
 
+// ── DS-SIMPLIFY 02 — State primitive (unified state-messaging) ────────────────
+export {
+  State,
+  type StateProps,
+  type StateVariant,
+  type StateDensity,
+} from "./State";
+
 // ── @aa/ui retirement — Phase 2 utility surfaces ─────────────────────────────
+// @deprecated — these individual state components are superseded by <State>.
+//   Use <State variant="…" density="…"> instead. Will be removed in v1.0 (SIMPLIFY 14).
 export {
   AwaitingState,
   type AwaitingStateProps,

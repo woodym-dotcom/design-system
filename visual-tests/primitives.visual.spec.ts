@@ -44,6 +44,11 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'SavedViewsMenu-Open',      storyId: 'foundation-savedviewsmenu--open' },
   { name: 'FirstRunGuide-Default',    storyId: 'foundation-firstrunguide--default' },
   { name: 'HomepageCards-AdminView',  storyId: 'foundation-homepagecards--admin-view' },
+
+  // DS-SIMPLIFY 02 — State primitive.
+  { name: 'State-AllVariantsPage',   storyId: 'primitives-state--all-variants-page' },
+  { name: 'State-AllVariantsBanner', storyId: 'primitives-state--all-variants-banner' },
+  { name: 'State-AllVariantsChip',   storyId: 'primitives-state--all-variants-chip' },
 ];
 
 for (const story of STORIES) {
