@@ -20,7 +20,7 @@ export interface CommandItem {
   onSelect: () => void;
 }
 
-export interface CommandPaletteProps {
+export interface CommandPaletteProps<T extends string = string> {
   open: boolean;
   onClose: () => void;
   /** Static items to choose from. Either this OR `loadItems` is required. */
@@ -31,6 +31,14 @@ export interface CommandPaletteProps {
   placeholder?: string;
   /** Empty-state copy. */
   emptyMessage?: string;
+  /** Optional type filter chips shown above the input. */
+  filterTypes?: { key: T; label: string }[];
+  /** Initially selected filter type (defaults to 'all'). */
+  defaultFilterType?: T | 'all';
+  /** Fired when the user clicks a filter chip. */
+  onFilterTypeChange?: (type: T | 'all') => void;
+  /** Custom renderer for a single result row. */
+  renderItem?: (item: CommandItem) => React.ReactNode;
 }
 
 function fuzzyMatch(item: CommandItem, query: string): boolean {
@@ -49,25 +57,31 @@ function fuzzyMatch(item: CommandItem, query: string): boolean {
  * The palette does NOT bind a global hotkey — wire that in the host app
  * (typically by listening for `Cmd/Ctrl+K` and flipping `open`).
  */
-export function CommandPalette({
+export function CommandPalette<T extends string = string>({
   open,
   onClose,
   items,
   loadItems,
   placeholder = 'Search commands…',
   emptyMessage = 'No matches',
-}: CommandPaletteProps) {
+  filterTypes,
+  defaultFilterType = 'all',
+  onFilterTypeChange,
+  renderItem,
+}: CommandPaletteProps<T>) {
   const [query, setQuery] = React.useState('');
   const [loaded, setLoaded] = React.useState<CommandItem[]>([]);
   const [activeIdx, setActiveIdx] = React.useState(0);
+  const [activeFilter, setActiveFilter] = React.useState<T | 'all'>(defaultFilterType);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     if (!open) {
       setQuery('');
       setActiveIdx(0);
+      setActiveFilter(defaultFilterType);
     }
-  }, [open]);
+  }, [open, defaultFilterType]);
 
   React.useEffect(() => {
     if (!open || !loadItems) return;
@@ -80,10 +94,18 @@ export function CommandPalette({
     };
   }, [open, query, loadItems]);
 
+  const handleFilterChange = (type: T | 'all') => {
+    setActiveFilter(type);
+    setActiveIdx(0);
+    onFilterTypeChange?.(type);
+  };
+
   const visible = React.useMemo(() => {
     const base = loadItems ? loaded : items ?? [];
-    return base.filter((it) => fuzzyMatch(it, query));
-  }, [loadItems, loaded, items, query]);
+    return base
+      .filter((it) => fuzzyMatch(it, query))
+      .filter((it) => activeFilter === 'all' || it.group === activeFilter);
+  }, [loadItems, loaded, items, query, activeFilter]);
 
   // Group items in insertion order.
   const grouped = React.useMemo(() => {
@@ -128,6 +150,29 @@ export function CommandPalette({
       initialFocusRef={inputRef}
       className="cc-cmdk"
     >
+      {filterTypes && filterTypes.length > 0 && (
+        <div className="cc-cmdk__filters" role="group" aria-label="Filter by type">
+          <button
+            type="button"
+            className={`cc-cmdk__filter-chip${activeFilter === 'all' ? ' is-active' : ''}`}
+            aria-pressed={activeFilter === 'all'}
+            onClick={() => handleFilterChange('all')}
+          >
+            All
+          </button>
+          {filterTypes.map((ft) => (
+            <button
+              key={ft.key}
+              type="button"
+              className={`cc-cmdk__filter-chip${activeFilter === ft.key ? ' is-active' : ''}`}
+              aria-pressed={activeFilter === ft.key}
+              onClick={() => handleFilterChange(ft.key)}
+            >
+              {ft.label}
+            </button>
+          ))}
+        </div>
+      )}
       <input
         ref={inputRef}
         type="search"
@@ -166,13 +211,19 @@ export function CommandPalette({
                     onClick={() => select(it)}
                     onMouseEnter={() => setActiveIdx(idx)}
                   >
-                    {it.icon && <span className="cc-cmdk__icon" aria-hidden="true">{it.icon}</span>}
-                    <span className="cc-cmdk__label">{it.label}</span>
-                    {it.hint && <span className="cc-cmdk__hint">{it.hint}</span>}
-                    {it.shortcut && (
-                      <span className="cc-cmdk__shortcut">
-                        <Kbd keys={it.shortcut} size="sm" />
-                      </span>
+                    {renderItem ? (
+                      renderItem(it)
+                    ) : (
+                      <>
+                        {it.icon && <span className="cc-cmdk__icon" aria-hidden="true">{it.icon}</span>}
+                        <span className="cc-cmdk__label">{it.label}</span>
+                        {it.hint && <span className="cc-cmdk__hint">{it.hint}</span>}
+                        {it.shortcut && (
+                          <span className="cc-cmdk__shortcut">
+                            <Kbd keys={it.shortcut} size="sm" />
+                          </span>
+                        )}
+                      </>
                     )}
                   </button>
                 );
