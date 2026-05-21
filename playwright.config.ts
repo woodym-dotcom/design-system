@@ -11,7 +11,7 @@ export default defineConfig({
   webServer: {
     command: 'pnpm exec serve storybook-static -l 6006 --no-clipboard',
     url: 'http://localhost:6006',
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env.CI,
     timeout: 30000,
   },
 });
