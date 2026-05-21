@@ -9,7 +9,7 @@ export default defineConfig({
     ...devices['Desktop Chrome'],
   },
   webServer: {
-    command: '/Users/malouf/dev/design-system/node_modules/.bin/serve storybook-static -l 6006 --no-clipboard',
+    command: 'pnpm exec serve storybook-static -l 6006 --no-clipboard',
     url: 'http://localhost:6006',
     reuseExistingServer: false,
     timeout: 30000,
