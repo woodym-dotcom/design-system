@@ -67,6 +67,16 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'CommandPalette-WithCustomRenderItem', storyId: 'foundation-commandpalette--with-custom-render-item' },
   { name: 'CreationWizard-Default',            storyId: 'foundation-creationwizard--default' },
 
+  // DS-SIMPLIFY 05 — PlatformAppShell: 4 brands × 2 tenant modes = 8 baselines.
+  { name: 'PlatformAppShell-CompanycoMulti',          storyId: 'shell-platformappshell--companyco-multi' },
+  { name: 'PlatformAppShell-CompanycoSingle',         storyId: 'shell-platformappshell--companyco-single' },
+  { name: 'PlatformAppShell-RecruitmentMulti',        storyId: 'shell-platformappshell--recruitment-multi' },
+  { name: 'PlatformAppShell-RecruitmentSingle',       storyId: 'shell-platformappshell--recruitment-single' },
+  { name: 'PlatformAppShell-CustomerLifecycleMulti',  storyId: 'shell-platformappshell--customer-lifecycle-multi' },
+  { name: 'PlatformAppShell-CustomerLifecycleSingle', storyId: 'shell-platformappshell--customer-lifecycle-single' },
+  { name: 'PlatformAppShell-AutomationMulti',         storyId: 'shell-platformappshell--automation-multi' },
+  { name: 'PlatformAppShell-AutomationSingle',        storyId: 'shell-platformappshell--automation-single' },
+
   // DS-SIMPLIFY 01 — Overlay primitive, one baseline per placement.
   { name: 'Overlay-Modal',        storyId: 'primitives-overlay--modal' },
   { name: 'Overlay-DrawerRight',  storyId: 'primitives-overlay--drawer-right' },
