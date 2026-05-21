@@ -254,6 +254,17 @@ export type {
   ToastProviderProps,
 } from "./Toast";
 
+// Overlay — unified primitive (SIMPLIFY 01). Modal/Drawer/DetailPane/
+// ExpandableDetailPane/ArtefactDetailPane/DrilldownLayout/FullScreenDetail
+// remain as @deprecated re-exports until SIMPLIFY 14.
+export {
+  Overlay,
+  type OverlayProps,
+  type OverlayPlacement,
+  type OverlaySize,
+  type OverlaySection,
+} from "./Overlay";
+
 // Modal + Drawer
 export {
   Modal,

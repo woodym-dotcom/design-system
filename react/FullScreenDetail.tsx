@@ -27,6 +27,10 @@ export interface FullScreenDetailProps<T extends string = string> {
   className?: string;
 }
 
+/**
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="fullscreen">`
+ *   instead. Removed at v1.0 (DS-SIMPLIFY 14).
+ */
 export function FullScreenDetail<T extends string = string>({
   breadcrumbs,
   title,

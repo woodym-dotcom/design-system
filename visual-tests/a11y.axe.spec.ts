@@ -57,6 +57,14 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'ActivityTimeline-FlatDefault',     storyId: 'primitives-activitytimeline--flat-default' },
   { name: 'ActivityTimeline-ExpandableDiffs', storyId: 'primitives-activitytimeline--expandable-diffs' },
   { name: 'ActivityTimeline-AllFeatures',     storyId: 'primitives-activitytimeline--all-features-combined' },
+
+  // DS-SIMPLIFY 01 — Overlay primitive.
+  { name: 'Overlay-Modal',        storyId: 'primitives-overlay--modal' },
+  { name: 'Overlay-DrawerRight',  storyId: 'primitives-overlay--drawer-right' },
+  { name: 'Overlay-DrawerLeft',   storyId: 'primitives-overlay--drawer-left' },
+  { name: 'Overlay-DetailRight',  storyId: 'primitives-overlay--detail-right' },
+  { name: 'Overlay-Drilldown',    storyId: 'primitives-overlay--drilldown' },
+  { name: 'Overlay-Fullscreen',   storyId: 'primitives-overlay--fullscreen' },
 ];
 
 for (const story of STORIES) {

@@ -57,6 +57,10 @@ function readStoredWidth(key: string, fallback: number): number {
   }
 }
 
+/**
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="detail-right">`
+ *   instead. Removed at v1.0 (DS-SIMPLIFY 14).
+ */
 export function DetailPane({
   open,
   onClose,

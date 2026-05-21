@@ -66,6 +66,14 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'CommandPalette-WithFilterChips',    storyId: 'foundation-commandpalette--with-filter-chips' },
   { name: 'CommandPalette-WithCustomRenderItem', storyId: 'foundation-commandpalette--with-custom-render-item' },
   { name: 'CreationWizard-Default',            storyId: 'foundation-creationwizard--default' },
+
+  // DS-SIMPLIFY 01 — Overlay primitive, one baseline per placement.
+  { name: 'Overlay-Modal',        storyId: 'primitives-overlay--modal' },
+  { name: 'Overlay-DrawerRight',  storyId: 'primitives-overlay--drawer-right' },
+  { name: 'Overlay-DrawerLeft',   storyId: 'primitives-overlay--drawer-left' },
+  { name: 'Overlay-DetailRight',  storyId: 'primitives-overlay--detail-right' },
+  { name: 'Overlay-Drilldown',    storyId: 'primitives-overlay--drilldown' },
+  { name: 'Overlay-Fullscreen',   storyId: 'primitives-overlay--fullscreen' },
 ];
 
 for (const story of STORIES) {
