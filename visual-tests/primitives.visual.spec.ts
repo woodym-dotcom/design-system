@@ -61,6 +61,11 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'ActivityTimeline-LoadingEmpty',      storyId: 'primitives-activitytimeline--loading-empty' },
   { name: 'ActivityTimeline-EmptyState',        storyId: 'primitives-activitytimeline--empty-state' },
   { name: 'ActivityTimeline-AllFeatures',       storyId: 'primitives-activitytimeline--all-features-combined' },
+
+  // DS-SIMPLIFY 11 — CommandPalette filter chips + renderItem, CreationWizard step context.
+  { name: 'CommandPalette-WithFilterChips',    storyId: 'foundation-commandpalette--with-filter-chips' },
+  { name: 'CommandPalette-WithCustomRenderItem', storyId: 'foundation-commandpalette--with-custom-render-item' },
+  { name: 'CreationWizard-Default',            storyId: 'foundation-creationwizard--default' },
 ];
 
 for (const story of STORIES) {

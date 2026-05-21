@@ -9,6 +9,16 @@ export interface CreationWizardStep<TValues> {
 export interface CreationWizardStepContext<TValues> {
   values: TValues;
   setValues: (updater: (current: TValues) => TValues) => void;
+  /** Advance to the next step. No-op on the last step. */
+  next: () => void;
+  /** Go back to the previous step. No-op on the first step. */
+  back: () => void;
+  /** Fire the wizard's onSubmit handler. */
+  submit: () => Promise<void>;
+  /** Zero-based index of the active step. */
+  activeIndex: number;
+  /** Total number of steps (including AI review step if present). */
+  totalSteps: number;
 }
 
 export interface CreationWizardReviewResult {
@@ -135,7 +145,15 @@ export function CreationWizard<TValues>({
           {isReviewStep && aiReview ? (
             <CreationWizardReview values={values} reviewer={aiReview.reviewer} />
           ) : (
-            steps[activeIndex]?.render({ values, setValues: setValuesUpdater })
+            steps[activeIndex]?.render({
+              values,
+              setValues: setValuesUpdater,
+              next: handleNext,
+              back: handleBack,
+              submit: handleSubmit,
+              activeIndex,
+              totalSteps,
+            })
           )}
         </div>
         <div className="cc-wizard__footer">
