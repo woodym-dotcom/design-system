@@ -1,4 +1,10 @@
 /**
+ * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
+ * `@ds/core/react` instead — it pre-composes AppShell, TopBar, NavRail,
+ * CompanyGroupSwitcher, AppSwitcher, UserMenu, and CreateMenu into one drop-in
+ * shell. This file remains for internal composition only; it is no longer in
+ * the public barrel or `package.json#exports` map. Will be removed in v1.0.
+ *
  * AppShell — outermost layout chrome.
  *
  * Composes:

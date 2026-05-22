@@ -58,16 +58,6 @@
       "import": "./dist/FilterBar.js",
       "default": "./dist/FilterBar.js"
     },
-    "./react/NavRail": {
-      "types": "./dist/NavRail.d.ts",
-      "import": "./dist/NavRail.js",
-      "default": "./dist/NavRail.js"
-    },
-    "./react/CreateMenu": {
-      "types": "./dist/CreateMenu.d.ts",
-      "import": "./dist/CreateMenu.js",
-      "default": "./dist/CreateMenu.js"
-    },
     "./react/EntityForm": {
       "types": "./dist/entity-form/index.d.ts",
       "import": "./dist/entity-form/index.js",
@@ -188,11 +178,6 @@
       "import": "./dist/AuditLogList.js",
       "default": "./dist/AuditLogList.js"
     },
-    "./react/CompanyGroupSwitcher": {
-      "types": "./dist/CompanyGroupSwitcher.d.ts",
-      "import": "./dist/CompanyGroupSwitcher.js",
-      "default": "./dist/CompanyGroupSwitcher.js"
-    },
     "./react/ArtefactDetailPane": {
       "types": "./dist/ArtefactDetailPane.d.ts",
       "import": "./dist/ArtefactDetailPane.js",
@@ -293,15 +278,10 @@
       "import": "./dist/FullScreenDetail.js",
       "default": "./dist/FullScreenDetail.js"
     },
-    "./react/TopBar": {
-      "types": "./dist/TopBar.d.ts",
-      "import": "./dist/TopBar.js",
-      "default": "./dist/TopBar.js"
-    },
-    "./react/AppShell": {
-      "types": "./dist/AppShell.d.ts",
-      "import": "./dist/AppShell.js",
-      "default": "./dist/AppShell.js"
+    "./react/PlatformAppShell": {
+      "types": "./dist/PlatformAppShell.d.ts",
+      "import": "./dist/PlatformAppShell.js",
+      "default": "./dist/PlatformAppShell.js"
     },
     "./react/hooks/useNavigateWithOrigin": {
       "types": "./dist/hooks/useNavigateWithOrigin.d.ts",

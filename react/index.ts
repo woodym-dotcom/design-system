@@ -8,8 +8,8 @@ export {
 } from "./hooks/useUrlFilterState";
 export { FormField, type FormFieldProps, type FormFieldType, type FormFieldAs } from "./FormField";
 export { FilterBar, type FilterBarProps, type FilterChip } from "./FilterBar";
-export { NavRail, type NavRailProps, type NavRailItem, type NavRailRenderItemContext } from "./NavRail";
-export { CreateMenu, type CreateMenuProps, type CreateMenuItem, type CreateMenuKind } from "./CreateMenu";
+// NavRail + CreateMenu demoted to internal in DS-SIMPLIFY 05 — use
+// PlatformAppShell. Files remain in `react/` for internal composition.
 
 // EntityForm module (G3) — canonical public surface
 // Individual field components (TextField, NumberField, etc.) are NOT exported here.
@@ -119,11 +119,8 @@ export {
   type TopRightCreateWizardVariant,
   type AiCreateConfig,
 } from "./TopRightCreateWizard";
-export {
-  CompanyGroupSwitcher,
-  type CompanyGroupSwitcherProps,
-  type CompanyGroupOption,
-} from "./CompanyGroupSwitcher";
+// CompanyGroupSwitcher demoted to internal in DS-SIMPLIFY 05 — use
+// PlatformAppShell. File remains in `react/` for internal composition.
 export {
   ArtefactDetailPane,
   ArtefactDefinition,
@@ -486,15 +483,20 @@ export {
   type FullScreenDetailProps,
 } from "./FullScreenDetail";
 
-// ── @aa/ui retirement — Phase 5 shell layer ──────────────────────────────────
+// ── DS-SIMPLIFY 05: PlatformAppShell — pre-composed shell ─────────────────────
+// TopBar + AppShell are demoted to internal; consumers compose at the
+// PlatformAppShell layer. Sub-primitive files remain in `react/` for
+// internal composition only.
 export {
-  TopBar,
-  type TopBarProps,
-} from "./TopBar";
-export {
-  AppShell,
-  type AppShellProps,
-} from "./AppShell";
+  PlatformAppShell,
+  type PlatformAppShellProps,
+  type BrandKey,
+  type AppKey,
+  type ModuleDef,
+  type UserDef,
+  type CompanyGroup,
+  type AppDef,
+} from "./PlatformAppShell";
 
 // ── @aa/ui retirement — Phase 6 navigation hook ──────────────────────────────
 export {

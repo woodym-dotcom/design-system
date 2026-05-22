@@ -1,4 +1,7 @@
 /**
+ * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
+ * `@ds/core/react` instead. NavRail is no longer publicly exported.
+ *
  * <NavRail> — text-label vertical navigation rail (G2 / NavRail extraction).
  *
  * Third nav primitive alongside cc-navrail (icon-only) and cc-sidebar (72px).
