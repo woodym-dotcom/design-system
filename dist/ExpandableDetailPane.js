@@ -31,6 +31,10 @@ const FOCUSABLE_SELECTOR = [
     '[contenteditable=true]',
 ].join(', ');
 // ── Component ─────────────────────────────────────────────────────────────────
+/**
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="detail-right" expandable>`
+ *   instead. Removed at v1.0 (DS-SIMPLIFY 14).
+ */
 export function ExpandableDetailPane({ open, onClose, title, tabs, defaultTabId, subtitle, headerActions, allowFullScreen = true, className, }) {
     const paneRef = React.useRef(null);
     const previouslyFocused = React.useRef(null);

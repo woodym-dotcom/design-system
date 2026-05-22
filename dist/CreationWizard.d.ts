@@ -7,6 +7,16 @@ export interface CreationWizardStep<TValues> {
 export interface CreationWizardStepContext<TValues> {
     values: TValues;
     setValues: (updater: (current: TValues) => TValues) => void;
+    /** Advance to the next step. No-op on the last step. */
+    next: () => void;
+    /** Go back to the previous step. No-op on the first step. */
+    back: () => void;
+    /** Fire the wizard's onSubmit handler. */
+    submit: () => Promise<void>;
+    /** Zero-based index of the active step. */
+    activeIndex: number;
+    /** Total number of steps (including AI review step if present). */
+    totalSteps: number;
 }
 export interface CreationWizardReviewResult {
     summary: string;

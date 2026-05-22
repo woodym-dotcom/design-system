@@ -26,6 +26,10 @@ export interface DrawerProps {
  * Generic slide-in drawer. Distinct from `DetailPane` (which is a record
  * detail surface with a fixed section list) — use Drawer when you need
  * a side panel that hosts arbitrary content (filters, settings, wizards).
+ *
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="drawer-right">`
+ *   or `<Overlay placement="drawer-left">` instead. Removed at v1.0
+ *   (DS-SIMPLIFY 14).
  */
 export declare function Drawer({ open, onClose, title, subtitle, footer, children, side, size, closeOnBackdropClick, closeOnEscape, className, }: DrawerProps): import("react/jsx-runtime").JSX.Element | null;
 //# sourceMappingURL=Drawer.d.ts.map

@@ -2,10 +2,13 @@ export { useTheme, initTheme } from "./useTheme.js";
 export { useUrlFilterState, useUrlFilterStateRouter, } from "./hooks/useUrlFilterState.js";
 export { FormField } from "./FormField.js";
 export { FilterBar } from "./FilterBar.js";
-export { NavRail } from "./NavRail.js";
-export { CreateMenu } from "./CreateMenu.js";
-// EntityForm module (G3)
-export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge, useEntityForm, EntityForm, TextField, NumberField, SelectField, MultiSelectField, DateField, MoneyField, EntityReferenceField, RichTextField, registerFieldType, getFieldTypeComponent, } from "./entity-form/index.js";
+// NavRail + CreateMenu demoted to internal in DS-SIMPLIFY 05 — use
+// PlatformAppShell. Files remain in `react/` for internal composition.
+// EntityForm module (G3) — canonical public surface
+// Individual field components (TextField, NumberField, etc.) are NOT exported here.
+// Use <EntityForm schema={...}> for schema-driven forms or <FormField as="shell">
+// for arbitrary child inputs. Custom field types use registerFieldType().
+export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge, useEntityForm, EntityForm, registerFieldType, getFieldTypeComponent, } from "./entity-form/index.js";
 export { ThemeToggle } from "./ThemeToggle.js";
 export { ModuleShell, } from "./ModuleShell.js";
 export { ModuleShellProvider, useModuleShellRouter, } from "./ModuleShellProvider.js";
@@ -18,11 +21,16 @@ export { ListPageHeader } from "./ListPageHeader.js";
 export { DetailPane } from "./DetailPane.js";
 export { ExpandableDetailPane, } from "./ExpandableDetailPane.js";
 export { TopRightCreateWizard, } from "./TopRightCreateWizard.js";
-export { CompanyGroupSwitcher, } from "./CompanyGroupSwitcher.js";
+// CompanyGroupSwitcher demoted to internal in DS-SIMPLIFY 05 — use
+// PlatformAppShell. File remains in `react/` for internal composition.
 export { ArtefactDetailPane, ArtefactDefinition, ArtefactIOContractView, ArtefactMetricsView, ArtefactHistory, ArtefactCallers, ArtefactVersioning, } from "./ArtefactDetailPane.js";
 export { FileUploadField, } from "./FileUploadField.js";
 export { formatFileSize, fileMatchesAccept } from "./fileUploadUtils.js";
 export { LifecycleStateBadge, } from "./LifecycleStateBadge.js";
+// ── DS-SIMPLIFY 03: Tag primitive ─────────────────────────────────────────────
+// Canonical tone-coded text-indicator. Subsumes Chip, Badge, StatusPill,
+// LifecycleStateBadge, and MetadataChip inline badge patterns.
+export { Tag, } from "./Tag.js";
 export { DetailRow, DetailSection, DetailMetric, } from "./DetailPrimitives.js";
 export { EntityCard, EntityCardList, } from "./EntityCard.js";
 // Dashboard primitives (Phase 1A)
@@ -43,6 +51,10 @@ export { LiveRegion, AnnounceProvider, useAnnounce, } from "./a11y/LiveRegion.js
 // Toast — provider + hook are the public surface; consumers should not
 // render an individual toast manually. The `Toast` type is exported below.
 export { ToastProvider, useToast, } from "./Toast.js";
+// Overlay — unified primitive (SIMPLIFY 01). Modal/Drawer/DetailPane/
+// ExpandableDetailPane/ArtefactDetailPane/DrilldownLayout/FullScreenDetail
+// remain as @deprecated re-exports until SIMPLIFY 14.
+export { Overlay, } from "./Overlay.js";
 // Modal + Drawer
 export { Modal, } from "./Modal.js";
 export { Drawer, } from "./Drawer.js";
@@ -80,7 +92,11 @@ export { Spinner, } from "./Spinner.js";
 export { Chip, Badge, } from "./Chip.js";
 export { Tabs, } from "./Tabs.js";
 export { Sparkline, } from "./charts/Sparkline.js";
+// ── DS-SIMPLIFY 02 — State primitive (unified state-messaging) ────────────────
+export { State, } from "./State.js";
 // ── @aa/ui retirement — Phase 2 utility surfaces ─────────────────────────────
+// @deprecated — these individual state components are superseded by <State>.
+//   Use <State variant="…" density="…"> instead. Will be removed in v1.0 (SIMPLIFY 14).
 export { AwaitingState, } from "./AwaitingState.js";
 export { StaleDataPill, } from "./StaleDataPill.js";
 export { StateBanner, } from "./StateBanner.js";
@@ -91,15 +107,34 @@ export { Diff, diffLines, } from "./Diff.js";
 // subpath) so the extended `actions`, `footer`, `padded` props are discoverable
 // from the barrel.
 export { Card } from "./Card.js";
-// AuditLogList — new `variant: "flat" | "timeline"` prop.
+// ── DS-SIMPLIFY 09: ActivityTimeline (supersedes AuditLogList) ────────────────
+export { ActivityTimeline, } from "./ActivityTimeline.js";
+// AuditLogList — deprecated alias; kept for back-compat until v1.0 (SIMPLIFY 14).
 export { AuditLogList, } from "./AuditLogList.js";
 // ── @aa/ui retirement — Phase 4 composed primitives ──────────────────────────
 export { useSplitPane, } from "./hooks/useSplitPane.js";
 export { DrilldownLayout, } from "./DrilldownLayout.js";
 export { FullScreenDetail, } from "./FullScreenDetail.js";
-// ── @aa/ui retirement — Phase 5 shell layer ──────────────────────────────────
-export { TopBar, } from "./TopBar.js";
-export { AppShell, } from "./AppShell.js";
+// ── DS-SIMPLIFY 05: PlatformAppShell — pre-composed shell ─────────────────────
+// TopBar + AppShell are demoted to internal; consumers compose at the
+// PlatformAppShell layer. Sub-primitive files remain in `react/` for
+// internal composition only.
+export { PlatformAppShell, } from "./PlatformAppShell.js";
 // ── @aa/ui retirement — Phase 6 navigation hook ──────────────────────────────
 export { useNavigateWithOrigin, encodeOrigin, decodeOrigin, buildUrlWithOrigin, } from "./hooks/useNavigateWithOrigin.js";
+// ── DS-SIMPLIFY 08: Graph — unified data-viz primitive ───────────────────────
+// Subsumes Sparkline, MetricChartCard, DashboardChartCard, KpiTile, HeatmapChart,
+// RelationshipGraph, DistributionPlot into one layout-discriminated primitive.
+// force/hierarchical layouts are stubbed — coming in v1.1 with @xyflow/react.
+export { Graph } from "./Graph.js";
+// ── DS-SIMPLIFY 10: AISuggestionsPane — canonical AI-review surface ──────────
+export { AISuggestionsPane, } from "./AISuggestionsPane.js";
+// ── DS-SIMPLIFY 07: EntityPicker — standalone search + inline-create combobox ─
+export { EntityPicker } from "./EntityPicker.js";
+// ── DS-SIMPLIFY 12: layout atoms cluster ─────────────────────────────────────
+export { Stack, } from "./Stack.js";
+export { Row, } from "./Row.js";
+export { Text, } from "./Text.js";
+export { Menu, MenuItem, MenuSeparator, MenuLabel, } from "./Menu.js";
+export { Disclosure, Accordion, } from "./Disclosure.js";
 //# sourceMappingURL=index.js.map

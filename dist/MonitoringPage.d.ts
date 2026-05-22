@@ -3,6 +3,10 @@
  * Chart sections accept arbitrary chart content (consumers provide Recharts, etc.)
  */
 import * as React from 'react';
+/**
+ * @deprecated Use `<Graph layout="tile">` from `@ds/core/react/Graph` instead.
+ * Will be removed in v1.0 (SIMPLIFY 14).
+ */
 export interface KpiTileProps {
     label: string;
     value: React.ReactNode;

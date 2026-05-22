@@ -1,5 +1,8 @@
 import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 /**
+ * @deprecated Use `<State variant="stale" density="chip">` from `./State` instead.
+ * This component will be removed in v1.0 (DS-SIMPLIFY 14).
+ *
  * StaleDataPill — small warning chip + refresh button when the rendered
  * data is older than `staleAfterMs`.
  *

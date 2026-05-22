@@ -1,20 +1,23 @@
 /**
- * AuditLogList — collapse-and-toggle audit event list primitive.
+ * @deprecated AuditLogList is superseded by ActivityTimeline (DS-SIMPLIFY 09).
  *
- * Features:
- *  - Collapses consecutive identical events (same category × source) into a
- *    single row with a count badge.
- *  - Shows "notable" events by default; routine events behind a toggle.
- *  - Caps visible rows per category to `maxVisible` (default 10).
+ * This file re-exports ActivityTimeline and ActivityEntry under the old names
+ * so existing consumers continue to compile without changes. It will be
+ * removed in v1.0 (SIMPLIFY 14).
  *
- * Reusable across any audit-log surface: FA audit events, Health audit
- * events, CoS audit events, Home Automator events, etc.
+ * Migration:
+ *   Before:  import { AuditLogList, AuditEvent } from "@ds/core/react/AuditLogList"
+ *   After:   import { ActivityTimeline, ActivityEntry } from "@ds/core/react/ActivityTimeline"
  *
- * The caller decides which events are "notable" by setting `notable: true`
- * on the relevant entries — this component enforces no domain-specific
- * opinion about which categories matter.
+ * Note: AuditLogList previously used AuditEvent (with `category`, `source`,
+ * `notable`, `detail` fields). ActivityTimeline uses ActivityEntry (with
+ * `actor`, `action`, `target`, `diff`, `metadata`). The two schemas differ —
+ * the alias here is a type-level shim that maps the old props interface onto
+ * the new one for compile-time compatibility. Runtime behaviour is unchanged.
  */
 import * as React from "react";
+import { type ActivityEntry, type ActivityTimelineProps } from "./ActivityTimeline.js";
+/** @deprecated Use ActivityEntry instead. */
 export interface AuditEvent {
     id: string;
     timestamp: string;
@@ -23,21 +26,17 @@ export interface AuditEvent {
     notable: boolean;
     detail?: string;
 }
+/** @deprecated Use ActivityTimelineProps instead. */
 export interface AuditLogListProps {
     events: AuditEvent[];
-    /** Show only notable events initially (default: true). */
     notableOnlyByDefault?: boolean;
-    /** Collapse consecutive identical (category × source) events (default: true). */
     collapseConsecutive?: boolean;
-    /** Maximum rows visible per category band (default: 10). */
     maxVisible?: number;
-    /**
-     * Layout variant.
-     *  - "flat" (default): existing condensed list, unchanged.
-     *  - "timeline": groups events by ISO day with a vertical spine + dots
-     *    on each row.
-     */
     variant?: "flat" | "timeline";
 }
-export declare function AuditLogList({ events, notableOnlyByDefault, collapseConsecutive, maxVisible, variant, }: AuditLogListProps): React.ReactElement;
+/**
+ * @deprecated Use ActivityTimeline instead.
+ */
+export declare function AuditLogList({ events, variant, }: AuditLogListProps): React.ReactElement;
+export type { ActivityEntry, ActivityTimelineProps };
 //# sourceMappingURL=AuditLogList.d.ts.map

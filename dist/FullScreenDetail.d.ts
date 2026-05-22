@@ -25,5 +25,9 @@ export interface FullScreenDetailProps<T extends string = string> {
     onClose?: () => void;
     className?: string;
 }
+/**
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="fullscreen">`
+ *   instead. Removed at v1.0 (DS-SIMPLIFY 14).
+ */
 export declare function FullScreenDetail<T extends string = string>({ breadcrumbs, title, eyebrow, actions, headerMeta, tabs, children, bottomBar, onClose, className, }: FullScreenDetailProps<T>): React.ReactElement;
 //# sourceMappingURL=FullScreenDetail.d.ts.map

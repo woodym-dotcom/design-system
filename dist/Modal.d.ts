@@ -28,6 +28,9 @@ export interface ModalProps {
  * Generic centred modal dialog. Owns focus trap, ESC, backdrop click,
  * ARIA dialog semantics, and portal mounting. Compose primary content
  * freely as children — Modal does not impose a section layout.
+ *
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="modal">` instead.
+ *   Removed at v1.0 (DS-SIMPLIFY 14).
  */
 export declare function Modal({ open, onClose, title, description, footer, children, size, closeOnBackdropClick, closeOnEscape, className, initialFocusRef, }: ModalProps): import("react/jsx-runtime").JSX.Element | null;
 //# sourceMappingURL=Modal.d.ts.map

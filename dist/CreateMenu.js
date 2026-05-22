@@ -1,5 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /**
+ * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
+ * `@ds/core/react` instead — top-level "+" menus belong in the shell's
+ * `topBarSlot`. CreateMenu is no longer publicly exported.
+ *
  * <CreateMenu> — single create entry-point primitive (G8 / "+" menu pattern).
  *
  * A "+" button that opens a dropdown menu with CreateMenuItem[] sub-actions.

@@ -29,6 +29,10 @@ function readStoredWidth(key, fallback) {
         return fallback;
     }
 }
+/**
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="detail-right">`
+ *   instead. Removed at v1.0 (DS-SIMPLIFY 14).
+ */
 export function DetailPane({ open, onClose, title, sections, className, subtitle, resizeKey, fullscreen: fullscreenProp, onFullscreenChange, }) {
     const paneRef = React.useRef(null);
     const previouslyFocused = React.useRef(null);

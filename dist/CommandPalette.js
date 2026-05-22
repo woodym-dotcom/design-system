@@ -1,4 +1,4 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import * as React from 'react';
 import { Modal } from './Modal.js';
 import { Kbd } from './Kbd.js';
@@ -18,17 +18,19 @@ function fuzzyMatch(item, query) {
  * The palette does NOT bind a global hotkey — wire that in the host app
  * (typically by listening for `Cmd/Ctrl+K` and flipping `open`).
  */
-export function CommandPalette({ open, onClose, items, loadItems, placeholder = 'Search commands…', emptyMessage = 'No matches', }) {
+export function CommandPalette({ open, onClose, items, loadItems, placeholder = 'Search commands…', emptyMessage = 'No matches', filterTypes, defaultFilterType = 'all', onFilterTypeChange, renderItem, }) {
     const [query, setQuery] = React.useState('');
     const [loaded, setLoaded] = React.useState([]);
     const [activeIdx, setActiveIdx] = React.useState(0);
+    const [activeFilter, setActiveFilter] = React.useState(defaultFilterType);
     const inputRef = React.useRef(null);
     React.useEffect(() => {
         if (!open) {
             setQuery('');
             setActiveIdx(0);
+            setActiveFilter(defaultFilterType);
         }
-    }, [open]);
+    }, [open, defaultFilterType]);
     React.useEffect(() => {
         if (!open || !loadItems)
             return;
@@ -41,10 +43,17 @@ export function CommandPalette({ open, onClose, items, loadItems, placeholder = 
             cancelled = true;
         };
     }, [open, query, loadItems]);
+    const handleFilterChange = (type) => {
+        setActiveFilter(type);
+        setActiveIdx(0);
+        onFilterTypeChange?.(type);
+    };
     const visible = React.useMemo(() => {
         const base = loadItems ? loaded : items ?? [];
-        return base.filter((it) => fuzzyMatch(it, query));
-    }, [loadItems, loaded, items, query]);
+        return base
+            .filter((it) => fuzzyMatch(it, query))
+            .filter((it) => activeFilter === 'all' || it.group === activeFilter);
+    }, [loadItems, loaded, items, query, activeFilter]);
     // Group items in insertion order.
     const grouped = React.useMemo(() => {
         const groups = new Map();
@@ -80,13 +89,13 @@ export function CommandPalette({ open, onClose, items, loadItems, placeholder = 
                 select(it);
         }
     };
-    return (_jsxs(Modal, { open: open, onClose: onClose, title: "Command palette", size: "lg", initialFocusRef: inputRef, className: "cc-cmdk", children: [_jsx("input", { ref: inputRef, type: "search", className: "cc-cmdk__input", placeholder: placeholder, value: query, onChange: (e) => {
+    return (_jsxs(Modal, { open: open, onClose: onClose, title: "Command palette", size: "lg", initialFocusRef: inputRef, className: "cc-cmdk", children: [filterTypes && filterTypes.length > 0 && (_jsxs("div", { className: "cc-cmdk__filters", role: "group", "aria-label": "Filter by type", children: [_jsx("button", { type: "button", className: `cc-cmdk__filter-chip${activeFilter === 'all' ? ' is-active' : ''}`, "aria-pressed": activeFilter === 'all', onClick: () => handleFilterChange('all'), children: "All" }), filterTypes.map((ft) => (_jsx("button", { type: "button", className: `cc-cmdk__filter-chip${activeFilter === ft.key ? ' is-active' : ''}`, "aria-pressed": activeFilter === ft.key, onClick: () => handleFilterChange(ft.key), children: ft.label }, ft.key)))] })), _jsx("input", { ref: inputRef, type: "search", className: "cc-cmdk__input", placeholder: placeholder, value: query, onChange: (e) => {
                     setQuery(e.target.value);
                     setActiveIdx(0);
                 }, onKeyDown: onKeyDown, "aria-label": placeholder, autoComplete: "off" }), _jsx("div", { role: "listbox", "aria-label": "Commands", className: "cc-cmdk__results", children: visible.length === 0 ? (_jsx("p", { className: "cc-cmdk__empty", children: emptyMessage })) : (grouped.map(([group, list]) => (_jsxs("div", { className: "cc-cmdk__group", children: [group && _jsx("p", { className: "cc-cmdk__group-label", children: group }), list.map((it) => {
                             const idx = visible.indexOf(it);
                             const isActive = idx === activeIdx;
-                            return (_jsxs("button", { type: "button", role: "option", "aria-selected": isActive, className: `cc-cmdk__item${isActive ? ' is-active' : ''}`, onClick: () => select(it), onMouseEnter: () => setActiveIdx(idx), children: [it.icon && _jsx("span", { className: "cc-cmdk__icon", "aria-hidden": "true", children: it.icon }), _jsx("span", { className: "cc-cmdk__label", children: it.label }), it.hint && _jsx("span", { className: "cc-cmdk__hint", children: it.hint }), it.shortcut && (_jsx("span", { className: "cc-cmdk__shortcut", children: _jsx(Kbd, { keys: it.shortcut, size: "sm" }) }))] }, it.id));
+                            return (_jsx("button", { type: "button", role: "option", "aria-selected": isActive, className: `cc-cmdk__item${isActive ? ' is-active' : ''}`, onClick: () => select(it), onMouseEnter: () => setActiveIdx(idx), children: renderItem ? (renderItem(it)) : (_jsxs(_Fragment, { children: [it.icon && _jsx("span", { className: "cc-cmdk__icon", "aria-hidden": "true", children: it.icon }), _jsx("span", { className: "cc-cmdk__label", children: it.label }), it.hint && _jsx("span", { className: "cc-cmdk__hint", children: it.hint }), it.shortcut && (_jsx("span", { className: "cc-cmdk__shortcut", children: _jsx(Kbd, { keys: it.shortcut, size: "sm" }) }))] })) }, it.id));
                         })] }, group || '__')))) })] }));
 }
 //# sourceMappingURL=CommandPalette.js.map

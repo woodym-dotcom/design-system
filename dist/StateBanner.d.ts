@@ -1,4 +1,7 @@
 /**
+ * @deprecated Use `<State variant="…" density="banner">` from `./State` instead.
+ * This component will be removed in v1.0 (DS-SIMPLIFY 14).
+ *
  * StateBanner — per-kind status banner for offline / rate-limit /
  * permissions / staleness / partial / degraded surfaces.
  *

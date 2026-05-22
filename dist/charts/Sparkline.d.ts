@@ -1,4 +1,7 @@
 /**
+ * @deprecated Use `<Graph layout="sparkline">` from `@ds/core/react/Graph` instead.
+ * Will be removed in v1.0 (SIMPLIFY 14).
+ *
  * Sparkline — pure-SVG inline trend chart.
  *
  * No chart library dependency — the SVG path is computed from `values`

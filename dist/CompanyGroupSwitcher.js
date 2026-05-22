@@ -1,5 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /**
+ * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
+ * `@ds/core/react` instead — it mounts the company-group switcher when
+ * `companyGroups.length > 1`. This component is no longer publicly exported.
+ *
  * <CompanyGroupSwitcher> — controlled tenancy-context selector (Phase 1.2).
  *
  * Renders a combobox-role widget for switching the active company group.

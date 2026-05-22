@@ -1,5 +1,10 @@
 /**
- * <MetadataChip> — compressed housekeeping metadata cluster.
+ * MetadataChip — compressed housekeeping metadata cluster.
+ *
+ * @deprecated The inline badge sub-pattern is superseded by `Tag` with `variant="meta"` from
+ * `@ds/core/react`. The full expand/inspect popover pattern has no direct Tag equivalent and will
+ * be addressed separately. Cutover: DS-SIMPLIFY 14.
+ *
  *
  * Collapses metadata noise (freshness, privacy badge, inspect link) into a
  * single "ⓘ" icon trigger. Tap/hover reveals the full cluster in an inline

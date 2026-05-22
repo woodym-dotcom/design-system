@@ -1,4 +1,7 @@
 /**
+ * @deprecated Use `<State variant="offline" density="banner">` from `./State` instead.
+ * This component will be removed in v1.0 (DS-SIMPLIFY 14).
+ *
  * OfflineBanner — subscribes to window 'online'/'offline' events and
  * renders <StateBanner kind="offline" /> while navigator.onLine is false.
  */

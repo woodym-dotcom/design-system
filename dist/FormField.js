@@ -62,6 +62,11 @@ const FormFieldImpl = function FormField(props) {
     if (as === 'textarea') {
         return (_jsxs("div", { className: fieldClasses.join(' '), children: [_jsxs("label", { htmlFor: id, className: "cc-field__label", children: [label, required ? _jsx("span", { className: "cc-field__required", "aria-hidden": "true", children: " *" }) : null] }), _jsx("textarea", { id: id, className: "cc-form-field__textarea", value: value ?? '', onChange: handleTextareaChange, placeholder: placeholder, required: required, disabled: disabled, readOnly: readOnly, rows: rows, cols: cols, maxLength: maxLength, "aria-invalid": hasError || undefined, "aria-describedby": `${id}-slot` }, id), _jsx("p", { id: `${id}-slot`, className: hasError ? 'cc-field__error' : 'cc-field__hint', role: hasError ? 'alert' : undefined, "aria-live": hasError ? 'assertive' : 'polite', children: slotContent })] }));
     }
+    // shell — arbitrary children wrapped with label + hint/error chrome
+    // The child must carry id={props.id} for the <label htmlFor> association.
+    if (as === 'shell') {
+        return (_jsxs("div", { className: fieldClasses.join(' '), children: [_jsxs("label", { htmlFor: id, className: "cc-field__label", children: [label, required ? _jsx("span", { className: "cc-field__required", "aria-hidden": "true", children: " *" }) : null] }), children, _jsx("p", { id: `${id}-slot`, className: hasError ? 'cc-field__error' : 'cc-field__hint', role: hasError ? 'alert' : undefined, "aria-live": hasError ? 'assertive' : 'polite', children: slotContent })] }));
+    }
     // select
     return (_jsxs("div", { className: fieldClasses.join(' '), children: [_jsxs("label", { htmlFor: id, className: "cc-field__label", children: [label, required ? _jsx("span", { className: "cc-field__required", "aria-hidden": "true", children: " *" }) : null] }), _jsx("select", { id: id, className: "cc-form-field__select", value: value ?? '', onChange: handleSelectChange, required: required, disabled: disabled, "aria-invalid": hasError || undefined, "aria-describedby": `${id}-slot`, children: children }, id), _jsx("p", { id: `${id}-slot`, className: hasError ? 'cc-field__error' : 'cc-field__hint', role: hasError ? 'alert' : undefined, "aria-live": hasError ? 'assertive' : 'polite', children: slotContent })] }));
 };

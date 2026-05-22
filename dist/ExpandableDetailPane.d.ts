@@ -39,5 +39,9 @@ export interface ExpandableDetailPaneProps {
     allowFullScreen?: boolean;
     className?: string;
 }
+/**
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="detail-right" expandable>`
+ *   instead. Removed at v1.0 (DS-SIMPLIFY 14).
+ */
 export declare function ExpandableDetailPane({ open, onClose, title, tabs, defaultTabId, subtitle, headerActions, allowFullScreen, className, }: ExpandableDetailPaneProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=ExpandableDetailPane.d.ts.map

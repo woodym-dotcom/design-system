@@ -1,4 +1,7 @@
 /**
+ * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
+ * `@ds/core/react` instead. TopBar is no longer publicly exported.
+ *
  * TopBar — single-row app chrome (brand left, controls right).
  *
  * Composes the existing ThemeToggle, a Cmd+K trigger Button, an optional

@@ -18,7 +18,7 @@
  */
 import * as React from 'react';
 export type FormFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
-export type FormFieldAs = 'input' | 'textarea' | 'select' | 'checkbox';
+export type FormFieldAs = 'input' | 'textarea' | 'select' | 'checkbox' | 'shell';
 export interface FormFieldProps {
     /** Stable field identifier — used as the HTML id and the React key anchor. */
     id: string;
@@ -36,6 +36,11 @@ export interface FormFieldProps {
      * Element kind. Defaults to "input". The default path is byte-identical to
      * the original FormField implementation; alternative paths add new
      * cc-form-field__* element classes.
+     *
+     * `as="shell"` — wraps arbitrary `children` with label + hint/error chrome.
+     * The consumer's child input must have `id={props.id}` so the `<label htmlFor>`
+     * association works correctly. No controlled-value handling is done; the child
+     * owns its own state.
      */
     as?: FormFieldAs;
     type?: FormFieldType;

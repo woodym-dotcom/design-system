@@ -117,6 +117,10 @@ export function ArtefactVersioning({ versions }) {
  *
  * Per-artefact phases (3.2–3.11) mount this component and supply real data;
  * this component itself is data-agnostic — it only renders what it's given.
+ *
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="detail-right">`
+ *   composed with the artefact sub-views (ArtefactDefinition, ArtefactHistory,
+ *   etc.) supplied to its `sections` slot. Removed at v1.0 (DS-SIMPLIFY 14).
  */
 export function ArtefactDetailPane({ open, onClose, title, subtitle, headerActions, definition, ioContract, metrics, history, callers = [], versions = [], }) {
     const tabs = [

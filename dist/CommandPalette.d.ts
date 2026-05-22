@@ -16,7 +16,7 @@ export interface CommandItem {
     /** Called when the user selects the item. */
     onSelect: () => void;
 }
-export interface CommandPaletteProps {
+export interface CommandPaletteProps<T extends string = string> {
     open: boolean;
     onClose: () => void;
     /** Static items to choose from. Either this OR `loadItems` is required. */
@@ -27,6 +27,17 @@ export interface CommandPaletteProps {
     placeholder?: string;
     /** Empty-state copy. */
     emptyMessage?: string;
+    /** Optional type filter chips shown above the input. */
+    filterTypes?: {
+        key: T;
+        label: string;
+    }[];
+    /** Initially selected filter type (defaults to 'all'). */
+    defaultFilterType?: T | 'all';
+    /** Fired when the user clicks a filter chip. */
+    onFilterTypeChange?: (type: T | 'all') => void;
+    /** Custom renderer for a single result row. */
+    renderItem?: (item: CommandItem) => React.ReactNode;
 }
 /**
  * Cmd+K-style command palette. Composes `<Modal/>` for the dialog +
@@ -36,5 +47,5 @@ export interface CommandPaletteProps {
  * The palette does NOT bind a global hotkey — wire that in the host app
  * (typically by listening for `Cmd/Ctrl+K` and flipping `open`).
  */
-export declare function CommandPalette({ open, onClose, items, loadItems, placeholder, emptyMessage, }: CommandPaletteProps): import("react/jsx-runtime").JSX.Element;
+export declare function CommandPalette<T extends string = string>({ open, onClose, items, loadItems, placeholder, emptyMessage, filterTypes, defaultFilterType, onFilterTypeChange, renderItem, }: CommandPaletteProps<T>): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=CommandPalette.d.ts.map

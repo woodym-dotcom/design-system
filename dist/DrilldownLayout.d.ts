@@ -22,5 +22,9 @@ export interface DrilldownLayoutProps {
     ariaLabel?: string;
     className?: string;
 }
+/**
+ * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="drilldown">`
+ *   instead. Removed at v1.0 (DS-SIMPLIFY 14).
+ */
 export declare function DrilldownLayout({ listSlot, detailSlot, selectedId, onExpandFullScreen, storageKey, defaultLeftPercent, ariaLabel, className, }: DrilldownLayoutProps): React.ReactElement;
 //# sourceMappingURL=DrilldownLayout.d.ts.map
