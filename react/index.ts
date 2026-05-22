@@ -98,6 +98,35 @@ export {
   type CreationWizardReviewResult,
 } from "./CreationWizard";
 export { ListPageHeader, type ListPageHeaderProps } from "./ListPageHeader";
+// ── DS-SIMPLIFY 04: ModuleTemplate — unified page-template primitive ─────────
+// Subsumes ListPage / ConfigurationsPage / MonitoringPage / ReviewQueue /
+// ModuleShell / AuthLayout / HomepageCards into one variant-driven primitive.
+// SIMPLIFY 14 deletes the subsumed primitives.
+export { ModuleTemplate } from "./ModuleTemplate";
+export type {
+  ModuleTemplateProps,
+  ModuleTemplateVariant,
+  ModuleTemplateTab,
+  ModuleTemplateHeader,
+  ListVariantProps,
+  ConfigVariantProps,
+  MonitorVariantProps,
+  ReviewVariantProps,
+  DetailVariantProps,
+  AuthVariantProps,
+  HomeVariantProps,
+  ColumnDef as ModuleTemplateColumnDef,
+  FilterDef as ModuleTemplateFilterDef,
+  PaginationProps as ModuleTemplatePaginationProps,
+  KpiDef,
+  ChartCardDef,
+  ConfigSection as ModuleTemplateConfigSection,
+  ReviewActionDef,
+  ReviewItem as ModuleTemplateReviewItem,
+  ListDetailSlot,
+  SelectionMode,
+  ModuleTemplateBrandKey,
+} from "./ModuleTemplate";
 export { DetailPane, type DetailPaneProps, type DetailPaneSection } from "./DetailPane";
 // ListView deleted — zero consumers; use ListPage.list.{columns,rows} instead.
 // Types re-exported for consumers that reference them directly.

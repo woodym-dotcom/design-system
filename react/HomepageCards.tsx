@@ -1,3 +1,7 @@
+/**
+ * @deprecated Use `<ModuleTemplate variant="home">` from `./ModuleTemplate`
+ * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ */
 import * as React from 'react';
 import { Skeleton } from './Skeleton';
 import { EmptyState } from './EmptyState';

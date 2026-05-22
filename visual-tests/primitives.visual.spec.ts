@@ -97,6 +97,17 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'EntityPicker-Typing',       storyId: 'primitives-entitypicker--typing' },
   { name: 'EntityPicker-WithSelection', storyId: 'primitives-entitypicker--with-selection' },
   { name: 'EntityPicker-MultiSelect',  storyId: 'primitives-entitypicker--multi-select' },
+
+  // DS-SIMPLIFY 04 — ModuleTemplate, one canonical baseline per variant + tabs.
+  { name: 'ModuleTemplate-List',          storyId: 'primitives-moduletemplate--list' },
+  { name: 'ModuleTemplate-Config',        storyId: 'primitives-moduletemplate--config' },
+  { name: 'ModuleTemplate-Monitor',       storyId: 'primitives-moduletemplate--monitor' },
+  { name: 'ModuleTemplate-Review',        storyId: 'primitives-moduletemplate--review' },
+  { name: 'ModuleTemplate-Detail',        storyId: 'primitives-moduletemplate--detail' },
+  { name: 'ModuleTemplate-Auth',          storyId: 'primitives-moduletemplate--auth' },
+  { name: 'ModuleTemplate-AuthWithError', storyId: 'primitives-moduletemplate--auth-with-error' },
+  { name: 'ModuleTemplate-Home',          storyId: 'primitives-moduletemplate--home' },
+  { name: 'ModuleTemplate-Tabs',          storyId: 'primitives-moduletemplate--tabs' },
 ];
 
 for (const story of STORIES) {
