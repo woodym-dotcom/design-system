@@ -103,6 +103,11 @@
       "import": "./dist/ListPage.js",
       "default": "./dist/ListPage.js"
     },
+    "./react/ModuleTemplate": {
+      "types": "./dist/ModuleTemplate.d.ts",
+      "import": "./dist/ModuleTemplate.js",
+      "default": "./dist/ModuleTemplate.js"
+    },
     "./react/ConfigurationsPage": {
       "types": "./dist/ConfigurationsPage.d.ts",
       "import": "./dist/ConfigurationsPage.js",

@@ -1,4 +1,7 @@
 /**
+ * @deprecated Use `<ModuleTemplate variant="monitor">` from `./ModuleTemplate`
+ * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ *
  * MonitoringPage — KPI tile grid + chart sections.
  * Chart sections accept arbitrary chart content (consumers provide Recharts, etc.)
  */
