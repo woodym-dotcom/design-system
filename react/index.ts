@@ -527,6 +527,23 @@ export {
   type AppDef,
 } from "./PlatformAppShell";
 
+// ── DS-SIMPLIFY 05: Deprecated re-exports of demoted shell sub-primitives ────
+// AppShell, TopBar, NavRail, CompanyGroupSwitcher were demoted from the public
+// barrel in DS-SIMPLIFY 05 in favour of PlatformAppShell. Re-exported here with
+// @deprecated tags during the deprecation window; deleted at SIMPLIFY 14
+// (v1.0 cutover) after all consumers migrate to PlatformAppShell.
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { AppShell, type AppShellProps } from "./AppShell";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { TopBar, type TopBarProps } from "./TopBar";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export {
+  CompanyGroupSwitcher,
+  type CompanyGroupSwitcherProps,
+} from "./CompanyGroupSwitcher";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { NavRail, type NavRailProps, type NavRailItem } from "./NavRail";
+
 // ── @aa/ui retirement — Phase 6 navigation hook ──────────────────────────────
 export {
   useNavigateWithOrigin,
