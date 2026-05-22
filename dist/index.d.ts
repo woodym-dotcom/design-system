@@ -75,6 +75,14 @@ export { useSplitPane, type UseSplitPaneOptions, type UseSplitPaneResult, } from
 export { DrilldownLayout, type DrilldownLayoutProps, } from "./DrilldownLayout.js";
 export { FullScreenDetail, type FullScreenDetailProps, } from "./FullScreenDetail.js";
 export { PlatformAppShell, type PlatformAppShellProps, type BrandKey, type AppKey, type ModuleDef, type UserDef, type CompanyGroup, type AppDef, } from "./PlatformAppShell.js";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { AppShell, type AppShellProps } from "./AppShell.js";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { TopBar, type TopBarProps } from "./TopBar.js";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { CompanyGroupSwitcher, type CompanyGroupSwitcherProps, } from "./CompanyGroupSwitcher.js";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { NavRail, type NavRailProps, type NavRailItem } from "./NavRail.js";
 export { useNavigateWithOrigin, encodeOrigin, decodeOrigin, buildUrlWithOrigin, type OriginContext, } from "./hooks/useNavigateWithOrigin.js";
 export { Graph } from "./Graph.js";
 export type { GraphProps, GraphLayout, GraphData, LegendDef, LegendItem, TimeSeriesData, TimeSeriesPoint, HeatmapData, HeatmapCell, DistributionData, DistributionBin, NetworkData, GraphNode, GraphEdge, } from "./Graph.types.js";

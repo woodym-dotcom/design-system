@@ -125,6 +125,19 @@ export { FullScreenDetail, } from "./FullScreenDetail.js";
 // PlatformAppShell layer. Sub-primitive files remain in `react/` for
 // internal composition only.
 export { PlatformAppShell, } from "./PlatformAppShell.js";
+// ── DS-SIMPLIFY 05: Deprecated re-exports of demoted shell sub-primitives ────
+// AppShell, TopBar, NavRail, CompanyGroupSwitcher were demoted from the public
+// barrel in DS-SIMPLIFY 05 in favour of PlatformAppShell. Re-exported here with
+// @deprecated tags during the deprecation window; deleted at SIMPLIFY 14
+// (v1.0 cutover) after all consumers migrate to PlatformAppShell.
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { AppShell } from "./AppShell.js";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { TopBar } from "./TopBar.js";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { CompanyGroupSwitcher, } from "./CompanyGroupSwitcher.js";
+/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
+export { NavRail } from "./NavRail.js";
 // ── @aa/ui retirement — Phase 6 navigation hook ──────────────────────────────
 export { useNavigateWithOrigin, encodeOrigin, decodeOrigin, buildUrlWithOrigin, } from "./hooks/useNavigateWithOrigin.js";
 // ── DS-SIMPLIFY 08: Graph — unified data-viz primitive ───────────────────────
