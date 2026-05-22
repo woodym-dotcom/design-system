@@ -18,6 +18,11 @@ export { ReviewQueue, } from "./ReviewQueue.js";
 export { MonitoringPage, KpiTile, } from "./MonitoringPage.js";
 export { CreationWizard, } from "./CreationWizard.js";
 export { ListPageHeader } from "./ListPageHeader.js";
+// ── DS-SIMPLIFY 04: ModuleTemplate — unified page-template primitive ─────────
+// Subsumes ListPage / ConfigurationsPage / MonitoringPage / ReviewQueue /
+// ModuleShell / AuthLayout / HomepageCards into one variant-driven primitive.
+// SIMPLIFY 14 deletes the subsumed primitives.
+export { ModuleTemplate } from "./ModuleTemplate.js";
 export { DetailPane } from "./DetailPane.js";
 export { ExpandableDetailPane, } from "./ExpandableDetailPane.js";
 export { TopRightCreateWizard, } from "./TopRightCreateWizard.js";

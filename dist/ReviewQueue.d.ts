@@ -1,4 +1,7 @@
 /**
+ * @deprecated Use `<ModuleTemplate variant="review">` from `./ModuleTemplate`
+ * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ *
  * ReviewQueue — renders a queue of items pending human review.
  * Each item has approve / reject / escalate actions + optional custom actions.
  */

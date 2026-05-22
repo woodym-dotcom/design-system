@@ -20,7 +20,7 @@ const ALIGN_MAP = {
     end: 'flex-end',
     stretch: 'stretch',
 };
-export function Stack({ gap = 'md', align = 'stretch', divider = false, as: Tag = 'div', className, style, children, }) {
+export function Stack({ gap = 'md', align = 'stretch', divider = false, as: Tag = 'div', className, style, children, ...rest }) {
     const childArray = React.Children.toArray(children).filter(Boolean);
     const content = divider
         ? childArray.flatMap((child, i) => i < childArray.length - 1
@@ -41,6 +41,6 @@ export function Stack({ gap = 'md', align = 'stretch', divider = false, as: Tag 
         alignItems: ALIGN_MAP[align],
         ...style,
     };
-    return (_jsx(Tag, { className: className, style: rootStyle, children: content }));
+    return (_jsx(Tag, { className: className, style: rootStyle, ...rest, children: content }));
 }
 //# sourceMappingURL=Stack.js.map

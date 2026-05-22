@@ -1,4 +1,7 @@
 /**
+ * @deprecated Use `<ModuleTemplate variant="list">` from `./ModuleTemplate`
+ * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ *
  * ListPage — the canonical entity-surface keystone primitive (Phase 2).
  *
  * Every entity list surface across CC / AA / CL mounts exactly one <ListPage>.

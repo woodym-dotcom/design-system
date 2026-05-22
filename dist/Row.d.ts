@@ -7,15 +7,13 @@ import * as React from 'react';
 import type { StackGap } from './Stack.js';
 export type RowAlign = 'start' | 'center' | 'end' | 'baseline';
 export type RowJustify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
-export interface RowProps {
+export interface RowProps extends React.HTMLAttributes<HTMLElement> {
     gap?: StackGap;
     align?: RowAlign;
     justify?: RowJustify;
     wrap?: boolean;
     as?: React.ElementType;
-    className?: string;
-    style?: React.CSSProperties;
     children: React.ReactNode;
 }
-export declare function Row({ gap, align, justify, wrap, as: Tag, className, style, children, }: RowProps): React.ReactElement;
+export declare function Row({ gap, align, justify, wrap, as: Tag, className, style, children, ...rest }: RowProps): React.ReactElement;
 //# sourceMappingURL=Row.d.ts.map

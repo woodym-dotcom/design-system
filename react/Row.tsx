@@ -9,14 +9,12 @@ import type { StackGap } from './Stack';
 export type RowAlign = 'start' | 'center' | 'end' | 'baseline';
 export type RowJustify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
 
-export interface RowProps {
+export interface RowProps extends React.HTMLAttributes<HTMLElement> {
   gap?: StackGap;
   align?: RowAlign;
   justify?: RowJustify;
   wrap?: boolean;
   as?: React.ElementType;
-  className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
 }
 
@@ -54,6 +52,7 @@ export function Row({
   className,
   style,
   children,
+  ...rest
 }: RowProps): React.ReactElement {
   const rootStyle: React.CSSProperties = {
     display: 'flex',
@@ -66,7 +65,7 @@ export function Row({
   };
 
   return (
-    <Tag className={className} style={rootStyle}>
+    <Tag className={className} style={rootStyle} {...rest}>
       {children}
     </Tag>
   );

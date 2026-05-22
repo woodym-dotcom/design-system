@@ -22,14 +22,12 @@ export type TextAs =
   | 'h6'
   | 'label';
 
-export interface TextProps {
+export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   size?: TextSize;
   weight?: TextWeight;
   tone?: TextTone;
   as?: TextAs;
   truncate?: boolean | number;
-  className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
 }
 
@@ -83,6 +81,7 @@ export function Text({
   className,
   style,
   children,
+  ...rest
 }: TextProps): React.ReactElement {
   const computedStyle: React.CSSProperties = {
     fontSize: SIZE_MAP[size],
@@ -93,7 +92,7 @@ export function Text({
   };
 
   return (
-    <Tag className={className} style={computedStyle}>
+    <Tag className={className} style={computedStyle} {...rest}>
       {children}
     </Tag>
   );

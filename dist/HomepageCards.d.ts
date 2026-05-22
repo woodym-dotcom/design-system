@@ -1,3 +1,7 @@
+/**
+ * @deprecated Use `<ModuleTemplate variant="home">` from `./ModuleTemplate`
+ * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ */
 import * as React from 'react';
 export interface HomepageCard {
     id: string;

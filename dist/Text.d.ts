@@ -10,15 +10,13 @@ export type TextSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type TextWeight = 'normal' | 'medium' | 'semibold' | 'bold';
 export type TextTone = 'default' | 'muted' | 'subtle' | 'success' | 'warning' | 'danger';
 export type TextAs = 'span' | 'p' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'label';
-export interface TextProps {
+export interface TextProps extends React.HTMLAttributes<HTMLElement> {
     size?: TextSize;
     weight?: TextWeight;
     tone?: TextTone;
     as?: TextAs;
     truncate?: boolean | number;
-    className?: string;
-    style?: React.CSSProperties;
     children: React.ReactNode;
 }
-export declare function Text({ size, weight, tone, as: Tag, truncate, className, style, children, }: TextProps): React.ReactElement;
+export declare function Text({ size, weight, tone, as: Tag, truncate, className, style, children, ...rest }: TextProps): React.ReactElement;
 //# sourceMappingURL=Text.d.ts.map

@@ -36,7 +36,7 @@ function truncateStyle(truncate) {
         WebkitBoxOrient: 'vertical',
     };
 }
-export function Text({ size = 'md', weight = 'normal', tone = 'default', as: Tag = 'span', truncate, className, style, children, }) {
+export function Text({ size = 'md', weight = 'normal', tone = 'default', as: Tag = 'span', truncate, className, style, children, ...rest }) {
     const computedStyle = {
         fontSize: SIZE_MAP[size],
         fontWeight: WEIGHT_MAP[weight],
@@ -44,6 +44,6 @@ export function Text({ size = 'md', weight = 'normal', tone = 'default', as: Tag
         ...(truncate != null ? truncateStyle(truncate) : {}),
         ...style,
     };
-    return (_jsx(Tag, { className: className, style: computedStyle, children: children }));
+    return (_jsx(Tag, { className: className, style: computedStyle, ...rest, children: children }));
 }
 //# sourceMappingURL=Text.js.map

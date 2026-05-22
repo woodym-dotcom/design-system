@@ -13,6 +13,8 @@ export { ReviewQueue, type ReviewQueueProps, type ReviewQueueItem, type ReviewQu
 export { MonitoringPage, KpiTile, type MonitoringPageProps, type KpiTileProps, type ChartSection, } from "./MonitoringPage.js";
 export { CreationWizard, type CreationWizardProps, type CreationWizardStep, type CreationWizardStepContext, type CreationWizardReviewResult, } from "./CreationWizard.js";
 export { ListPageHeader, type ListPageHeaderProps } from "./ListPageHeader.js";
+export { ModuleTemplate } from "./ModuleTemplate.js";
+export type { ModuleTemplateProps, ModuleTemplateVariant, ModuleTemplateTab, ModuleTemplateHeader, ListVariantProps, ConfigVariantProps, MonitorVariantProps, ReviewVariantProps, DetailVariantProps, AuthVariantProps, HomeVariantProps, ColumnDef as ModuleTemplateColumnDef, FilterDef as ModuleTemplateFilterDef, PaginationProps as ModuleTemplatePaginationProps, KpiDef, ChartCardDef, ConfigSection as ModuleTemplateConfigSection, ReviewActionDef, ReviewItem as ModuleTemplateReviewItem, ListDetailSlot, SelectionMode, ModuleTemplateBrandKey, } from "./ModuleTemplate.js";
 export { DetailPane, type DetailPaneProps, type DetailPaneSection } from "./DetailPane.js";
 export type { ListViewColumn, ListViewScopeFilter, ListViewPaginationMode, ListViewPaginationState, SortDirection, } from "./ListView.js";
 export { ExpandableDetailPane, type ExpandableDetailPaneProps, type ExpandableDetailPaneTab, } from "./ExpandableDetailPane.js";

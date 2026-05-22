@@ -21,7 +21,7 @@ const JUSTIFY_MAP = {
     around: 'space-around',
     evenly: 'space-evenly',
 };
-export function Row({ gap = 'md', align = 'center', justify = 'start', wrap = false, as: Tag = 'div', className, style, children, }) {
+export function Row({ gap = 'md', align = 'center', justify = 'start', wrap = false, as: Tag = 'div', className, style, children, ...rest }) {
     const rootStyle = {
         display: 'flex',
         flexDirection: 'row',
@@ -31,6 +31,6 @@ export function Row({ gap = 'md', align = 'center', justify = 'start', wrap = fa
         flexWrap: wrap ? 'wrap' : 'nowrap',
         ...style,
     };
-    return (_jsx(Tag, { className: className, style: rootStyle, children: children }));
+    return (_jsx(Tag, { className: className, style: rootStyle, ...rest, children: children }));
 }
 //# sourceMappingURL=Row.js.map

@@ -7,14 +7,12 @@
 import * as React from 'react';
 export type StackGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type StackAlign = 'start' | 'center' | 'end' | 'stretch';
-export interface StackProps {
+export interface StackProps extends React.HTMLAttributes<HTMLElement> {
     gap?: StackGap;
     align?: StackAlign;
     divider?: boolean;
     as?: React.ElementType;
-    className?: string;
-    style?: React.CSSProperties;
     children: React.ReactNode;
 }
-export declare function Stack({ gap, align, divider, as: Tag, className, style, children, }: StackProps): React.ReactElement;
+export declare function Stack({ gap, align, divider, as: Tag, className, style, children, ...rest }: StackProps): React.ReactElement;
 //# sourceMappingURL=Stack.d.ts.map

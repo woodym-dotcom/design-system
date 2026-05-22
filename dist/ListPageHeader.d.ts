@@ -1,3 +1,7 @@
+/**
+ * @deprecated Use `<ModuleTemplate header={{ title, subtitle, actions }} ...>`
+ * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ */
 import * as React from 'react';
 export interface ListPageHeaderProps {
     title: string;

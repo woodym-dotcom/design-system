@@ -9,13 +9,11 @@ import * as React from 'react';
 export type StackGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type StackAlign = 'start' | 'center' | 'end' | 'stretch';
 
-export interface StackProps {
+export interface StackProps extends React.HTMLAttributes<HTMLElement> {
   gap?: StackGap;
   align?: StackAlign;
   divider?: boolean;
   as?: React.ElementType;
-  className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
 }
 
@@ -43,6 +41,7 @@ export function Stack({
   className,
   style,
   children,
+  ...rest
 }: StackProps): React.ReactElement {
   const childArray = React.Children.toArray(children).filter(Boolean);
 
@@ -73,7 +72,7 @@ export function Stack({
   };
 
   return (
-    <Tag className={className} style={rootStyle}>
+    <Tag className={className} style={rootStyle} {...rest}>
       {content}
     </Tag>
   );
