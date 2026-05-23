@@ -34,9 +34,9 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  *  7. Permission gating — hide affordances (not disable).
  */
 import * as React from 'react';
-import { CreateMenu } from './CreateMenu';
-import { FilterBar } from './FilterBar';
-import { useUrlFilterState, } from './hooks/useUrlFilterState';
+import { CreateMenu } from './CreateMenu.js';
+import { FilterBar } from './FilterBar.js';
+import { useUrlFilterState, } from './hooks/useUrlFilterState.js';
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function nextSortDirection(currentKey, clickedKey, currentDir) {
     if (currentKey !== clickedKey)

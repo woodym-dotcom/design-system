@@ -1,14 +1,14 @@
-export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge } from './schema';
-export type { EntitySchema, FieldType, FieldMeta, AsyncValidator, AiReviewInput, AiReviewOutput, AiReviewSuggestion, AiReviewQuestion, AiReviewBlocker, OrchestratorBridge, } from './schema';
-export { useEntityForm } from './useEntityForm';
-export type { EntityFormHandle } from './useEntityForm';
-export { EntityForm } from './EntityForm';
-export type { EntityFormProps, WizardStepDef, WizardStepRenderCtx, AiReviewConfig, } from './EntityForm';
-export { registerFieldType, getFieldTypeComponent } from './fields/registry';
-export type { FieldPrimitiveProps } from './fields/types';
-export type { SelectOption } from './fields/SelectField';
-export type { MoneyValue } from './fields/MoneyField';
-export type { SearchResult } from './fields/EntityReferenceField';
+export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge } from './schema.js';
+export type { EntitySchema, FieldType, FieldMeta, AsyncValidator, AiReviewInput, AiReviewOutput, AiReviewSuggestion, AiReviewQuestion, AiReviewBlocker, OrchestratorBridge, } from './schema.js';
+export { useEntityForm } from './useEntityForm.js';
+export type { EntityFormHandle } from './useEntityForm.js';
+export { EntityForm } from './EntityForm.js';
+export type { EntityFormProps, WizardStepDef, WizardStepRenderCtx, AiReviewConfig, } from './EntityForm.js';
+export { registerFieldType, getFieldTypeComponent } from './fields/registry.js';
+export type { FieldPrimitiveProps } from './fields/types.js';
+export type { SelectOption } from './fields/SelectField.js';
+export type { MoneyValue } from './fields/MoneyField.js';
+export type { SearchResult } from './fields/EntityReferenceField.js';
 /**
  * @deprecated Individual field components (TextField, NumberField, SelectField,
  * MultiSelectField, DateField, MoneyField, EntityReferenceField, RichTextField)
@@ -21,12 +21,12 @@ export type { SearchResult } from './fields/EntityReferenceField';
  * Internal barrel export — kept for EntityForm's own rendering; do NOT import
  * these from consuming apps.
  */
-export { TextField } from './fields/TextField';
-export { NumberField } from './fields/NumberField';
-export { SelectField } from './fields/SelectField';
-export { MultiSelectField } from './fields/MultiSelectField';
-export { DateField } from './fields/DateField';
-export { MoneyField } from './fields/MoneyField';
-export { EntityReferenceField } from './fields/EntityReferenceField';
-export { RichTextField } from './fields/RichTextField';
+export { TextField } from './fields/TextField.js';
+export { NumberField } from './fields/NumberField.js';
+export { SelectField } from './fields/SelectField.js';
+export { MultiSelectField } from './fields/MultiSelectField.js';
+export { DateField } from './fields/DateField.js';
+export { MoneyField } from './fields/MoneyField.js';
+export { EntityReferenceField } from './fields/EntityReferenceField.js';
+export { RichTextField } from './fields/RichTextField.js';
 //# sourceMappingURL=index.d.ts.map

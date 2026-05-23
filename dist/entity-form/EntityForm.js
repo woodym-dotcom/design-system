@@ -17,8 +17,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * - AiReviewOutput: summary, suggestions[], questions[], blockers[], finalDraft
  */
 import * as React from 'react';
-import { useEntityForm } from './useEntityForm';
-import { getOrchestratorBridge } from './schema';
+import { useEntityForm } from './useEntityForm.js';
+import { getOrchestratorBridge } from './schema.js';
 function AiReviewStep({ form, config, onSkip, }) {
     const [state, setState] = React.useState({ status: 'idle' });
     const mountedRef = React.useRef(true);

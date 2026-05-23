@@ -1,4 +1,4 @@
-import type { FieldPrimitiveProps } from './types';
+import type { FieldPrimitiveProps } from './types.js';
 export interface SearchResult {
     value: string;
     label: string;

@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { ExpandableDetailPane } from './ExpandableDetailPane';
+import { ExpandableDetailPane } from './ExpandableDetailPane.js';
 /**
  * Read-only pseudo-code render of an artefact's definition.
  * Shows pre-rules → orchestration steps → post-rules, plus generated

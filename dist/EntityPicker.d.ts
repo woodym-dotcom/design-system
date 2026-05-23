@@ -11,7 +11,7 @@
  * Focus trap is owned by Overlay when the create modal is open.
  */
 import * as React from 'react';
-import type { EntitySchema } from './entity-form/schema';
+import type { EntitySchema } from './entity-form/schema.js';
 export interface EntityPickerProps<E> {
     search: (query: string) => Promise<E[]>;
     renderOption: (e: E) => React.ReactNode;

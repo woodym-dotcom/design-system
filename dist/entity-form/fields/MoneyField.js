@@ -8,7 +8,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * Emits { amount: number, currency: string } as a single field value.
  */
 import { useId as useReactId } from 'react';
-import { FieldWrapper } from './FieldWrapper';
+import { FieldWrapper } from './FieldWrapper.js';
 export function MoneyField({ name, form, label, hint, required, disabled, currencies, defaultCurrency }) {
     const reactId = useReactId();
     const id = `ef-${reactId}-${name}`;

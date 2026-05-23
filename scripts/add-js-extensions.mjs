@@ -3,7 +3,7 @@
 // Required because consumers running Node ESM (Vitest, SSR runtimes) can't
 // resolve extensionless paths inside `node_modules/`, even though Vite can.
 import { readdir, readFile, writeFile, stat } from 'node:fs/promises';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
@@ -23,7 +23,8 @@ async function exists(p) {
 }
 
 async function resolveSpecifier(fromFile, spec) {
-  const fromDir = fromFile.slice(0, fromFile.lastIndexOf('/'));
+  // Use node:path/dirname so this works on Windows ('\\' separators) AND Unix ('/').
+  const fromDir = dirname(fromFile);
   const base = join(fromDir, spec);
   if (await exists(base + '.js')) return spec + '.js';
   if (await exists(join(base, 'index.js'))) return spec.replace(/\/$/, '') + '/index.js';

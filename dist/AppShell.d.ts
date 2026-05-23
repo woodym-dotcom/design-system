@@ -25,9 +25,9 @@
  * top bar's extras slot.
  */
 import * as React from "react";
-import { type FmtSettings } from "./fmt/Fmt";
-import { type NavRailItem } from "./NavRail";
-import { type BreadcrumbItem } from "./Breadcrumbs";
+import { type FmtSettings } from "./fmt/Fmt.js";
+import { type NavRailItem } from "./NavRail.js";
+import { type BreadcrumbItem } from "./Breadcrumbs.js";
 export interface AppShellProps {
     /** Brand slot rendered in the TopBar. */
     brand?: React.ReactNode;

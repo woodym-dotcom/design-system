@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { type FmtSettings } from './Fmt';
+import { type FmtSettings } from './Fmt.js';
 export interface LensProps extends Partial<FmtSettings> {
     /** Lens label rendered in the toggle (e.g. "EU view"). */
     label: string;

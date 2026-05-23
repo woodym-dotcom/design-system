@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useSplitPane } from "./hooks/useSplitPane";
-import { Button } from "./Button";
+import { useSplitPane } from "./hooks/useSplitPane.js";
+import { Button } from "./Button.js";
 /**
  * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="drilldown">`
  *   instead. Removed at v1.0 (DS-SIMPLIFY 14).

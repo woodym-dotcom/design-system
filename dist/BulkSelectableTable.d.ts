@@ -12,7 +12,7 @@
  * caller can also subscribe via `onResult` to surface a Drawer.
  */
 import * as React from 'react';
-import { type BulkBarAction } from './BulkBar';
+import { type BulkBarAction } from './BulkBar.js';
 /**
  * Contract returned by a bulk action. Keys are the values produced by
  * `rowKey(row)` for the original row set.

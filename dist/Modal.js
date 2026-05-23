@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { useFocusTrap } from './a11y/useFocusTrap';
+import { useFocusTrap } from './a11y/useFocusTrap.js';
 /**
  * Generic centred modal dialog. Owns focus trap, ESC, backdrop click,
  * ARIA dialog semantics, and portal mounting. Compose primary content

@@ -32,7 +32,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
  *  - Trigger button has aria-haspopup="dialog".
  */
 import * as React from 'react';
-import { CreationWizard } from './CreationWizard';
+import { CreationWizard } from './CreationWizard.js';
 // ── Focus trap helpers ────────────────────────────────────────────────────────
 const FOCUSABLE_SELECTOR = [
     'a[href]',

@@ -4,8 +4,8 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
  * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
  */
 import * as React from 'react';
-import { Skeleton } from './Skeleton';
-import { EmptyState } from './EmptyState';
+import { Skeleton } from './Skeleton.js';
+import { EmptyState } from './EmptyState.js';
 /**
  * Role-aware homepage cards. Renders a grid of cards, filtered to those
  * the viewer can see based on `viewerRoles`. Composes:
