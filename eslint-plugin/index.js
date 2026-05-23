@@ -417,11 +417,14 @@ function hasBespokeDetailOrFilterSibling(containerNode) {
 
 // ── Rule: no-locale-string-in-features ────────────────────────────────────────
 
-const LOCALE_STRING_METHODS = {
+// Use a null-prototype object so prop.name === 'toString' / 'hasOwnProperty'
+// doesn't leak through Object.prototype and report a function-as-messageId
+// (which crashes ESLint v9's computeMessageFromDescriptor).
+const LOCALE_STRING_METHODS = Object.assign(Object.create(null), {
   toLocaleString: 'noToLocaleString',
   toLocaleDateString: 'noToLocaleDateString',
   toLocaleTimeString: 'noToLocaleTimeString',
-};
+});
 const FEATURES_PATH = /[\\/]features[\\/]/;
 const TEST_FILE_PATTERN = /\.(?:test|spec)\.(?:tsx?|jsx?)$/;
 
