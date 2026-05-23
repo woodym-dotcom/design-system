@@ -23,6 +23,16 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./react/fmt": {
+      "types": "./dist/fmt/Fmt.d.ts",
+      "import": "./dist/fmt/Fmt.js",
+      "default": "./dist/fmt/Fmt.js"
+    },
+    "./react/fmt/Lens": {
+      "types": "./dist/fmt/Lens.d.ts",
+      "import": "./dist/fmt/Lens.js",
+      "default": "./dist/fmt/Lens.js"
+    },
     "./react/useTheme": {
       "types": "./dist/useTheme.d.ts",
       "import": "./dist/useTheme.js",
