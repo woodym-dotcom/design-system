@@ -101,6 +101,37 @@ describe('@ds/core/no-locale-string-in-features ESLint rule', () => {
     expect(reported).toBeNull();
   });
 
+  it('does NOT report when method name is inherited from Object.prototype (regression: toString leak)', () => {
+    // Regression: previously LOCALE_STRING_METHODS was a plain object so
+    // `LOCALE_STRING_METHODS['toString']` returned `Object.prototype.toString`
+    // (a truthy function), bypassing the `if (!messageId) return` guard and
+    // crashing ESLint v9's computeMessageFromDescriptor when the function
+    // was passed as a messageId. Common offenders: URLSearchParams#toString,
+    // JSON#stringify, hasOwnProperty, valueOf.
+    let reported = null;
+    const context = {
+      getFilename: () => '/repo/frontend/src/features/data/api.ts',
+      report: (descriptor) => {
+        reported = descriptor;
+      },
+    };
+    const visitor = rule.create(context);
+    for (const inherited of ['toString', 'hasOwnProperty', 'valueOf', 'propertyIsEnumerable']) {
+      reported = null;
+      visitor.CallExpression({
+        type: 'CallExpression',
+        callee: {
+          type: 'MemberExpression',
+          object: { type: 'Identifier', name: 'qs' },
+          property: { type: 'Identifier', name: inherited },
+          computed: false,
+        },
+        arguments: [],
+      });
+      expect(reported, `should not report on ${inherited}() — it is inherited from Object.prototype`).toBeNull();
+    }
+  });
+
   it('does NOT report inside test files (allowed for fixtures)', () => {
     let reported = null;
     const context = {
