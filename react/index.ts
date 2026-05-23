@@ -343,6 +343,12 @@ export {
   type BulkBarProps,
   type BulkBarAction,
 } from "./BulkBar";
+export {
+  BulkSelectableTable,
+  type BulkSelectableTableProps,
+  type BulkSelectableTableAction,
+  type BulkActionResult,
+} from "./BulkSelectableTable";
 
 // Saved views (deep-link sharing) + back stack
 export {
