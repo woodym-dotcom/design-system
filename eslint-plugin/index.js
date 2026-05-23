@@ -415,6 +415,65 @@ function hasBespokeDetailOrFilterSibling(containerNode) {
   });
 }
 
+// ── Rule: no-locale-string-in-features ────────────────────────────────────────
+
+const LOCALE_STRING_METHODS = {
+  toLocaleString: 'noToLocaleString',
+  toLocaleDateString: 'noToLocaleDateString',
+  toLocaleTimeString: 'noToLocaleTimeString',
+};
+const FEATURES_PATH = /[\\/]features[\\/]/;
+const TEST_FILE_PATTERN = /\.(?:test|spec)\.(?:tsx?|jsx?)$/;
+
+/**
+ * Bans direct Date.prototype.toLocaleString / toLocaleDateString /
+ * toLocaleTimeString in consumer feature code. Use Fmt.DateTime / Fmt.Date
+ * from @ds/core/react/fmt instead — they consume FmtProvider locale/tz/
+ * currency settings and render <time> with title + dateTime attributes.
+ *
+ * Allowed outside features/ (Fmt.tsx itself uses Intl APIs) and inside
+ * test files (fixture freedom).
+ */
+const noLocaleStringInFeatures = {
+  meta: {
+    type: 'problem',
+    docs: {
+      description:
+        'Disallow toLocaleString / toLocaleDateString / toLocaleTimeString in features/. Use Fmt.* from @ds/core instead — they consume FmtProvider settings and emit <time> with provenance.',
+      recommended: true,
+      url: 'https://www.notion.so/Platform-DS-Locale-timezone-and-currency-primitives-Fmt-provider-read-only-Lens-toggle-363b63f3c765812198e3e14e80b44741',
+    },
+    messages: {
+      noToLocaleString:
+        'Use Fmt.DateTime from @ds/core/react/fmt instead of Date.prototype.toLocaleString. Fmt.DateTime consumes FmtProvider locale/timezone and renders a <time> element with title + ISO dateTime.',
+      noToLocaleDateString:
+        'Use Fmt.Date from @ds/core/react/fmt instead of Date.prototype.toLocaleDateString. Fmt.Date consumes FmtProvider settings and emits a <time> element.',
+      noToLocaleTimeString:
+        'Use Fmt.DateTime (with timeStyle) from @ds/core/react/fmt instead of Date.prototype.toLocaleTimeString. Fmt.DateTime consumes FmtProvider timezone and emits provenance.',
+    },
+    schema: [],
+  },
+  create(context) {
+    const filename = context.getFilename();
+    const inFeatures = FEATURES_PATH.test(filename);
+    const isTestFile = TEST_FILE_PATTERN.test(filename);
+    const enabled = inFeatures && !isTestFile;
+
+    return {
+      CallExpression(node) {
+        if (!enabled) return;
+        const callee = node.callee;
+        if (!callee || callee.type !== 'MemberExpression' || callee.computed) return;
+        const prop = callee.property;
+        if (!prop || prop.type !== 'Identifier') return;
+        const messageId = LOCALE_STRING_METHODS[prop.name];
+        if (!messageId) return;
+        context.report({ node, messageId });
+      },
+    };
+  },
+};
+
 // ── Plugin export ─────────────────────────────────────────────────────────────
 
 const plugin = {
@@ -428,6 +487,7 @@ const plugin = {
     'no-adhoc-create-button': noAdhocCreateButton,
     'no-adhoc-tenancy-selector': noAdhocTenancySelector,
     'no-bespoke-entity-shell': noBespokeEntityShell,
+    'no-locale-string-in-features': noLocaleStringInFeatures,
   },
   configs: {
     /** Recommended config: all rules as errors/warnings. */
@@ -439,6 +499,7 @@ const plugin = {
         '@ds/core/no-adhoc-create-button': 'warn',
         '@ds/core/no-adhoc-tenancy-selector': 'warn',
         '@ds/core/no-bespoke-entity-shell': 'error',
+        '@ds/core/no-locale-string-in-features': 'error',
       },
     },
   },
