@@ -343,9 +343,66 @@ function FmtDateTime({
   );
 }
 
+export interface DurationProps {
+  /** Duration value. Default unit is milliseconds. */
+  value: number;
+  /** Input unit; defaults to milliseconds. */
+  unit?: 'milliseconds' | 'seconds';
+  /** Output verbosity; defaults to short (e.g. "5 min" vs "5 minutes"). */
+  style?: 'short' | 'long';
+  /** Locale override. */
+  locale?: string;
+  className?: string;
+}
+
+/**
+ * Pick the largest Intl unit that the duration crosses, with the rounded
+ * count in that unit. Floor to seconds for very small values; never
+ * downgrade below second.
+ */
+function pickDurationUnit(seconds: number): { unit: Intl.NumberFormatOptions['unit']; count: number } {
+  const SECOND = 1;
+  const MINUTE = 60;
+  const HOUR = 60 * 60;
+  const DAY = 60 * 60 * 24;
+  if (seconds >= DAY) return { unit: 'day', count: Math.round(seconds / DAY) };
+  if (seconds >= HOUR) return { unit: 'hour', count: Math.round(seconds / HOUR) };
+  if (seconds >= MINUTE) return { unit: 'minute', count: Math.round(seconds / MINUTE) };
+  return { unit: 'second', count: Math.max(seconds / SECOND, 0) };
+}
+
+function FmtDuration({ value, unit = 'milliseconds', style = 'short', locale, className }: DurationProps) {
+  const ctx = useFmt();
+  if (!Number.isFinite(value) || value < 0) {
+    return <span className="cc-fmt cc-fmt--invalid">—</span>;
+  }
+  const seconds = unit === 'seconds' ? value : value / 1000;
+  const { unit: picked, count } = pickDurationUnit(seconds);
+
+  // For sub-minute durations keep a single decimal to differentiate 0.75s vs 1s.
+  const maxFractionDigits = picked === 'second' && seconds < 1 ? 2 : 0;
+
+  const fmt = new Intl.NumberFormat(locale ?? ctx.locale, {
+    style: 'unit',
+    unit: picked,
+    unitDisplay: style,
+    maximumFractionDigits: maxFractionDigits,
+  });
+
+  return (
+    <span
+      className={['cc-fmt', 'cc-fmt--duration', className].filter(Boolean).join(' ')}
+      data-unit={String(picked)}
+    >
+      {fmt.format(count)}
+    </span>
+  );
+}
+
 export const Fmt = {
   Date: FmtDate,
   DateTime: FmtDateTime,
+  Duration: FmtDuration,
   Money: FmtMoney,
   Number: FmtNumber,
   Relative: FmtRelative,
