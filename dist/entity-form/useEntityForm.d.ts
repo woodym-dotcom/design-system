@@ -9,7 +9,7 @@
  */
 import * as React from 'react';
 import { z } from 'zod';
-import type { EntitySchema } from './schema.js';
+import type { EntitySchema } from './schema';
 export interface EntityFormHandle<TValues> {
     values: TValues;
     errors: Record<string, string>;

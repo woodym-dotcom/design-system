@@ -7,8 +7,8 @@
  * and an optional sticky bottom bar.
  */
 import * as React from "react";
-import { type BreadcrumbItem } from "./Breadcrumbs.js";
-import { type TabItem } from "./Tabs.js";
+import { type BreadcrumbItem } from "./Breadcrumbs";
+import { type TabItem } from "./Tabs";
 export interface FullScreenDetailProps<T extends string = string> {
     breadcrumbs: BreadcrumbItem[];
     title: React.ReactNode;

@@ -9,7 +9,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * as a listbox; selection sets the ID as field value.
  */
 import * as React from 'react';
-import { FieldWrapper } from './FieldWrapper.js';
+import { FieldWrapper } from './FieldWrapper';
 export function EntityReferenceField({ name, form, label, hint, required, disabled, search, placeholder, initialLabel }) {
     const reactId = React.useId();
     const id = `ef-${reactId}-${name}`;

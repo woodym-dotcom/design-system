@@ -1,3 +1,3 @@
-export { MetricChartCard, } from "./MetricChartCard.js";
-export { DashboardChartCard, } from "./DashboardChartCard.js";
+export { MetricChartCard, } from "./MetricChartCard";
+export { DashboardChartCard, } from "./DashboardChartCard";
 //# sourceMappingURL=index.js.map

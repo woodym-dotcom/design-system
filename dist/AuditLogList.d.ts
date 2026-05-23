@@ -16,7 +16,7 @@
  * the new one for compile-time compatibility. Runtime behaviour is unchanged.
  */
 import * as React from "react";
-import { type ActivityEntry, type ActivityTimelineProps } from "./ActivityTimeline.js";
+import { type ActivityEntry, type ActivityTimelineProps } from "./ActivityTimeline";
 /** @deprecated Use ActivityEntry instead. */
 export interface AuditEvent {
     id: string;

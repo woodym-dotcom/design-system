@@ -4,7 +4,7 @@
  * Will be removed from public exports in v1.0 (DS-SIMPLIFY 14).
  */
 import * as React from 'react';
-import type { FieldPrimitiveProps } from './types.js';
+import type { FieldPrimitiveProps } from './types';
 export interface TextFieldProps extends FieldPrimitiveProps<string> {
     inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
     maxLength?: number;

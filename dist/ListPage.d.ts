@@ -33,10 +33,10 @@
  *  7. Permission gating — hide affordances (not disable).
  */
 import * as React from 'react';
-import { type CreateMenuProps } from './CreateMenu.js';
-import { type FilterChip } from './FilterBar.js';
-import { type UrlFilterStateRouterAdapter } from './hooks/useUrlFilterState.js';
-import type { ListViewColumn, ListViewScopeFilter, ListViewPaginationState, SortDirection } from './ListView.js';
+import { type CreateMenuProps } from './CreateMenu';
+import { type FilterChip } from './FilterBar';
+import { type UrlFilterStateRouterAdapter } from './hooks/useUrlFilterState';
+import type { ListViewColumn, ListViewScopeFilter, ListViewPaginationState, SortDirection } from './ListView';
 export interface BulkAction<TRow = {
     id: string;
 }> {

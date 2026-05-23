@@ -5,7 +5,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * shell. Will be removed in v1.0 (SIMPLIFY 14).
  */
 import * as React from 'react';
-import { useModuleShellRouter } from './ModuleShellProvider.js';
+import { useModuleShellRouter } from './ModuleShellProvider';
 const DEFAULT_LABELS = {
     review: 'Review queue',
     monitoring: 'Monitoring',

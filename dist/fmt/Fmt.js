@@ -166,9 +166,45 @@ function FmtDateTime({ value, mode = 'absolute', locale, timezone, className, })
             : absolute;
     return (_jsxs("time", { className: ['cc-fmt', 'cc-fmt--datetime', className].filter(Boolean).join(' '), dateTime: iso, title: iso, children: [text, ctx.showRaw ? _jsx(RawSibling, { value: iso }) : null] }));
 }
+/**
+ * Pick the largest Intl unit that the duration crosses, with the rounded
+ * count in that unit. Floor to seconds for very small values; never
+ * downgrade below second.
+ */
+function pickDurationUnit(seconds) {
+    const SECOND = 1;
+    const MINUTE = 60;
+    const HOUR = 60 * 60;
+    const DAY = 60 * 60 * 24;
+    if (seconds >= DAY)
+        return { unit: 'day', count: Math.round(seconds / DAY) };
+    if (seconds >= HOUR)
+        return { unit: 'hour', count: Math.round(seconds / HOUR) };
+    if (seconds >= MINUTE)
+        return { unit: 'minute', count: Math.round(seconds / MINUTE) };
+    return { unit: 'second', count: Math.max(seconds / SECOND, 0) };
+}
+function FmtDuration({ value, unit = 'milliseconds', style = 'short', locale, className }) {
+    const ctx = useFmt();
+    if (!Number.isFinite(value) || value < 0) {
+        return _jsx("span", { className: "cc-fmt cc-fmt--invalid", children: "\u2014" });
+    }
+    const seconds = unit === 'seconds' ? value : value / 1000;
+    const { unit: picked, count } = pickDurationUnit(seconds);
+    // For sub-minute durations keep a single decimal to differentiate 0.75s vs 1s.
+    const maxFractionDigits = picked === 'second' && seconds < 1 ? 2 : 0;
+    const fmt = new Intl.NumberFormat(locale ?? ctx.locale, {
+        style: 'unit',
+        unit: picked,
+        unitDisplay: style,
+        maximumFractionDigits: maxFractionDigits,
+    });
+    return (_jsx("span", { className: ['cc-fmt', 'cc-fmt--duration', className].filter(Boolean).join(' '), "data-unit": String(picked), children: fmt.format(count) }));
+}
 export const Fmt = {
     Date: FmtDate,
     DateTime: FmtDateTime,
+    Duration: FmtDuration,
     Money: FmtMoney,
     Number: FmtNumber,
     Relative: FmtRelative,

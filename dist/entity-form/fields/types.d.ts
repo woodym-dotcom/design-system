@@ -1,4 +1,4 @@
-import type { EntityFormHandle } from '../useEntityForm.js';
+import type { EntityFormHandle } from '../useEntityForm';
 export interface FieldPrimitiveProps<_T = unknown> {
     name: string;
     form: EntityFormHandle<any>;

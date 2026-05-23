@@ -110,9 +110,22 @@ export interface DateTimeProps {
     className?: string;
 }
 declare function FmtDateTime({ value, mode, locale, timezone, className, }: DateTimeProps): import("react/jsx-runtime").JSX.Element;
+export interface DurationProps {
+    /** Duration value. Default unit is milliseconds. */
+    value: number;
+    /** Input unit; defaults to milliseconds. */
+    unit?: 'milliseconds' | 'seconds';
+    /** Output verbosity; defaults to short (e.g. "5 min" vs "5 minutes"). */
+    style?: 'short' | 'long';
+    /** Locale override. */
+    locale?: string;
+    className?: string;
+}
+declare function FmtDuration({ value, unit, style, locale, className }: DurationProps): import("react/jsx-runtime").JSX.Element;
 export declare const Fmt: {
     Date: typeof FmtDate;
     DateTime: typeof FmtDateTime;
+    Duration: typeof FmtDuration;
     Money: typeof FmtMoney;
     Number: typeof FmtNumber;
     Relative: typeof FmtRelative;

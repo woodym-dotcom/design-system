@@ -10,8 +10,8 @@ import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
  * chip only appears when the dataset has aged past the threshold.
  */
 import * as React from "react";
-import { Chip } from "./Chip.js";
-import { Button } from "./Button.js";
+import { Chip } from "./Chip";
+import { Button } from "./Button";
 function toMs(v) {
     if (v instanceof Date)
         return v.getTime();

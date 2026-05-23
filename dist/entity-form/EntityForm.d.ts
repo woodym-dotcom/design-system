@@ -17,8 +17,8 @@
  */
 import * as React from 'react';
 import { z } from 'zod';
-import { type EntityFormHandle } from './useEntityForm.js';
-import { type EntitySchema, type AiReviewInput } from './schema.js';
+import { type EntityFormHandle } from './useEntityForm';
+import { type EntitySchema, type AiReviewInput } from './schema';
 export interface WizardStepDef<TValues> {
     id: string;
     label: string;

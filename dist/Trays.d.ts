@@ -17,6 +17,7 @@ export interface TrayTask {
     /** True when the user has already acted on or seen the task. */
     done?: boolean;
 }
+export type NotificationPriority = 'urgent' | 'normal' | 'informational';
 export interface TrayNotification {
     id: string;
     title: string;
@@ -35,6 +36,10 @@ export interface TrayNotification {
     read?: boolean;
     /** Optional category for grouping. */
     category?: string;
+    /** Priority tier — drives live-region announcement + visual emphasis. */
+    priority?: NotificationPriority;
+    /** When the user snoozed this item — `useNotifications` hides until passed. */
+    snoozedUntil?: string;
 }
 interface TrayBaseProps {
     open: boolean;

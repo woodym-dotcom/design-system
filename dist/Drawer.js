@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { useFocusTrap } from './a11y/useFocusTrap.js';
+import { useFocusTrap } from './a11y/useFocusTrap';
 /**
  * Generic slide-in drawer. Distinct from `DetailPane` (which is a record
  * detail surface with a fixed section list) — use Drawer when you need

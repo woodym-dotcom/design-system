@@ -1,9 +1,9 @@
 import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
-import { FmtProvider } from "./fmt/Fmt.js";
-import { OfflineBanner } from "./OfflineBanner.js";
-import { TopBar } from "./TopBar.js";
-import { NavRail } from "./NavRail.js";
-import { Breadcrumbs } from "./Breadcrumbs.js";
+import { FmtProvider } from "./fmt/Fmt";
+import { OfflineBanner } from "./OfflineBanner";
+import { TopBar } from "./TopBar";
+import { NavRail } from "./NavRail";
+import { Breadcrumbs } from "./Breadcrumbs";
 const SKIP_TARGET_ID = "cc-shell-main";
 export function AppShell({ brand, identity, groupInitials, navItems, activeId, onNavigate, crumbs, onCmdK, onIdentityClick, topBarExtras, activity, groupSwitcher, fmtSettings, children, className, }) {
     // Build NavRailItem with isActive bound to activeId.

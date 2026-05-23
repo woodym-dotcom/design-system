@@ -1,4 +1,4 @@
-import type { FieldPrimitiveProps } from './types.js';
+import type { FieldPrimitiveProps } from './types';
 export interface SelectOption<T extends string = string> {
     value: T;
     label: string;

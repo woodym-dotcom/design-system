@@ -7,7 +7,7 @@ import { jsx as _jsx } from "react/jsx-runtime";
  * renders <StateBanner kind="offline" /> while navigator.onLine is false.
  */
 import * as React from "react";
-import { StateBanner } from "./StateBanner.js";
+import { StateBanner } from "./StateBanner";
 function isOnline() {
     if (typeof navigator === "undefined")
         return true;

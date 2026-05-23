@@ -34,9 +34,9 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  *  7. Permission gating — hide affordances (not disable).
  */
 import * as React from 'react';
-import { CreateMenu } from './CreateMenu.js';
-import { FilterBar } from './FilterBar.js';
-import { useUrlFilterState, } from './hooks/useUrlFilterState.js';
+import { CreateMenu } from './CreateMenu';
+import { FilterBar } from './FilterBar';
+import { useUrlFilterState, } from './hooks/useUrlFilterState';
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function nextSortDirection(currentKey, clickedKey, currentDir) {
     if (currentKey !== clickedKey)
@@ -116,18 +116,14 @@ function BulkBar({ selectedIds, rows, actions, onChange, canDelete, }) {
     const visibleActions = canDelete === false
         ? actions.filter((a) => a.id !== 'delete')
         : actions;
-    return (
-    /* z-50: above list + pane (z-40); below fullscreen pane (z-60) */
-    _jsxs("div", { className: "cc-list-page__bulk-bar", role: "toolbar", "aria-label": `${selectedIds.length} item${selectedIds.length !== 1 ? 's' : ''} selected`, style: { zIndex: 50 }, children: [_jsxs("span", { className: "cc-list-page__bulk-count", children: [selectedIds.length, " selected"] }), _jsx("div", { className: "cc-list-page__bulk-actions", children: visibleActions.map((action) => (_jsx("button", { type: "button", className: "cc-btn cc-btn--ghost cc-btn--sm", onClick: () => action.onRun(selectedRows), children: action.label }, action.id))) }), _jsx("button", { type: "button", className: "cc-btn cc-btn--ghost cc-btn--sm", onClick: () => onChange([]), "aria-label": "Clear selection", children: "Clear" })] }));
+    return (_jsxs("div", { className: "cc-list-page__bulk-bar", role: "toolbar", "aria-label": `${selectedIds.length} item${selectedIds.length !== 1 ? 's' : ''} selected`, style: { zIndex: 50 }, children: [_jsxs("span", { className: "cc-list-page__bulk-count", children: [selectedIds.length, " selected"] }), _jsx("div", { className: "cc-list-page__bulk-actions", children: visibleActions.map((action) => (_jsx("button", { type: "button", className: "cc-btn cc-btn--ghost cc-btn--sm", onClick: () => action.onRun(selectedRows), children: action.label }, action.id))) }), _jsx("button", { type: "button", className: "cc-btn cc-btn--ghost cc-btn--sm", onClick: () => onChange([]), "aria-label": "Clear selection", children: "Clear" })] }));
 }
 function DetailShell({ detail, editMode, setEditMode, canEdit, internalFullscreen, onFullscreenToggle, }) {
     const { selectedId, onClose, render, loading, error } = detail;
     const isFullscreen = detail.fullscreen !== undefined ? detail.fullscreen : internalFullscreen;
     if (!selectedId)
         return null;
-    return (
-    /* z-40 normal; z-60 fullscreen (covers bulk bar at z-50) */
-    _jsxs("aside", { className: [
+    return (_jsxs("aside", { className: [
             'cc-list-page__detail-pane',
             isFullscreen ? 'cc-list-page__detail-pane--fullscreen' : '',
         ]
@@ -244,8 +240,6 @@ filterOptions, activeFilterIds = [], onFilterToggle, onFilterRemove, emptyState,
                                             : [...bulk.selectedIds, id];
                                         bulk.onChange(next);
                                     }
-                                    : undefined, detailSelectedId: detail?.selectedId ?? legacySelectedId })) : null, children ? (_jsx("div", { className: "cc-list-page__body", children: children })) : null, !hasExplicitList && !children && effectiveEmptyState ? (_jsx("div", { className: "cc-list-page__body", children: effectiveEmptyState })) : null, list.pagination ? (_jsx(PaginationBar, { pagination: list.pagination })) : paginationNode ? (_jsx("div", { className: "cc-list-page__pagination", children: paginationNode })) : null] }), detail ? (_jsx(DetailShell, { detail: detail, editMode: editMode, setEditMode: setEditMode, canEdit: permissions?.canEdit, internalFullscreen: internalFullscreen, onFullscreenToggle: () => setInternalFullscreen((v) => !v) })) : detailPane ? (
-                    /* Legacy detailPane render-prop */
-                    _jsx("aside", { className: "cc-list-page__detail-pane", children: detailPane(legacySelectedId) })) : null] }), bulk ? (_jsx(BulkBar, { selectedIds: bulk.selectedIds, rows: list.rows, actions: bulk.actions, onChange: bulk.onChange, canDelete: permissions?.canDelete })) : null] }));
+                                    : undefined, detailSelectedId: detail?.selectedId ?? legacySelectedId })) : null, children ? (_jsx("div", { className: "cc-list-page__body", children: children })) : null, !hasExplicitList && !children && effectiveEmptyState ? (_jsx("div", { className: "cc-list-page__body", children: effectiveEmptyState })) : null, list.pagination ? (_jsx(PaginationBar, { pagination: list.pagination })) : paginationNode ? (_jsx("div", { className: "cc-list-page__pagination", children: paginationNode })) : null] }), detail ? (_jsx(DetailShell, { detail: detail, editMode: editMode, setEditMode: setEditMode, canEdit: permissions?.canEdit, internalFullscreen: internalFullscreen, onFullscreenToggle: () => setInternalFullscreen((v) => !v) })) : detailPane ? (_jsx("aside", { className: "cc-list-page__detail-pane", children: detailPane(legacySelectedId) })) : null] }), bulk ? (_jsx(BulkBar, { selectedIds: bulk.selectedIds, rows: list.rows, actions: bulk.actions, onChange: bulk.onChange, canDelete: permissions?.canDelete })) : null] }));
 }
 //# sourceMappingURL=ListPage.js.map

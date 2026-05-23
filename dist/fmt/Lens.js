@@ -1,6 +1,6 @@
 import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import * as React from 'react';
-import { FmtProvider, useFmt } from './Fmt.js';
+import { FmtProvider, useFmt } from './Fmt';
 /**
  * Read-only Lens toggle. Wraps a subtree and lets the user temporarily
  * swap locale/timezone/currency for evidence/decision-record review —

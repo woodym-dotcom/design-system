@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { useAnnounce } from './a11y/LiveRegion.js';
+import { useAnnounce } from './a11y/LiveRegion';
 const ToastContext = React.createContext(null);
 let idCounter = 0;
 const nextId = () => `toast-${Date.now().toString(36)}-${(idCounter++).toString(36)}`;
