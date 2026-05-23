@@ -361,6 +361,15 @@ export {
   type SnapshotMintRequest,
   type SnapshotMintResult,
 } from "./Printable";
+export {
+  useNotifications,
+  type NotificationsState,
+  type UseNotificationsOptions,
+  type QuietHoursWindow,
+  type AddOptions,
+  type SnoozeOptions,
+} from "./useNotifications";
+export { type NotificationPriority } from "./Trays";
 
 // Saved views (deep-link sharing) + back stack
 export {
