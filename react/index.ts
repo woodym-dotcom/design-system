@@ -349,6 +349,18 @@ export {
   type BulkSelectableTableAction,
   type BulkActionResult,
 } from "./BulkSelectableTable";
+export {
+  Printable,
+  PrintHeader,
+  PrintFooter,
+  ShareableSnapshotButton,
+  type PrintableProps,
+  type PrintHeaderProps,
+  type PrintFooterProps,
+  type ShareableSnapshotButtonProps,
+  type SnapshotMintRequest,
+  type SnapshotMintResult,
+} from "./Printable";
 
 // Saved views (deep-link sharing) + back stack
 export {
