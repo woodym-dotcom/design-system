@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Breadcrumbs } from "./Breadcrumbs.js";
-import { Tabs } from "./Tabs.js";
+import { Breadcrumbs } from "./Breadcrumbs";
+import { Tabs } from "./Tabs";
 /**
  * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="fullscreen">`
  *   instead. Removed at v1.0 (DS-SIMPLIFY 14).

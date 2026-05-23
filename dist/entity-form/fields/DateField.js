@@ -9,7 +9,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * Display: formatted as DD-MON-YYYY.
  */
 import { useId } from 'react';
-import { FieldWrapper } from './FieldWrapper.js';
+import { FieldWrapper } from './FieldWrapper';
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 function isoToDdMonYyyy(iso) {
     if (!iso)

@@ -21,14 +21,14 @@
  * `variant="list"` at compile time.
  */
 import type * as React from "react";
-import type { BreadcrumbItem } from "./Breadcrumbs.js";
-import type { OverlayProps } from "./Overlay.types.js";
-import type { FilterChip } from "./FilterBar.js";
-import type { ListViewColumn, ListViewPaginationState, SortDirection } from "./ListView.js";
-import type { GraphProps } from "./Graph.types.js";
-import type { HomepageCard } from "./HomepageCards.js";
-import type { BulkAction, ListPageFilters, ListPagePermissions, ListPageUrlState } from "./ListPage.js";
-import type { BrandKey as PlatformBrandKey } from "./PlatformAppShell.js";
+import type { BreadcrumbItem } from "./Breadcrumbs";
+import type { OverlayProps } from "./Overlay.types";
+import type { FilterChip } from "./FilterBar";
+import type { ListViewColumn, ListViewPaginationState, SortDirection } from "./ListView";
+import type { GraphProps } from "./Graph.types";
+import type { HomepageCard } from "./HomepageCards";
+import type { BulkAction, ListPageFilters, ListPagePermissions, ListPageUrlState } from "./ListPage";
+import type { BrandKey as PlatformBrandKey } from "./PlatformAppShell";
 export type ModuleTemplateVariant = "list" | "config" | "monitor" | "review" | "detail" | "auth" | "home";
 /**
  * One tab in a tabbed ModuleTemplate. Pre-render `content` so the host can

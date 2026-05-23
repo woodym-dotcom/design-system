@@ -30,5 +30,5 @@ export interface FileUploadFieldProps {
     disabled?: boolean;
     className?: string;
 }
-export declare const FileUploadField: React.NamedExoticComponent<FileUploadFieldProps>;
+export declare const FileUploadField: React.MemoExoticComponent<({ id, label, onChange, accept, maxSize, multiple, error: externalError, hint, required, disabled, className, }: FileUploadFieldProps) => import("react/jsx-runtime").JSX.Element>;
 //# sourceMappingURL=FileUploadField.d.ts.map

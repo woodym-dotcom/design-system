@@ -20,8 +20,8 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
  */
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { useFocusTrap } from "./a11y/useFocusTrap.js";
-import { useSplitPane } from "./hooks/useSplitPane.js";
+import { useFocusTrap } from "./a11y/useFocusTrap";
+import { useSplitPane } from "./hooks/useSplitPane";
 // ── helpers ──────────────────────────────────────────────────────────────────
 const MIN_RESIZE_PX = 320;
 const MAX_RESIZE_VW = 95;

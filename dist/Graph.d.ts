@@ -14,7 +14,7 @@
  * @see Graph.types.ts for full prop / data-shape documentation.
  */
 import * as React from "react";
-import type { GraphProps } from "./Graph.types.js";
+import type { GraphProps } from "./Graph.types";
 /**
  * Graph — unified data-visualization primitive.
  *

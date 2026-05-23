@@ -12,9 +12,9 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * Focus trap is owned by Overlay when the create modal is open.
  */
 import * as React from 'react';
-import { Overlay } from './Overlay.js';
-import { EntityForm } from './entity-form/EntityForm.js';
-import { TextField } from './entity-form/fields/TextField.js';
+import { Overlay } from './Overlay';
+import { EntityForm } from './entity-form/EntityForm';
+import { TextField } from './entity-form/fields/TextField';
 // ── Debounce hook ────────────────────────────────────────────────────────────
 function useDebounce(value, delayMs) {
     const [debounced, setDebounced] = React.useState(value);

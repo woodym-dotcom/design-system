@@ -1,4 +1,4 @@
-import { type CreationWizardProps } from './CreationWizard.js';
+import { type CreationWizardProps } from './CreationWizard';
 export type TopRightCreateWizardVariant = 'manual' | 'ai';
 /**
  * AI variant configuration. Generic on TProcessKey to allow callers to narrow the allowed

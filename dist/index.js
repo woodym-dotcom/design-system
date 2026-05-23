@@ -1,158 +1,161 @@
-export { useTheme, initTheme } from "./useTheme.js";
-export { useUrlFilterState, useUrlFilterStateRouter, } from "./hooks/useUrlFilterState.js";
-export { FormField } from "./FormField.js";
-export { FilterBar } from "./FilterBar.js";
+export { useTheme, initTheme } from "./useTheme";
+export { useUrlFilterState, useUrlFilterStateRouter, } from "./hooks/useUrlFilterState";
+export { FormField } from "./FormField";
+export { FilterBar } from "./FilterBar";
 // NavRail + CreateMenu demoted to internal in DS-SIMPLIFY 05 — use
 // PlatformAppShell. Files remain in `react/` for internal composition.
 // EntityForm module (G3) — canonical public surface
 // Individual field components (TextField, NumberField, etc.) are NOT exported here.
 // Use <EntityForm schema={...}> for schema-driven forms or <FormField as="shell">
 // for arbitrary child inputs. Custom field types use registerFieldType().
-export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge, useEntityForm, EntityForm, registerFieldType, getFieldTypeComponent, } from "./entity-form/index.js";
-export { ThemeToggle } from "./ThemeToggle.js";
-export { ModuleShell, } from "./ModuleShell.js";
-export { ModuleShellProvider, useModuleShellRouter, } from "./ModuleShellProvider.js";
-export { ListPage, } from "./ListPage.js";
-export { ConfigurationsPage, } from "./ConfigurationsPage.js";
-export { ReviewQueue, } from "./ReviewQueue.js";
-export { MonitoringPage, KpiTile, } from "./MonitoringPage.js";
-export { CreationWizard, } from "./CreationWizard.js";
-export { ListPageHeader } from "./ListPageHeader.js";
+export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge, useEntityForm, EntityForm, registerFieldType, getFieldTypeComponent, } from "./entity-form/index";
+export { ThemeToggle } from "./ThemeToggle";
+export { ModuleShell, } from "./ModuleShell";
+export { ModuleShellProvider, useModuleShellRouter, } from "./ModuleShellProvider";
+export { ListPage, } from "./ListPage";
+export { ConfigurationsPage, } from "./ConfigurationsPage";
+export { ReviewQueue, } from "./ReviewQueue";
+export { MonitoringPage, KpiTile, } from "./MonitoringPage";
+export { CreationWizard, } from "./CreationWizard";
+export { ListPageHeader } from "./ListPageHeader";
 // ── DS-SIMPLIFY 04: ModuleTemplate — unified page-template primitive ─────────
 // Subsumes ListPage / ConfigurationsPage / MonitoringPage / ReviewQueue /
 // ModuleShell / AuthLayout / HomepageCards into one variant-driven primitive.
 // SIMPLIFY 14 deletes the subsumed primitives.
-export { ModuleTemplate } from "./ModuleTemplate.js";
-export { DetailPane } from "./DetailPane.js";
-export { ExpandableDetailPane, } from "./ExpandableDetailPane.js";
-export { TopRightCreateWizard, } from "./TopRightCreateWizard.js";
+export { ModuleTemplate } from "./ModuleTemplate";
+export { DetailPane } from "./DetailPane";
+export { ExpandableDetailPane, } from "./ExpandableDetailPane";
+export { TopRightCreateWizard, } from "./TopRightCreateWizard";
 // CompanyGroupSwitcher demoted to internal in DS-SIMPLIFY 05 — use
 // PlatformAppShell. File remains in `react/` for internal composition.
-export { ArtefactDetailPane, ArtefactDefinition, ArtefactIOContractView, ArtefactMetricsView, ArtefactHistory, ArtefactCallers, ArtefactVersioning, } from "./ArtefactDetailPane.js";
-export { FileUploadField, } from "./FileUploadField.js";
-export { formatFileSize, fileMatchesAccept } from "./fileUploadUtils.js";
-export { LifecycleStateBadge, } from "./LifecycleStateBadge.js";
+export { ArtefactDetailPane, ArtefactDefinition, ArtefactIOContractView, ArtefactMetricsView, ArtefactHistory, ArtefactCallers, ArtefactVersioning, } from "./ArtefactDetailPane";
+export { FileUploadField, } from "./FileUploadField";
+export { formatFileSize, fileMatchesAccept } from "./fileUploadUtils";
+export { LifecycleStateBadge, } from "./LifecycleStateBadge";
 // ── DS-SIMPLIFY 03: Tag primitive ─────────────────────────────────────────────
 // Canonical tone-coded text-indicator. Subsumes Chip, Badge, StatusPill,
 // LifecycleStateBadge, and MetadataChip inline badge patterns.
-export { Tag, } from "./Tag.js";
-export { DetailRow, DetailSection, DetailMetric, } from "./DetailPrimitives.js";
-export { EntityCard, EntityCardList, } from "./EntityCard.js";
+export { Tag, } from "./Tag";
+export { DetailRow, DetailSection, DetailMetric, } from "./DetailPrimitives";
+export { EntityCard, EntityCardList, } from "./EntityCard";
 // Dashboard primitives (Phase 1A)
-export { StatusPill, } from "./StatusPill.js";
-export { MetadataChip, } from "./MetadataChip.js";
-export { SectionHeader, } from "./SectionHeader.js";
-export { EmptyState, } from "./EmptyState.js";
-export { CompactListRow, } from "./CompactListRow.js";
+export { StatusPill, } from "./StatusPill";
+export { MetadataChip, } from "./MetadataChip";
+export { SectionHeader, } from "./SectionHeader";
+export { EmptyState, } from "./EmptyState";
+export { CompactListRow, } from "./CompactListRow";
 // DashboardChartCard intentionally NOT re-exported here.
 // Import directly from "@ds/core/react/charts/DashboardChartCard" — keeps
 // recharts (optional peer) out of the bundle path for consumers that don't
 // use charts.
 // ── Phase 2 foundation primitives ────────────────────────────────────────────
 // Accessibility utilities
-export { useReducedMotion } from "./a11y/useReducedMotion.js";
-export { useFocusTrap } from "./a11y/useFocusTrap.js";
-export { LiveRegion, AnnounceProvider, useAnnounce, } from "./a11y/LiveRegion.js";
+export { useReducedMotion } from "./a11y/useReducedMotion";
+export { useFocusTrap } from "./a11y/useFocusTrap";
+export { LiveRegion, AnnounceProvider, useAnnounce, } from "./a11y/LiveRegion";
 // Toast — provider + hook are the public surface; consumers should not
 // render an individual toast manually. The `Toast` type is exported below.
-export { ToastProvider, useToast, } from "./Toast.js";
+export { ToastProvider, useToast, } from "./Toast";
 // Overlay — unified primitive (SIMPLIFY 01). Modal/Drawer/DetailPane/
 // ExpandableDetailPane/ArtefactDetailPane/DrilldownLayout/FullScreenDetail
 // remain as @deprecated re-exports until SIMPLIFY 14.
-export { Overlay, } from "./Overlay.js";
+export { Overlay, } from "./Overlay";
 // Modal + Drawer
-export { Modal, } from "./Modal.js";
-export { Drawer, } from "./Drawer.js";
+export { Modal, } from "./Modal";
+export { Drawer, } from "./Drawer";
 // Kbd, Tooltip, Avatar, Skeleton bundle
-export { Kbd } from "./Kbd.js";
-export { Tooltip } from "./Tooltip.js";
-export { Avatar, } from "./Avatar.js";
-export { Skeleton, } from "./Skeleton.js";
+export { Kbd } from "./Kbd";
+export { Tooltip } from "./Tooltip";
+export { Avatar, } from "./Avatar";
+export { Skeleton, } from "./Skeleton";
 // Locale / timezone / currency Fmt + Lens
-export { FmtProvider, useFmt, Fmt, DEFAULT_FMT, } from "./fmt/Fmt.js";
-export { Lens } from "./fmt/Lens.js";
+export { FmtProvider, useFmt, Fmt, DEFAULT_FMT, } from "./fmt/Fmt";
+export { Lens } from "./fmt/Lens";
 // Multi-select hook + BulkBar
-export { useMultiSelect, } from "./hooks/useMultiSelect.js";
-export { BulkBar, } from "./BulkBar.js";
+export { useMultiSelect, } from "./hooks/useMultiSelect";
+export { BulkBar, } from "./BulkBar";
+export { BulkSelectableTable, } from "./BulkSelectableTable";
+export { Printable, PrintHeader, PrintFooter, ShareableSnapshotButton, } from "./Printable";
+export { useNotifications, } from "./useNotifications";
 // Saved views (deep-link sharing) + back stack
-export { useSavedViews, } from "./hooks/useSavedViews.js";
-export { useBackStack, } from "./hooks/useBackStack.js";
+export { useSavedViews, } from "./hooks/useSavedViews";
+export { useBackStack, } from "./hooks/useBackStack";
 // Breadcrumbs
-export { Breadcrumbs, } from "./Breadcrumbs.js";
+export { Breadcrumbs, } from "./Breadcrumbs";
 // Command palette (Cmd+K)
-export { CommandPalette, } from "./CommandPalette.js";
+export { CommandPalette, } from "./CommandPalette";
 // Trays — TasksTray + NotificationsTray (notifications digest contract)
-export { TasksTray, NotificationsTray, } from "./Trays.js";
+export { TasksTray, NotificationsTray, } from "./Trays";
 // Print + shareable read-only link
-export { ShareReadOnlyLink, } from "./ShareReadOnlyLink.js";
+export { ShareReadOnlyLink, } from "./ShareReadOnlyLink";
 // Saved-views picker UI (on top of `useSavedViews`)
-export { SavedViewsMenu, } from "./SavedViewsMenu.js";
+export { SavedViewsMenu, } from "./SavedViewsMenu";
 // First-run / empty-tenant onboarding
-export { FirstRunGuide, } from "./FirstRunGuide.js";
+export { FirstRunGuide, } from "./FirstRunGuide";
 // Role-aware homepage cards
-export { HomepageCards, } from "./HomepageCards.js";
+export { HomepageCards, } from "./HomepageCards";
 // ── @aa/ui retirement — Phase 1 foundational primitives ──────────────────────
-export { Button, } from "./Button.js";
-export { Spinner, } from "./Spinner.js";
-export { Chip, Badge, } from "./Chip.js";
-export { Tabs, } from "./Tabs.js";
-export { Sparkline, } from "./charts/Sparkline.js";
+export { Button, } from "./Button";
+export { Spinner, } from "./Spinner";
+export { Chip, Badge, } from "./Chip";
+export { Tabs, } from "./Tabs";
+export { Sparkline, } from "./charts/Sparkline";
 // ── DS-SIMPLIFY 02 — State primitive (unified state-messaging) ────────────────
-export { State, } from "./State.js";
+export { State, } from "./State";
 // ── @aa/ui retirement — Phase 2 utility surfaces ─────────────────────────────
 // @deprecated — these individual state components are superseded by <State>.
 //   Use <State variant="…" density="…"> instead. Will be removed in v1.0 (SIMPLIFY 14).
-export { AwaitingState, } from "./AwaitingState.js";
-export { StaleDataPill, } from "./StaleDataPill.js";
-export { StateBanner, } from "./StateBanner.js";
-export { OfflineBanner, } from "./OfflineBanner.js";
-export { Diff, diffLines, } from "./Diff.js";
+export { AwaitingState, } from "./AwaitingState";
+export { StaleDataPill, } from "./StaleDataPill";
+export { StateBanner, } from "./StateBanner";
+export { OfflineBanner, } from "./OfflineBanner";
+export { Diff, diffLines, } from "./Diff";
 // ── @aa/ui retirement — Phase 3 extensions of existing components ─────────────
 // Card now exported here (was previously only available via the ./react/Card
 // subpath) so the extended `actions`, `footer`, `padded` props are discoverable
 // from the barrel.
-export { Card } from "./Card.js";
+export { Card } from "./Card";
 // ── DS-SIMPLIFY 09: ActivityTimeline (supersedes AuditLogList) ────────────────
-export { ActivityTimeline, } from "./ActivityTimeline.js";
+export { ActivityTimeline, } from "./ActivityTimeline";
 // AuditLogList — deprecated alias; kept for back-compat until v1.0 (SIMPLIFY 14).
-export { AuditLogList, } from "./AuditLogList.js";
+export { AuditLogList, } from "./AuditLogList";
 // ── @aa/ui retirement — Phase 4 composed primitives ──────────────────────────
-export { useSplitPane, } from "./hooks/useSplitPane.js";
-export { DrilldownLayout, } from "./DrilldownLayout.js";
-export { FullScreenDetail, } from "./FullScreenDetail.js";
+export { useSplitPane, } from "./hooks/useSplitPane";
+export { DrilldownLayout, } from "./DrilldownLayout";
+export { FullScreenDetail, } from "./FullScreenDetail";
 // ── DS-SIMPLIFY 05: PlatformAppShell — pre-composed shell ─────────────────────
 // TopBar + AppShell are demoted to internal; consumers compose at the
 // PlatformAppShell layer. Sub-primitive files remain in `react/` for
 // internal composition only.
-export { PlatformAppShell, } from "./PlatformAppShell.js";
+export { PlatformAppShell, } from "./PlatformAppShell";
 // ── DS-SIMPLIFY 05: Deprecated re-exports of demoted shell sub-primitives ────
 // AppShell, TopBar, NavRail, CompanyGroupSwitcher were demoted from the public
 // barrel in DS-SIMPLIFY 05 in favour of PlatformAppShell. Re-exported here with
 // @deprecated tags during the deprecation window; deleted at SIMPLIFY 14
 // (v1.0 cutover) after all consumers migrate to PlatformAppShell.
 /** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
-export { AppShell } from "./AppShell.js";
+export { AppShell } from "./AppShell";
 /** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
-export { TopBar } from "./TopBar.js";
+export { TopBar } from "./TopBar";
 /** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
-export { CompanyGroupSwitcher, } from "./CompanyGroupSwitcher.js";
+export { CompanyGroupSwitcher, } from "./CompanyGroupSwitcher";
 /** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
-export { NavRail } from "./NavRail.js";
+export { NavRail } from "./NavRail";
 // ── @aa/ui retirement — Phase 6 navigation hook ──────────────────────────────
-export { useNavigateWithOrigin, encodeOrigin, decodeOrigin, buildUrlWithOrigin, } from "./hooks/useNavigateWithOrigin.js";
+export { useNavigateWithOrigin, encodeOrigin, decodeOrigin, buildUrlWithOrigin, } from "./hooks/useNavigateWithOrigin";
 // ── DS-SIMPLIFY 08: Graph — unified data-viz primitive ───────────────────────
 // Subsumes Sparkline, MetricChartCard, DashboardChartCard, KpiTile, HeatmapChart,
 // RelationshipGraph, DistributionPlot into one layout-discriminated primitive.
 // force/hierarchical layouts are stubbed — coming in v1.1 with @xyflow/react.
-export { Graph } from "./Graph.js";
+export { Graph } from "./Graph";
 // ── DS-SIMPLIFY 10: AISuggestionsPane — canonical AI-review surface ──────────
-export { AISuggestionsPane, } from "./AISuggestionsPane.js";
+export { AISuggestionsPane, } from "./AISuggestionsPane";
 // ── DS-SIMPLIFY 07: EntityPicker — standalone search + inline-create combobox ─
-export { EntityPicker } from "./EntityPicker.js";
+export { EntityPicker } from "./EntityPicker";
 // ── DS-SIMPLIFY 12: layout atoms cluster ─────────────────────────────────────
-export { Stack, } from "./Stack.js";
-export { Row, } from "./Row.js";
-export { Text, } from "./Text.js";
-export { Menu, MenuItem, MenuSeparator, MenuLabel, } from "./Menu.js";
-export { Disclosure, Accordion, } from "./Disclosure.js";
+export { Stack, } from "./Stack";
+export { Row, } from "./Row";
+export { Text, } from "./Text";
+export { Menu, MenuItem, MenuSeparator, MenuLabel, } from "./Menu";
+export { Disclosure, Accordion, } from "./Disclosure";
 //# sourceMappingURL=index.js.map

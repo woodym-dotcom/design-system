@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { ActivityTimeline } from "./ActivityTimeline.js";
+import { ActivityTimeline } from "./ActivityTimeline";
 // ── Adapter: convert AuditEvent[] → ActivityEntry[] ──────────────────────────
 function auditEventToActivityEntry(ev) {
     return {

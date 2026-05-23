@@ -7,7 +7,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * Driven by ?section= URL search param (default: first section).
  */
 import * as React from 'react';
-import { useModuleShellRouter } from './ModuleShellProvider.js';
+import { useModuleShellRouter } from './ModuleShellProvider';
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function readSectionFromUrl(paramName) {
     if (typeof window === 'undefined')

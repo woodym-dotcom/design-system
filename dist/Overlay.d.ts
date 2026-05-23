@@ -18,7 +18,7 @@
  * The legacy primitives remain as `@deprecated` re-exports until SIMPLIFY 14.
  */
 import * as React from "react";
-import type { OverlayProps } from "./Overlay.types.js";
-export type { OverlayPlacement, OverlayProps, OverlaySection, OverlaySize, } from "./Overlay.types.js";
+import type { OverlayProps } from "./Overlay.types";
+export type { OverlayPlacement, OverlayProps, OverlaySection, OverlaySize, } from "./Overlay.types";
 export declare function Overlay(props: OverlayProps): React.ReactElement | null;
 //# sourceMappingURL=Overlay.d.ts.map

@@ -1,4 +1,4 @@
-import type { FieldPrimitiveProps } from './types.js';
+import type { FieldPrimitiveProps } from './types';
 export interface RichTextFieldProps extends FieldPrimitiveProps<string> {
     rows?: number;
     placeholder?: string;

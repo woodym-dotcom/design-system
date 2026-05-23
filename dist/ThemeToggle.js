@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useTheme } from "./useTheme.js";
+import { useTheme } from "./useTheme";
 const icons = {
     light: (_jsxs("svg", { viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", width: "18", height: "18", "aria-hidden": "true", children: [_jsx("circle", { cx: "10", cy: "10", r: "3.5" }), _jsx("path", { d: "M10 2v1.5M10 16.5V18M2 10h1.5M16.5 10H18M4.2 4.2l1.1 1.1M14.7 14.7l1.1 1.1M4.2 15.8l1.1-1.1M14.7 5.3l1.1-1.1" })] })),
     dark: (_jsx("svg", { viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", width: "18", height: "18", "aria-hidden": "true", children: _jsx("path", { d: "M16.5 11.5A7 7 0 0 1 8.5 3.5a7 7 0 1 0 8 8z" }) })),

@@ -1,4 +1,4 @@
-import type { FieldPrimitiveProps } from './types.js';
+import type { FieldPrimitiveProps } from './types';
 export interface MoneyValue {
     /** `null` represents an empty input (distinct from a real `0`). */
     amount: number | null;

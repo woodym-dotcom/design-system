@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from 'react';
-import { useToast } from './Toast.js';
+import { useToast } from './Toast';
 /**
  * Renders a copy-to-clipboard share affordance for a read-only deep link.
  * Pairs with `useSavedViews().shareableUrl(state)` to produce a stable
