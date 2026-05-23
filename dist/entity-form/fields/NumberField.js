@@ -5,7 +5,7 @@ import { jsx as _jsx } from "react/jsx-runtime";
  * Will be removed from public exports in v1.0 (DS-SIMPLIFY 14).
  */
 import * as React from 'react';
-import { FieldWrapper } from './FieldWrapper';
+import { FieldWrapper } from './FieldWrapper.js';
 export function NumberField({ name, form, label, hint, required, disabled, readOnly, min, max, step, placeholder }) {
     const reactId = React.useId();
     const id = `ef-${reactId}-${name}`;

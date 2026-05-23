@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import * as React from 'react';
-import { Modal } from './Modal';
-import { Kbd } from './Kbd';
+import { Modal } from './Modal.js';
+import { Kbd } from './Kbd.js';
 function fuzzyMatch(item, query) {
     if (!query)
         return true;

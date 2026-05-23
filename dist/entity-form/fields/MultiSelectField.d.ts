@@ -1,5 +1,5 @@
-import type { FieldPrimitiveProps } from './types';
-import type { SelectOption } from './SelectField';
+import type { FieldPrimitiveProps } from './types.js';
+import type { SelectOption } from './SelectField.js';
 export interface MultiSelectFieldProps extends FieldPrimitiveProps<string[]> {
     options: SelectOption[];
     placeholder?: string;

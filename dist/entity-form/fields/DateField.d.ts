@@ -1,4 +1,4 @@
-import type { FieldPrimitiveProps } from './types';
+import type { FieldPrimitiveProps } from './types.js';
 export interface DateFieldProps extends FieldPrimitiveProps<string> {
     min?: string;
     max?: string;

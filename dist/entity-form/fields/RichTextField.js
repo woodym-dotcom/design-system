@@ -8,7 +8,7 @@ import { jsx as _jsx } from "react/jsx-runtime";
  * AI-suggest calls the OrchestratorBridge (never a provider SDK directly).
  */
 import { useId } from 'react';
-import { FieldWrapper } from './FieldWrapper';
+import { FieldWrapper } from './FieldWrapper.js';
 export function RichTextField({ name, form, label, hint, required, disabled, readOnly, rows = 4, placeholder }) {
     const reactId = useId();
     const id = `ef-${reactId}-${name}`;

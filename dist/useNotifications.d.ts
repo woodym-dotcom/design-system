@@ -1,4 +1,4 @@
-import type { NotificationPriority, TrayNotification } from './Trays';
+import type { NotificationPriority, TrayNotification } from './Trays.js';
 export interface QuietHoursWindow {
     /** Hour-of-day in local time (0–23) when quiet hours start. */
     startLocalHour: number;

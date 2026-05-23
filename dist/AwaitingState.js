@@ -13,8 +13,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * without interrupting the user.
  */
 import * as React from "react";
-import { Spinner } from "./Spinner";
-import { Chip } from "./Chip";
+import { Spinner } from "./Spinner.js";
+import { Chip } from "./Chip.js";
 const DEFAULT_COPY = {
     awaiting: "Waiting for the upstream system to respond.",
     opening: "Opening connection…",

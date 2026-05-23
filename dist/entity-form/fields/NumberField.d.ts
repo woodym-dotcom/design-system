@@ -1,4 +1,4 @@
-import type { FieldPrimitiveProps } from './types';
+import type { FieldPrimitiveProps } from './types.js';
 export interface NumberFieldProps extends FieldPrimitiveProps<number> {
     min?: number;
     max?: number;

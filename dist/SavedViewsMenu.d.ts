@@ -1,4 +1,4 @@
-import type { SavedView } from './hooks/useSavedViews';
+import type { SavedView } from './hooks/useSavedViews.js';
 export interface SavedViewsMenuProps<TState = unknown> {
     /** Current views, typically from `useSavedViews({ scope }).views`. */
     views: ReadonlyArray<SavedView<TState>>;

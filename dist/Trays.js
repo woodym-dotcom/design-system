@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Drawer } from './Drawer';
+import { Drawer } from './Drawer.js';
 function formatAt(at) {
     const d = at instanceof Date ? at : new Date(at);
     if (Number.isNaN(d.getTime()))

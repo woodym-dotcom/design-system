@@ -13,8 +13,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * caller can also subscribe via `onResult` to surface a Drawer.
  */
 import * as React from 'react';
-import { useMultiSelect } from './hooks/useMultiSelect';
-import { BulkBar } from './BulkBar';
+import { useMultiSelect } from './hooks/useMultiSelect.js';
+import { BulkBar } from './BulkBar.js';
 /**
  * Header tri-state checkbox: empty / indeterminate / all-checked.
  */

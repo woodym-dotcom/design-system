@@ -19,15 +19,15 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
  * all callers move onto ModuleTemplate.
  */
 import * as React from "react";
-import { Breadcrumbs } from "./Breadcrumbs";
-import { ConfigurationsPage } from "./ConfigurationsPage";
-import { EmptyState } from "./EmptyState";
-import { Graph } from "./Graph";
-import { HomepageCards } from "./HomepageCards";
-import { ListPage } from "./ListPage";
-import { Overlay } from "./Overlay";
-import { ReviewQueue } from "./ReviewQueue";
-import { useModuleShellRouter } from "./ModuleShellProvider";
+import { Breadcrumbs } from "./Breadcrumbs.js";
+import { ConfigurationsPage } from "./ConfigurationsPage.js";
+import { EmptyState } from "./EmptyState.js";
+import { Graph } from "./Graph.js";
+import { HomepageCards } from "./HomepageCards.js";
+import { ListPage } from "./ListPage.js";
+import { Overlay } from "./Overlay.js";
+import { ReviewQueue } from "./ReviewQueue.js";
+import { useModuleShellRouter } from "./ModuleShellProvider.js";
 // ── URL helpers (mirrors ModuleShell so we don't take a dependency on it) ────
 function readParamFromUrl(name) {
     if (typeof window === "undefined")

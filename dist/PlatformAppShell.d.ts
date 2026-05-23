@@ -25,7 +25,7 @@
  * CompanyGroupSwitcher.
  */
 import * as React from 'react';
-import { type CommandPaletteProps } from './CommandPalette';
+import { type CommandPaletteProps } from './CommandPalette.js';
 export type BrandKey = 'companyco' | 'recruitment' | 'customer-lifecycle' | 'automation';
 export type AppKey = string;
 export interface ModuleDef {

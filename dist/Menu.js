@@ -10,7 +10,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * No external dependency required.
  */
 import * as React from 'react';
-import { useFocusTrap } from './a11y/useFocusTrap';
+import { useFocusTrap } from './a11y/useFocusTrap.js';
 const MenuContext = React.createContext(null);
 function useMenuContext() {
     const ctx = React.useContext(MenuContext);

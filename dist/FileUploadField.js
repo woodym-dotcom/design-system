@@ -14,7 +14,7 @@ import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
  * No new top-level deps — HTML5 native drag-and-drop only.
  */
 import * as React from 'react';
-import { formatFileSize, fileMatchesAccept } from './fileUploadUtils';
+import { formatFileSize, fileMatchesAccept } from './fileUploadUtils.js';
 export const FileUploadField = React.memo(function FileUploadField({ id, label, onChange, accept, maxSize, multiple = false, error: externalError, hint, required = false, disabled = false, className, }) {
     const inputRef = React.useRef(null);
     const onChangeRef = React.useRef(onChange);

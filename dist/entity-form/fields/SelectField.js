@@ -5,7 +5,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * Will be removed from public exports in v1.0 (DS-SIMPLIFY 14).
  */
 import * as React from 'react';
-import { FieldWrapper } from './FieldWrapper';
+import { FieldWrapper } from './FieldWrapper.js';
 export function SelectField({ name, form, label, hint, required, disabled, readOnly, options, placeholder, searchable = false, maxVisible = 8, filter, }) {
     const reactId = React.useId();
     const id = `ef-${reactId}-${name}`;

@@ -8,7 +8,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * Renders selected values as chips; unselected options as toggle buttons.
  */
 import * as React from 'react';
-import { FieldWrapper } from './FieldWrapper';
+import { FieldWrapper } from './FieldWrapper.js';
 export function MultiSelectField({ name, form, label, hint, required, disabled, options, placeholder }) {
     const reactId = React.useId();
     const id = `ef-${reactId}-${name}`;

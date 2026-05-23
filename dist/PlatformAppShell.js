@@ -26,13 +26,13 @@ import { jsxs as _jsxs, jsx as _jsx, Fragment as _Fragment } from "react/jsx-run
  * CompanyGroupSwitcher.
  */
 import * as React from 'react';
-import { FmtProvider } from './fmt/Fmt';
-import { OfflineBanner } from './OfflineBanner';
-import { TopBar } from './TopBar';
-import { NavRail } from './NavRail';
-import { CompanyGroupSwitcher } from './CompanyGroupSwitcher';
-import { CommandPalette } from './CommandPalette';
-import { Tooltip } from './Tooltip';
+import { FmtProvider } from './fmt/Fmt.js';
+import { OfflineBanner } from './OfflineBanner.js';
+import { TopBar } from './TopBar.js';
+import { NavRail } from './NavRail.js';
+import { CompanyGroupSwitcher } from './CompanyGroupSwitcher.js';
+import { CommandPalette } from './CommandPalette.js';
+import { Tooltip } from './Tooltip.js';
 const BRAND_LABEL = {
     companyco: 'CompanyCo',
     recruitment: 'Recruitment Woody',

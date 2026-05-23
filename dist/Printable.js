@@ -21,7 +21,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
  * /v1/shared-snapshots — filed as a separate backend ticket).
  */
 import * as React from 'react';
-import { Modal } from './Modal';
+import { Modal } from './Modal.js';
 export function Printable({ header, footer, exportFormat = 'print', children, className, }) {
     return (_jsxs("section", { className: ['cc-printable', className].filter(Boolean).join(' '), "data-print-target": "", "data-export-format": exportFormat, children: [header && _jsx("header", { className: "cc-printable__header", children: header }), _jsx("div", { className: "cc-printable__body", children: children }), footer && _jsx("footer", { className: "cc-printable__footer", children: footer })] }));
 }
