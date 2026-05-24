@@ -40,6 +40,10 @@ export interface AppShellProps {
   groupInitials?: string;
   /** Sidebar nav items (NavRail). */
   navItems?: NavRailItem[];
+  /** Items pinned to the bottom of the NavRail (e.g. Settings, Help). */
+  navFooterItems?: NavRailItem[];
+  /** Accessible label for the navigation rail. */
+  navAriaLabel?: string;
   /** id of the active nav item. */
   activeId?: string;
   /** Click handler for nav item activation (router bridge). */
@@ -70,6 +74,8 @@ export function AppShell({
   identity,
   groupInitials,
   navItems,
+  navFooterItems,
+  navAriaLabel,
   activeId,
   onNavigate,
   crumbs,
@@ -120,6 +126,8 @@ export function AppShell({
           {items.length > 0 ? (
             <NavRail
               items={items}
+              footerItems={navFooterItems}
+              ariaLabel={navAriaLabel}
               renderItem={
                 onNavigate
                   ? ({ item, isActive, className: itemClassName }) => (

@@ -7,8 +7,10 @@
  * Cutover: DS-SIMPLIFY 14.
  */
 import type { ReactNode } from 'react'
+import type { ChipTone } from './Chip'
 
-export type ChipTone = 'neutral' | 'accent' | 'success' | 'warning' | 'info' | 'danger'
+// Re-export ChipTone from unified source for backward-compat consumers.
+export type { ChipTone } from './Chip'
 
 function lifecycleTone(status: string): ChipTone {
   switch (status) {
@@ -16,11 +18,13 @@ function lifecycleTone(status: string): ChipTone {
     case 'approved':
     case 'auto_approved':
     case 'break_glass_post_hoc_approved':
+    case 'ratification':
       return 'success'
 
     case 'proposed':
     case 'queued':
     case 'break_glass_queued':
+    case 'draining-version':
       return 'warning'
 
     case 'draft':
@@ -54,6 +58,8 @@ export type LifecycleStateBadgeProps = {
 export function LifecycleStateBadge({ status, children }: LifecycleStateBadgeProps) {
   const tone = lifecycleTone(status)
   const displayText = children ?? status
-  const className = tone !== 'neutral' ? `cc-chip cc-chip--${tone}` : 'cc-chip'
+  // Normalise 'danger' → 'error' for CSS class names (unified tone mapping).
+  const cssTone = tone === 'danger' ? 'error' : tone
+  const className = cssTone !== 'neutral' ? `cc-chip cc-chip--${cssTone}` : 'cc-chip'
   return <span className={className}>{displayText}</span>
 }

@@ -9,7 +9,7 @@
  * `asOf` renders as <time dateTime={iso}>.
  */
 import * as React from "react";
-export type StateBannerKind = "offline" | "rate-limited" | "permissioned-out" | "stale-data" | "partial" | "degraded";
+export type StateBannerKind = "offline" | "rate-limited" | "permissioned-out" | "stale-data" | "partial" | "degraded" | "fail-closed" | "device-mismatch" | "lockout";
 export interface StateBannerAction {
     label: string;
     onClick: () => void;

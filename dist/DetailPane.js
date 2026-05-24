@@ -33,7 +33,7 @@ function readStoredWidth(key, fallback) {
  * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="detail-right">`
  *   instead. Removed at v1.0 (DS-SIMPLIFY 14).
  */
-export function DetailPane({ open, onClose, title, sections, className, subtitle, resizeKey, fullscreen: fullscreenProp, onFullscreenChange, }) {
+export function DetailPane({ open, onClose, title, sections, className, subtitle, resizeKey, fullscreen: fullscreenProp, onFullscreenChange, sectionHeading, headerActions, onResize, }) {
     const paneRef = React.useRef(null);
     const previouslyFocused = React.useRef(null);
     const titleId = React.useId();
@@ -89,6 +89,7 @@ export function DetailPane({ open, onClose, title, sections, className, subtitle
                     /* localStorage may be unavailable (private mode); ignore. */
                 }
             }
+            onResize?.(panelWidthRef.current);
         };
         document.addEventListener('pointermove', onMove);
         document.addEventListener('pointerup', onUp);
@@ -165,7 +166,7 @@ export function DetailPane({ open, onClose, title, sections, className, subtitle
     const widthStyle = resizeKey && !fullscreen
         ? { width: panelWidth, maxWidth: `${MAX_WIDTH_VW}vw` }
         : undefined;
-    const content = (_jsxs(_Fragment, { children: [_jsx("div", { className: `cc-detail-pane__backdrop${open ? ' is-open' : ''}`, onClick: onClose, "aria-hidden": "true" }), _jsxs("div", { ref: paneRef, role: "dialog", "aria-modal": "true", "aria-labelledby": titleId, "aria-hidden": !open, tabIndex: -1, className: classes.join(' '), style: widthStyle, children: [resizeKey && !fullscreen && (_jsx("div", { role: "separator", "aria-orientation": "vertical", "aria-label": "Resize panel", onPointerDown: beginResize, className: `cc-detail-pane__resize-handle${resizing ? ' is-resizing' : ''}` })), _jsxs("header", { className: "cc-detail-pane__header", children: [_jsxs("div", { className: "cc-detail-pane__header-title", children: [_jsx("h2", { id: titleId, className: "cc-detail-pane__title", children: title }), subtitle && (_jsx("p", { className: "cc-detail-pane__subtitle", children: subtitle }))] }), _jsxs("div", { className: "cc-detail-pane__header-actions", children: [_jsx("button", { type: "button", className: "cc-detail-pane__fullscreen-toggle", onClick: toggleFullscreen, "aria-label": fullscreen ? 'Exit full screen' : 'Full screen panel', "aria-pressed": fullscreen, children: fullscreen ? 'Exit full screen' : 'Full screen' }), _jsx("button", { type: "button", className: "cc-detail-pane__close", onClick: onClose, "aria-label": "Close panel", children: "Close" })] })] }), _jsx("div", { className: "cc-detail-pane__body", children: sections.map((section, index) => (_jsxs("section", { className: "cc-detail-pane__section", children: [_jsx("h3", { className: "cc-detail-pane__section-heading", children: section.heading }), _jsx("div", { className: "cc-detail-pane__section-content", children: section.content })] }, index))) })] })] }));
+    const content = (_jsxs(_Fragment, { children: [_jsx("div", { className: `cc-detail-pane__backdrop${open ? ' is-open' : ''}`, onClick: onClose, "aria-hidden": "true" }), _jsxs("div", { ref: paneRef, role: "dialog", "aria-modal": "true", "aria-labelledby": titleId, "aria-hidden": !open, tabIndex: -1, className: classes.join(' '), style: widthStyle, children: [resizeKey && !fullscreen && (_jsx("div", { role: "separator", "aria-orientation": "vertical", "aria-label": "Resize panel", onPointerDown: beginResize, className: `cc-detail-pane__resize-handle${resizing ? ' is-resizing' : ''}` })), _jsxs("header", { className: "cc-detail-pane__header", children: [_jsxs("div", { className: "cc-detail-pane__header-title", children: [_jsx("h2", { id: titleId, className: "cc-detail-pane__title", children: title }), subtitle && (_jsx("p", { className: "cc-detail-pane__subtitle", children: subtitle }))] }), _jsxs("div", { className: "cc-detail-pane__header-actions", children: [headerActions, _jsx("button", { type: "button", className: "cc-detail-pane__fullscreen-toggle", onClick: toggleFullscreen, "aria-label": fullscreen ? 'Exit full screen' : 'Full screen panel', "aria-pressed": fullscreen, children: fullscreen ? 'Exit full screen' : 'Full screen' }), _jsx("button", { type: "button", className: "cc-detail-pane__close", onClick: onClose, "aria-label": "Close panel", children: "Close" })] })] }), _jsxs("div", { className: "cc-detail-pane__body", children: [sectionHeading && (_jsx("h3", { className: "cc-detail-pane__section-heading cc-detail-pane__section-heading--top", children: sectionHeading })), sections.map((section, index) => (_jsxs("section", { className: "cc-detail-pane__section", children: [_jsx("h3", { className: "cc-detail-pane__section-heading", children: section.heading }), _jsx("div", { className: "cc-detail-pane__section-content", children: section.content })] }, index)))] })] })] }));
     // In fullscreen the pane must cover the surrounding ModuleShell + NavRail
     // chrome (a stacking-context inside a transformed parent would otherwise
     // clip it). Portal to <body> when fullscreen is active and the DOM is

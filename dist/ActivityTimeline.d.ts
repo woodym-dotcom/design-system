@@ -15,6 +15,8 @@
  * AuditLogList remains as a deprecated alias — see react/AuditLogList.tsx.
  */
 import * as React from "react";
+/** Kind discriminator for specialised timeline entries. */
+export type ActivityEntryKind = "default" | "delivery-attempt" | "amendment-chain";
 export interface ActivityEntry {
     id: string;
     actor: {
@@ -29,6 +31,8 @@ export interface ActivityEntry {
         after: unknown;
     };
     metadata?: Record<string, unknown>;
+    /** Entry kind — drives icon/colour treatment per-row. Default: "default". */
+    kind?: ActivityEntryKind;
 }
 export interface ActivityTimelineProps<E extends ActivityEntry = ActivityEntry> {
     entries: E[];

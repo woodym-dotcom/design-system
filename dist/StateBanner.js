@@ -9,6 +9,9 @@ const KIND = {
     "stale-data": { title: "Data is stale", tone: "info" },
     partial: { title: "Partial data shown", tone: "info" },
     degraded: { title: "Degraded service", tone: "warning" },
+    "fail-closed": { title: "Fail-closed — access denied by default", tone: "warning" },
+    "device-mismatch": { title: "Device mismatch detected", tone: "warning" },
+    lockout: { title: "Account locked out", tone: "warning" },
 };
 function isoOf(value) {
     if (!value)

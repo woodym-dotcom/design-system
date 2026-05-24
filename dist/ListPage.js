@@ -142,16 +142,22 @@ function DetailShell({ detail, editMode, setEditMode, canEdit, internalFullscree
                             }
                         }, "aria-label": isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen', children: isFullscreen ? '⊠' : '⊞' }), _jsx("button", { type: "button", className: "cc-btn cc-btn--ghost cc-btn--sm", onClick: onClose, "aria-label": "Close detail pane", children: "\u00D7" })] }), _jsx("div", { className: "cc-list-page__detail-body", children: loading ? (_jsx("div", { className: "cc-list-page__detail-loading", "aria-live": "polite", children: _jsx("span", { className: "cc-table__skeleton-cell", style: { display: 'block', minHeight: 80 } }) })) : error ? (_jsx("div", { className: "cc-list-page__detail-error", role: "alert", children: error })) : (render(selectedId, { editMode, setEditMode })) })] }));
 }
+// ── TreeNodeList (for role-gated-tree variant) ───────────────────────────────
+function TreeNodeList({ nodes }) {
+    return (_jsx("ul", { className: "cc-list-page__tree-list", style: { listStyle: 'none', margin: 0, padding: 0 }, children: nodes.map((node) => (_jsxs("li", { className: "cc-list-page__tree-node", children: [_jsxs("span", { className: "cc-list-page__tree-label", children: [node.icon && _jsx("span", { className: "cc-list-page__tree-icon", "aria-hidden": "true", children: node.icon }), node.label] }), node.children && node.children.length > 0 && (_jsx(TreeNodeList, { nodes: node.children }))] }, node.id))) }));
+}
 // ── Main component ────────────────────────────────────────────────────────────
-const EMPTY_LIST = { columns: [], rows: [] };
-export function ListPage({ heading, subtitle, breadcrumb, createMenu, search, list: listProp, filters, detail, bulk, urlState, permissions, className, 
+function emptyList() {
+    return { columns: [], rows: [] };
+}
+export function ListPage({ heading, subtitle, breadcrumb, createMenu, search, layout = 'default', treeNodes, userRole, secondaryPane, filterBarShape, list: listProp, filters, detail, bulk, urlState, permissions, className, 
 // Deprecated flat props
 filterOptions, activeFilterIds = [], onFilterToggle, onFilterRemove, emptyState, pagination: paginationNode, detailPane, selectedId: legacySelectedId = null, children, }) {
     // Legacy callers may pass only `children` and omit `list`. In that case we
     // skip the TableRegion entirely so its built-in empty state ("No items
     // found.") doesn't collide with the caller-rendered legacy content.
     const hasExplicitList = listProp !== undefined;
-    const list = listProp ?? EMPTY_LIST;
+    const list = listProp ?? emptyList();
     // ── URL state (opt-in) ────────────────────────────────────────────────────
     const urlOpts = urlState
         ? { paramPrefix: urlState.paramPrefix ?? '', router: urlState.router }
@@ -215,31 +221,49 @@ filterOptions, activeFilterIds = [], onFilterToggle, onFilterRemove, emptyState,
     const effectiveEmptyState = filteredEmptyState ?? list.emptyState ?? emptyState ?? null;
     // ── Permission helpers ────────────────────────────────────────────────────
     const canCreate = permissions?.canCreate !== false;
+    // ── Role-gated tree filtering ──────────────────────────────────────────
+    const filterTree = (nodes) => {
+        return nodes.filter((node) => {
+            if (!node.allowedRoles || node.allowedRoles.length === 0)
+                return true;
+            return userRole ? node.allowedRoles.includes(userRole) : true;
+        }).map((node) => ({
+            ...node,
+            children: node.children ? filterTree(node.children) : undefined,
+        }));
+    };
+    const visibleTreeNodes = treeNodes ? filterTree(treeNodes) : undefined;
     const classes = ['cc-list-page'];
+    if (layout !== 'default')
+        classes.push(`cc-list-page--${layout}`);
     if (className)
         classes.push(className);
     if (detail?.selectedId)
         classes.push('cc-list-page--has-detail');
     return (_jsxs("div", { className: classes.join(' '), children: [breadcrumb ? (_jsx("div", { className: "cc-list-page__breadcrumb", children: breadcrumb })) : null, _jsxs("div", { className: "cc-list-page__header", children: [_jsxs("div", { className: "cc-list-page__heading-group", children: [_jsx("h2", { className: "cc-list-page__heading", children: heading }), subtitle ? (_jsx("p", { className: "cc-list-page__subtitle", children: subtitle })) : null] }), createMenu && canCreate ? (_jsx("div", { className: "cc-list-page__primary-action", children: _jsx(CreateMenu, { items: createMenu.items, triggerLabel: createMenu.triggerLabel }) })) : null] }), search ? (_jsx("div", { className: "cc-list-page__search", children: search })) : null, resolvedFilters ? (_jsx("div", { className: "cc-list-page__filters", children: _jsx(FilterBar, { options: resolvedFilters.options, activeIds: resolvedFilters.activeIds, onToggle: resolvedFilters.onToggle, onRemove: 'onRemove' in resolvedFilters
                         ? resolvedFilters.onRemove
-                        : undefined, layout: resolvedFilters.kind === 'sidebar'
+                        : undefined, layout: filterBarShape === 'vertical'
                         ? 'sidebar'
-                        : resolvedFilters.kind === 'responsive'
-                            ? 'responsive'
-                            : 'horizontal', collapsedAt: 'collapsedAt' in resolvedFilters
+                        : filterBarShape === 'compact'
+                            ? 'horizontal'
+                            : resolvedFilters.kind === 'sidebar'
+                                ? 'sidebar'
+                                : resolvedFilters.kind === 'responsive'
+                                    ? 'responsive'
+                                    : 'horizontal', collapsedAt: 'collapsedAt' in resolvedFilters
                         ? resolvedFilters.collapsedAt
                         : undefined }) })) : null, list.scopeFilters && list.scopeFilters.length > 0 ? (_jsx("div", { className: "cc-list-view__scope-tabs", role: "tablist", "aria-label": "Scope filters", children: list.scopeFilters.map((f) => {
                     const active = f.id === list.activeScopeId;
                     return (_jsxs("button", { type: "button", role: "tab", "aria-selected": active, className: ['cc-list-view__scope-tab', active ? 'is-active' : '']
                             .filter(Boolean)
                             .join(' '), onClick: () => list.onScopeChange?.(f.id), children: [f.label, f.count !== undefined ? (_jsx("span", { className: "cc-list-view__scope-count", children: f.count })) : null] }, f.id));
-                }) })) : null, _jsxs("div", { className: "cc-list-page__content", children: [_jsxs("div", { className: "cc-list-page__list", children: [hasExplicitList ? (_jsx(TableRegion, { list: list, effectiveEmptyState: effectiveEmptyState, bulkSelectedIds: bulk?.selectedIds ?? [], onSelectRow: bulk
+                }) })) : null, _jsxs("div", { className: "cc-list-page__content", children: [layout === 'role-gated-tree' && visibleTreeNodes && visibleTreeNodes.length > 0 && (_jsx("nav", { className: "cc-list-page__tree-sidebar", "aria-label": "Navigation tree", children: _jsx(TreeNodeList, { nodes: visibleTreeNodes }) })), _jsxs("div", { className: "cc-list-page__list", children: [hasExplicitList ? (_jsx(TableRegion, { list: list, effectiveEmptyState: effectiveEmptyState, bulkSelectedIds: bulk?.selectedIds ?? [], onSelectRow: bulk
                                     ? (id) => {
                                         const next = bulk.selectedIds.includes(id)
                                             ? bulk.selectedIds.filter((x) => x !== id)
                                             : [...bulk.selectedIds, id];
                                         bulk.onChange(next);
                                     }
-                                    : undefined, detailSelectedId: detail?.selectedId ?? legacySelectedId })) : null, children ? (_jsx("div", { className: "cc-list-page__body", children: children })) : null, !hasExplicitList && !children && effectiveEmptyState ? (_jsx("div", { className: "cc-list-page__body", children: effectiveEmptyState })) : null, list.pagination ? (_jsx(PaginationBar, { pagination: list.pagination })) : paginationNode ? (_jsx("div", { className: "cc-list-page__pagination", children: paginationNode })) : null] }), detail ? (_jsx(DetailShell, { detail: detail, editMode: editMode, setEditMode: setEditMode, canEdit: permissions?.canEdit, internalFullscreen: internalFullscreen, onFullscreenToggle: () => setInternalFullscreen((v) => !v) })) : detailPane ? (_jsx("aside", { className: "cc-list-page__detail-pane", children: detailPane(legacySelectedId) })) : null] }), bulk ? (_jsx(BulkBar, { selectedIds: bulk.selectedIds, rows: list.rows, actions: bulk.actions, onChange: bulk.onChange, canDelete: permissions?.canDelete })) : null] }));
+                                    : undefined, detailSelectedId: detail?.selectedId ?? legacySelectedId })) : null, children ? (_jsx("div", { className: "cc-list-page__body", children: children })) : null, !hasExplicitList && !children && effectiveEmptyState ? (_jsx("div", { className: "cc-list-page__body", children: effectiveEmptyState })) : null, list.pagination ? (_jsx(PaginationBar, { pagination: list.pagination })) : paginationNode ? (_jsx("div", { className: "cc-list-page__pagination", children: paginationNode })) : null] }), detail ? (_jsx(DetailShell, { detail: detail, editMode: editMode, setEditMode: setEditMode, canEdit: permissions?.canEdit, internalFullscreen: internalFullscreen, onFullscreenToggle: () => setInternalFullscreen((v) => !v) })) : detailPane ? (_jsx("aside", { className: "cc-list-page__detail-pane", children: detailPane(legacySelectedId) })) : null] }), layout === 'multi-pane' && secondaryPane && (_jsx("aside", { className: "cc-list-page__secondary-pane", "aria-label": "Secondary pane", children: secondaryPane })), bulk ? (_jsx(BulkBar, { selectedIds: bulk.selectedIds, rows: list.rows, actions: bulk.actions, onChange: bulk.onChange, canDelete: permissions?.canDelete })) : null] }));
 }
 //# sourceMappingURL=ListPage.js.map

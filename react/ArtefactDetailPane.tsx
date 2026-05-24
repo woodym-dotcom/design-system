@@ -6,7 +6,7 @@
  *
  * §14 L1: no artefact detail primitive existed.
  * §14 L2: composes ExpandableDetailPane + ListView already in @ds/core.
- * §14 L3: follows cc-btn / cc-chip token pattern, ListViewColumn shape.
+ * §14 L3: follows cc-btn / cc-chip token pattern, column-definition shape.
  *
  * Exported types mirror the BE DTOs in com.aa.platform.artefact — keep in sync.
  *
@@ -15,7 +15,18 @@
  */
 import * as React from 'react';
 import { ExpandableDetailPane } from './ExpandableDetailPane';
-import { type ListViewColumn } from './ListView';
+/**
+ * Column definition for the inline tables in this file.
+ * Previously imported from ./ListView (deleted in Phase 2). The shape is
+ * intentionally identical to ListViewColumn so existing column arrays
+ * remain valid.
+ */
+interface ArtefactColumnDef<TRow> {
+  key: string;
+  label: string;
+  sortable?: boolean;
+  render: (row: TRow) => import('react').ReactNode;
+}
 
 // ── Domain types (mirrored from BE com.aa.platform.artefact DTOs) ─────────────
 
@@ -296,7 +307,7 @@ export function ArtefactMetricsView({ metrics }: ArtefactMetricsProps) {
 
 // ── Sub-component: ArtefactHistory ────────────────────────────────────────────
 
-const HISTORY_COLUMNS: ListViewColumn<ArtefactHistoryEntry>[] = [
+const HISTORY_COLUMNS: ArtefactColumnDef<ArtefactHistoryEntry>[] = [
   {
     key: 'executedAt',
     label: 'Executed at',
@@ -423,7 +434,7 @@ export function ArtefactHistory({
 
 // ── Sub-component: ArtefactCallers ────────────────────────────────────────────
 
-const CALLERS_COLUMNS: ListViewColumn<ArtefactCaller>[] = [
+const CALLERS_COLUMNS: ArtefactColumnDef<ArtefactCaller>[] = [
   {
     key: 'name',
     label: 'Caller',
@@ -498,7 +509,7 @@ export function ArtefactCallers({ callers }: ArtefactCallersProps) {
 
 // ── Sub-component: ArtefactVersioning ─────────────────────────────────────────
 
-const VERSIONS_COLUMNS: ListViewColumn<ArtefactVersion>[] = [
+const VERSIONS_COLUMNS: ArtefactColumnDef<ArtefactVersion>[] = [
   {
     key: 'version',
     label: 'Version',

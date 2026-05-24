@@ -1,4 +1,6 @@
 export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge } from './schema.js';
+export { fromJsonSchema } from './fromJsonSchema.js';
+export type { JsonSchema, JsonSchemaProperty, FromJsonSchemaResult } from './fromJsonSchema.js';
 export type { EntitySchema, FieldType, FieldMeta, AsyncValidator, AiReviewInput, AiReviewOutput, AiReviewSuggestion, AiReviewQuestion, AiReviewBlocker, OrchestratorBridge, } from './schema.js';
 export { useEntityForm } from './useEntityForm.js';
 export type { EntityFormHandle } from './useEntityForm.js';

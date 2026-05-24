@@ -6,7 +6,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * <NavRail> — text-label vertical navigation rail (G2 / NavRail extraction).
  *
  * Third nav primitive alongside cc-navrail (icon-only) and cc-sidebar (72px).
- * Extracted from cl-frontend/src/components/ModuleShell.tsx NavRail (lines 122–165).
+ * Extracted from customer-lifecycle/frontend/src/components/ModuleShell.tsx NavRail (lines 122–165).
  *
  * G2 contract:
  *  (a) Selected state legible in both light + dark via design tokens
@@ -17,7 +17,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * Router-agnostic: renders <a> tags by default. Consumers using a router
  * (React Router, TanStack Router, Next.js) pass a `renderItem` render-prop
  * that receives the item and active state and returns their router <Link>.
- * Wave 2 will switch cl-frontend's import to this component.
+ * Wave 2 will switch customer-lifecycle/frontend's import to this component.
  */
 import * as React from 'react';
 /**
@@ -72,11 +72,16 @@ export function NavRail({ items, footerItems, currentPathname, renderItem, ariaL
         const itemClass = [
             'cc-text-navrail__item',
             isActive ? 'is-active' : '',
+            item.disabled ? 'is-disabled' : '',
         ]
             .filter(Boolean)
             .join(' ');
         if (renderItem) {
             return (_jsx(React.Fragment, { children: renderItem({ item, isActive, className: itemClass }) }, item.id));
+        }
+        // Disabled items render as a non-interactive span.
+        if (item.disabled) {
+            return (_jsxs("span", { className: itemClass, "aria-disabled": "true", title: item.label, children: [item.icon ? (_jsx("span", { className: "cc-text-navrail__icon", "aria-hidden": "true", children: item.icon })) : null, _jsx("span", { className: "cc-text-navrail__label", children: item.label })] }, item.id));
         }
         // Compact mode shows the label as a native tooltip only — the visible
         // text is the first character/initial OR the supplied icon. This avoids

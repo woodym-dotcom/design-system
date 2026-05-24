@@ -12,6 +12,10 @@ export interface ShareReadOnlyLinkProps {
   variant?: 'button' | 'inline';
   /** Called after the URL is copied (useful for analytics). */
   onCopied?: () => void;
+  /** Stable aria-label override for the share button/link. */
+  'aria-label'?: string;
+  /** Stable data-testid attribute for test selection. */
+  'data-testid'?: string;
   className?: string;
 }
 
@@ -31,7 +35,10 @@ export function ShareReadOnlyLink({
   variant = 'button',
   onCopied,
   className,
+  ...rest
 }: ShareReadOnlyLinkProps) {
+  const ariaLabel = rest['aria-label'];
+  const testId = rest['data-testid'];
   const { toast } = useToast();
   const [copied, setCopied] = React.useState(false);
 
@@ -69,13 +76,16 @@ export function ShareReadOnlyLink({
 
   if (variant === 'inline') {
     return (
-      <div className={['cc-share-link', 'cc-share-link--inline', className].filter(Boolean).join(' ')}>
+      <div
+        className={['cc-share-link', 'cc-share-link--inline', className].filter(Boolean).join(' ')}
+        data-testid={testId}
+      >
         <input
           type="text"
           readOnly
           value={url}
           className="cc-share-link__url"
-          aria-label="Shareable URL"
+          aria-label={ariaLabel ?? "Shareable URL"}
           onClick={(e) => (e.target as HTMLInputElement).select()}
         />
         <button type="button" className="cc-btn cc-btn--primary" onClick={copy}>
@@ -91,7 +101,8 @@ export function ShareReadOnlyLink({
       type="button"
       className={['cc-btn', 'cc-btn--ghost', 'cc-share-link__btn', className].filter(Boolean).join(' ')}
       onClick={copy}
-      aria-label={`Copy shareable link: ${url}`}
+      aria-label={ariaLabel ?? `Copy shareable link: ${url}`}
+      data-testid={testId}
     >
       {copied ? 'Copied' : label}
     </button>

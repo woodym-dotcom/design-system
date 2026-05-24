@@ -527,7 +527,7 @@ Each brand declares exactly two seed values — `--brand-hue` (0–360°) and `-
 | CompanyCo | `210` | `0.15` | cyan — paired with automationArmoury; enterprise governance tools share a cool, technical family |
 | automationArmoury | `210` | `0.15` | cyan — machine, data, engineering density |
 | recruitment-woody | `30`  | `0.15` | warm orange / ember — people, recruitment warmth |
-| cl-frontend, customer-backoffice | `265` | `0.18` | indigo — customer-lifecycle admin family. Imports `@ds/core/brands/customer-lifecycle.css`, distinct from the GRC/automation cyan pair |
+| customer-lifecycle/frontend, customer-backoffice | `265` | `0.18` | indigo — customer-lifecycle admin family. Imports `@ds/core/brands/customer-lifecycle.css`, distinct from the GRC/automation cyan pair |
 
 To rebrand any product, change the two seed values in that brand's CSS file. The full accent set (light + dark) recomputes automatically; no downstream code changes.
 

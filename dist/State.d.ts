@@ -18,7 +18,7 @@
  *   degraded   → "Degraded service"             (banner, warning tone)
  */
 import * as React from 'react';
-export type StateVariant = 'empty' | 'loading' | 'error' | 'offline' | 'stale' | 'not-found' | 'forbidden' | 'degraded';
+export type StateVariant = 'empty' | 'loading' | 'error' | 'offline' | 'stale' | 'not-found' | 'forbidden' | 'degraded' | 'fail-closed' | 'device-mismatch' | 'lockout';
 export type StateDensity = 'page' | 'banner' | 'chip';
 export interface StateProps {
     variant: StateVariant;

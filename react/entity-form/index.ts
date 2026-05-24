@@ -1,5 +1,9 @@
 // Schema + types
 export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge } from './schema';
+
+// JSON Schema bridge (DS-MIG P1-06)
+export { fromJsonSchema } from './fromJsonSchema';
+export type { JsonSchema, JsonSchemaProperty, FromJsonSchemaResult } from './fromJsonSchema';
 export type {
   EntitySchema,
   FieldType,

@@ -55,6 +55,27 @@ const VARIANT_META = {
         bannerRole: 'alert',
         defaultIcon: '⚡',
     },
+    'fail-closed': {
+        title: 'Fail-closed — access denied by default',
+        description: 'The system has entered a fail-closed state. Contact support.',
+        tone: 'warning',
+        bannerRole: 'alert',
+        defaultIcon: '🛑',
+    },
+    'device-mismatch': {
+        title: 'Device mismatch detected',
+        description: 'The current device does not match the expected profile.',
+        tone: 'warning',
+        bannerRole: 'alert',
+        defaultIcon: '📱',
+    },
+    lockout: {
+        title: 'Account locked out',
+        description: 'Too many failed attempts. Try again later or contact support.',
+        tone: 'error',
+        bannerRole: 'alert',
+        defaultIcon: '🔒',
+    },
 };
 // ── tone → CSS variable mapping (no hardcoded hex) ───────────────────────────
 const TONE_VARS = {

@@ -16,7 +16,15 @@
  *    minimum 44×44px touch target (via padding + min-height).
  */
 
-export type StatusPillStatus = 'ok' | 'warning' | 'error' | 'info' | 'neutral';
+export type StatusPillStatus =
+  | 'ok'
+  | 'warning'
+  | 'error'
+  | 'info'
+  | 'neutral'
+  | 'sms-provider-health'
+  | 'band-drift'
+  | 'crosswalk';
 
 export interface StatusPillProps {
   /** Semantic status — drives colour and dot shape. */
@@ -31,11 +39,14 @@ export interface StatusPillProps {
 }
 
 const STATUS_DOT_SHAPES: Record<StatusPillStatus, string> = {
-  ok:      'cc-status-pill__dot--round',
-  warning: 'cc-status-pill__dot--diamond',
-  error:   'cc-status-pill__dot--square',
-  info:    'cc-status-pill__dot--round',
-  neutral: 'cc-status-pill__dot--round',
+  ok:                   'cc-status-pill__dot--round',
+  warning:              'cc-status-pill__dot--diamond',
+  error:                'cc-status-pill__dot--square',
+  info:                 'cc-status-pill__dot--round',
+  neutral:              'cc-status-pill__dot--round',
+  'sms-provider-health':'cc-status-pill__dot--round',
+  'band-drift':         'cc-status-pill__dot--diamond',
+  crosswalk:            'cc-status-pill__dot--round',
 };
 
 export function StatusPill({ status, label, size = 'md', onClick, className }: StatusPillProps) {

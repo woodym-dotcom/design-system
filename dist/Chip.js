@@ -1,8 +1,14 @@
 import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
+/** Normalise legacy tone values. */
+function normaliseTone(tone) {
+    if (tone === "danger")
+        return "error";
+    return tone;
+}
 function chipClasses(tone, interactive, className) {
     return [
         "cc-chip",
-        `cc-chip--${tone}`,
+        `cc-chip--${normaliseTone(tone)}`,
         interactive ? "cc-chip--button" : null,
         className,
     ]

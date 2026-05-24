@@ -29,6 +29,12 @@ export interface DetailPaneProps {
   fullscreen?: boolean;
   /** Called when the fullscreen state toggles. */
   onFullscreenChange?: (fs: boolean) => void;
+  /** Section heading rendered above the sections list. */
+  sectionHeading?: string;
+  /** Additional action buttons rendered in the header alongside close/fullscreen. */
+  headerActions?: React.ReactNode;
+  /** Called when the user finishes a drag-resize (receives the final width in px). */
+  onResize?: (width: number) => void;
 }
 
 const FOCUSABLE_SELECTOR =
@@ -71,6 +77,9 @@ export function DetailPane({
   resizeKey,
   fullscreen: fullscreenProp,
   onFullscreenChange,
+  sectionHeading,
+  headerActions,
+  onResize,
 }: DetailPaneProps) {
   const paneRef = React.useRef<HTMLDivElement | null>(null);
   const previouslyFocused = React.useRef<HTMLElement | null>(null);
@@ -133,6 +142,7 @@ export function DetailPane({
           /* localStorage may be unavailable (private mode); ignore. */
         }
       }
+      onResize?.(panelWidthRef.current);
     };
     document.addEventListener('pointermove', onMove);
     document.addEventListener('pointerup', onUp);
@@ -245,6 +255,7 @@ export function DetailPane({
             )}
           </div>
           <div className="cc-detail-pane__header-actions">
+            {headerActions}
             <button
               type="button"
               className="cc-detail-pane__fullscreen-toggle"
@@ -265,6 +276,11 @@ export function DetailPane({
           </div>
         </header>
         <div className="cc-detail-pane__body">
+          {sectionHeading && (
+            <h3 className="cc-detail-pane__section-heading cc-detail-pane__section-heading--top">
+              {sectionHeading}
+            </h3>
+          )}
           {sections.map((section, index) => (
             <section key={index} className="cc-detail-pane__section">
               <h3 className="cc-detail-pane__section-heading">

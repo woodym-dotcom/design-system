@@ -31,6 +31,9 @@ export interface MetadataChipFreshness {
  */
 export type MetadataChipStaleness = 'fresh' | 'stale' | 'missing';
 
+/** Tone variant for MetadataChip — extends base display with production-path and redaction semantics. */
+export type MetadataChipTone = 'default' | 'production-path' | 'redaction-marker';
+
 export interface MetadataChipProps {
   /** Freshness delta — e.g. { value: 3, unit: 'm' } renders "3m". */
   freshness?: MetadataChipFreshness;
@@ -54,6 +57,13 @@ export interface MetadataChipProps {
   staleness?: MetadataChipStaleness;
   /** Align the expanded panel. Default is 'left'. */
   align?: 'left' | 'right';
+  /**
+   * Tone variant.
+   *   - "default"          — standard metadata chip.
+   *   - "production-path"  — highlights that the field follows a production data path.
+   *   - "redaction-marker" — indicates the field has been redacted.
+   */
+  tone?: MetadataChipTone;
   className?: string;
 }
 
@@ -85,6 +95,12 @@ function stalenessDotColor(s: MetadataChipStaleness): string {
   return '';
 }
 
+const TONE_ICON: Record<MetadataChipTone, string> = {
+  default: 'ⓘ',
+  'production-path': '⛓',
+  'redaction-marker': '██',
+};
+
 export function MetadataChip({
   freshness,
   privacy,
@@ -93,6 +109,7 @@ export function MetadataChip({
   lastUpdated,
   staleness,
   align = 'left',
+  tone = 'default',
   className,
 }: MetadataChipProps) {
   const [open, setOpen] = React.useState(false);
@@ -117,7 +134,7 @@ export function MetadataChip({
   const panelId = React.useId();
 
   return (
-    <span className={['cc-metadata-chip', className].filter(Boolean).join(' ')}>
+    <span className={['cc-metadata-chip', tone !== 'default' ? `cc-metadata-chip--${tone}` : '', className].filter(Boolean).join(' ')}>
       <button
         ref={triggerRef}
         type="button"
@@ -134,7 +151,7 @@ export function MetadataChip({
             style={{ background: stalenessDotColor(staleness!) }}
           />
         )}
-        <span aria-hidden="true" className="cc-metadata-chip__icon">ⓘ</span>
+        <span aria-hidden="true" className="cc-metadata-chip__icon">{TONE_ICON[tone]}</span>
       </button>
 
       {open && hasContent && (

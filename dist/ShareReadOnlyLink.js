@@ -10,7 +10,9 @@ import { useToast } from './Toast.js';
  * responsible for ensuring the URL routes to a view that enforces the
  * appropriate permissions for the recipient.
  */
-export function ShareReadOnlyLink({ url, label = 'Share', helpText, variant = 'button', onCopied, className, }) {
+export function ShareReadOnlyLink({ url, label = 'Share', helpText, variant = 'button', onCopied, className, ...rest }) {
+    const ariaLabel = rest['aria-label'];
+    const testId = rest['data-testid'];
     const { toast } = useToast();
     const [copied, setCopied] = React.useState(false);
     const copy = React.useCallback(async () => {
@@ -47,8 +49,8 @@ export function ShareReadOnlyLink({ url, label = 'Share', helpText, variant = 'b
         }
     }, [url, toast, onCopied]);
     if (variant === 'inline') {
-        return (_jsxs("div", { className: ['cc-share-link', 'cc-share-link--inline', className].filter(Boolean).join(' '), children: [_jsx("input", { type: "text", readOnly: true, value: url, className: "cc-share-link__url", "aria-label": "Shareable URL", onClick: (e) => e.target.select() }), _jsx("button", { type: "button", className: "cc-btn cc-btn--primary", onClick: copy, children: copied ? 'Copied' : 'Copy' }), helpText && _jsx("p", { className: "cc-share-link__help", children: helpText })] }));
+        return (_jsxs("div", { className: ['cc-share-link', 'cc-share-link--inline', className].filter(Boolean).join(' '), "data-testid": testId, children: [_jsx("input", { type: "text", readOnly: true, value: url, className: "cc-share-link__url", "aria-label": ariaLabel ?? "Shareable URL", onClick: (e) => e.target.select() }), _jsx("button", { type: "button", className: "cc-btn cc-btn--primary", onClick: copy, children: copied ? 'Copied' : 'Copy' }), helpText && _jsx("p", { className: "cc-share-link__help", children: helpText })] }));
     }
-    return (_jsx("button", { type: "button", className: ['cc-btn', 'cc-btn--ghost', 'cc-share-link__btn', className].filter(Boolean).join(' '), onClick: copy, "aria-label": `Copy shareable link: ${url}`, children: copied ? 'Copied' : label }));
+    return (_jsx("button", { type: "button", className: ['cc-btn', 'cc-btn--ghost', 'cc-share-link__btn', className].filter(Boolean).join(' '), onClick: copy, "aria-label": ariaLabel ?? `Copy shareable link: ${url}`, "data-testid": testId, children: copied ? 'Copied' : label }));
 }
 //# sourceMappingURL=ShareReadOnlyLink.js.map

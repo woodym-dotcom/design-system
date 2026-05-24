@@ -5,10 +5,12 @@ function lifecycleTone(status) {
         case 'approved':
         case 'auto_approved':
         case 'break_glass_post_hoc_approved':
+        case 'ratification':
             return 'success';
         case 'proposed':
         case 'queued':
         case 'break_glass_queued':
+        case 'draining-version':
             return 'warning';
         case 'draft':
             return 'accent';
@@ -32,7 +34,9 @@ function lifecycleTone(status) {
 export function LifecycleStateBadge({ status, children }) {
     const tone = lifecycleTone(status);
     const displayText = children ?? status;
-    const className = tone !== 'neutral' ? `cc-chip cc-chip--${tone}` : 'cc-chip';
+    // Normalise 'danger' → 'error' for CSS class names (unified tone mapping).
+    const cssTone = tone === 'danger' ? 'error' : tone;
+    const className = cssTone !== 'neutral' ? `cc-chip cc-chip--${cssTone}` : 'cc-chip';
     return _jsx("span", { className: className, children: displayText });
 }
 //# sourceMappingURL=LifecycleStateBadge.js.map

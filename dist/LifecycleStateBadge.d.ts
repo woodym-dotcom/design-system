@@ -7,7 +7,7 @@
  * Cutover: DS-SIMPLIFY 14.
  */
 import type { ReactNode } from 'react';
-export type ChipTone = 'neutral' | 'accent' | 'success' | 'warning' | 'info' | 'danger';
+export type { ChipTone } from './Chip.js';
 export type LifecycleStateBadgeProps = {
     status: string;
     children?: ReactNode;

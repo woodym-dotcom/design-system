@@ -15,7 +15,7 @@
  *  - When interactive (onClick), the host element is a <button> with
  *    minimum 44×44px touch target (via padding + min-height).
  */
-export type StatusPillStatus = 'ok' | 'warning' | 'error' | 'info' | 'neutral';
+export type StatusPillStatus = 'ok' | 'warning' | 'error' | 'info' | 'neutral' | 'sms-provider-health' | 'band-drift' | 'crosswalk';
 export interface StatusPillProps {
     /** Semantic status — drives colour and dot shape. */
     status: StatusPillStatus;

@@ -5,6 +5,9 @@ const STATUS_DOT_SHAPES = {
     error: 'cc-status-pill__dot--square',
     info: 'cc-status-pill__dot--round',
     neutral: 'cc-status-pill__dot--round',
+    'sms-provider-health': 'cc-status-pill__dot--round',
+    'band-drift': 'cc-status-pill__dot--diamond',
+    crosswalk: 'cc-status-pill__dot--round',
 };
 export function StatusPill({ status, label, size = 'md', onClick, className }) {
     const classes = [
