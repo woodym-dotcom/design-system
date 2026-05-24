@@ -28,6 +28,8 @@ export interface MetadataChipFreshness {
  *  - 'missing' — grey dot on the trigger icon; "No data" line in the panel
  */
 export type MetadataChipStaleness = 'fresh' | 'stale' | 'missing';
+/** Tone variant for MetadataChip — extends base display with production-path and redaction semantics. */
+export type MetadataChipTone = 'default' | 'production-path' | 'redaction-marker';
 export interface MetadataChipProps {
     /** Freshness delta — e.g. { value: 3, unit: 'm' } renders "3m". */
     freshness?: MetadataChipFreshness;
@@ -51,7 +53,14 @@ export interface MetadataChipProps {
     staleness?: MetadataChipStaleness;
     /** Align the expanded panel. Default is 'left'. */
     align?: 'left' | 'right';
+    /**
+     * Tone variant.
+     *   - "default"          — standard metadata chip.
+     *   - "production-path"  — highlights that the field follows a production data path.
+     *   - "redaction-marker" — indicates the field has been redacted.
+     */
+    tone?: MetadataChipTone;
     className?: string;
 }
-export declare function MetadataChip({ freshness, privacy, inspectHref, inspectContent, lastUpdated, staleness, align, className, }: MetadataChipProps): import("react/jsx-runtime").JSX.Element;
+export declare function MetadataChip({ freshness, privacy, inspectHref, inspectContent, lastUpdated, staleness, align, tone, className, }: MetadataChipProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=MetadataChip.d.ts.map

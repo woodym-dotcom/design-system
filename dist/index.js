@@ -8,7 +8,7 @@ export { FilterBar } from "./FilterBar.js";
 // Individual field components (TextField, NumberField, etc.) are NOT exported here.
 // Use <EntityForm schema={...}> for schema-driven forms or <FormField as="shell">
 // for arbitrary child inputs. Custom field types use registerFieldType().
-export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge, useEntityForm, EntityForm, registerFieldType, getFieldTypeComponent, } from "./entity-form/index.js";
+export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge, useEntityForm, EntityForm, registerFieldType, getFieldTypeComponent, fromJsonSchema, } from "./entity-form/index.js";
 export { ThemeToggle } from "./ThemeToggle.js";
 export { ModuleShell, } from "./ModuleShell.js";
 export { ModuleShellProvider, useModuleShellRouter, } from "./ModuleShellProvider.js";
@@ -158,4 +158,58 @@ export { Row, } from "./Row.js";
 export { Text, } from "./Text.js";
 export { Menu, MenuItem, MenuSeparator, MenuLabel, } from "./Menu.js";
 export { Disclosure, Accordion, } from "./Disclosure.js";
+// ── DS-MIG P1-01: AuthLayout — login/signup/SSO callback layout ─────────────
+export { AuthLayout, AuthScreen, } from "./AuthLayout.js";
+// ── DS-MIG P1-02: ErrorPage family — NotFound, ServerError, Degraded ────────
+export { NotFound, ServerError, Degraded, } from "./ErrorPage.js";
+// ── DS-MIG P1-03: DataTable — sort/filter/select/paginate table ─────────────
+export { DataTable, } from "./DataTable.js";
+// ── DS-MIG P1-04: HeatmapChart / MatrixChart — matrix visualization ─────────
+export { HeatmapChart, MatrixChart, } from "./HeatmapChart.js";
+// ── DS-MIG P1-12: AppSwitcher — standalone cross-app nav dropdown ───────────
+export { AppSwitcher, } from "./AppSwitcher.js";
+// ── DS-MIG P1-13: UserMenu — standalone user popover ────────────────────────
+export { UserMenu, } from "./UserMenu.js";
+// ── DS-MIG P1-14: MetaRow — horizontal label-value metadata strip ───────────
+export { MetaRow, } from "./MetaRow.js";
+// ── EXT primitives — domain extension components ────────────────────────────
+// EXT-AIProvenanceChip — AI provenance metadata chip
+export { AIProvenanceChip, ProvenanceChip, } from "./AIProvenanceChip.js";
+// EXT-DryRunPanel — blast-radius preview panel
+export { DryRunPanel, } from "./DryRunPanel.js";
+// EXT-CommanderView — three-pane incident command layout
+export { CommanderView, } from "./CommanderView.js";
+// EXT-DualMeasurementLayout — side-by-side continuous + discrete cadence
+export { DualMeasurementLayout, } from "./DualMeasurementLayout.js";
+// EXT-CascadePanel — parent-child cascade visualization
+export { CascadePanel, } from "./CascadePanel.js";
+// EXT-EntitlementPanel — recipient entitlement display
+export { EntitlementPanel, } from "./EntitlementPanel.js";
+// EXT-ConcentrationHeatmap — risk/vendor concentration grid
+export { ConcentrationHeatmap, } from "./ConcentrationHeatmap.js";
+// EXT-LegalNameComposer / MultiScriptNameBlock — multi-script name display
+export { MultiScriptNameBlock, LegalNameComposer, } from "./MultiScriptNameBlock.js";
+// EXT-PointInTimeReplayer — temporal replay control
+export { PointInTimeReplayer, } from "./PointInTimeReplayer.js";
+// DependencyGraphPane — feature/model dependency graph
+export { DependencyGraphPane, } from "./DependencyGraphPane.js";
+// EvidenceBundleViewer — structured evidence bundle viewer
+export { EvidenceBundleViewer, } from "./EvidenceBundleViewer.js";
+// HashChainVerifier — hash chain integrity verification
+export { HashChainVerifier, } from "./HashChainVerifier.js";
+// EXT-SuggestedFieldRow — DetailRow with AI provenance + accept/decline
+export { SuggestedFieldRow, } from "./SuggestedFieldRow.js";
+// EXT-GraphEdgeChip — dependency-graph edge attribute chip
+export { GraphEdgeChip, } from "./GraphEdgeChip.js";
+// DS: RelationshipGraph — interactive relationship graph visualization
+export { RelationshipGraph, } from "./RelationshipGraph.js";
+// ── DS variant / improvement components ─────────────────────────────────────
+// Toolbar / PrimaryActionBar — queue-position variant
+export { Toolbar, PrimaryActionBar, } from "./Toolbar.js";
+// EnvelopeBadge — multi-field chip group for resolved envelope
+export { EnvelopeBadge, } from "./EnvelopeBadge.js";
+// FreshnessPill — freshness class display
+export { FreshnessPill, } from "./FreshnessPill.js";
+// ── DS-MIG P1-05: ThreadView — messaging pane for outreach/chat ────────────
+export { ThreadView, } from "./ThreadView.js";
 //# sourceMappingURL=index.js.map

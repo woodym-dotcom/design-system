@@ -9,6 +9,10 @@ export interface ShareReadOnlyLinkProps {
     variant?: 'button' | 'inline';
     /** Called after the URL is copied (useful for analytics). */
     onCopied?: () => void;
+    /** Stable aria-label override for the share button/link. */
+    'aria-label'?: string;
+    /** Stable data-testid attribute for test selection. */
+    'data-testid'?: string;
     className?: string;
 }
 /**
@@ -20,5 +24,5 @@ export interface ShareReadOnlyLinkProps {
  * responsible for ensuring the URL routes to a view that enforces the
  * appropriate permissions for the recipient.
  */
-export declare function ShareReadOnlyLink({ url, label, helpText, variant, onCopied, className, }: ShareReadOnlyLinkProps): import("react/jsx-runtime").JSX.Element;
+export declare function ShareReadOnlyLink({ url, label, helpText, variant, onCopied, className, ...rest }: ShareReadOnlyLinkProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=ShareReadOnlyLink.d.ts.map

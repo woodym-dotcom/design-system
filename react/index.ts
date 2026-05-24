@@ -23,6 +23,7 @@ export {
   EntityForm,
   registerFieldType,
   getFieldTypeComponent,
+  fromJsonSchema,
 } from "./entity-form/index";
 export type {
   EntitySchema,
@@ -44,6 +45,9 @@ export type {
   SelectOption,
   MoneyValue,
   SearchResult,
+  JsonSchema,
+  JsonSchemaProperty,
+  FromJsonSchemaResult,
 } from "./entity-form/index";
 export { ThemeToggle, type ThemeToggleProps } from "./ThemeToggle";
 export {
@@ -71,6 +75,8 @@ export {
   type ListPageUrlState,
   type ListPagePermissions,
   type BulkAction,
+  type ListPageLayout,
+  type ListPageTreeNode,
 } from "./ListPage";
 export {
   ConfigurationsPage,
@@ -224,6 +230,7 @@ export {
   MetadataChip,
   type MetadataChipProps,
   type MetadataChipFreshness,
+  type MetadataChipTone,
 } from "./MetadataChip";
 
 export {
@@ -515,6 +522,7 @@ export {
   ActivityTimeline,
   type ActivityTimelineProps,
   type ActivityEntry,
+  type ActivityEntryKind,
 } from "./ActivityTimeline";
 
 // AuditLogList — deprecated alias; kept for back-compat until v1.0 (SIMPLIFY 14).
@@ -652,4 +660,223 @@ export {
   type AccordionProps,
   type AccordionItem,
 } from "./Disclosure";
+
+// ── DS-MIG P1-01: AuthLayout — login/signup/SSO callback layout ─────────────
+export {
+  AuthLayout,
+  AuthScreen,
+  type AuthLayoutProps,
+  type AuthLayoutVariant,
+} from "./AuthLayout";
+
+// ── DS-MIG P1-02: ErrorPage family — NotFound, ServerError, Degraded ────────
+export {
+  NotFound,
+  ServerError,
+  Degraded,
+  type ErrorPageProps,
+  type NotFoundProps,
+  type ServerErrorProps,
+  type DegradedProps,
+} from "./ErrorPage";
+
+// ── DS-MIG P1-03: DataTable — sort/filter/select/paginate table ─────────────
+export {
+  DataTable,
+  type DataTableProps,
+  type DataTableColumn,
+  type DataTableSortState,
+  type DataTableSortDirection,
+  type DataTablePagination,
+  type DataTableSelection,
+} from "./DataTable";
+
+// ── DS-MIG P1-04: HeatmapChart / MatrixChart — matrix visualization ─────────
+export {
+  HeatmapChart,
+  MatrixChart,
+  type HeatmapChartProps,
+  type MatrixChartProps,
+  type HeatmapCell as HeatmapChartCell,
+} from "./HeatmapChart";
+
+// ── DS-MIG P1-12: AppSwitcher — standalone cross-app nav dropdown ───────────
+export {
+  AppSwitcher,
+  type AppSwitcherProps,
+  type AppSwitcherApp,
+} from "./AppSwitcher";
+
+// ── DS-MIG P1-13: UserMenu — standalone user popover ────────────────────────
+export {
+  UserMenu,
+  type UserMenuProps,
+  type UserMenuUser,
+} from "./UserMenu";
+
+// ── DS-MIG P1-14: MetaRow — horizontal label-value metadata strip ───────────
+export {
+  MetaRow,
+  type MetaRowProps,
+  type MetaRowItem,
+  type MetaRowSize,
+  type MetaRowLayout,
+} from "./MetaRow";
+
+// ── EXT primitives — domain extension components ────────────────────────────
+
+// EXT-AIProvenanceChip — AI provenance metadata chip
+export {
+  AIProvenanceChip,
+  ProvenanceChip,
+  type AIProvenanceChipProps,
+  type AIProvenanceConfidenceLevel,
+  type AIProvenanceVariant,
+} from "./AIProvenanceChip";
+
+// EXT-DryRunPanel — blast-radius preview panel
+export {
+  DryRunPanel,
+  type DryRunPanelProps,
+  type DryRunEntity,
+  type DryRunRiskLevel,
+} from "./DryRunPanel";
+
+// EXT-CommanderView — three-pane incident command layout
+export {
+  CommanderView,
+  type CommanderViewProps,
+  type CircuitBreakerState,
+  type VendorCohortLane,
+} from "./CommanderView";
+
+// EXT-DualMeasurementLayout — side-by-side continuous + discrete cadence
+export {
+  DualMeasurementLayout,
+  type DualMeasurementLayoutProps,
+  type DualMeasurementVariant,
+  type CircuitBreakerBand,
+} from "./DualMeasurementLayout";
+
+// EXT-CascadePanel — parent-child cascade visualization
+export {
+  CascadePanel,
+  type CascadePanelProps,
+  type CascadeNode,
+  type CascadeNodeStatus,
+} from "./CascadePanel";
+
+// EXT-EntitlementPanel — recipient entitlement display
+export {
+  EntitlementPanel,
+  type EntitlementPanelProps,
+  type Entitlement,
+  type EntitlementType,
+  type EntitlementSource,
+} from "./EntitlementPanel";
+
+// EXT-ConcentrationHeatmap — risk/vendor concentration grid
+export {
+  ConcentrationHeatmap,
+  type ConcentrationHeatmapProps,
+  type ConcentrationCell,
+  type ConcentrationThresholds,
+} from "./ConcentrationHeatmap";
+
+// EXT-LegalNameComposer / MultiScriptNameBlock — multi-script name display
+export {
+  MultiScriptNameBlock,
+  LegalNameComposer,
+  type MultiScriptNameBlockProps,
+  type LegalNameComposerProps,
+  type NameScript,
+} from "./MultiScriptNameBlock";
+
+// EXT-PointInTimeReplayer — temporal replay control
+export {
+  PointInTimeReplayer,
+  type PointInTimeReplayerProps,
+  type Snapshot,
+} from "./PointInTimeReplayer";
+
+// DependencyGraphPane — feature/model dependency graph
+export {
+  DependencyGraphPane,
+  type DependencyGraphPaneProps,
+  type DependencyNode,
+  type DependencyEdge,
+  type DependencyNodeStatus,
+} from "./DependencyGraphPane";
+
+// EvidenceBundleViewer — structured evidence bundle viewer
+export {
+  EvidenceBundleViewer,
+  type EvidenceBundleViewerProps,
+  type EvidenceFile,
+  type EvidenceFileStatus,
+} from "./EvidenceBundleViewer";
+
+// HashChainVerifier — hash chain integrity verification
+export {
+  HashChainVerifier,
+  type HashChainVerifierProps,
+  type ChainBlock,
+  type ChainBlockStatus,
+} from "./HashChainVerifier";
+
+// EXT-SuggestedFieldRow — DetailRow with AI provenance + accept/decline
+export {
+  SuggestedFieldRow,
+  type SuggestedFieldRowProps,
+} from "./SuggestedFieldRow";
+
+// EXT-GraphEdgeChip — dependency-graph edge attribute chip
+export {
+  GraphEdgeChip,
+  type GraphEdgeChipProps,
+  type GraphEdgeDirection,
+  type GraphEdgeType,
+} from "./GraphEdgeChip";
+
+// DS: RelationshipGraph — interactive relationship graph visualization
+export {
+  RelationshipGraph,
+  type RelationshipGraphProps,
+  type RelationshipNode,
+  type RelationshipEdge,
+  type RelationshipNodeType,
+} from "./RelationshipGraph";
+
+// ── DS variant / improvement components ─────────────────────────────────────
+
+// Toolbar / PrimaryActionBar — queue-position variant
+export {
+  Toolbar,
+  PrimaryActionBar,
+  type ToolbarProps,
+  type PrimaryActionBarProps,
+  type ToolbarVariant,
+  type ToolbarAction,
+} from "./Toolbar";
+
+// EnvelopeBadge — multi-field chip group for resolved envelope
+export {
+  EnvelopeBadge,
+  type EnvelopeBadgeProps,
+  type EnvelopeBadgeField,
+} from "./EnvelopeBadge";
+
+// FreshnessPill — freshness class display
+export {
+  FreshnessPill,
+  type FreshnessPillProps,
+  type FreshnessClass,
+} from "./FreshnessPill";
+
+// ── DS-MIG P1-05: ThreadView — messaging pane for outreach/chat ────────────
+export {
+  ThreadView,
+  type ThreadViewProps,
+  type ThreadMessage,
+} from "./ThreadView";
 

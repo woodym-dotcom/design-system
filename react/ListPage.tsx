@@ -47,6 +47,26 @@ import type {
   SortDirection,
 } from './ListView';
 
+// ── Layout variants ──────────────────────────────────────────────────────────
+
+/** ListPage layout variant. */
+export type ListPageLayout =
+  | "default"
+  | "computed-task-inbox"
+  | "role-gated-tree"
+  | "multi-filter-chips"
+  | "multi-pane";
+
+/** Role-gated tree node — controls visibility/rendering per role. */
+export interface ListPageTreeNode {
+  id: string;
+  label: string;
+  children?: ListPageTreeNode[];
+  /** Roles allowed to see this node. Empty/undefined = visible to all. */
+  allowedRoles?: string[];
+  icon?: React.ReactNode;
+}
+
 // ── Bulk actions ──────────────────────────────────────────────────────────────
 
 export interface BulkAction<TRow = { id: string }> {
@@ -162,6 +182,23 @@ export interface ListPageProps<TRow extends { id: string } = { id: string }> {
    * on long lists where the page header has scrolled away.
    */
   search?: React.ReactNode;
+  /**
+   * Layout variant.
+   *   - "default"              — standard list + detail pane.
+   *   - "computed-task-inbox"  — task-queue style with priority ordering.
+   *   - "role-gated-tree"     — tree navigation with role-based visibility.
+   *   - "multi-filter-chips"  — multiple concurrent filter chip groups.
+   *   - "multi-pane"          — side-by-side panes for complex entity views.
+   */
+  layout?: ListPageLayout;
+  /** Tree structure for role-gated-tree variant. */
+  treeNodes?: ListPageTreeNode[];
+  /** Current user's role — used for role-gated-tree filtering. */
+  userRole?: string;
+  /** Additional pane content (multi-pane variant). */
+  secondaryPane?: React.ReactNode;
+  /** Non-standard FilterBar shape override (multi-pane OfferingView support). */
+  filterBarShape?: 'default' | 'compact' | 'vertical';
 
   // ── list region
   // Required in Phase 2. For backward-compat callers that use only `children`,
@@ -591,9 +628,31 @@ function DetailShell({
   );
 }
 
+// ── TreeNodeList (for role-gated-tree variant) ───────────────────────────────
+
+function TreeNodeList({ nodes }: { nodes: ListPageTreeNode[] }) {
+  return (
+    <ul className="cc-list-page__tree-list" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+      {nodes.map((node) => (
+        <li key={node.id} className="cc-list-page__tree-node">
+          <span className="cc-list-page__tree-label">
+            {node.icon && <span className="cc-list-page__tree-icon" aria-hidden="true">{node.icon}</span>}
+            {node.label}
+          </span>
+          {node.children && node.children.length > 0 && (
+            <TreeNodeList nodes={node.children} />
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
-const EMPTY_LIST = { columns: [], rows: [] };
+function emptyList<TRow extends { id: string }>(): ListPageListProps<TRow> {
+  return { columns: [], rows: [] };
+}
 
 export function ListPage<TRow extends { id: string } = { id: string }>({
   heading,
@@ -601,6 +660,11 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
   breadcrumb,
   createMenu,
   search,
+  layout = 'default',
+  treeNodes,
+  userRole,
+  secondaryPane,
+  filterBarShape,
   list: listProp,
   filters,
   detail,
@@ -623,7 +687,7 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
   // skip the TableRegion entirely so its built-in empty state ("No items
   // found.") doesn't collide with the caller-rendered legacy content.
   const hasExplicitList = listProp !== undefined;
-  const list = listProp ?? (EMPTY_LIST as unknown as ListPageListProps<TRow>);
+  const list = listProp ?? emptyList<TRow>();
 
   // ── URL state (opt-in) ────────────────────────────────────────────────────
   const urlOpts: UseUrlFilterStateOptions = urlState
@@ -714,7 +778,20 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
   // ── Permission helpers ────────────────────────────────────────────────────
   const canCreate = permissions?.canCreate !== false;
 
+  // ── Role-gated tree filtering ──────────────────────────────────────────
+  const filterTree = (nodes: ListPageTreeNode[]): ListPageTreeNode[] => {
+    return nodes.filter((node) => {
+      if (!node.allowedRoles || node.allowedRoles.length === 0) return true;
+      return userRole ? node.allowedRoles.includes(userRole) : true;
+    }).map((node) => ({
+      ...node,
+      children: node.children ? filterTree(node.children) : undefined,
+    }));
+  };
+  const visibleTreeNodes = treeNodes ? filterTree(treeNodes) : undefined;
+
   const classes = ['cc-list-page'];
+  if (layout !== 'default') classes.push(`cc-list-page--${layout}`);
   if (className) classes.push(className);
   if (detail?.selectedId) classes.push('cc-list-page--has-detail');
 
@@ -762,7 +839,11 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
                 : undefined
             }
             layout={
-              resolvedFilters.kind === 'sidebar'
+              filterBarShape === 'vertical'
+                ? 'sidebar'
+                : filterBarShape === 'compact'
+                ? 'horizontal'
+                : resolvedFilters.kind === 'sidebar'
                 ? 'sidebar'
                 : resolvedFilters.kind === 'responsive'
                 ? 'responsive'
@@ -805,6 +886,12 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
 
       {/* Main content: list + detail pane */}
       <div className="cc-list-page__content">
+        {/* Role-gated tree sidebar (role-gated-tree variant) */}
+        {layout === 'role-gated-tree' && visibleTreeNodes && visibleTreeNodes.length > 0 && (
+          <nav className="cc-list-page__tree-sidebar" aria-label="Navigation tree">
+            <TreeNodeList nodes={visibleTreeNodes} />
+          </nav>
+        )}
         <div className="cc-list-page__list">
           {hasExplicitList ? (
             <TableRegion
@@ -862,6 +949,13 @@ export function ListPage<TRow extends { id: string } = { id: string }>({
           </aside>
         ) : null}
       </div>
+
+      {/* Secondary pane (multi-pane variant) */}
+      {layout === 'multi-pane' && secondaryPane && (
+        <aside className="cc-list-page__secondary-pane" aria-label="Secondary pane">
+          {secondaryPane}
+        </aside>
+      )}
 
       {/* Bulk action bar — z-50, above list pane (z-40), below fullscreen (z-60) */}
       {bulk ? (

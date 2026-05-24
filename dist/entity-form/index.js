@@ -1,5 +1,7 @@
 // Schema + types
 export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge } from './schema.js';
+// JSON Schema bridge (DS-MIG P1-06)
+export { fromJsonSchema } from './fromJsonSchema.js';
 // Hook
 export { useEntityForm } from './useEntityForm.js';
 // Component

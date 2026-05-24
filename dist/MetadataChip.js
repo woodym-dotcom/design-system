@@ -47,7 +47,12 @@ function stalenessDotColor(s) {
         return 'var(--text-3, #9ca3af)';
     return '';
 }
-export function MetadataChip({ freshness, privacy, inspectHref, inspectContent, lastUpdated, staleness, align = 'left', className, }) {
+const TONE_ICON = {
+    default: 'ⓘ',
+    'production-path': '⛓',
+    'redaction-marker': '██',
+};
+export function MetadataChip({ freshness, privacy, inspectHref, inspectContent, lastUpdated, staleness, align = 'left', tone = 'default', className, }) {
     const [open, setOpen] = React.useState(false);
     const [inspectOpen, setInspectOpen] = React.useState(false);
     const triggerRef = React.useRef(null);
@@ -67,7 +72,7 @@ export function MetadataChip({ freshness, privacy, inspectHref, inspectContent, 
     }, [open]);
     const hasContent = !!(freshness || privacy || inspectHref || inspectContent || lastUpdated || staleness);
     const panelId = React.useId();
-    return (_jsxs("span", { className: ['cc-metadata-chip', className].filter(Boolean).join(' '), children: [_jsxs("button", { ref: triggerRef, type: "button", className: "cc-metadata-chip__trigger", "aria-label": open ? 'Hide metadata' : 'Show metadata', "aria-expanded": open, "aria-controls": hasContent ? panelId : undefined, onClick: () => setOpen((v) => !v), children: [showDot && (_jsx("span", { className: "cc-metadata-chip__staleness-dot", "aria-hidden": "true", style: { background: stalenessDotColor(staleness) } })), _jsx("span", { "aria-hidden": "true", className: "cc-metadata-chip__icon", children: "\u24D8" })] }), open && hasContent && (_jsxs("span", { id: panelId, role: "region", "aria-label": "Item metadata", className: [
+    return (_jsxs("span", { className: ['cc-metadata-chip', tone !== 'default' ? `cc-metadata-chip--${tone}` : '', className].filter(Boolean).join(' '), children: [_jsxs("button", { ref: triggerRef, type: "button", className: "cc-metadata-chip__trigger", "aria-label": open ? 'Hide metadata' : 'Show metadata', "aria-expanded": open, "aria-controls": hasContent ? panelId : undefined, onClick: () => setOpen((v) => !v), children: [showDot && (_jsx("span", { className: "cc-metadata-chip__staleness-dot", "aria-hidden": "true", style: { background: stalenessDotColor(staleness) } })), _jsx("span", { "aria-hidden": "true", className: "cc-metadata-chip__icon", children: TONE_ICON[tone] })] }), open && hasContent && (_jsxs("span", { id: panelId, role: "region", "aria-label": "Item metadata", className: [
                     'cc-metadata-chip__panel',
                     align === 'right' ? 'cc-metadata-chip__panel--right' : '',
                 ].filter(Boolean).join(' '), children: [staleness && staleness !== 'fresh' && (_jsxs("span", { className: `cc-metadata-chip__item cc-metadata-chip__item--${staleness}`, children: [_jsx("span", { className: "cc-metadata-chip__label", children: "Status" }), _jsx("span", { className: `cc-metadata-chip__badge cc-metadata-chip__badge--${staleness}`, children: stalenessLabel(staleness) })] })), freshness && (_jsxs("span", { className: "cc-metadata-chip__item", children: [_jsx("span", { className: "cc-metadata-chip__label", children: "Freshness" }), _jsx("span", { className: "cc-metadata-chip__value", children: freshnessLabel(freshness) })] })), privacy && (_jsxs("span", { className: "cc-metadata-chip__item", children: [_jsx("span", { className: "cc-metadata-chip__label", children: "Privacy" }), _jsx("span", { className: `cc-metadata-chip__badge cc-metadata-chip__badge--${privacy}`, children: privacy })] })), lastUpdated && (_jsxs("span", { className: "cc-metadata-chip__item", children: [_jsx("span", { className: "cc-metadata-chip__label", children: "Updated" }), _jsx("span", { className: "cc-metadata-chip__value", children: formatLastUpdated(lastUpdated) })] })), inspectHref && (_jsx("span", { className: "cc-metadata-chip__item", children: _jsx("a", { href: inspectHref, className: "cc-metadata-chip__inspect", target: "_blank", rel: "noopener noreferrer", children: "Inspect \u2197" }) })), inspectContent && (_jsxs("span", { className: "cc-metadata-chip__item cc-metadata-chip__item--inspect-inline", children: [_jsx("button", { type: "button", className: "cc-metadata-chip__inspect", onClick: () => setInspectOpen((v) => !v), children: inspectOpen ? 'Hide inspect' : 'Inspect' }), inspectOpen && (_jsx("span", { className: "cc-metadata-chip__inspect-content", children: inspectContent }))] }))] }))] }));

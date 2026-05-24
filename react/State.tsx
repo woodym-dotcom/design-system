@@ -27,7 +27,10 @@ export type StateVariant =
   | 'stale'
   | 'not-found'
   | 'forbidden'
-  | 'degraded';
+  | 'degraded'
+  | 'fail-closed'
+  | 'device-mismatch'
+  | 'lockout';
 
 export type StateDensity = 'page' | 'banner' | 'chip';
 
@@ -114,6 +117,27 @@ const VARIANT_META: Record<StateVariant, VariantMeta> = {
     tone: 'warning',
     bannerRole: 'alert',
     defaultIcon: '⚡',
+  },
+  'fail-closed': {
+    title: 'Fail-closed — access denied by default',
+    description: 'The system has entered a fail-closed state. Contact support.',
+    tone: 'warning',
+    bannerRole: 'alert',
+    defaultIcon: '🛑',
+  },
+  'device-mismatch': {
+    title: 'Device mismatch detected',
+    description: 'The current device does not match the expected profile.',
+    tone: 'warning',
+    bannerRole: 'alert',
+    defaultIcon: '📱',
+  },
+  lockout: {
+    title: 'Account locked out',
+    description: 'Too many failed attempts. Try again later or contact support.',
+    tone: 'error',
+    bannerRole: 'alert',
+    defaultIcon: '🔒',
   },
 };
 

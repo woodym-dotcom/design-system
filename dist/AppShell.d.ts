@@ -37,6 +37,10 @@ export interface AppShellProps {
     groupInitials?: string;
     /** Sidebar nav items (NavRail). */
     navItems?: NavRailItem[];
+    /** Items pinned to the bottom of the NavRail (e.g. Settings, Help). */
+    navFooterItems?: NavRailItem[];
+    /** Accessible label for the navigation rail. */
+    navAriaLabel?: string;
     /** id of the active nav item. */
     activeId?: string;
     /** Click handler for nav item activation (router bridge). */
@@ -59,5 +63,5 @@ export interface AppShellProps {
     children: React.ReactNode;
     className?: string;
 }
-export declare function AppShell({ brand, identity, groupInitials, navItems, activeId, onNavigate, crumbs, onCmdK, onIdentityClick, topBarExtras, activity, groupSwitcher, fmtSettings, children, className, }: AppShellProps): React.ReactElement;
+export declare function AppShell({ brand, identity, groupInitials, navItems, navFooterItems, navAriaLabel, activeId, onNavigate, crumbs, onCmdK, onIdentityClick, topBarExtras, activity, groupSwitcher, fmtSettings, children, className, }: AppShellProps): React.ReactElement;
 //# sourceMappingURL=AppShell.d.ts.map

@@ -18,6 +18,12 @@ import * as React from "react";
 
 // ── Public types ──────────────────────────────────────────────────────────────
 
+/** Kind discriminator for specialised timeline entries. */
+export type ActivityEntryKind =
+  | "default"
+  | "delivery-attempt"
+  | "amendment-chain";
+
 export interface ActivityEntry {
   id: string;
   actor: { name: string; avatarUrl?: string };
@@ -26,6 +32,8 @@ export interface ActivityEntry {
   timestamp: Date | string;
   diff?: { before: unknown; after: unknown };
   metadata?: Record<string, unknown>;
+  /** Entry kind — drives icon/colour treatment per-row. Default: "default". */
+  kind?: ActivityEntryKind;
 }
 
 export interface ActivityTimelineProps<E extends ActivityEntry = ActivityEntry> {
@@ -103,6 +111,18 @@ interface EntryRowProps<E extends ActivityEntry> {
   timeline?: boolean;
 }
 
+const KIND_ICON: Record<ActivityEntryKind, string> = {
+  default: "",
+  "delivery-attempt": "✉", // ✉
+  "amendment-chain": "⛓",  // ⛓
+};
+
+const KIND_COLOR: Record<ActivityEntryKind, string> = {
+  default: "var(--accent-1, var(--text-2))",
+  "delivery-attempt": "var(--info-text, #2563eb)",
+  "amendment-chain": "var(--warning-text, #ca8a04)",
+};
+
 function EntryRow<E extends ActivityEntry>({
   entry,
   density,
@@ -113,6 +133,7 @@ function EntryRow<E extends ActivityEntry>({
   const [expanded, setExpanded] = React.useState(false);
   const pad = DENSITY_PADDING[density];
   const iso = toIso(entry.timestamp);
+  const kind: ActivityEntryKind = entry.kind ?? "default";
 
   if (renderEntry) {
     return <li style={{ padding: pad }}>{renderEntry(entry)}</li>;
@@ -136,18 +157,29 @@ function EntryRow<E extends ActivityEntry>({
     >
       {timeline && (
         <span
-          className="at-dot"
+          className={`at-dot at-dot--${kind}`}
           aria-hidden
           style={{
             display: "inline-block",
             width: "0.5rem",
             height: "0.5rem",
             borderRadius: "50%",
-            background: "var(--accent-1, var(--text-2))",
+            background: KIND_COLOR[kind],
             flexShrink: 0,
             alignSelf: "center",
           }}
         />
+      )}
+
+      {/* Kind icon for specialised entry types */}
+      {kind !== "default" && KIND_ICON[kind] && (
+        <span
+          className={`at-kind-icon at-kind-icon--${kind}`}
+          aria-hidden="true"
+          style={{ color: KIND_COLOR[kind], fontSize: "0.82rem" }}
+        >
+          {KIND_ICON[kind]}
+        </span>
       )}
 
       {/* Actor */}

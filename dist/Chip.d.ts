@@ -14,7 +14,9 @@
  * identical.
  */
 import * as React from "react";
-export type ChipTone = "neutral" | "success" | "warning" | "error" | "info" | "accent";
+export type ChipTone = "neutral" | "success" | "warning" | "error" | "info" | "accent" | "tier-tint" | "graph-edge"
+/** @deprecated Back-compat alias for "error". Use "error" in new code. */
+ | "danger";
 export interface ChipProps {
     /** Tone. Defaults to "neutral". */
     tone?: ChipTone;

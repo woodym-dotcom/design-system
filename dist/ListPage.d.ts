@@ -37,6 +37,17 @@ import { type CreateMenuProps } from './CreateMenu.js';
 import { type FilterChip } from './FilterBar.js';
 import { type UrlFilterStateRouterAdapter } from './hooks/useUrlFilterState.js';
 import type { ListViewColumn, ListViewScopeFilter, ListViewPaginationState, SortDirection } from './ListView.js';
+/** ListPage layout variant. */
+export type ListPageLayout = "default" | "computed-task-inbox" | "role-gated-tree" | "multi-filter-chips" | "multi-pane";
+/** Role-gated tree node — controls visibility/rendering per role. */
+export interface ListPageTreeNode {
+    id: string;
+    label: string;
+    children?: ListPageTreeNode[];
+    /** Roles allowed to see this node. Empty/undefined = visible to all. */
+    allowedRoles?: string[];
+    icon?: React.ReactNode;
+}
 export interface BulkAction<TRow = {
     id: string;
 }> {
@@ -138,6 +149,23 @@ export interface ListPageProps<TRow extends {
      * on long lists where the page header has scrolled away.
      */
     search?: React.ReactNode;
+    /**
+     * Layout variant.
+     *   - "default"              — standard list + detail pane.
+     *   - "computed-task-inbox"  — task-queue style with priority ordering.
+     *   - "role-gated-tree"     — tree navigation with role-based visibility.
+     *   - "multi-filter-chips"  — multiple concurrent filter chip groups.
+     *   - "multi-pane"          — side-by-side panes for complex entity views.
+     */
+    layout?: ListPageLayout;
+    /** Tree structure for role-gated-tree variant. */
+    treeNodes?: ListPageTreeNode[];
+    /** Current user's role — used for role-gated-tree filtering. */
+    userRole?: string;
+    /** Additional pane content (multi-pane variant). */
+    secondaryPane?: React.ReactNode;
+    /** Non-standard FilterBar shape override (multi-pane OfferingView support). */
+    filterBarShape?: 'default' | 'compact' | 'vertical';
     list?: ListPageListProps<TRow>;
     filters?: ListPageFilters;
     detail?: ListPageDetailProps;
@@ -172,5 +200,5 @@ export declare function ListPage<TRow extends {
     id: string;
 } = {
     id: string;
-}>({ heading, subtitle, breadcrumb, createMenu, search, list: listProp, filters, detail, bulk, urlState, permissions, className, filterOptions, activeFilterIds, onFilterToggle, onFilterRemove, emptyState, pagination: paginationNode, detailPane, selectedId: legacySelectedId, children, }: ListPageProps<TRow>): import("react/jsx-runtime").JSX.Element;
+}>({ heading, subtitle, breadcrumb, createMenu, search, layout, treeNodes, userRole, secondaryPane, filterBarShape, list: listProp, filters, detail, bulk, urlState, permissions, className, filterOptions, activeFilterIds, onFilterToggle, onFilterRemove, emptyState, pagination: paginationNode, detailPane, selectedId: legacySelectedId, children, }: ListPageProps<TRow>): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=ListPage.d.ts.map

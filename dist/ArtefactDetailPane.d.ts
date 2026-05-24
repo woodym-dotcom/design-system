@@ -6,7 +6,7 @@
  *
  * §14 L1: no artefact detail primitive existed.
  * §14 L2: composes ExpandableDetailPane + ListView already in @ds/core.
- * §14 L3: follows cc-btn / cc-chip token pattern, ListViewColumn shape.
+ * §14 L3: follows cc-btn / cc-chip token pattern, column-definition shape.
  *
  * Exported types mirror the BE DTOs in com.aa.platform.artefact — keep in sync.
  *

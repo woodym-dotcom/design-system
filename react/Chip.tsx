@@ -21,7 +21,11 @@ export type ChipTone =
   | "warning"
   | "error"
   | "info"
-  | "accent";
+  | "accent"
+  | "tier-tint"
+  | "graph-edge"
+  /** @deprecated Back-compat alias for "error". Use "error" in new code. */
+  | "danger";
 
 export interface ChipProps {
   /** Tone. Defaults to "neutral". */
@@ -42,10 +46,16 @@ export interface ChipProps {
   className?: string;
 }
 
+/** Normalise legacy tone values. */
+function normaliseTone(tone: ChipTone): string {
+  if (tone === "danger") return "error";
+  return tone;
+}
+
 function chipClasses(tone: ChipTone, interactive: boolean, className?: string) {
   return [
     "cc-chip",
-    `cc-chip--${tone}`,
+    `cc-chip--${normaliseTone(tone)}`,
     interactive ? "cc-chip--button" : null,
     className,
   ]

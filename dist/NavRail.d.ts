@@ -5,7 +5,7 @@
  * <NavRail> — text-label vertical navigation rail (G2 / NavRail extraction).
  *
  * Third nav primitive alongside cc-navrail (icon-only) and cc-sidebar (72px).
- * Extracted from cl-frontend/src/components/ModuleShell.tsx NavRail (lines 122–165).
+ * Extracted from customer-lifecycle/frontend/src/components/ModuleShell.tsx NavRail (lines 122–165).
  *
  * G2 contract:
  *  (a) Selected state legible in both light + dark via design tokens
@@ -16,7 +16,7 @@
  * Router-agnostic: renders <a> tags by default. Consumers using a router
  * (React Router, TanStack Router, Next.js) pass a `renderItem` render-prop
  * that receives the item and active state and returns their router <Link>.
- * Wave 2 will switch cl-frontend's import to this component.
+ * Wave 2 will switch customer-lifecycle/frontend's import to this component.
  */
 import * as React from 'react';
 export interface NavRailItem {
@@ -38,6 +38,11 @@ export interface NavRailItem {
      *  - In `variant="expanded"`, the icon is rendered adjacent to the label.
      */
     icon?: React.ReactNode;
+    /**
+     * When true, the item is rendered with disabled styling and is non-interactive.
+     * The link is replaced with a span and aria-disabled is set.
+     */
+    disabled?: boolean;
 }
 export interface NavRailRenderItemContext {
     item: NavRailItem;

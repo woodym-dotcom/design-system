@@ -16,7 +16,10 @@ export type StateBannerKind =
   | "permissioned-out"
   | "stale-data"
   | "partial"
-  | "degraded";
+  | "degraded"
+  | "fail-closed"
+  | "device-mismatch"
+  | "lockout";
 
 export interface StateBannerAction {
   label: string;
@@ -47,6 +50,9 @@ const KIND: Record<StateBannerKind, KindMeta> = {
   "stale-data": { title: "Data is stale", tone: "info" },
   partial: { title: "Partial data shown", tone: "info" },
   degraded: { title: "Degraded service", tone: "warning" },
+  "fail-closed": { title: "Fail-closed — access denied by default", tone: "warning" },
+  "device-mismatch": { title: "Device mismatch detected", tone: "warning" },
+  lockout: { title: "Account locked out", tone: "warning" },
 };
 
 function isoOf(value: Date | string | undefined): string | null {

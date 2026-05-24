@@ -56,10 +56,21 @@ function groupEntriesByDay(entries) {
     }
     return Array.from(map.entries());
 }
+const KIND_ICON = {
+    default: "",
+    "delivery-attempt": "✉", // ✉
+    "amendment-chain": "⛓", // ⛓
+};
+const KIND_COLOR = {
+    default: "var(--accent-1, var(--text-2))",
+    "delivery-attempt": "var(--info-text, #2563eb)",
+    "amendment-chain": "var(--warning-text, #ca8a04)",
+};
 function EntryRow({ entry, density, expandable, renderEntry, timeline = false, }) {
     const [expanded, setExpanded] = React.useState(false);
     const pad = DENSITY_PADDING[density];
     const iso = toIso(entry.timestamp);
+    const kind = entry.kind ?? "default";
     if (renderEntry) {
         return _jsx("li", { style: { padding: pad }, children: renderEntry(entry) });
     }
@@ -73,15 +84,15 @@ function EntryRow({ entry, density, expandable, renderEntry, timeline = false, }
             gap: "0 0.3rem",
             fontSize: "0.82rem",
             position: "relative",
-        }, children: [timeline && (_jsx("span", { className: "at-dot", "aria-hidden": true, style: {
+        }, children: [timeline && (_jsx("span", { className: `at-dot at-dot--${kind}`, "aria-hidden": true, style: {
                     display: "inline-block",
                     width: "0.5rem",
                     height: "0.5rem",
                     borderRadius: "50%",
-                    background: "var(--accent-1, var(--text-2))",
+                    background: KIND_COLOR[kind],
                     flexShrink: 0,
                     alignSelf: "center",
-                } })), _jsx("span", { style: { fontWeight: 600, color: "var(--text-1)" }, "aria-label": `actor: ${entry.actor.name}`, children: entry.actor.name }), _jsx("span", { style: { color: "var(--text-1)" }, children: entry.action }), entry.target ? (_jsx("span", { style: { color: "var(--text-2)" }, children: entry.target })) : null, _jsx("time", { dateTime: iso, style: { color: "var(--text-2)", fontSize: "0.72rem", marginLeft: "auto" }, children: formatTimestamp(entry.timestamp) }), hasDiff && (_jsx("button", { type: "button", "aria-expanded": expanded, "aria-controls": `at-diff-${entry.id}`, onClick: () => setExpanded((v) => !v), style: {
+                } })), kind !== "default" && KIND_ICON[kind] && (_jsx("span", { className: `at-kind-icon at-kind-icon--${kind}`, "aria-hidden": "true", style: { color: KIND_COLOR[kind], fontSize: "0.82rem" }, children: KIND_ICON[kind] })), _jsx("span", { style: { fontWeight: 600, color: "var(--text-1)" }, "aria-label": `actor: ${entry.actor.name}`, children: entry.actor.name }), _jsx("span", { style: { color: "var(--text-1)" }, children: entry.action }), entry.target ? (_jsx("span", { style: { color: "var(--text-2)" }, children: entry.target })) : null, _jsx("time", { dateTime: iso, style: { color: "var(--text-2)", fontSize: "0.72rem", marginLeft: "auto" }, children: formatTimestamp(entry.timestamp) }), hasDiff && (_jsx("button", { type: "button", "aria-expanded": expanded, "aria-controls": `at-diff-${entry.id}`, onClick: () => setExpanded((v) => !v), style: {
                     fontSize: "0.72rem",
                     color: "var(--text-2)",
                     background: "transparent",

@@ -338,6 +338,186 @@
       "import": "./dist/EntityPicker.js",
       "default": "./dist/EntityPicker.js"
     },
+    "./react/AuthLayout": {
+      "types": "./dist/AuthLayout.d.ts",
+      "import": "./dist/AuthLayout.js",
+      "default": "./dist/AuthLayout.js"
+    },
+    "./react/ErrorPage": {
+      "types": "./dist/ErrorPage.d.ts",
+      "import": "./dist/ErrorPage.js",
+      "default": "./dist/ErrorPage.js"
+    },
+    "./react/DataTable": {
+      "types": "./dist/DataTable.d.ts",
+      "import": "./dist/DataTable.js",
+      "default": "./dist/DataTable.js"
+    },
+    "./react/HeatmapChart": {
+      "types": "./dist/HeatmapChart.d.ts",
+      "import": "./dist/HeatmapChart.js",
+      "default": "./dist/HeatmapChart.js"
+    },
+    "./react/AppSwitcher": {
+      "types": "./dist/AppSwitcher.d.ts",
+      "import": "./dist/AppSwitcher.js",
+      "default": "./dist/AppSwitcher.js"
+    },
+    "./react/UserMenu": {
+      "types": "./dist/UserMenu.d.ts",
+      "import": "./dist/UserMenu.js",
+      "default": "./dist/UserMenu.js"
+    },
+    "./react/MetaRow": {
+      "types": "./dist/MetaRow.d.ts",
+      "import": "./dist/MetaRow.js",
+      "default": "./dist/MetaRow.js"
+    },
+    "./react/AIProvenanceChip": {
+      "types": "./dist/AIProvenanceChip.d.ts",
+      "import": "./dist/AIProvenanceChip.js",
+      "default": "./dist/AIProvenanceChip.js"
+    },
+    "./react/DryRunPanel": {
+      "types": "./dist/DryRunPanel.d.ts",
+      "import": "./dist/DryRunPanel.js",
+      "default": "./dist/DryRunPanel.js"
+    },
+    "./react/CommanderView": {
+      "types": "./dist/CommanderView.d.ts",
+      "import": "./dist/CommanderView.js",
+      "default": "./dist/CommanderView.js"
+    },
+    "./react/DualMeasurementLayout": {
+      "types": "./dist/DualMeasurementLayout.d.ts",
+      "import": "./dist/DualMeasurementLayout.js",
+      "default": "./dist/DualMeasurementLayout.js"
+    },
+    "./react/CascadePanel": {
+      "types": "./dist/CascadePanel.d.ts",
+      "import": "./dist/CascadePanel.js",
+      "default": "./dist/CascadePanel.js"
+    },
+    "./react/EntitlementPanel": {
+      "types": "./dist/EntitlementPanel.d.ts",
+      "import": "./dist/EntitlementPanel.js",
+      "default": "./dist/EntitlementPanel.js"
+    },
+    "./react/ConcentrationHeatmap": {
+      "types": "./dist/ConcentrationHeatmap.d.ts",
+      "import": "./dist/ConcentrationHeatmap.js",
+      "default": "./dist/ConcentrationHeatmap.js"
+    },
+    "./react/MultiScriptNameBlock": {
+      "types": "./dist/MultiScriptNameBlock.d.ts",
+      "import": "./dist/MultiScriptNameBlock.js",
+      "default": "./dist/MultiScriptNameBlock.js"
+    },
+    "./react/PointInTimeReplayer": {
+      "types": "./dist/PointInTimeReplayer.d.ts",
+      "import": "./dist/PointInTimeReplayer.js",
+      "default": "./dist/PointInTimeReplayer.js"
+    },
+    "./react/DependencyGraphPane": {
+      "types": "./dist/DependencyGraphPane.d.ts",
+      "import": "./dist/DependencyGraphPane.js",
+      "default": "./dist/DependencyGraphPane.js"
+    },
+    "./react/EvidenceBundleViewer": {
+      "types": "./dist/EvidenceBundleViewer.d.ts",
+      "import": "./dist/EvidenceBundleViewer.js",
+      "default": "./dist/EvidenceBundleViewer.js"
+    },
+    "./react/HashChainVerifier": {
+      "types": "./dist/HashChainVerifier.d.ts",
+      "import": "./dist/HashChainVerifier.js",
+      "default": "./dist/HashChainVerifier.js"
+    },
+    "./react/SuggestedFieldRow": {
+      "types": "./dist/SuggestedFieldRow.d.ts",
+      "import": "./dist/SuggestedFieldRow.js",
+      "default": "./dist/SuggestedFieldRow.js"
+    },
+    "./react/GraphEdgeChip": {
+      "types": "./dist/GraphEdgeChip.d.ts",
+      "import": "./dist/GraphEdgeChip.js",
+      "default": "./dist/GraphEdgeChip.js"
+    },
+    "./react/RelationshipGraph": {
+      "types": "./dist/RelationshipGraph.d.ts",
+      "import": "./dist/RelationshipGraph.js",
+      "default": "./dist/RelationshipGraph.js"
+    },
+    "./react/Avatar": {
+      "types": "./dist/Avatar.d.ts",
+      "import": "./dist/Avatar.js",
+      "default": "./dist/Avatar.js"
+    },
+    "./react/Tooltip": {
+      "types": "./dist/Tooltip.d.ts",
+      "import": "./dist/Tooltip.js",
+      "default": "./dist/Tooltip.js"
+    },
+    "./react/Drawer": {
+      "types": "./dist/Drawer.d.ts",
+      "import": "./dist/Drawer.js",
+      "default": "./dist/Drawer.js"
+    },
+    "./react/Kbd": {
+      "types": "./dist/Kbd.d.ts",
+      "import": "./dist/Kbd.js",
+      "default": "./dist/Kbd.js"
+    },
+    "./react/Skeleton": {
+      "types": "./dist/Skeleton.d.ts",
+      "import": "./dist/Skeleton.js",
+      "default": "./dist/Skeleton.js"
+    },
+    "./react/a11y/LiveRegion": {
+      "types": "./dist/a11y/LiveRegion.d.ts",
+      "import": "./dist/a11y/LiveRegion.js",
+      "default": "./dist/a11y/LiveRegion.js"
+    },
+    "./react/Toolbar": {
+      "types": "./dist/Toolbar.d.ts",
+      "import": "./dist/Toolbar.js",
+      "default": "./dist/Toolbar.js"
+    },
+    "./react/EnvelopeBadge": {
+      "types": "./dist/EnvelopeBadge.d.ts",
+      "import": "./dist/EnvelopeBadge.js",
+      "default": "./dist/EnvelopeBadge.js"
+    },
+    "./react/FreshnessPill": {
+      "types": "./dist/FreshnessPill.d.ts",
+      "import": "./dist/FreshnessPill.js",
+      "default": "./dist/FreshnessPill.js"
+    },
+    "./react/NavRail": {
+      "types": "./dist/NavRail.d.ts",
+      "import": "./dist/NavRail.js",
+      "default": "./dist/NavRail.js"
+    },
+    "./react/AppShell": {
+      "types": "./dist/AppShell.d.ts",
+      "import": "./dist/AppShell.js",
+      "default": "./dist/AppShell.js"
+    },
+    "./react/ShareReadOnlyLink": {
+      "types": "./dist/ShareReadOnlyLink.d.ts",
+      "import": "./dist/ShareReadOnlyLink.js",
+      "default": "./dist/ShareReadOnlyLink.js"
+    },
+    "./react/Breadcrumbs": {
+      "types": "./dist/Breadcrumbs.d.ts",
+      "import": "./dist/Breadcrumbs.js",
+      "default": "./dist/Breadcrumbs.js"
+    },
+    "./react/ThreadView": {
+      "types": "./dist/ThreadView.d.ts",
+      "import": "./dist/ThreadView.js",
+      "default": "./dist/ThreadView.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {
