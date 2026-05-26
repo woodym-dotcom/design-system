@@ -3,7 +3,7 @@ import * as React from 'react';
 export interface KbdProps {
   /** Key or keys to render. Strings are joined with " + ". */
   keys?: string | string[];
-  /** Alternative to keys — stringified and used when keys is not provided. */
+  /** @deprecated Use keys prop instead. Alternative to keys — stringified and used when keys is not provided. */
   children?: React.ReactNode;
   /** Visual size. */
   size?: 'sm' | 'md';

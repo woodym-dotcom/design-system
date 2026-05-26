@@ -7,7 +7,9 @@ export {
   type TanStackRouterAdapterInput,
 } from "./hooks/useUrlFilterState";
 export { FormField, type FormFieldProps, type FormFieldType, type FormFieldAs } from "./FormField";
+/** @deprecated Use FormField instead. */
 export { FormField as Field } from "./FormField";
+/** @deprecated Use FormFieldProps instead. */
 export type { FormFieldProps as FieldProps } from "./FormField";
 export { FilterBar, type FilterBarProps, type FilterChip } from "./FilterBar";
 export {
@@ -208,7 +210,7 @@ export {
   // TagTone is the canonical tone vocabulary going forward.
   type TagTone,
 } from "./Tag";
-// Deprecated alias for TagTone — use TagTone directly for new code.
+/** @deprecated Use TagTone directly. */
 export type { TagTone as ChipPaletteToneCanonical } from "./Tag";
 export {
   DetailRow,
@@ -532,12 +534,6 @@ export {
   type ActivityEntryKind,
 } from "./ActivityTimeline";
 
-// AuditLogList — deprecated alias; kept for back-compat until v1.0 (SIMPLIFY 14).
-export {
-  AuditLogList,
-  type AuditLogListProps,
-  type AuditEvent,
-} from "./AuditLogList";
 
 // ── @aa/ui retirement — Phase 4 composed primitives ──────────────────────────
 export {

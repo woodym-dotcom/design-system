@@ -22,7 +22,7 @@ export interface CardProps
   title?: React.ReactNode;
   /** Optional sub-label appended after the title. */
   subtitle?: React.ReactNode;
-  /** Alias for subtitle. If both are set, description wins. */
+  /** @deprecated Use subtitle instead. Alias for subtitle. If both are set, description wins. */
   description?: React.ReactNode;
   /** Right-aligned slot inside the header (NEW). */
   actions?: React.ReactNode;

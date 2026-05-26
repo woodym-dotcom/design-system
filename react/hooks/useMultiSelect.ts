@@ -13,7 +13,7 @@ export interface UseMultiSelectOptions<T> {
 
 export interface UseMultiSelectResult<T> {
   selectedKeys: ReadonlySet<string>;
-  /** Alias for selectedKeys. */
+  /** @deprecated Use selectedKeys instead. */
   selected: ReadonlySet<string>;
   selectedItems: ReadonlyArray<T>;
   isSelected: (item: T) => boolean;
@@ -23,7 +23,7 @@ export interface UseMultiSelectResult<T> {
   setSelectedKeys: (keys: Iterable<string>) => void;
   /** True when at least one item is selected. */
   hasSelection: boolean;
-  /** Alias for hasSelection. */
+  /** @deprecated Use hasSelection instead. */
   someSelected: boolean;
   /** True when every visible item is selected. */
   allSelected: boolean;

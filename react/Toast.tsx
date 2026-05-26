@@ -22,13 +22,13 @@ export interface Toast {
 
 export type ToastInput = Omit<Toast, 'id'> & {
   id?: string;
-  /** Alias for message. If both set, description wins. */
+  /** @deprecated Use message instead. Alias for message. If both set, description wins. */
   description?: string;
 };
 
 export interface ToastContextValue {
   toast: (input: ToastInput) => string;
-  /** Alias for toast(). */
+  /** @deprecated Use toast() instead. */
   push: (input: ToastInput) => string;
   dismiss: (id: string) => void;
   clear: () => void;

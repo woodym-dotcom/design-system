@@ -5,7 +5,7 @@ export type SkeletonShape = 'text' | 'rect' | 'circle';
 export interface SkeletonProps {
   /** Shape — defaults to 'text'. */
   shape?: SkeletonShape;
-  /** Alias for shape. "block" maps to "rect". */
+  /** @deprecated Use shape instead. "block" maps to "rect". */
   variant?: 'text' | 'block' | 'circle';
   /** CSS width. For text, defaults to 100%. */
   width?: number | string;
@@ -18,7 +18,7 @@ export interface SkeletonProps {
   className?: string;
   /** Accessible label for the loading state. */
   label?: string;
-  /** Alias for label. */
+  /** @deprecated Use label instead. */
   ariaLabel?: string;
 }
 

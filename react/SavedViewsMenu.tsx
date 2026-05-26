@@ -6,14 +6,14 @@ export interface SavedViewsMenuProps<TState = unknown> {
   views: ReadonlyArray<SavedView<TState>>;
   /** Called when the user selects a saved view. */
   onSelect?: (view: SavedView<TState>) => void;
-  /** Alias for onSelect. */
+  /** @deprecated Use onSelect instead. */
   onApply?: (view: SavedView<TState>) => void;
   /**
    * Optional active view id (matches `view.id`). When set, the matching
    * menu item is marked as current.
    */
   activeId?: string;
-  /** Alias for activeId. */
+  /** @deprecated Use activeId instead. */
   activeViewId?: string;
   /** Called when the user clicks "Save current as…" — host opens a name prompt. */
   onSaveCurrent?: () => void;
