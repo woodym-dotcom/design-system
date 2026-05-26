@@ -164,7 +164,7 @@ describe('ArtefactDetailPane shell', () => {
   it('calls onClose when close button clicked', () => {
     const onClose = vi.fn();
     renderPane({ onClose });
-    fireEvent.click(screen.getByRole('button', { name: 'Close panel' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
     expect(onClose).toHaveBeenCalledOnce();
   });
 });

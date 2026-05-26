@@ -222,7 +222,7 @@ export function Overlay(props: OverlayProps): React.ReactElement | null {
 
   const header =
     hasTitle || subtitle || headerActions || expandable || dismissible ? (
-      <header className="cc-overlay__header">
+      <header role="none" className="cc-overlay__header">
         <div className="cc-overlay__header-titles">
           {hasTitle ? (
             <h2 id={titleId} className="cc-overlay__title">
