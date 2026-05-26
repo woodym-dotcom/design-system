@@ -5,6 +5,8 @@
  * Shows edge type, direction, optional weight, and can be interactive
  * (click to focus the edge in the graph view).
  *
+ * Composes the `Tag` primitive for tone-driven styling.
+ *
  * Usage:
  *   <GraphEdgeChip
  *     source="Auth Service"
@@ -15,6 +17,8 @@
  *   />
  */
 import * as React from "react";
+import { Tag } from "./Tag";
+import type { TagTone } from "./Tag";
 
 export type GraphEdgeDirection = "outgoing" | "incoming" | "bidirectional";
 export type GraphEdgeType =
@@ -48,36 +52,16 @@ const DIRECTION_ARROWS: Record<GraphEdgeDirection, string> = {
   bidirectional: "↔",
 };
 
-function edgeTypeColor(type: GraphEdgeType): {
-  bg: string;
-  border: string;
-  text: string;
-} {
+function edgeTypeTone(type: GraphEdgeType): TagTone {
   switch (type) {
     case "depends-on":
-      return {
-        bg: "var(--warning-light)",
-        border: "var(--warning-border)",
-        text: "var(--warning-text)",
-      };
+      return "warning";
     case "provides":
-      return {
-        bg: "var(--success-light)",
-        border: "var(--success-border)",
-        text: "var(--success-text)",
-      };
+      return "success";
     case "consumes":
-      return {
-        bg: "var(--info-light, var(--accent-light))",
-        border: "var(--info-border, var(--accent-border))",
-        text: "var(--info-text, var(--accent-text))",
-      };
+      return "info";
     default:
-      return {
-        bg: "var(--surface-2)",
-        border: "var(--border-1)",
-        text: "var(--text-2)",
-      };
+      return "neutral";
   }
 }
 
@@ -91,89 +75,33 @@ export function GraphEdgeChip({
   className,
   ...rest
 }: GraphEdgeChipProps): React.ReactElement {
-  const interactive = typeof onClick === "function";
-  const colors = edgeTypeColor(edgeType);
   const arrow = DIRECTION_ARROWS[direction];
-
   const classes = [
     "cc-graph-edge-chip",
     `cc-graph-edge-chip--${edgeType}`,
-    interactive ? "cc-graph-edge-chip--interactive" : null,
     className,
   ]
     .filter(Boolean)
     .join(" ");
 
-  const style: React.CSSProperties = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "var(--space-1, 0.25rem)",
-    padding: "var(--space-1, 0.25rem) var(--space-2, 0.375rem)",
-    borderRadius: "999px",
-    background: colors.bg,
-    border: `1px solid ${colors.border}`,
-    color: colors.text,
-    fontSize: "var(--text-xs, 0.75rem)",
-    fontWeight: 500,
-    lineHeight: 1,
-    whiteSpace: "nowrap",
-    cursor: interactive ? "pointer" : "default",
-  };
-
-  const inner = (
-    <>
+  return (
+    <Tag
+      tone={edgeTypeTone(edgeType)}
+      onClick={onClick}
+      aria-label={rest["aria-label"] ?? `${source} ${edgeType} ${target}`}
+      className={classes}
+    >
       <span className="cc-graph-edge-chip__source">{source}</span>
       <span className="cc-graph-edge-chip__arrow" aria-hidden="true">
         {arrow}
       </span>
       <span className="cc-graph-edge-chip__target">{target}</span>
-      <span
-        className="cc-graph-edge-chip__type"
-        style={{
-          padding: "0 var(--space-1, 0.25rem)",
-          borderLeft: `1px solid ${colors.border}`,
-          marginLeft: "var(--space-1, 0.25rem)",
-        }}
-      >
-        {edgeType}
-      </span>
+      <span className="cc-graph-edge-chip__type">{edgeType}</span>
       {weight !== undefined && (
-        <span
-          className="cc-graph-edge-chip__weight"
-          style={{
-            fontWeight: 700,
-            fontSize: "var(--text-xs, 0.75rem)",
-          }}
-        >
+        <span className="cc-graph-edge-chip__weight">
           {Math.round(weight * 100)}%
         </span>
       )}
-    </>
-  );
-
-  if (interactive) {
-    return (
-      <button
-        type="button"
-        className={classes}
-        onClick={onClick}
-        aria-label={
-          rest["aria-label"] ?? `${source} ${edgeType} ${target}`
-        }
-        style={style}
-      >
-        {inner}
-      </button>
-    );
-  }
-
-  return (
-    <span
-      className={classes}
-      aria-label={rest["aria-label"] ?? `${source} ${edgeType} ${target}`}
-      style={style}
-    >
-      {inner}
-    </span>
+    </Tag>
   );
 }
