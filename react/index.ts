@@ -490,28 +490,6 @@ export {
   type StateDensity,
 } from "./State";
 
-// ── @aa/ui retirement — Phase 2 utility surfaces ─────────────────────────────
-// @deprecated — these individual state components are superseded by <State>.
-//   Use <State variant="…" density="…"> instead. Will be removed in v1.0 (SIMPLIFY 14).
-export {
-  AwaitingState,
-  type AwaitingStateProps,
-  type AwaitingStatus,
-} from "./AwaitingState";
-export {
-  StaleDataPill,
-  type StaleDataPillProps,
-} from "./StaleDataPill";
-export {
-  StateBanner,
-  type StateBannerProps,
-  type StateBannerKind,
-  type StateBannerAction,
-} from "./StateBanner";
-export {
-  OfflineBanner,
-  type OfflineBannerProps,
-} from "./OfflineBanner";
 export {
   Diff,
   diffLines,

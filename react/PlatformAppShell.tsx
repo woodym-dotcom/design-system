@@ -26,7 +26,7 @@
  */
 import * as React from 'react';
 import { FmtProvider } from './fmt/Fmt';
-import { OfflineBanner } from './OfflineBanner';
+import { State } from './State';
 import { TopBar } from './TopBar';
 import { NavRail, type NavRailItem } from './NavRail';
 import { CompanyGroupSwitcher, type CompanyGroupOption } from './CompanyGroupSwitcher';
@@ -97,6 +97,24 @@ export interface PlatformAppShellProps {
   /** Currently active module id (for NavRail active state). */
   activeModuleId?: string;
   className?: string;
+}
+
+function useOnlineStatus(): boolean {
+  const [online, setOnline] = React.useState<boolean>(
+    typeof navigator === 'undefined' ? true : navigator.onLine !== false,
+  );
+  React.useEffect(() => {
+    const onOnline = () => setOnline(true);
+    const onOffline = () => setOnline(false);
+    window.addEventListener('online', onOnline);
+    window.addEventListener('offline', onOffline);
+    setOnline(typeof navigator === 'undefined' ? true : navigator.onLine !== false);
+    return () => {
+      window.removeEventListener('online', onOnline);
+      window.removeEventListener('offline', onOffline);
+    };
+  }, []);
+  return online;
 }
 
 const BRAND_LABEL: Record<BrandKey, string> = {
@@ -347,6 +365,8 @@ export function PlatformAppShell({
   activeModuleId,
   className,
 }: PlatformAppShellProps): React.ReactElement {
+  const online = useOnlineStatus();
+
   // Cmd+K binding owned by the shell when commandPalette is provided.
   const [paletteOpen, setPaletteOpen] = React.useState(false);
 
@@ -412,7 +432,7 @@ export function PlatformAppShell({
   return (
     <FmtProvider>
       <div className={rootClass} data-brand={brand}>
-        <OfflineBanner />
+        {!online && <State variant="offline" density="banner" />}
         <TopBar
           brand={brandNode}
           showCmdK={Boolean(commandPalette)}
