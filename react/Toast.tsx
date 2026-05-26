@@ -20,10 +20,16 @@ export interface Toast {
   action?: ToastAction;
 }
 
-export type ToastInput = Omit<Toast, 'id'> & { id?: string };
+export type ToastInput = Omit<Toast, 'id'> & {
+  id?: string;
+  /** Alias for message. If both set, description wins. */
+  description?: string;
+};
 
 export interface ToastContextValue {
   toast: (input: ToastInput) => string;
+  /** Alias for toast(). */
+  push: (input: ToastInput) => string;
   dismiss: (id: string) => void;
   clear: () => void;
   /** Subscribers can read the live list (e.g. for tests/devtools). */
@@ -64,10 +70,12 @@ export function ToastProvider({
   const toast = React.useCallback(
     (input: ToastInput): string => {
       const id = input.id ?? nextId();
+      const effectiveMessage = input.description ?? input.message;
       const entry: Toast = {
         durationMs: 5000,
         tone: 'info',
         ...input,
+        message: effectiveMessage,
         id,
       };
       setToasts((prev) => {
@@ -102,7 +110,7 @@ export function ToastProvider({
   }, []);
 
   const value = React.useMemo<ToastContextValue>(
-    () => ({ toast, dismiss, clear, toasts }),
+    () => ({ toast, push: toast, dismiss, clear, toasts }),
     [toast, dismiss, clear, toasts],
   );
 
@@ -175,8 +183,10 @@ export function useToast(): ToastContextValue {
   const ctx = React.useContext(ToastContext);
   if (!ctx) {
     // Soft fallback — primitives may call useToast unconditionally.
+    const noop = () => '';
     return {
-      toast: () => '',
+      toast: noop,
+      push: noop,
       dismiss: () => {},
       clear: () => {},
       toasts: [],

@@ -5,6 +5,8 @@ export type SkeletonShape = 'text' | 'rect' | 'circle';
 export interface SkeletonProps {
   /** Shape — defaults to 'text'. */
   shape?: SkeletonShape;
+  /** Alias for shape. "block" maps to "rect". */
+  variant?: 'text' | 'block' | 'circle';
   /** CSS width. For text, defaults to 100%. */
   width?: number | string;
   /** CSS height. For text defaults to 1em; rect defaults to 1rem. */
@@ -16,6 +18,8 @@ export interface SkeletonProps {
   className?: string;
   /** Accessible label for the loading state. */
   label?: string;
+  /** Alias for label. */
+  ariaLabel?: string;
 }
 
 /**
@@ -24,27 +28,31 @@ export interface SkeletonProps {
  * tokens/core.css.
  */
 export function Skeleton({
-  shape = 'text',
+  shape,
+  variant,
   width,
   height,
   lines = 1,
   static: isStatic,
   className,
-  label = 'Loading',
+  label,
+  ariaLabel,
 }: SkeletonProps) {
+  const effectiveShape: SkeletonShape = variant === 'block' ? 'rect' : (variant ?? shape ?? 'text') as SkeletonShape;
+  const effectiveLabel = label ?? ariaLabel ?? 'Loading';
   const classes = (i?: number) =>
     [
       'cc-skeleton',
-      `cc-skeleton--${shape}`,
+      `cc-skeleton--${effectiveShape}`,
       isStatic && 'cc-skeleton--static',
       className,
     ]
       .filter(Boolean)
       .join(' ') + (i !== undefined && lines > 1 && i === lines - 1 ? ' cc-skeleton--last' : '');
 
-  if (shape === 'text' && lines > 1) {
+  if (effectiveShape === 'text' && lines > 1) {
     return (
-      <span role="status" aria-label={label} className="cc-skeleton-stack">
+      <span role="status" aria-label={effectiveLabel} className="cc-skeleton-stack">
         {Array.from({ length: lines }, (_, i) => (
           <span
             key={i}
@@ -63,11 +71,11 @@ export function Skeleton({
   return (
     <span
       role="status"
-      aria-label={label}
+      aria-label={effectiveLabel}
       className={classes()}
       style={{
-        width: width ?? (shape === 'text' ? '100%' : shape === 'circle' ? '2rem' : '4rem'),
-        height: height ?? (shape === 'text' ? '1em' : shape === 'circle' ? '2rem' : '1rem'),
+        width: width ?? (effectiveShape === 'text' ? '100%' : effectiveShape === 'circle' ? '2rem' : '4rem'),
+        height: height ?? (effectiveShape === 'text' ? '1em' : effectiveShape === 'circle' ? '2rem' : '1rem'),
       }}
     />
   );
