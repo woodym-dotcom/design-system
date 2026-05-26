@@ -193,12 +193,6 @@ export {
   type FileUploadFieldProps,
 } from "./FileUploadField";
 export { formatFileSize, fileMatchesAccept } from "./fileUploadUtils";
-export {
-  LifecycleStateBadge,
-  type LifecycleStateBadgeProps,
-  type ChipTone,
-} from "./LifecycleStateBadge";
-
 // ── DS-SIMPLIFY 03: Tag primitive ─────────────────────────────────────────────
 // Canonical tone-coded text-indicator. Subsumes Chip, Badge, StatusPill,
 // LifecycleStateBadge, and MetadataChip inline badge patterns.
@@ -210,8 +204,6 @@ export {
   // TagTone is the canonical tone vocabulary going forward.
   type TagTone,
 } from "./Tag";
-/** @deprecated Use TagTone directly. */
-export type { TagTone as ChipPaletteToneCanonical } from "./Tag";
 export {
   DetailRow,
   DetailSection,
@@ -227,20 +219,6 @@ export {
   type EntityCardListProps,
   type EntityCardDensity,
 } from "./EntityCard";
-
-// Dashboard primitives (Phase 1A)
-export {
-  StatusPill,
-  type StatusPillProps,
-  type StatusPillStatus,
-} from "./StatusPill";
-
-export {
-  MetadataChip,
-  type MetadataChipProps,
-  type MetadataChipFreshness,
-  type MetadataChipTone,
-} from "./MetadataChip";
 
 export {
   SectionHeader,
@@ -463,13 +441,6 @@ export {
   type SpinnerProps,
   type SpinnerSize,
 } from "./Spinner";
-export {
-  Chip,
-  Badge,
-  type ChipProps,
-  type ChipTone as ChipPaletteTone,
-  type BadgeProps,
-} from "./Chip";
 export {
   Tabs,
   type TabsProps,
