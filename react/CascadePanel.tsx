@@ -16,6 +16,7 @@
  *   />
  */
 import * as React from "react";
+import { Card } from "./Card";
 
 export type CascadeNodeStatus = "active" | "overridden" | "inherited" | "disabled";
 
@@ -205,31 +206,13 @@ export function CascadePanel({
   const classes = ["cc-cascade-panel", className].filter(Boolean).join(" ");
 
   return (
-    <div
+    <Card
+      title={title}
+      padded={false}
       className={classes}
       role="tree"
       aria-label={title ?? "Cascade tree"}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        border: "1px solid var(--border-1)",
-        borderRadius: "var(--radius-2, 8px)",
-        background: "var(--surface-1)",
-      }}
     >
-      {title && (
-        <header
-          className="cc-cascade-panel__header"
-          style={{
-            padding: "var(--space-3, 0.5rem) var(--space-4, 0.75rem)",
-            borderBottom: "1px solid var(--border-1)",
-            fontWeight: 600,
-            fontSize: "var(--text-base, 1rem)",
-          }}
-        >
-          {title}
-        </header>
-      )}
       <ul
         className="cc-cascade-panel__list"
         style={{ margin: 0, padding: "var(--space-2, 0.375rem) 0" }}
@@ -245,6 +228,6 @@ export function CascadePanel({
           />
         ))}
       </ul>
-    </div>
+    </Card>
   );
 }

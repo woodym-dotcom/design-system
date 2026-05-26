@@ -15,6 +15,7 @@
  *   />
  */
 import * as React from "react";
+import { Card } from "./Card";
 
 export type ChainBlockStatus = "verified" | "broken" | "pending" | "skipped";
 
@@ -112,63 +113,41 @@ export function HashChainVerifier({
   const brokenCount = blocks.filter((b) => !b.verified).length;
   const allVerified = brokenCount === 0;
 
+  const summaryBadge = showSummary ? (
+    <span
+      className={`cc-hash-chain-verifier__summary cc-hash-chain-verifier__summary--${allVerified ? "ok" : "broken"}`}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "var(--space-1, 0.25rem)",
+        padding: "var(--space-1, 0.25rem) var(--space-2, 0.375rem)",
+        borderRadius: "999px",
+        fontSize: "var(--text-xs, 0.75rem)",
+        fontWeight: 600,
+        background: allVerified ? "var(--success-light)" : "var(--error-light)",
+        color: allVerified ? "var(--success-text)" : "var(--error-text)",
+      }}
+    >
+      {allVerified
+        ? `${verifiedCount}/${blocks.length} verified`
+        : `${brokenCount} broken link${brokenCount !== 1 ? "s" : ""}`}
+    </span>
+  ) : undefined;
+
   return (
-    <div
+    <Card
+      title={title}
+      actions={summaryBadge}
+      padded
       className={classes}
       role="region"
       aria-label={title}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        border: "1px solid var(--border-1)",
-        borderRadius: "var(--radius-2, 8px)",
-        background: "var(--surface-1)",
-      }}
     >
-      <header
-        className="cc-hash-chain-verifier__header"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "var(--space-3, 0.5rem) var(--space-4, 0.75rem)",
-          borderBottom: "1px solid var(--border-1)",
-        }}
-      >
-        <h3
-          className="cc-hash-chain-verifier__title"
-          style={{ margin: 0, fontSize: "var(--text-base, 1rem)", fontWeight: 600 }}
-        >
-          {title}
-        </h3>
-        {showSummary && (
-          <span
-            className={`cc-hash-chain-verifier__summary cc-hash-chain-verifier__summary--${allVerified ? "ok" : "broken"}`}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "var(--space-1, 0.25rem)",
-              padding: "var(--space-1, 0.25rem) var(--space-2, 0.375rem)",
-              borderRadius: "999px",
-              fontSize: "var(--text-xs, 0.75rem)",
-              fontWeight: 600,
-              background: allVerified ? "var(--success-light)" : "var(--error-light)",
-              color: allVerified ? "var(--success-text)" : "var(--error-text)",
-            }}
-          >
-            {allVerified
-              ? `${verifiedCount}/${blocks.length} verified`
-              : `${brokenCount} broken link${brokenCount !== 1 ? "s" : ""}`}
-          </span>
-        )}
-      </header>
-
       <div
         className="cc-hash-chain-verifier__chain"
         style={{
           display: "flex",
           flexDirection: "column",
-          padding: "var(--space-3, 0.5rem) var(--space-4, 0.75rem)",
           gap: 0,
         }}
       >
@@ -304,6 +283,6 @@ export function HashChainVerifier({
           );
         })}
       </div>
-    </div>
+    </Card>
   );
 }
