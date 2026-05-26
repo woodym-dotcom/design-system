@@ -5,12 +5,16 @@ export interface SavedViewsMenuProps<TState = unknown> {
   /** Current views, typically from `useSavedViews({ scope }).views`. */
   views: ReadonlyArray<SavedView<TState>>;
   /** Called when the user selects a saved view. */
-  onSelect: (view: SavedView<TState>) => void;
+  onSelect?: (view: SavedView<TState>) => void;
+  /** Alias for onSelect. */
+  onApply?: (view: SavedView<TState>) => void;
   /**
    * Optional active view id (matches `view.id`). When set, the matching
    * menu item is marked as current.
    */
   activeId?: string;
+  /** Alias for activeId. */
+  activeViewId?: string;
   /** Called when the user clicks "Save current as…" — host opens a name prompt. */
   onSaveCurrent?: () => void;
   /** Called when the user pins/unpins a view. */
@@ -38,7 +42,9 @@ export interface SavedViewsMenuProps<TState = unknown> {
 export function SavedViewsMenu<TState = unknown>({
   views,
   onSelect,
+  onApply,
   activeId,
+  activeViewId,
   onSaveCurrent,
   onTogglePin,
   onRemove,
@@ -47,6 +53,9 @@ export function SavedViewsMenu<TState = unknown>({
   emptyMessage = 'No saved views yet.',
   className,
 }: SavedViewsMenuProps<TState>) {
+  const handler = onApply ?? onSelect ?? (() => {});
+  const active = activeViewId ?? activeId;
+
   const [open, setOpen] = React.useState(false);
   const rootRef = React.useRef<HTMLDivElement>(null);
   const menuId = React.useId();
@@ -69,7 +78,7 @@ export function SavedViewsMenu<TState = unknown>({
     };
   }, [open]);
 
-  const activeView = activeId ? views.find((v) => v.id === activeId) : undefined;
+  const activeView = active ? views.find((v) => v.id === active) : undefined;
   const label = triggerLabel ?? activeView?.name ?? 'Views';
 
   return (
@@ -100,7 +109,7 @@ export function SavedViewsMenu<TState = unknown>({
           ) : (
             <ul className="cc-saved-views__list">
               {views.map((v) => {
-                const isActive = v.id === activeId;
+                const isActive = v.id === active;
                 return (
                   <li key={v.id} className="cc-saved-views__item" role="none">
                     <button
@@ -109,7 +118,7 @@ export function SavedViewsMenu<TState = unknown>({
                       aria-checked={isActive}
                       className={`cc-saved-views__select${isActive ? ' is-active' : ''}`}
                       onClick={() => {
-                        onSelect(v);
+                        handler(v);
                         setOpen(false);
                       }}
                     >

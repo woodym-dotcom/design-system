@@ -7,7 +7,14 @@ export {
   type TanStackRouterAdapterInput,
 } from "./hooks/useUrlFilterState";
 export { FormField, type FormFieldProps, type FormFieldType, type FormFieldAs } from "./FormField";
+export { FormField as Field } from "./FormField";
+export type { FormFieldProps as FieldProps } from "./FormField";
 export { FilterBar, type FilterBarProps, type FilterChip } from "./FilterBar";
+export {
+  AppliedFiltersBar,
+  type AppliedFiltersBarProps,
+  type AppliedFilter,
+} from "./AppliedFiltersBar";
 // NavRail + CreateMenu demoted to internal in DS-SIMPLIFY 05 — use
 // PlatformAppShell. Files remain in `react/` for internal composition.
 

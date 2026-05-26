@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 const FOCUSABLE =
-  'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable=true]';
+  'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]), audio[controls], video[controls], [contenteditable]:not([contenteditable="false"]), iframe, object, embed';
 
 export interface UseFocusTrapOptions {
   /** Whether the trap is active. When false, focus moves freely. */

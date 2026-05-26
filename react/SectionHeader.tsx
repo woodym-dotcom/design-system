@@ -13,6 +13,8 @@ export interface SectionHeaderProps {
   title: string;
   /** Optional supporting copy rendered below the title. */
   description?: string;
+  /** Short label rendered above the title. */
+  eyebrow?: React.ReactNode;
   /**
    * Optional ReactNode rendered INSIDE the heading element next to the title
    * text (e.g. a small chip or pill that belongs visually to the title).
@@ -29,6 +31,8 @@ export interface SectionHeaderProps {
    * Actions slot — buttons, toggles, links. Positioned right of metadata.
    */
   actions?: React.ReactNode;
+  /** Class modifier for flush (no padding) rendering. */
+  flush?: boolean;
   className?: string;
   /** Override the heading level. Defaults to 'h2'. */
   as?: 'h1' | 'h2' | 'h3';
@@ -37,16 +41,19 @@ export interface SectionHeaderProps {
 export function SectionHeader({
   title,
   description,
+  eyebrow,
   titleExtras,
   metadata,
   actions,
+  flush,
   className,
   as: Heading = 'h2',
 }: SectionHeaderProps) {
   const headingClass = Heading === 'h1' ? 't-h1' : Heading === 'h3' ? 't-h3' : 't-h2';
 
   return (
-    <header className={['cc-section-header', className].filter(Boolean).join(' ')}>
+    <header className={['cc-section-header', flush && 'cc-section-header--flush', className].filter(Boolean).join(' ')}>
+      {eyebrow ? <div className="cc-section-header__eyebrow">{eyebrow}</div> : null}
       <div className="cc-section-header__row">
         <Heading className={`cc-section-header__title ${headingClass}`}>
           {title}

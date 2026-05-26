@@ -40,6 +40,11 @@ export interface CreationWizardProps<TValues> {
     label?: string;
     reviewer: (values: TValues) => Promise<CreationWizardReviewResult>;
   };
+  /**
+   * When set, each step wrapper gets data-testid="{prefix}-{index}" and
+   * data-step-id="{step.id}".
+   */
+  testIdPrefix?: string;
   className?: string;
   submitLabel?: string;
 }
@@ -51,6 +56,7 @@ export function CreationWizard<TValues>({
   initialValues,
   onSubmit,
   aiReview,
+  testIdPrefix,
   className,
   submitLabel = 'Submit',
 }: CreationWizardProps<TValues>) {
@@ -144,8 +150,8 @@ export function CreationWizard<TValues>({
         <div className="cc-wizard__step-content">
           {isReviewStep && aiReview ? (
             <CreationWizardReview values={values} reviewer={aiReview.reviewer} />
-          ) : (
-            steps[activeIndex]?.render({
+          ) : (() => {
+            const stepContent = steps[activeIndex]?.render({
               values,
               setValues: setValuesUpdater,
               next: handleNext,
@@ -153,8 +159,19 @@ export function CreationWizard<TValues>({
               submit: handleSubmit,
               activeIndex,
               totalSteps,
-            })
-          )}
+            });
+            if (testIdPrefix && steps[activeIndex]) {
+              return (
+                <div
+                  data-testid={`${testIdPrefix}-${activeIndex}`}
+                  data-step-id={steps[activeIndex].id}
+                >
+                  {stepContent}
+                </div>
+              );
+            }
+            return stepContent;
+          })()}
         </div>
         <div className="cc-wizard__footer">
           <button
