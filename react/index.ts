@@ -351,12 +351,6 @@ export {
   type TabsProps,
   type TabItem,
 } from "./Tabs";
-export {
-  Sparkline,
-  type SparklineProps,
-  type SparklineTone,
-  type SparklineSize,
-} from "./charts/Sparkline";
 
 // ── DS-SIMPLIFY 02 — State primitive (unified state-messaging) ────────────────
 export {
@@ -487,16 +481,6 @@ export {
   type AccordionItem,
 } from "./Disclosure";
 
-// ── DS-MIG P1-02: ErrorPage family — NotFound, ServerError, Degraded ────────
-export {
-  NotFound,
-  ServerError,
-  Degraded,
-  type ErrorPageProps,
-  type NotFoundProps,
-  type ServerErrorProps,
-  type DegradedProps,
-} from "./ErrorPage";
 
 // ── DS-MIG P1-03: DataTable — sort/filter/select/paginate table ─────────────
 export {
@@ -509,14 +493,6 @@ export {
   type DataTableSelection,
 } from "./DataTable";
 
-// ── DS-MIG P1-04: HeatmapChart / MatrixChart — matrix visualization ─────────
-export {
-  HeatmapChart,
-  MatrixChart,
-  type HeatmapChartProps,
-  type MatrixChartProps,
-  type HeatmapCell as HeatmapChartCell,
-} from "./HeatmapChart";
 
 // ── DS-MIG P1-12: AppSwitcher — standalone cross-app nav dropdown ───────────
 export {
@@ -667,12 +643,10 @@ export {
 
 // ── DS variant / improvement components ─────────────────────────────────────
 
-// Toolbar / PrimaryActionBar — queue-position variant
+// Toolbar — queue-position variant
 export {
   Toolbar,
-  PrimaryActionBar,
   type ToolbarProps,
-  type PrimaryActionBarProps,
   type ToolbarVariant,
   type ToolbarAction,
 } from "./Toolbar";

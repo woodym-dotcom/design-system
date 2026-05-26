@@ -117,7 +117,3 @@ export function Toolbar({
     </div>
   );
 }
-
-/** Alias for backward-compat naming. */
-export const PrimaryActionBar = Toolbar;
-export type PrimaryActionBarProps = ToolbarProps;
