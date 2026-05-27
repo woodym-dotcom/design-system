@@ -22,8 +22,6 @@ export interface CardProps
   title?: React.ReactNode;
   /** Optional sub-label appended after the title. */
   subtitle?: React.ReactNode;
-  /** @deprecated Use subtitle instead. Alias for subtitle. If both are set, description wins. */
-  description?: React.ReactNode;
   /** Right-aligned slot inside the header (NEW). */
   actions?: React.ReactNode;
   /** Slot rendered after the body (NEW). */
@@ -51,7 +49,6 @@ function legacySubtitleSuffix(subtitle: React.ReactNode) {
 export function Card({
   title,
   subtitle,
-  description,
   actions,
   footer,
   padded,
@@ -59,7 +56,6 @@ export function Card({
   children,
   ...rest
 }: CardProps): React.ReactElement {
-  const effectiveSubtitle = description ?? subtitle;
   // Legacy path: no new prop has been supplied → render the original DOM
   // so existing callers see no visual / structural change.
   const usesNew = actions !== undefined || footer !== undefined || padded !== undefined;
@@ -81,7 +77,7 @@ export function Card({
         {title ? (
           <div className={legacyTitleClass()}>
             {title}
-            {legacySubtitleSuffix(effectiveSubtitle)}
+            {legacySubtitleSuffix(subtitle)}
           </div>
         ) : null}
         {children}
@@ -98,7 +94,7 @@ export function Card({
     .filter(Boolean)
     .join(" ");
 
-  const hasHeader = title != null || effectiveSubtitle != null || actions != null;
+  const hasHeader = title != null || subtitle != null || actions != null;
 
   return (
     <section {...rest} className={cls}>
@@ -106,8 +102,8 @@ export function Card({
         <header className="cc-card__header">
           <div className="cc-card__copy">
             {title != null ? <h3 className="cc-card__title">{title}</h3> : null}
-            {effectiveSubtitle != null ? (
-              <p className="cc-card__subtitle">{effectiveSubtitle}</p>
+            {subtitle != null ? (
+              <p className="cc-card__subtitle">{subtitle}</p>
             ) : null}
           </div>
           {actions != null ? (

@@ -1,20 +1,16 @@
 import * as React from 'react';
 
 export interface UseMultiSelectOptions<T> {
-  /** Shortcut: flat string keys. Equivalent to items=allIds, getKey=String. */
-  allIds?: readonly string[];
   /** All visible items the user can select. Must be a stable array. */
-  items?: ReadonlyArray<T>;
+  items: ReadonlyArray<T>;
   /** Stable key per item. */
-  getKey?: (item: T) => string;
+  getKey: (item: T) => string;
   /** Initial selection (keys). */
   initial?: ReadonlyArray<string>;
 }
 
 export interface UseMultiSelectResult<T> {
   selectedKeys: ReadonlySet<string>;
-  /** @deprecated Use selectedKeys instead. */
-  selected: ReadonlySet<string>;
   selectedItems: ReadonlyArray<T>;
   isSelected: (item: T) => boolean;
   toggle: (item: T, opts?: { shift?: boolean }) => void;
@@ -23,8 +19,6 @@ export interface UseMultiSelectResult<T> {
   setSelectedKeys: (keys: Iterable<string>) => void;
   /** True when at least one item is selected. */
   hasSelection: boolean;
-  /** @deprecated Use hasSelection instead. */
-  someSelected: boolean;
   /** True when every visible item is selected. */
   allSelected: boolean;
   /** Total selected count. */
@@ -42,13 +36,10 @@ export interface UseMultiSelectResult<T> {
  * Pair with `<BulkBar />` to expose the bulk-action surface.
  */
 export function useMultiSelect<T>({
-  allIds,
-  items: itemsProp,
-  getKey: getKeyProp,
+  items,
+  getKey,
   initial,
 }: UseMultiSelectOptions<T>): UseMultiSelectResult<T> {
-  const items = (allIds && !itemsProp ? allIds : itemsProp ?? []) as ReadonlyArray<T>;
-  const getKey = (allIds && !getKeyProp ? String : getKeyProp ?? String) as (item: T) => string;
   const [selectedKeys, setKeys] = React.useState<Set<string>>(
     () => new Set(initial ?? []),
   );
@@ -123,7 +114,6 @@ export function useMultiSelect<T>({
   const hasSelection = selectedKeys.size > 0;
   return {
     selectedKeys,
-    selected: selectedKeys,
     selectedItems,
     isSelected,
     toggle,
@@ -131,7 +121,6 @@ export function useMultiSelect<T>({
     clear,
     setSelectedKeys,
     hasSelection,
-    someSelected: hasSelection,
     allSelected: items.length > 0 && selectedKeys.size === items.length,
     count: selectedKeys.size,
   };

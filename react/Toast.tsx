@@ -22,14 +22,10 @@ export interface Toast {
 
 export type ToastInput = Omit<Toast, 'id'> & {
   id?: string;
-  /** @deprecated Use message instead. Alias for message. If both set, description wins. */
-  description?: string;
 };
 
 export interface ToastContextValue {
   toast: (input: ToastInput) => string;
-  /** @deprecated Use toast() instead. */
-  push: (input: ToastInput) => string;
   dismiss: (id: string) => void;
   clear: () => void;
   /** Subscribers can read the live list (e.g. for tests/devtools). */
@@ -70,12 +66,10 @@ export function ToastProvider({
   const toast = React.useCallback(
     (input: ToastInput): string => {
       const id = input.id ?? nextId();
-      const effectiveMessage = input.description ?? input.message;
       const entry: Toast = {
         durationMs: 5000,
         tone: 'info',
         ...input,
-        message: effectiveMessage,
         id,
       };
       setToasts((prev) => {
@@ -110,7 +104,7 @@ export function ToastProvider({
   }, []);
 
   const value = React.useMemo<ToastContextValue>(
-    () => ({ toast, push: toast, dismiss, clear, toasts }),
+    () => ({ toast, dismiss, clear, toasts }),
     [toast, dismiss, clear, toasts],
   );
 
@@ -186,7 +180,6 @@ export function useToast(): ToastContextValue {
     const noop = () => '';
     return {
       toast: noop,
-      push: noop,
       dismiss: () => {},
       clear: () => {},
       toasts: [],
