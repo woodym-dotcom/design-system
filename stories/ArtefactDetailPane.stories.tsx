@@ -1,17 +1,13 @@
 /**
  * ArtefactDetailPane stories — Storybook CSF v3.
  *
- * Shows the full six-tab artefact detail pane with sample data,
- * plus isolated sub-component stories.
+ * Shows the canonical six-tab artefact detail pane with sample data. Sub-views
+ * are no longer publicly exported — they render as internal tab content via
+ * the single ArtefactDetailPane component.
  */
 import * as React from 'react';
 import {
   ArtefactDetailPane,
-  ArtefactDefinition,
-  ArtefactIOContractView,
-  ArtefactMetricsView,
-  ArtefactCallers,
-  ArtefactVersioning,
   type ArtefactDefinitionDoc,
   type ArtefactIOContract,
   type ArtefactMetrics,
@@ -102,9 +98,8 @@ export default {
     docs: {
       description: {
         component:
-          'Canonical six-tab detail pane for any AA artefact. ' +
-          'Composes ExpandableDetailPane + ListView. ' +
-          'Per-artefact phases (3.2–3.11) supply real data; this component is data-agnostic.',
+          'Canonical six-tab detail pane for any artefact. Composes Overlay + ' +
+          'inline tabs. The host supplies data; this component is data-agnostic.',
       },
     },
   },
@@ -161,59 +156,3 @@ export function NoMetrics() {
   );
 }
 NoMetrics.storyName = 'Metrics placeholder (no data)';
-
-// ── Sub-component stories ─────────────────────────────────────────────────────
-
-export function DefinitionSubcomponent() {
-  return (
-    <div style={{ padding: 24, maxWidth: 720 }}>
-      <ArtefactDefinition definition={DEFINITION} />
-    </div>
-  );
-}
-DefinitionSubcomponent.storyName = 'ArtefactDefinition (isolated)';
-
-export function IOContractSubcomponent() {
-  return (
-    <div style={{ padding: 24 }}>
-      <ArtefactIOContractView contract={IO_CONTRACT} />
-    </div>
-  );
-}
-IOContractSubcomponent.storyName = 'ArtefactIOContract (isolated)';
-
-export function MetricsSubcomponent() {
-  return (
-    <div style={{ padding: 24 }}>
-      <ArtefactMetricsView metrics={METRICS} />
-    </div>
-  );
-}
-MetricsSubcomponent.storyName = 'ArtefactMetrics (isolated)';
-
-export function MetricsEmptySubcomponent() {
-  return (
-    <div style={{ padding: 24 }}>
-      <ArtefactMetricsView metrics={null} />
-    </div>
-  );
-}
-MetricsEmptySubcomponent.storyName = 'ArtefactMetrics placeholder (no data)';
-
-export function CallersSubcomponent() {
-  return (
-    <div style={{ padding: 24 }}>
-      <ArtefactCallers callers={CALLERS} />
-    </div>
-  );
-}
-CallersSubcomponent.storyName = 'ArtefactCallers (isolated)';
-
-export function VersioningSubcomponent() {
-  return (
-    <div style={{ padding: 24 }}>
-      <ArtefactVersioning versions={VERSIONS} />
-    </div>
-  );
-}
-VersioningSubcomponent.storyName = 'ArtefactVersioning (isolated)';

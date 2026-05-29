@@ -1,20 +1,15 @@
 /**
- * ArtefactDetailPane — composable detail pane family for AA artefacts.
+ * ArtefactDetailPane — composable detail pane family for artefacts.
  *
  * Composes Overlay (placement="detail-right") + inline tab structure
  * into a single "detail pane for any artefact" abstraction.
- *
- * §14 L1: no artefact detail primitive existed.
- * §14 L2: composes Overlay already in @ds/core.
- * §14 L3: follows cc-btn / cc-chip token pattern, column-definition shape.
- *
- * Exported types mirror the BE DTOs in com.aa.platform.artefact — keep in sync.
  *
  * Accessibility: inherits Overlay a11y contract (dialog, focus trap,
  * keyboard navigation, axe-clean). Individual tab content uses semantic HTML.
  */
 import * as React from 'react';
 import { Overlay } from './Overlay';
+import { Tag } from './Tag';
 /**
  * Column definition for the inline tables in this file.
  * Previously imported from ./ListView (deleted in Phase 2). The shape is
@@ -28,7 +23,7 @@ interface ArtefactColumnDef<TRow> {
   render: (row: TRow) => import('react').ReactNode;
 }
 
-// ── Domain types (mirrored from BE com.aa.platform.artefact DTOs) ─────────────
+// ── Domain types ─────────────────────────────────────────────────────────────
 
 /** A single property in an input/output/context schema. */
 export interface ArtefactSchemaField {
@@ -43,7 +38,7 @@ export interface ArtefactSchemaField {
  * pre-rules, orchestration model text, post-rules, and generated procedure.
  */
 export interface ArtefactDefinitionDoc {
-  /** Human-readable name, e.g. "Incident Investigation Process". */
+  /** Human-readable name. */
   artefactName: string;
   /** Optional namespace / domain qualifier. */
   namespace?: string;
@@ -57,7 +52,7 @@ export interface ArtefactDefinitionDoc {
   postRules: string[];
   /**
    * Auto-generated procedure narrative paragraph.
-   * Produced by the BE from the step graph; displayed read-only.
+   * Produced by the backend from the step graph; displayed read-only.
    */
   generatedProcedureText?: string;
 }
@@ -108,37 +103,32 @@ export interface ArtefactVersion {
   isActive: boolean;
 }
 
-// ── Sub-component: ArtefactDefinition ────────────────────────────────────────
+// ── Internal: Definition section ─────────────────────────────────────────────
 
-export interface ArtefactDefinitionProps {
+interface DefinitionViewProps {
   definition: ArtefactDefinitionDoc;
 }
 
-/**
- * Read-only pseudo-code render of an artefact's definition.
- * Shows pre-rules → orchestration steps → post-rules, plus generated
- * procedure text when present.
- */
-export function ArtefactDefinition({ definition }: ArtefactDefinitionProps) {
+function DefinitionView({ definition }: DefinitionViewProps) {
   return (
-    <section className="aa-artefact-definition" aria-label="Artefact definition">
-      <div className="aa-artefact-definition__meta">
+    <section className="cc-detail-definition" aria-label="Artefact definition">
+      <div className="cc-detail-definition__meta">
         {definition.namespace && (
-          <span className="aa-artefact-definition__namespace">{definition.namespace}</span>
+          <span className="cc-detail-definition__namespace">{definition.namespace}</span>
         )}
         {definition.executionModel && (
-          <span className="aa-artefact-definition__execution-model cc-chip cc-chip--neutral">
+          <Tag variant="chip" tone="neutral" className="cc-detail-definition__execution-model">
             {definition.executionModel}
-          </span>
+          </Tag>
         )}
       </div>
 
       {definition.preRules.length > 0 && (
-        <div className="aa-artefact-definition__section">
-          <h3 className="aa-artefact-definition__section-heading">Pre-rules</h3>
-          <ol className="aa-artefact-definition__rule-list">
+        <div className="cc-detail-definition__section">
+          <h3 className="cc-detail-definition__section-heading">Pre-rules</h3>
+          <ol className="cc-detail-definition__rule-list">
             {definition.preRules.map((rule, i) => (
-              <li key={i} className="aa-artefact-definition__rule-item">
+              <li key={i} className="cc-detail-definition__rule-item">
                 {rule}
               </li>
             ))}
@@ -146,24 +136,24 @@ export function ArtefactDefinition({ definition }: ArtefactDefinitionProps) {
         </div>
       )}
 
-      <div className="aa-artefact-definition__section">
-        <h3 className="aa-artefact-definition__section-heading">Orchestration model</h3>
-        <ol className="aa-artefact-definition__step-list">
+      <div className="cc-detail-definition__section">
+        <h3 className="cc-detail-definition__section-heading">Orchestration model</h3>
+        <ol className="cc-detail-definition__step-list">
           {definition.orchestrationSteps.map((step, i) => (
-            <li key={i} className="aa-artefact-definition__step-item">
-              <span className="aa-artefact-definition__step-number">{i + 1}</span>
-              <span className="aa-artefact-definition__step-text">{step}</span>
+            <li key={i} className="cc-detail-definition__step-item">
+              <span className="cc-detail-definition__step-number">{i + 1}</span>
+              <span className="cc-detail-definition__step-text">{step}</span>
             </li>
           ))}
         </ol>
       </div>
 
       {definition.postRules.length > 0 && (
-        <div className="aa-artefact-definition__section">
-          <h3 className="aa-artefact-definition__section-heading">Post-rules</h3>
-          <ol className="aa-artefact-definition__rule-list">
+        <div className="cc-detail-definition__section">
+          <h3 className="cc-detail-definition__section-heading">Post-rules</h3>
+          <ol className="cc-detail-definition__rule-list">
             {definition.postRules.map((rule, i) => (
-              <li key={i} className="aa-artefact-definition__rule-item">
+              <li key={i} className="cc-detail-definition__rule-item">
                 {rule}
               </li>
             ))}
@@ -172,9 +162,9 @@ export function ArtefactDefinition({ definition }: ArtefactDefinitionProps) {
       )}
 
       {definition.generatedProcedureText && (
-        <div className="aa-artefact-definition__section aa-artefact-definition__section--procedure">
-          <h3 className="aa-artefact-definition__section-heading">Generated procedure</h3>
-          <p className="aa-artefact-definition__procedure-text">
+        <div className="cc-detail-definition__section cc-detail-definition__section--procedure">
+          <h3 className="cc-detail-definition__section-heading">Generated procedure</h3>
+          <p className="cc-detail-definition__procedure-text">
             {definition.generatedProcedureText}
           </p>
         </div>
@@ -183,9 +173,9 @@ export function ArtefactDefinition({ definition }: ArtefactDefinitionProps) {
   );
 }
 
-// ── Sub-component: ArtefactIOContractView ─────────────────────────────────────
+// ── Internal: IO Contract view ───────────────────────────────────────────────
 
-export interface ArtefactIOContractProps {
+interface IOContractViewProps {
   contract: ArtefactIOContract;
 }
 
@@ -198,13 +188,13 @@ function SchemaFieldTable({
 }) {
   if (fields.length === 0) {
     return (
-      <p className="aa-artefact-io__empty" role="status">
+      <p className="cc-detail-io__empty" role="status">
         No {label.toLowerCase()} fields defined.
       </p>
     );
   }
   return (
-    <table className="aa-artefact-io__table cc-table cc-table--sm" aria-label={label}>
+    <table className="cc-detail-io__table cc-table cc-table--sm" aria-label={label}>
       <thead>
         <tr>
           <th scope="col">Name</th>
@@ -231,38 +221,36 @@ function SchemaFieldTable({
   );
 }
 
-/** Input / output / context schema viewer. */
-export function ArtefactIOContractView({ contract }: ArtefactIOContractProps) {
+function IOContractView({ contract }: IOContractViewProps) {
   return (
-    <section className="aa-artefact-io" aria-label="IO contract">
-      <div className="aa-artefact-io__group">
-        <h3 className="aa-artefact-io__group-heading">Input</h3>
+    <section className="cc-detail-io" aria-label="IO contract">
+      <div className="cc-detail-io__group">
+        <h3 className="cc-detail-io__group-heading">Input</h3>
         <SchemaFieldTable fields={contract.inputSchema} label="Input schema" />
       </div>
-      <div className="aa-artefact-io__group">
-        <h3 className="aa-artefact-io__group-heading">Output</h3>
+      <div className="cc-detail-io__group">
+        <h3 className="cc-detail-io__group-heading">Output</h3>
         <SchemaFieldTable fields={contract.outputSchema} label="Output schema" />
       </div>
-      <div className="aa-artefact-io__group">
-        <h3 className="aa-artefact-io__group-heading">Context</h3>
+      <div className="cc-detail-io__group">
+        <h3 className="cc-detail-io__group-heading">Context</h3>
         <SchemaFieldTable fields={contract.contextSchema} label="Context schema" />
       </div>
     </section>
   );
 }
 
-// ── Sub-component: ArtefactMetricsView ────────────────────────────────────────
+// ── Internal: Metrics view ──────────────────────────────────────────────────
 
-export interface ArtefactMetricsProps {
+interface MetricsViewProps {
   metrics: ArtefactMetrics | null | undefined;
 }
 
-/** Metrics tile strip. Renders placeholder when no data available. */
-export function ArtefactMetricsView({ metrics }: ArtefactMetricsProps) {
+function MetricsView({ metrics }: MetricsViewProps) {
   if (!metrics) {
     return (
-      <div className="aa-artefact-metrics aa-artefact-metrics--empty" role="status">
-        <p className="aa-artefact-metrics__placeholder">No metrics data available yet.</p>
+      <div className="cc-detail-metrics cc-detail-metrics--empty" role="status">
+        <p className="cc-detail-metrics__placeholder">No metrics data available yet.</p>
       </div>
     );
   }
@@ -270,34 +258,34 @@ export function ArtefactMetricsView({ metrics }: ArtefactMetricsProps) {
   const successPct = Math.round(metrics.successRate * 100);
 
   return (
-    <section className="aa-artefact-metrics" aria-label="Artefact metrics">
-      <dl className="aa-artefact-metrics__grid">
-        <div className="aa-artefact-metrics__tile">
-          <dt className="aa-artefact-metrics__tile-label">Total executions</dt>
-          <dd className="aa-artefact-metrics__tile-value">
+    <section className="cc-detail-metrics" aria-label="Artefact metrics">
+      <dl className="cc-detail-metrics__grid">
+        <div className="cc-detail-metrics__tile">
+          <dt className="cc-detail-metrics__tile-label">Total executions</dt>
+          <dd className="cc-detail-metrics__tile-value">
             {metrics.totalExecutions.toLocaleString()}
           </dd>
         </div>
-        <div className="aa-artefact-metrics__tile">
-          <dt className="aa-artefact-metrics__tile-label">Success rate</dt>
-          <dd className="aa-artefact-metrics__tile-value">{successPct}%</dd>
+        <div className="cc-detail-metrics__tile">
+          <dt className="cc-detail-metrics__tile-label">Success rate</dt>
+          <dd className="cc-detail-metrics__tile-value">{successPct}%</dd>
         </div>
         {metrics.p50LatencyMs !== undefined && (
-          <div className="aa-artefact-metrics__tile">
-            <dt className="aa-artefact-metrics__tile-label">p50 latency</dt>
-            <dd className="aa-artefact-metrics__tile-value">{metrics.p50LatencyMs}ms</dd>
+          <div className="cc-detail-metrics__tile">
+            <dt className="cc-detail-metrics__tile-label">p50 latency</dt>
+            <dd className="cc-detail-metrics__tile-value">{metrics.p50LatencyMs}ms</dd>
           </div>
         )}
         {metrics.p99LatencyMs !== undefined && (
-          <div className="aa-artefact-metrics__tile">
-            <dt className="aa-artefact-metrics__tile-label">p99 latency</dt>
-            <dd className="aa-artefact-metrics__tile-value">{metrics.p99LatencyMs}ms</dd>
+          <div className="cc-detail-metrics__tile">
+            <dt className="cc-detail-metrics__tile-label">p99 latency</dt>
+            <dd className="cc-detail-metrics__tile-value">{metrics.p99LatencyMs}ms</dd>
           </div>
         )}
         {metrics.lastExecutedAt && (
-          <div className="aa-artefact-metrics__tile">
-            <dt className="aa-artefact-metrics__tile-label">Last executed</dt>
-            <dd className="aa-artefact-metrics__tile-value">
+          <div className="cc-detail-metrics__tile">
+            <dt className="cc-detail-metrics__tile-label">Last executed</dt>
+            <dd className="cc-detail-metrics__tile-value">
               {new Date(metrics.lastExecutedAt).toLocaleString()}
             </dd>
           </div>
@@ -307,7 +295,13 @@ export function ArtefactMetricsView({ metrics }: ArtefactMetricsProps) {
   );
 }
 
-// ── Sub-component: ArtefactHistory ────────────────────────────────────────────
+// ── Internal: History view ──────────────────────────────────────────────────
+
+function historyStateTone(state: string): 'success' | 'error' | 'neutral' {
+  if (state === 'COMPLETED') return 'success';
+  if (state === 'FAILED') return 'error';
+  return 'neutral';
+}
 
 const HISTORY_COLUMNS: ArtefactColumnDef<ArtefactHistoryEntry>[] = [
   {
@@ -320,11 +314,9 @@ const HISTORY_COLUMNS: ArtefactColumnDef<ArtefactHistoryEntry>[] = [
     key: 'state',
     label: 'State',
     render: (row) => (
-      <span
-        className={`cc-chip cc-chip--${row.state === 'COMPLETED' ? 'success' : row.state === 'FAILED' ? 'danger' : 'neutral'}`}
-      >
+      <Tag variant="chip" tone={historyStateTone(row.state)}>
         {row.state}
-      </span>
+      </Tag>
     ),
   },
   {
@@ -348,7 +340,7 @@ const HISTORY_COLUMNS: ArtefactColumnDef<ArtefactHistoryEntry>[] = [
   },
 ];
 
-export interface ArtefactHistoryProps {
+interface HistoryViewProps {
   entries: ArtefactHistoryEntry[];
   /** Total items for pagination. */
   totalItems?: number;
@@ -357,16 +349,15 @@ export interface ArtefactHistoryProps {
   onPageChange?: (page: number) => void;
 }
 
-/** Paginated execution/session history list. */
-export function ArtefactHistory({
+function HistoryView({
   entries,
   totalItems,
   page = 1,
   pageSize = 20,
   onPageChange,
-}: ArtefactHistoryProps) {
+}: HistoryViewProps) {
   return (
-    <div className="aa-artefact-history">
+    <div className="cc-detail-history">
       <table className="cc-table" aria-label="Execution history">
         <thead>
           <tr>
@@ -384,7 +375,7 @@ export function ArtefactHistory({
                 colSpan={HISTORY_COLUMNS.length}
                 className="cc-table__td"
               >
-                <p role="status" className="aa-artefact-history__empty">
+                <p role="status" className="cc-detail-history__empty">
                   No execution history available.
                 </p>
               </td>
@@ -404,7 +395,7 @@ export function ArtefactHistory({
       </table>
       {totalItems !== undefined && (
         <nav
-          className="aa-artefact-history__pagination"
+          className="cc-detail-history__pagination"
           aria-label="History pagination"
           role="navigation"
         >
@@ -417,7 +408,7 @@ export function ArtefactHistory({
           >
             ‹ Prev
           </button>
-          <span className="aa-artefact-history__page-info" aria-live="polite">
+          <span className="cc-detail-history__page-info" aria-live="polite">
             Page {page} of {Math.max(1, Math.ceil(totalItems / pageSize))}
           </span>
           <button
@@ -435,7 +426,7 @@ export function ArtefactHistory({
   );
 }
 
-// ── Sub-component: ArtefactCallers ────────────────────────────────────────────
+// ── Internal: Callers view ──────────────────────────────────────────────────
 
 const CALLERS_COLUMNS: ArtefactColumnDef<ArtefactCaller>[] = [
   {
@@ -447,7 +438,9 @@ const CALLERS_COLUMNS: ArtefactColumnDef<ArtefactCaller>[] = [
     key: 'callerType',
     label: 'Type',
     render: (row) => (
-      <span className="cc-chip cc-chip--neutral">{row.callerType}</span>
+      <Tag variant="chip" tone="neutral">
+        {row.callerType}
+      </Tag>
     ),
   },
   {
@@ -463,14 +456,13 @@ const CALLERS_COLUMNS: ArtefactColumnDef<ArtefactCaller>[] = [
   },
 ];
 
-export interface ArtefactCallersProps {
+interface CallersViewProps {
   callers: ArtefactCaller[];
 }
 
-/** Version-aware list of callers bound to this artefact. */
-export function ArtefactCallers({ callers }: ArtefactCallersProps) {
+function CallersView({ callers }: CallersViewProps) {
   return (
-    <div className="aa-artefact-callers">
+    <div className="cc-detail-callers">
       <table className="cc-table" aria-label="Callers">
         <thead>
           <tr>
@@ -488,7 +480,7 @@ export function ArtefactCallers({ callers }: ArtefactCallersProps) {
                 colSpan={CALLERS_COLUMNS.length}
                 className="cc-table__td"
               >
-                <p role="status" className="aa-artefact-callers__empty">
+                <p role="status" className="cc-detail-callers__empty">
                   No callers found.
                 </p>
               </td>
@@ -510,7 +502,7 @@ export function ArtefactCallers({ callers }: ArtefactCallersProps) {
   );
 }
 
-// ── Sub-component: ArtefactVersioning ─────────────────────────────────────────
+// ── Internal: Versioning view ───────────────────────────────────────────────
 
 const VERSIONS_COLUMNS: ArtefactColumnDef<ArtefactVersion>[] = [
   {
@@ -520,9 +512,9 @@ const VERSIONS_COLUMNS: ArtefactColumnDef<ArtefactVersion>[] = [
       <span>
         v{row.version}
         {row.isActive && (
-          <span className="cc-chip cc-chip--success" style={{ marginLeft: 8 }}>
+          <Tag variant="chip" tone="success" className="cc-detail-version__active">
             Active
-          </span>
+          </Tag>
         )}
       </span>
     ),
@@ -531,7 +523,9 @@ const VERSIONS_COLUMNS: ArtefactColumnDef<ArtefactVersion>[] = [
     key: 'state',
     label: 'State',
     render: (row) => (
-      <span className="cc-chip cc-chip--neutral">{row.state}</span>
+      <Tag variant="chip" tone="neutral">
+        {row.state}
+      </Tag>
     ),
   },
   {
@@ -547,14 +541,13 @@ const VERSIONS_COLUMNS: ArtefactColumnDef<ArtefactVersion>[] = [
   },
 ];
 
-export interface ArtefactVersioningProps {
+interface VersioningViewProps {
   versions: ArtefactVersion[];
 }
 
-/** Version list with active version pointer. */
-export function ArtefactVersioning({ versions }: ArtefactVersioningProps) {
+function VersioningView({ versions }: VersioningViewProps) {
   return (
-    <div className="aa-artefact-versions">
+    <div className="cc-detail-versions">
       <table className="cc-table" aria-label="Versions">
         <thead>
           <tr>
@@ -572,7 +565,7 @@ export function ArtefactVersioning({ versions }: ArtefactVersioningProps) {
                 colSpan={VERSIONS_COLUMNS.length}
                 className="cc-table__td"
               >
-                <p role="status" className="aa-artefact-versions__empty">
+                <p role="status" className="cc-detail-versions__empty">
                   No versions found.
                 </p>
               </td>
@@ -611,20 +604,21 @@ export interface ArtefactDetailPaneProps {
   ioContract: ArtefactIOContract;
   metrics?: ArtefactMetrics | null;
 
-  history?: ArtefactHistoryProps;
+  history?: HistoryViewProps;
   callers?: ArtefactCaller[];
   versions?: ArtefactVersion[];
 }
 
 /**
- * ArtefactDetailPane — the canonical detail pane for any AA artefact.
+ * ArtefactDetailPane — the canonical detail pane for any artefact.
  *
  * Composes Overlay (placement="detail-right", expandable) as the shell with
  * six standard tabs:
  * Definition · IO Contract · Metrics · History · Callers · Versioning.
  *
- * Per-artefact phases (3.2–3.11) mount this component and supply real data;
- * this component itself is data-agnostic — it only renders what it's given.
+ * The host supplies data; this component is data-agnostic — it only renders
+ * what it's given. Sub-views are internal composition; consumers use the
+ * single `<ArtefactDetailPane>`.
  */
 export function ArtefactDetailPane({
   open,
@@ -643,26 +637,26 @@ export function ArtefactDetailPane({
     {
       id: 'definition',
       label: 'Definition',
-      render: () => <ArtefactDefinition definition={definition} />,
+      render: () => <DefinitionView definition={definition} />,
     },
     {
       id: 'io-contract',
       label: 'IO Contract',
-      render: () => <ArtefactIOContractView contract={ioContract} />,
+      render: () => <IOContractView contract={ioContract} />,
     },
     {
       id: 'metrics',
       label: 'Metrics',
-      render: () => <ArtefactMetricsView metrics={metrics} />,
+      render: () => <MetricsView metrics={metrics} />,
     },
     {
       id: 'history',
       label: 'History',
       render: () =>
         history ? (
-          <ArtefactHistory {...history} />
+          <HistoryView {...history} />
         ) : (
-          <p role="status" className="aa-artefact-history__empty">
+          <p role="status" className="cc-detail-history__empty">
             No history data available.
           </p>
         ),
@@ -670,12 +664,12 @@ export function ArtefactDetailPane({
     {
       id: 'callers',
       label: 'Callers',
-      render: () => <ArtefactCallers callers={callers} />,
+      render: () => <CallersView callers={callers} />,
     },
     {
       id: 'versioning',
       label: 'Versioning',
-      render: () => <ArtefactVersioning versions={versions} />,
+      render: () => <VersioningView versions={versions} />,
     },
   ];
 
