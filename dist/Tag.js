@@ -38,7 +38,7 @@ export function Tag({ variant = "chip", tone: toneProp = "neutral", size = "md",
                     }
                 }, children: "\u00D7" })) : null] }));
     if (interactive) {
-        return (_jsx("button", { type: "button", className: cls, onClick: onClick, onKeyDown: handleKeyDown, "aria-label": rest["aria-label"], children: inner }));
+        return (_jsx("button", { type: "button", className: cls, onClick: onClick, onKeyDown: handleKeyDown, "aria-label": rest["aria-label"], "aria-pressed": rest["aria-pressed"], children: inner }));
     }
     return (_jsx("span", { className: cls, "aria-label": rest["aria-label"], children: inner }));
 }

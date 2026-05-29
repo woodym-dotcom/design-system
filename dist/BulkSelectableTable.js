@@ -1,20 +1,20 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /**
- * BulkSelectableTable — composes useMultiSelect + BulkBar with a list of
- * rows and provides keyboard shortcuts, a tri-state header, and a typed
- * bulk-action result contract.
+ * BulkSelectableTable — composes useMultiSelect + Toolbar (mode="bulk") with a
+ * list of rows and provides keyboard shortcuts, a tri-state header, and a
+ * typed bulk-action result contract.
  *
- * Pair with the existing `BulkBar` (auto-mounted) and `useMultiSelect`
- * (internal). Caller supplies `rows`, `rowKey`, `renderRow`, and a list
- * of `bulkActions` — each action returns a `BulkActionResult` describing
- * which rows succeeded and which failed.
+ * Pair with `useMultiSelect` (internal); the bulk action bar is auto-mounted
+ * via `<Toolbar mode="bulk">`. Caller supplies `rows`, `rowKey`, `renderRow`,
+ * and a list of `bulkActions` — each action returns a `BulkActionResult`
+ * describing which rows succeeded and which failed.
  *
  * Failed-results detail is shown inline in a `role="status"` live region;
  * caller can also subscribe via `onResult` to surface a Drawer.
  */
 import * as React from 'react';
 import { useMultiSelect } from './hooks/useMultiSelect.js';
-import { BulkBar } from './BulkBar.js';
+import { Toolbar } from './Toolbar.js';
 /**
  * Header tri-state checkbox: empty / indeterminate / all-checked.
  */
@@ -79,7 +79,7 @@ export function BulkSelectableTable({ rows, rowKey, renderRow, bulkActions, onRe
                                             const ev = e.nativeEvent;
                                             sel.toggle(r, { shift: ev.shiftKey });
                                         } }) }), _jsx("div", { role: "gridcell", className: "cc-bst__cell", children: renderRow(r) })] }, key));
-                    })] }), _jsx(BulkBar, { count: sel.count, onClear: () => {
+                    })] }), _jsx(Toolbar, { mode: "bulk", selectedCount: sel.count, onClear: () => {
                     sel.clear();
                     setLastResult(null);
                 }, actions: barActions }), lastResult && (_jsxs("div", { role: "status", "aria-live": "polite", className: "cc-bst__result", children: [lastResult.succeeded.length, " succeeded", lastResult.failed.length > 0 ? `, ${lastResult.failed.length} failed` : '', lastResult.note ? ` — ${lastResult.note}` : '', lastResult.failed.length > 0 && (_jsx("ul", { className: "cc-bst__result-failures", children: lastResult.failed.map((f) => (_jsxs("li", { children: [_jsx("code", { children: f.key }), ": ", f.reason] }, f.key))) }))] }))] }));

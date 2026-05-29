@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /**
- * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
+ * @deprecated Internal as of DS-SIMPLIFY 05. Use `AppShell` from
  * `@ds/core/react` instead — top-level "+" menus belong in the shell's
  * `topBarSlot`. CreateMenu is no longer publicly exported.
  *

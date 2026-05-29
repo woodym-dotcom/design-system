@@ -1,7 +1,7 @@
 /**
  * EnvelopeBadge — multi-field chip group for a resolved envelope.
  *
- * Renders a compact horizontal group of label-value pairs representing
+ * Renders a compact horizontal group of `Tag` chips representing
  * the fields of a resolved envelope (e.g. name, DOB, address, ID number).
  *
  * Usage:

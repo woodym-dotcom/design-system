@@ -12,6 +12,8 @@ export interface SectionHeaderProps {
     title: string;
     /** Optional supporting copy rendered below the title. */
     description?: string;
+    /** Short label rendered above the title. */
+    eyebrow?: React.ReactNode;
     /**
      * Optional ReactNode rendered INSIDE the heading element next to the title
      * text (e.g. a small chip or pill that belongs visually to the title).
@@ -28,9 +30,11 @@ export interface SectionHeaderProps {
      * Actions slot — buttons, toggles, links. Positioned right of metadata.
      */
     actions?: React.ReactNode;
+    /** Class modifier for flush (no padding) rendering. */
+    flush?: boolean;
     className?: string;
     /** Override the heading level. Defaults to 'h2'. */
     as?: 'h1' | 'h2' | 'h3';
 }
-export declare function SectionHeader({ title, description, titleExtras, metadata, actions, className, as: Heading, }: SectionHeaderProps): import("react/jsx-runtime").JSX.Element;
+export declare function SectionHeader({ title, description, eyebrow, titleExtras, metadata, actions, flush, className, as: Heading, }: SectionHeaderProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=SectionHeader.d.ts.map

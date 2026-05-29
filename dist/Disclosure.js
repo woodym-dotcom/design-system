@@ -1,10 +1,20 @@
 import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
 /**
  * Disclosure — collapsible summary/content panel.
- * Accordion — composes Disclosures with single or multiple open semantics.
  *
- * Uses native <details>/<summary> for uncontrolled mode.
- * Controlled mode manages open state externally.
+ * Uses native <details>/<summary> for uncontrolled mode. Controlled mode
+ * manages open state externally.
+ *
+ * Accordion pattern: compose multiple `<Disclosure>` instances directly. For
+ * single-open semantics, lift `open` to a parent and pass `open` / `onOpenChange`
+ * to each child; for multi-open, give each Disclosure independent state.
+ * Example:
+ *
+ *   const [openId, setOpenId] = useState<string | null>(null);
+ *   <>
+ *     <Disclosure summary="A" open={openId === 'a'} onOpenChange={(o) => setOpenId(o ? 'a' : null)}>…</Disclosure>
+ *     <Disclosure summary="B" open={openId === 'b'} onOpenChange={(o) => setOpenId(o ? 'b' : null)}>…</Disclosure>
+ *   </>
  */
 import * as React from 'react';
 // ── Icon helpers ──────────────────────────────────────────────────────────────
@@ -71,38 +81,5 @@ export function Disclosure({ summary, defaultOpen = false, open: controlledOpen,
                     width: '100%',
                     textAlign: 'left',
                 }, onClick: () => handleToggle(!open), children: [_jsx(DisclosureIconNode, { icon: icon, open: open }), summary] }), open && _jsx("div", { style: contentStyle, children: children })] }));
-}
-// ── Accordion ─────────────────────────────────────────────────────────────────
-export function Accordion({ type = 'single', defaultValue, value: controlledValue, onValueChange, items, icon = 'chevron', className, style, }) {
-    const isControlled = controlledValue !== undefined;
-    const normalise = (v) => {
-        if (v === undefined)
-            return [];
-        return Array.isArray(v) ? v : [v];
-    };
-    const [internalOpen, setInternalOpen] = React.useState(normalise(defaultValue));
-    const openIds = isControlled ? normalise(controlledValue) : internalOpen;
-    const toggle = (id) => {
-        let next;
-        if (type === 'single') {
-            next = openIds.includes(id) ? [] : [id];
-        }
-        else {
-            next = openIds.includes(id)
-                ? openIds.filter((x) => x !== id)
-                : [...openIds, id];
-        }
-        if (!isControlled)
-            setInternalOpen(next);
-        if (onValueChange) {
-            onValueChange(type === 'single' ? (next[0] ?? '') : next);
-        }
-    };
-    return (_jsx("div", { className: className, style: {
-            border: '1px solid var(--border-1)',
-            borderRadius: '6px',
-            overflow: 'hidden',
-            ...style,
-        }, children: items.map((item) => (_jsx(Disclosure, { summary: item.summary, open: openIds.includes(item.id), onOpenChange: () => toggle(item.id), icon: icon, style: { borderBottom: 'none' }, children: item.content }, item.id))) }));
 }
 //# sourceMappingURL=Disclosure.js.map

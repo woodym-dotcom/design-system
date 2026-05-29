@@ -1,10 +1,8 @@
 /**
  * FreshnessPill — FreshnessClass display indicator.
  *
- * Renders a pill showing the freshness class of a data source or connection:
- *   - "online-hot"      — real-time, low-latency data (green)
- *   - "online-standard" — online but standard latency (blue/info)
- *   - "offline"         — data is offline / stale (neutral)
+ * Renders a pill showing the freshness class of a data source or connection.
+ * Composes the `Tag` primitive with `variant="pill"` and a tone-driven dot.
  *
  * Usage:
  *   <FreshnessPill freshnessClass="online-hot" />

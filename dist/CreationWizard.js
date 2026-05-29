@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import * as React from 'react';
 const DEFAULT_REVIEW_LABEL = 'Review';
-export function CreationWizard({ steps, initialValues, onSubmit, aiReview, className, submitLabel = 'Submit', }) {
+export function CreationWizard({ steps, initialValues, onSubmit, aiReview, testIdPrefix, className, submitLabel = 'Submit', }) {
     const [values, setValues] = React.useState(initialValues);
     const [activeIndex, setActiveIndex] = React.useState(0);
     const [highWaterMark, setHighWaterMark] = React.useState(0);
@@ -59,15 +59,21 @@ export function CreationWizard({ steps, initialValues, onSubmit, aiReview, class
                     if (isComplete)
                         cls.push('is-complete');
                     return (_jsxs("button", { type: "button", role: "tab", "aria-selected": isActive, tabIndex: isActive ? 0 : -1, disabled: !reachable, className: cls.join(' '), onClick: () => goTo(index), children: [_jsx("span", { className: "cc-wizard__step-index", "aria-hidden": "true", children: index + 1 }), _jsx("span", { children: label })] }, index));
-                }) }), _jsxs("div", { className: "cc-wizard__body", children: [_jsx("div", { className: "cc-wizard__step-header", children: _jsx("h2", { className: "cc-wizard__step-label", children: stepLabels[activeIndex] }) }), _jsx("div", { className: "cc-wizard__step-content", children: isReviewStep && aiReview ? (_jsx(CreationWizardReview, { values: values, reviewer: aiReview.reviewer })) : (steps[activeIndex]?.render({
-                            values,
-                            setValues: setValuesUpdater,
-                            next: handleNext,
-                            back: handleBack,
-                            submit: handleSubmit,
-                            activeIndex,
-                            totalSteps,
-                        })) }), _jsxs("div", { className: "cc-wizard__footer", children: [_jsx("button", { type: "button", className: "cc-btn cc-btn--ghost", onClick: handleBack, disabled: activeIndex === 0 || submitting, children: "Back" }), isLastStep ? (_jsx("button", { type: "button", className: "cc-btn cc-btn--primary", onClick: handleSubmit, disabled: submitting, children: submitting ? 'Submitting…' : submitLabel })) : (_jsx("button", { type: "button", className: "cc-btn cc-btn--primary", onClick: handleNext, children: "Next" }))] })] })] }));
+                }) }), _jsxs("div", { className: "cc-wizard__body", children: [_jsx("div", { className: "cc-wizard__step-header", children: _jsx("h2", { className: "cc-wizard__step-label", children: stepLabels[activeIndex] }) }), _jsx("div", { className: "cc-wizard__step-content", children: isReviewStep && aiReview ? (_jsx(CreationWizardReview, { values: values, reviewer: aiReview.reviewer })) : (() => {
+                            const stepContent = steps[activeIndex]?.render({
+                                values,
+                                setValues: setValuesUpdater,
+                                next: handleNext,
+                                back: handleBack,
+                                submit: handleSubmit,
+                                activeIndex,
+                                totalSteps,
+                            });
+                            if (testIdPrefix && steps[activeIndex]) {
+                                return (_jsx("div", { "data-testid": `${testIdPrefix}-${activeIndex}`, "data-step-id": steps[activeIndex].id, children: stepContent }));
+                            }
+                            return stepContent;
+                        })() }), _jsxs("div", { className: "cc-wizard__footer", children: [_jsx("button", { type: "button", className: "cc-btn cc-btn--ghost", onClick: handleBack, disabled: activeIndex === 0 || submitting, children: "Back" }), isLastStep ? (_jsx("button", { type: "button", className: "cc-btn cc-btn--primary", onClick: handleSubmit, disabled: submitting, children: submitting ? 'Submitting…' : submitLabel })) : (_jsx("button", { type: "button", className: "cc-btn cc-btn--primary", onClick: handleNext, children: "Next" }))] })] })] }));
 }
 function CreationWizardReview({ values, reviewer, }) {
     const [state, setState] = React.useState({ status: 'idle' });

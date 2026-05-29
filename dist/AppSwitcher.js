@@ -3,11 +3,11 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
  * AppSwitcher -- cross-app navigation dropdown.
  *
  * DS-MIG P1-12. This is the standalone export of the AppSwitcher that
- * already exists inside PlatformAppShell. It is extracted here for
+ * already exists inside AppShell. It is extracted here for
  * consumers that need the app-switching dropdown outside of the full
- * PlatformAppShell (e.g., in a custom shell or embedded view).
+ * AppShell (e.g., in a custom shell or embedded view).
  *
- * For the standard case, use PlatformAppShell which includes AppSwitcher
+ * For the standard case, use AppShell which includes AppSwitcher
  * automatically.
  */
 import * as React from 'react';

@@ -6,7 +6,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
  *   sparkline | tile | card | dashboard | heatmap | distribution | force* | hierarchical*
  *
  * (* force / hierarchical stub to "Coming in v1.1" — @xyflow/react is not a
- *    peer dep; will be added in SIMPLIFY 14 scope.)
+ *    peer dep yet.)
  *
  * Timeseries layouts (sparkline/tile/card/dashboard) delegate to the existing
  * Recharts wrappers internally to preserve pixel parity with legacy components.

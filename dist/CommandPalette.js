@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import * as React from 'react';
-import { Modal } from './Modal.js';
+import { Overlay } from './Overlay.js';
 import { Kbd } from './Kbd.js';
 function fuzzyMatch(item, query) {
     if (!query)
@@ -11,8 +11,8 @@ function fuzzyMatch(item, query) {
     return haystacks.some((h) => h.toLowerCase().includes(q));
 }
 /**
- * Cmd+K-style command palette. Composes `<Modal/>` for the dialog +
- * focus-trap, `<Kbd/>` for shortcut hints, and the platform fuzzy match
+ * Cmd+K-style command palette. Composes `<Overlay placement="modal"/>` for
+ * the dialog + focus-trap, `<Kbd/>` for shortcut hints, and the platform fuzzy match
  * for filtering. Static items via `items` or async via `loadItems`.
  *
  * The palette does NOT bind a global hotkey — wire that in the host app
@@ -89,7 +89,7 @@ export function CommandPalette({ open, onClose, items, loadItems, placeholder = 
                 select(it);
         }
     };
-    return (_jsxs(Modal, { open: open, onClose: onClose, title: "Command palette", size: "lg", initialFocusRef: inputRef, className: "cc-cmdk", children: [filterTypes && filterTypes.length > 0 && (_jsxs("div", { className: "cc-cmdk__filters", role: "group", "aria-label": "Filter by type", children: [_jsx("button", { type: "button", className: `cc-cmdk__filter-chip${activeFilter === 'all' ? ' is-active' : ''}`, "aria-pressed": activeFilter === 'all', onClick: () => handleFilterChange('all'), children: "All" }), filterTypes.map((ft) => (_jsx("button", { type: "button", className: `cc-cmdk__filter-chip${activeFilter === ft.key ? ' is-active' : ''}`, "aria-pressed": activeFilter === ft.key, onClick: () => handleFilterChange(ft.key), children: ft.label }, ft.key)))] })), _jsx("input", { ref: inputRef, type: "search", className: "cc-cmdk__input", placeholder: placeholder, value: query, onChange: (e) => {
+    return (_jsxs(Overlay, { placement: "modal", open: open, onOpenChange: () => onClose(), title: "Command palette", size: "lg", className: "cc-cmdk", children: [filterTypes && filterTypes.length > 0 && (_jsxs("div", { className: "cc-cmdk__filters", role: "group", "aria-label": "Filter by type", children: [_jsx("button", { type: "button", className: `cc-cmdk__filter-chip${activeFilter === 'all' ? ' is-active' : ''}`, "aria-pressed": activeFilter === 'all', onClick: () => handleFilterChange('all'), children: "All" }), filterTypes.map((ft) => (_jsx("button", { type: "button", className: `cc-cmdk__filter-chip${activeFilter === ft.key ? ' is-active' : ''}`, "aria-pressed": activeFilter === ft.key, onClick: () => handleFilterChange(ft.key), children: ft.label }, ft.key)))] })), _jsx("input", { ref: inputRef, type: "search", className: "cc-cmdk__input", placeholder: placeholder, value: query, onChange: (e) => {
                     setQuery(e.target.value);
                     setActiveIdx(0);
                 }, onKeyDown: onKeyDown, "aria-label": placeholder, autoComplete: "off" }), _jsx("div", { role: "listbox", "aria-label": "Commands", className: "cc-cmdk__results", children: visible.length === 0 ? (_jsx("p", { className: "cc-cmdk__empty", children: emptyMessage })) : (grouped.map(([group, list]) => (_jsxs("div", { className: "cc-cmdk__group", children: [group && _jsx("p", { className: "cc-cmdk__group-label", children: group }), list.map((it) => {

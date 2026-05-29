@@ -6,7 +6,7 @@
  *
  * For just selection, use <BulkSelectableTable> directly.
  * For a full page surface (header, filters, detail pane), use <ListPage> or
- * <ModuleTemplate variant="list">.
+ * <Page variant="list">.
  *
  * DataTable is the mid-level building block: it owns the table chrome
  * (sort arrows, filter inputs, pagination controls, selection checkboxes)

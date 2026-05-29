@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /**
- * @deprecated Use `<ModuleTemplate variant="config">` from `./ModuleTemplate`
- * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ * @deprecated Use `<Page variant="config">` from `./Page`
+ * (DS-SIMPLIFY 04).
  *
  * ConfigurationsPage — two-column layout with section nav + content area.
  * Driven by ?section= URL search param (default: first section).

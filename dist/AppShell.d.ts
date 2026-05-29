@@ -1,67 +1,85 @@
 /**
- * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
- * `@ds/core/react` instead — it pre-composes AppShell, TopBar, NavRail,
- * CompanyGroupSwitcher, AppSwitcher, UserMenu, and CreateMenu into one drop-in
- * shell. This file remains for internal composition only; it is no longer in
- * the public barrel or `package.json#exports` map. Will be removed in v1.0.
+ * AppShell — pre-composed, drop-in top-level application chrome.
  *
- * AppShell — outermost layout chrome.
+ * One component replaces the seven previously-public shell sub-primitives
+ * (AppShellInternal, TopBar, NavRail, CompanyGroupSwitcher, AppSwitcher,
+ * UserMenu, CreateMenu). Those primitives still live in this package but are
+ * removed from the public barrel and export map. Consumers should compose at
+ * this level instead of re-assembling the shell by hand.
  *
- * Composes:
- *   <FmtProvider>          (B.6)
- *     <OfflineBanner />    (C.9)
- *     <TopBar />           (C.14)
- *     <div cc-shell>
- *       <NavRail />        (B.5 — icon-aware)
- *       <main>
- *         skip-to-content link (visually-hidden, focusable)
- *         <Breadcrumbs />
+ * Composition (rendered top-down):
+ *   FmtProvider
+ *     OfflineBanner
+ *     <header role=banner> TopBar — brand + groupSwitcher + topBarSlot
+ *                                  + AppSwitcher + UserMenu
+ *     <div cc-shell__body>
+ *       <nav aria-label="Modules"> NavRail (modules)
+ *         + optional navFooterSlot
+ *       <main id="cc-shell-main">
+ *         skip-to-content link
  *         {children}
- *       </main>
- *     </div>
- *   </FmtProvider>
+ *     {commandPalette && <CommandPalette … bound to Cmd+K/Ctrl+K/>}
  *
- * The `groupSwitcher` slot, when provided, replaces `groupInitials` in the
- * top bar's extras slot.
+ * a11y: header[role=banner], nav[aria-label=Modules], main[id=cc-shell-main],
+ * ARIA menu pattern on the app switcher, user menu, and the in-shell
+ * CompanyGroupSwitcher.
  */
-import * as React from "react";
-import { type FmtSettings } from "./fmt/Fmt.js";
-import { type NavRailItem } from "./NavRail.js";
-import { type BreadcrumbItem } from "./Breadcrumbs.js";
+import * as React from 'react';
+import { type CommandPaletteProps } from './CommandPalette.js';
+export type BrandKey = 'companyco' | 'recruitment' | 'customer-lifecycle' | 'automation';
+export type AppKey = string;
+export interface ModuleDef {
+    id: string;
+    label: string;
+    icon?: React.ReactNode;
+    href: string;
+    disabled?: boolean;
+    disabledReason?: string;
+    badge?: string | number;
+}
+export interface UserDef {
+    id: string;
+    name: string;
+    email?: string;
+    /** Initials shown in the avatar. Falls back to `name` initials. */
+    initials?: string;
+}
+export interface CompanyGroup {
+    id: string;
+    name: string;
+}
+export interface AppDef {
+    key: AppKey;
+    label: string;
+    url: string;
+}
 export interface AppShellProps {
-    /** Brand slot rendered in the TopBar. */
-    brand?: React.ReactNode;
-    /** Identity initials for the TopBar identity button. */
-    identity?: string;
-    /** Initials chip rendered next to identity when no groupSwitcher supplied. */
-    groupInitials?: string;
-    /** Sidebar nav items (NavRail). */
-    navItems?: NavRailItem[];
-    /** Items pinned to the bottom of the NavRail (e.g. Settings, Help). */
-    navFooterItems?: NavRailItem[];
-    /** Accessible label for the navigation rail. */
-    navAriaLabel?: string;
-    /** id of the active nav item. */
-    activeId?: string;
-    /** Click handler for nav item activation (router bridge). */
-    onNavigate?: (id: string) => void;
-    /** Breadcrumb trail for the current route. */
-    crumbs?: BreadcrumbItem[];
-    /** Cmd+K trigger handler. */
-    onCmdK?: () => void;
-    /** Identity-button click handler. */
-    onIdentityClick?: () => void;
-    /** Extras slot for the TopBar. */
-    topBarExtras?: React.ReactNode;
-    /** Right-hand activity slot (notifications etc.). */
-    activity?: React.ReactNode;
-    /** Replaces groupInitials when provided. */
-    groupSwitcher?: React.ReactNode;
-    /** FmtProvider settings overrides. */
-    fmtSettings?: Partial<FmtSettings>;
-    /** Page content. */
+    brand: BrandKey;
+    modules: ModuleDef[];
+    appKey: AppKey;
+    user: UserDef;
+    /**
+     * Optional company-group memberships. When present and length > 1, the
+     * <CompanyGroupSwitcher> is mounted in the TopBar; otherwise it is hidden
+     * (single-tenant case).
+     */
+    companyGroups?: CompanyGroup[];
+    apps: AppDef[];
+    onSignOut: () => void;
+    onSwitchApp: (appKey: AppKey, url: string) => void;
+    onSwitchCompanyGroup?: (id: string) => void;
+    onNavigate?: (moduleId: string) => void;
     children: React.ReactNode;
+    topBarSlot?: React.ReactNode;
+    navFooterSlot?: React.ReactNode;
+    /**
+     * When provided, a Cmd+K / Ctrl+K global hotkey opens the CommandPalette.
+     * The host must NOT set `open`/`onClose` — those are owned by the shell.
+     */
+    commandPalette?: Omit<CommandPaletteProps, 'open' | 'onClose'>;
+    /** Currently active module id (for NavRail active state). */
+    activeModuleId?: string;
     className?: string;
 }
-export declare function AppShell({ brand, identity, groupInitials, navItems, navFooterItems, navAriaLabel, activeId, onNavigate, crumbs, onCmdK, onIdentityClick, topBarExtras, activity, groupSwitcher, fmtSettings, children, className, }: AppShellProps): React.ReactElement;
+export declare function AppShell({ brand, modules, appKey, user, companyGroups, apps, onSignOut, onSwitchApp, onSwitchCompanyGroup, onNavigate, children, topBarSlot, navFooterSlot, commandPalette, activeModuleId, className, }: AppShellProps): React.ReactElement;
 //# sourceMappingURL=AppShell.d.ts.map

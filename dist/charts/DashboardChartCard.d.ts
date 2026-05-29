@@ -1,6 +1,6 @@
 /**
  * @deprecated Use `<Graph layout="dashboard">` from `@ds/core/react/Graph` instead.
- * Will be removed in v1.0 (SIMPLIFY 14).
+ *
  *
  * <DashboardChartCard> — promoted Recharts chart tile for the Malbot dashboard.
  *

@@ -45,6 +45,8 @@ export interface TagProps {
     children: React.ReactNode;
     /** Accessible label override. */
     "aria-label"?: string;
+    /** When set on an interactive tag, reflects toggle state for chip/filter use. */
+    "aria-pressed"?: boolean;
     className?: string;
 }
 export declare function Tag({ variant, tone: toneProp, size, dot, icon, onRemove, onClick, children, className, ...rest }: TagProps): React.ReactElement;

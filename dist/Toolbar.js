@@ -1,10 +1,19 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-export function Toolbar({ variant = "default", actions, queuePosition, queueTotal, leading, trailing, className, ...rest }) {
-    const classes = [
-        "cc-toolbar",
-        `cc-toolbar--${variant}`,
-        className,
-    ]
+import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
+export function Toolbar({ variant = "default", mode = "default", actions, queuePosition, queueTotal, leading, trailing, selectedCount, onClear, meta, position = "bottom", className, ...rest }) {
+    // ── Bulk mode (subsumes BulkBar) ─────────────────────────────────────────
+    if (mode === "bulk") {
+        const count = selectedCount ?? 0;
+        if (count === 0)
+            return null;
+        return (_jsxs("div", { className: ["cc-bulkbar", `cc-bulkbar--${position}`, className]
+                .filter(Boolean)
+                .join(" "), role: "region", "aria-label": rest["aria-label"] ?? `${count} item${count === 1 ? "" : "s"} selected`, children: [_jsxs("div", { className: "cc-bulkbar__summary", children: [_jsxs("span", { className: "cc-bulkbar__count", children: [count, " selected"] }), meta && _jsx("span", { className: "cc-bulkbar__meta", children: meta }), onClear ? (_jsx("button", { type: "button", className: "cc-bulkbar__clear", onClick: onClear, children: "Clear" })) : null] }), _jsx("div", { className: "cc-bulkbar__actions", children: (actions ?? []).map((a) => {
+                        const tone = a.tone ?? a.variant ?? "default";
+                        return (_jsxs("button", { type: "button", className: `cc-bulkbar__action cc-bulkbar__action--${tone}`, onClick: a.onClick, disabled: a.disabled, children: [a.icon && (_jsx("span", { className: "cc-bulkbar__action-icon", "aria-hidden": "true", children: a.icon })), a.label] }, a.id));
+                    }) })] }));
+    }
+    // ── Default toolbar mode ─────────────────────────────────────────────────
+    const classes = ["cc-toolbar", `cc-toolbar--${variant}`, className]
         .filter(Boolean)
         .join(" ");
     return (_jsxs("div", { role: "toolbar", "aria-label": rest["aria-label"] ?? "Actions", className: classes, style: {
@@ -29,6 +38,4 @@ export function Toolbar({ variant = "default", actions, queuePosition, queueTota
                     return (_jsxs("button", { type: "button", className: `cc-btn cc-btn--${btnVariant} cc-btn--sm`, onClick: action.onClick, disabled: action.disabled, children: [action.icon && _jsx("span", { className: "cc-btn__icon", "aria-hidden": "true", children: action.icon }), action.label] }, action.id));
                 }) })), trailing && _jsx("div", { className: "cc-toolbar__trailing", style: { marginLeft: actions ? undefined : "auto" }, children: trailing })] }));
 }
-/** Alias for backward-compat naming. */
-export const PrimaryActionBar = Toolbar;
 //# sourceMappingURL=Toolbar.js.map
