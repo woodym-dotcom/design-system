@@ -54,6 +54,8 @@ export interface TagProps {
   children: React.ReactNode;
   /** Accessible label override. */
   "aria-label"?: string;
+  /** When set on an interactive tag, reflects toggle state for chip/filter use. */
+  "aria-pressed"?: boolean;
   className?: string;
 }
 
@@ -151,6 +153,7 @@ export function Tag({
         onClick={onClick}
         onKeyDown={handleKeyDown}
         aria-label={rest["aria-label"]}
+        aria-pressed={rest["aria-pressed"]}
       >
         {inner}
       </button>
