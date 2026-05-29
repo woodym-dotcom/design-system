@@ -76,10 +76,10 @@ const METRICS: ArtefactMetrics = {
 };
 
 const HISTORY: ArtefactHistoryEntry[] = [
-  { id: 'h1', executedAt: '2026-05-04T11:47:00Z', state: 'COMPLETED', subjectId: 'sub-001', subjectType: 'Company', durationMs: 2_340 },
-  { id: 'h2', executedAt: '2026-05-04T10:22:00Z', state: 'COMPLETED', subjectId: 'sub-002', subjectType: 'Company', durationMs: 1_890 },
-  { id: 'h3', executedAt: '2026-05-04T09:05:00Z', state: 'FAILED', subjectId: 'sub-003', durationMs: 450 },
-  { id: 'h4', executedAt: '2026-05-03T16:00:00Z', state: 'COMPLETED', subjectId: 'sub-004', subjectType: 'Individual', durationMs: 3_100 },
+  { id: 'h1', executedAt: '2026-05-04T11:47:00Z', state: 'COMPLETED', targetLabel: 'Company: sub-001', durationMs: 2_340 },
+  { id: 'h2', executedAt: '2026-05-04T10:22:00Z', state: 'COMPLETED', targetLabel: 'Company: sub-002', durationMs: 1_890 },
+  { id: 'h3', executedAt: '2026-05-04T09:05:00Z', state: 'FAILED', targetLabel: 'sub-003', durationMs: 450 },
+  { id: 'h4', executedAt: '2026-05-03T16:00:00Z', state: 'COMPLETED', targetLabel: 'Individual: sub-004', durationMs: 3_100 },
 ];
 
 const CALLERS: ArtefactCaller[] = [
