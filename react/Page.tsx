@@ -11,6 +11,13 @@
  *   - HomepageCards (variant="home")
  *   - ModuleShell — folded into the optional `tabs?` prop
  *
+ * Plus operator/authoring surfaces:
+ *   - variant="workbench" → focused work surface + optional rail
+ *   - variant="studio"    → authoring form + optional preview
+ *   - variant="console"   → multi-pane ops surface
+ *   - variant="inspector" → read-only structured drill-down
+ *   - variant="dashboard" → grid of status cards / health panels
+ *
  * One header (title + breadcrumbs + actions), one optional tab strip, one
  * variant body. Variant bodies compose the existing primitives internally
  * so we don't re-implement: ListPage handles `list`, ConfigurationsPage
@@ -37,6 +44,11 @@ import type {
   DetailVariantProps,
   AuthVariantProps,
   HomeVariantProps,
+  WorkbenchVariantProps,
+  StudioVariantProps,
+  ConsoleVariantProps,
+  InspectorVariantProps,
+  DashboardVariantProps,
   ChartCardDef,
   KpiDef,
 } from "./Page.types";
@@ -53,6 +65,11 @@ export type {
   DetailVariantProps,
   AuthVariantProps,
   HomeVariantProps,
+  WorkbenchVariantProps,
+  StudioVariantProps,
+  ConsoleVariantProps,
+  InspectorVariantProps,
+  DashboardVariantProps,
 } from "./Page.types";
 
 // ── URL helpers (mirrors ModuleShell so we don't take a dependency on it) ────
@@ -561,6 +578,62 @@ function HomeBody(props: HomeVariantProps) {
   );
 }
 
+// ── Variant: workbench ───────────────────────────────────────────────────────
+
+function WorkbenchBody(props: WorkbenchVariantProps) {
+  const { children, rail, emptyState } = props;
+  const body = children ?? emptyState ?? null;
+  return (
+    <div className="cc-page__body cc-page__body--workbench">
+      <div className="cc-page__workbench-primary">{body}</div>
+      {rail ? <aside className="cc-page__workbench-rail">{rail}</aside> : null}
+    </div>
+  );
+}
+
+// ── Variant: studio ──────────────────────────────────────────────────────────
+
+function StudioBody(props: StudioVariantProps) {
+  const { children, preview, emptyState } = props;
+  const body = children ?? emptyState ?? null;
+  return (
+    <div className="cc-page__body cc-page__body--studio">
+      <div className="cc-page__studio-author">{body}</div>
+      {preview ? <aside className="cc-page__studio-preview">{preview}</aside> : null}
+    </div>
+  );
+}
+
+// ── Variant: console ─────────────────────────────────────────────────────────
+
+function ConsoleBody(props: ConsoleVariantProps) {
+  return (
+    <div className="cc-page__body cc-page__body--console">
+      {props.children ?? props.emptyState ?? null}
+    </div>
+  );
+}
+
+// ── Variant: inspector ───────────────────────────────────────────────────────
+
+function InspectorBody(props: InspectorVariantProps) {
+  return (
+    <div className="cc-page__body cc-page__body--inspector">
+      {props.children ?? props.emptyState ?? null}
+    </div>
+  );
+}
+
+// ── Variant: dashboard ───────────────────────────────────────────────────────
+
+function DashboardBody(props: DashboardVariantProps) {
+  return (
+    <div className="cc-page__body cc-page__body--dashboard">
+      {props.children ?? props.emptyState ?? null}
+    </div>
+  );
+}
+
 // ── Variant body router ──────────────────────────────────────────────────────
 
 function VariantBody<Row extends { id: string }>(props: PageProps<Row>) {
@@ -587,6 +660,16 @@ function VariantBody<Row extends { id: string }>(props: PageProps<Row>) {
       return <AuthBody {...props} />;
     case "home":
       return <HomeBody {...props} />;
+    case "workbench":
+      return <WorkbenchBody {...props} />;
+    case "studio":
+      return <StudioBody {...props} />;
+    case "console":
+      return <ConsoleBody {...props} />;
+    case "inspector":
+      return <InspectorBody {...props} />;
+    case "dashboard":
+      return <DashboardBody {...props} />;
     default: {
       // Exhaustiveness check
       const _exhaustive: never = props;

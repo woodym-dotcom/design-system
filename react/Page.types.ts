@@ -1,15 +1,20 @@
 /**
  * Page — discriminated-union prop types.
  *
- * One `variant` discriminator selects between 7 page surfaces:
+ * One `variant` discriminator selects between 12 page surfaces:
  *
- *   - 'list'    → entity table + filters + optional detail pane
- *   - 'config'  → section nav + section content
- *   - 'monitor' → KPI tiles + chart cards
- *   - 'review'  → queue with approve/reject/escalate + custom actions
- *   - 'detail'  → full-page detail view
- *   - 'auth'    → login/signup/SSO callback
- *   - 'home'    → role-aware homepage cards
+ *   - 'list'      → entity table + filters + optional detail pane
+ *   - 'config'    → section nav + section content
+ *   - 'monitor'   → KPI tiles + chart cards
+ *   - 'review'    → queue with approve/reject/escalate + custom actions
+ *   - 'detail'    → full-page detail view
+ *   - 'auth'      → login/signup/SSO callback
+ *   - 'home'      → role-aware homepage cards
+ *   - 'workbench' → operator's focused work surface + optional rail
+ *   - 'studio'    → authoring form + optional preview pane
+ *   - 'console'   → ops/admin multi-pane compose-anything surface
+ *   - 'inspector' → read-only structured drill-down on one artefact
+ *   - 'dashboard' → grid of status cards / health panels
  *
  * Optional `tabs?` prop renders a tab strip; the active panel renders the
  * variant body. Each tab may carry pre-rendered `content`, allowing one Page
@@ -38,7 +43,12 @@ export type PageVariant =
   | "review"
   | "detail"
   | "auth"
-  | "home";
+  | "home"
+  | "workbench"
+  | "studio"
+  | "console"
+  | "inspector"
+  | "dashboard";
 
 // ── Tab definitions ───────────────────────────────────────────────────────────
 
@@ -225,6 +235,40 @@ export interface HomeVariantProps extends BaseTemplateProps {
   columns?: 1 | 2 | 3 | 4;
 }
 
+export interface WorkbenchVariantProps extends BaseTemplateProps {
+  variant: "workbench";
+  /** Primary work surface — typically the active task or artefact. */
+  children?: React.ReactNode;
+  /** Right rail — typically explanation, context, or related actions. */
+  rail?: React.ReactNode;
+}
+
+export interface StudioVariantProps extends BaseTemplateProps {
+  variant: "studio";
+  /** Authoring form body. */
+  children?: React.ReactNode;
+  /** Right preview pane — typically a dry-run or rendered result. */
+  preview?: React.ReactNode;
+}
+
+export interface ConsoleVariantProps extends BaseTemplateProps {
+  variant: "console";
+  /** Console body. Compose freely (queue, controls, status panes). */
+  children?: React.ReactNode;
+}
+
+export interface InspectorVariantProps extends BaseTemplateProps {
+  variant: "inspector";
+  /** Read-only structured inspection of the subject. */
+  children?: React.ReactNode;
+}
+
+export interface DashboardVariantProps extends BaseTemplateProps {
+  variant: "dashboard";
+  /** Dashboard layout — typically a grid of cards or status panels. */
+  children?: React.ReactNode;
+}
+
 // ── Discriminated union ──────────────────────────────────────────────────────
 
 export type PageProps<Row extends { id: string } = { id: string }> =
@@ -234,4 +278,9 @@ export type PageProps<Row extends { id: string } = { id: string }> =
   | ReviewVariantProps
   | DetailVariantProps
   | AuthVariantProps
-  | HomeVariantProps;
+  | HomeVariantProps
+  | WorkbenchVariantProps
+  | StudioVariantProps
+  | ConsoleVariantProps
+  | InspectorVariantProps
+  | DashboardVariantProps;

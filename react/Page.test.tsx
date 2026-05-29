@@ -347,6 +347,116 @@ describe("Page — top-level error", () => {
   });
 });
 
+// ── Workbench variant ─────────────────────────────────────────────────────────
+
+describe("Page — workbench variant", () => {
+  it("renders primary children and optional rail with the variant class", () => {
+    const { container } = render(
+      <Page
+        variant="workbench"
+        header={{ title: "Operator" }}
+        rail={<aside>routing explanation</aside>}
+      >
+        <p>active task</p>
+      </Page>,
+    );
+    expect(container.querySelector(".cc-page--workbench")).toBeTruthy();
+    expect(container.querySelector(".cc-page__workbench-primary")?.textContent).toBe("active task");
+    expect(container.querySelector(".cc-page__workbench-rail")?.textContent).toBe(
+      "routing explanation",
+    );
+  });
+
+  it("renders without rail when omitted", () => {
+    const { container } = render(
+      <Page variant="workbench" header={{ title: "Operator" }}>
+        <p>only primary</p>
+      </Page>,
+    );
+    expect(container.querySelector(".cc-page__workbench-rail")).toBeNull();
+  });
+});
+
+// ── Studio variant ────────────────────────────────────────────────────────────
+
+describe("Page — studio variant", () => {
+  it("renders authoring body and optional preview pane", () => {
+    const { container } = render(
+      <Page
+        variant="studio"
+        header={{ title: "Template Studio" }}
+        preview={<section>dry-run output</section>}
+      >
+        <form>editor</form>
+      </Page>,
+    );
+    expect(container.querySelector(".cc-page--studio")).toBeTruthy();
+    expect(container.querySelector(".cc-page__studio-author")?.textContent).toBe("editor");
+    expect(container.querySelector(".cc-page__studio-preview")?.textContent).toBe("dry-run output");
+  });
+});
+
+// ── Console variant ───────────────────────────────────────────────────────────
+
+describe("Page — console variant", () => {
+  it("renders compose-anything body with variant class", () => {
+    const { container } = render(
+      <Page variant="console" header={{ title: "Ops Console" }}>
+        <div>queue + controls</div>
+      </Page>,
+    );
+    expect(container.querySelector(".cc-page--console")).toBeTruthy();
+    expect(container.querySelector(".cc-page__body--console")?.textContent).toBe(
+      "queue + controls",
+    );
+  });
+
+  it("falls back to emptyState when no children", () => {
+    render(
+      <Page
+        variant="console"
+        header={{ title: "Ops Console" }}
+        emptyState={<p>nothing yet</p>}
+      />,
+    );
+    expect(screen.getByText("nothing yet")).toBeTruthy();
+  });
+});
+
+// ── Inspector variant ─────────────────────────────────────────────────────────
+
+describe("Page — inspector variant", () => {
+  it("renders read-only inspection body with variant class", () => {
+    const { container } = render(
+      <Page variant="inspector" header={{ title: "Decision Record" }}>
+        <dl>
+          <dt>id</dt>
+          <dd>dec-1</dd>
+        </dl>
+      </Page>,
+    );
+    expect(container.querySelector(".cc-page--inspector")).toBeTruthy();
+    expect(container.querySelector(".cc-page__body--inspector")?.textContent).toContain("dec-1");
+  });
+});
+
+// ── Dashboard variant ─────────────────────────────────────────────────────────
+
+describe("Page — dashboard variant", () => {
+  it("renders grid body with variant class", () => {
+    const { container } = render(
+      <Page variant="dashboard" header={{ title: "Vendor health" }}>
+        <div className="grid">
+          <article>card 1</article>
+          <article>card 2</article>
+        </div>
+      </Page>,
+    );
+    expect(container.querySelector(".cc-page--dashboard")).toBeTruthy();
+    expect(container.querySelector(".cc-page__body--dashboard")?.textContent).toContain("card 1");
+  });
+});
+
 // ── Source metadata ───────────────────────────────────────────────────────────
 
 describe("Page — source metadata", () => {
