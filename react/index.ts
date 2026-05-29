@@ -8,16 +8,12 @@ export {
 } from "./hooks/useUrlFilterState";
 export { FormField, type FormFieldProps, type FormFieldType, type FormFieldAs } from "./FormField";
 export { FilterBar, type FilterBarProps, type FilterChip } from "./FilterBar";
-export {
-  AppliedFiltersBar,
-  type AppliedFiltersBarProps,
-  type AppliedFilter,
-} from "./AppliedFiltersBar";
 
-// EntityForm module (G3) — canonical public surface
-// Individual field components (TextField, NumberField, etc.) are NOT exported here.
-// Use <EntityForm schema={...}> for schema-driven forms or <FormField as="shell">
-// for arbitrary child inputs. Custom field types use registerFieldType().
+// EntityForm — canonical public surface. Individual field components are NOT
+// exported here. Use <EntityForm schema={...}> for schema-driven forms or
+// <FormField as="shell"> for arbitrary child inputs. Custom field types use
+// registerFieldType(). Type surface is intentionally minimal — the 6 most-used
+// types only. Other types remain internal.
 export {
   buildEntitySchema,
   setOrchestratorBridge,
@@ -29,28 +25,12 @@ export {
   fromJsonSchema,
 } from "./entity-form/index";
 export type {
+  EntityFormProps,
+  EntityFormHandle,
   EntitySchema,
   FieldType,
   FieldMeta,
-  AsyncValidator,
-  AiReviewInput,
-  AiReviewOutput,
-  AiReviewSuggestion,
-  AiReviewQuestion,
-  AiReviewBlocker,
-  OrchestratorBridge,
-  EntityFormHandle,
-  EntityFormProps,
-  WizardStepDef,
-  WizardStepRenderCtx,
-  AiReviewConfig,
-  FieldPrimitiveProps,
   SelectOption,
-  MoneyValue,
-  SearchResult,
-  JsonSchema,
-  JsonSchemaProperty,
-  FromJsonSchemaResult,
 } from "./entity-form/index";
 export { ThemeToggle, type ThemeToggleProps } from "./ThemeToggle";
 export {
@@ -60,13 +40,13 @@ export {
   type CreationWizardStepContext,
   type CreationWizardReviewResult,
 } from "./CreationWizard";
-// ── DS-SIMPLIFY 04: ModuleTemplate — unified page-template primitive ─────────
-export { ModuleTemplate } from "./ModuleTemplate";
+// ── Page — unified page-template primitive ───────────────────────────────────
+export { Page } from "./Page";
 export type {
-  ModuleTemplateProps,
-  ModuleTemplateVariant,
-  ModuleTemplateTab,
-  ModuleTemplateHeader,
+  PageProps,
+  PageVariant,
+  PageTab,
+  PageHeader,
   ListVariantProps,
   ConfigVariantProps,
   MonitorVariantProps,
@@ -74,18 +54,7 @@ export type {
   DetailVariantProps,
   AuthVariantProps,
   HomeVariantProps,
-  ColumnDef as ModuleTemplateColumnDef,
-  FilterDef as ModuleTemplateFilterDef,
-  PaginationProps as ModuleTemplatePaginationProps,
-  KpiDef,
-  ChartCardDef,
-  ConfigSection as ModuleTemplateConfigSection,
-  ReviewActionDef,
-  ReviewItem as ModuleTemplateReviewItem,
-  ListDetailSlot,
-  SelectionMode,
-  ModuleTemplateBrandKey,
-} from "./ModuleTemplate";
+} from "./Page";
 export {
   TopRightCreateWizard,
   type TopRightCreateWizardProps,
@@ -94,19 +63,7 @@ export {
 } from "./TopRightCreateWizard";
 export {
   ArtefactDetailPane,
-  ArtefactDefinition,
-  ArtefactIOContractView,
-  ArtefactMetricsView,
-  ArtefactHistory,
-  ArtefactCallers,
-  ArtefactVersioning,
   type ArtefactDetailPaneProps,
-  type ArtefactDefinitionProps,
-  type ArtefactIOContractProps,
-  type ArtefactMetricsProps,
-  type ArtefactHistoryProps,
-  type ArtefactCallersProps,
-  type ArtefactVersioningProps,
   type ArtefactDefinitionDoc,
   type ArtefactIOContract,
   type ArtefactMetrics,
@@ -120,9 +77,9 @@ export {
   type FileUploadFieldProps,
 } from "./FileUploadField";
 export { formatFileSize, fileMatchesAccept } from "./fileUploadUtils";
-// ── DS-SIMPLIFY 03: Tag primitive ─────────────────────────────────────────────
-// Canonical tone-coded text-indicator. Subsumes Chip, Badge, StatusPill,
-// LifecycleStateBadge, and MetadataChip inline badge patterns.
+// ── Tag — canonical tone-coded text-indicator ────────────────────────────────
+// Subsumes Chip, Badge, StatusPill, LifecycleStateBadge, and MetadataChip
+// inline badge patterns.
 export {
   Tag,
   type TagProps,
@@ -131,21 +88,20 @@ export {
   // TagTone is the canonical tone vocabulary going forward.
   type TagTone,
 } from "./Tag";
+// Description — semantic <dl> primitive that subsumes DetailRow / DetailSection
+// / DetailMetric / MetaRow. Use `kind="row" | "section" | "metric" | "meta"`.
 export {
-  DetailRow,
-  DetailSection,
-  DetailMetric,
-  type DetailRowProps,
-  type DetailSectionProps,
-  type DetailMetricProps,
-} from "./DetailPrimitives";
-export {
-  EntityCard,
-  EntityCardList,
-  type EntityCardProps,
-  type EntityCardListProps,
-  type EntityCardDensity,
-} from "./EntityCard";
+  Description,
+  DescriptionTerm,
+  DescriptionValue,
+  type DescriptionProps,
+  type DescriptionKind,
+  type DescriptionMetaItem,
+  type DescriptionMetaSize,
+  type DescriptionMetaLayout,
+  type DescriptionTermProps,
+  type DescriptionValueProps,
+} from "./Description";
 
 export {
   SectionHeader,
@@ -158,18 +114,12 @@ export {
   type EmptyStateAction,
 } from "./EmptyState";
 
-export {
-  CompactListRow,
-  type CompactListRowProps,
-} from "./CompactListRow";
-
 // DashboardChartCard intentionally NOT re-exported here.
 // Import directly from "@ds/core/react/charts/DashboardChartCard" — keeps
 // recharts (optional peer) out of the bundle path for consumers that don't
 // use charts.
 
-// ── Phase 2 foundation primitives ────────────────────────────────────────────
-// Accessibility utilities
+// ── Foundation: accessibility utilities ──────────────────────────────────────
 export { useReducedMotion } from "./a11y/useReducedMotion";
 export { useFocusTrap, type UseFocusTrapOptions } from "./a11y/useFocusTrap";
 export {
@@ -196,7 +146,7 @@ export type {
   ToastProviderProps,
 } from "./Toast";
 
-// Overlay — unified primitive (SIMPLIFY 01).
+// Overlay — unified primitive.
 export {
   Overlay,
   type OverlayProps,
@@ -238,17 +188,12 @@ export {
 } from "./fmt/Fmt";
 export { Lens, type LensProps } from "./fmt/Lens";
 
-// Multi-select hook + BulkBar
+// Multi-select hook
 export {
   useMultiSelect,
   type UseMultiSelectOptions,
   type UseMultiSelectResult,
 } from "./hooks/useMultiSelect";
-export {
-  BulkBar,
-  type BulkBarProps,
-  type BulkBarAction,
-} from "./BulkBar";
 export {
   BulkSelectableTable,
   type BulkSelectableTableProps,
@@ -305,15 +250,10 @@ export {
   type CommandItem,
 } from "./CommandPalette";
 
-// Trays — TasksTray + NotificationsTray (notifications digest contract)
-export {
-  TasksTray,
-  NotificationsTray,
-  type TasksTrayProps,
-  type NotificationsTrayProps,
-  type TrayTask,
-  type TrayNotification,
-} from "./Trays";
+// TasksTray + NotificationsTray (notifications digest contract).
+// Direct exports — no umbrella alias.
+export { TasksTray, type TasksTrayProps, type TrayTask } from "./Trays";
+export { NotificationsTray, type NotificationsTrayProps, type TrayNotification } from "./Trays";
 
 // Print + shareable read-only link
 export {
@@ -334,7 +274,7 @@ export {
   type FirstRunStep,
 } from "./FirstRunGuide";
 
-// ── @aa/ui retirement — Phase 1 foundational primitives ──────────────────────
+// ── Foundational primitives ──────────────────────────────────────────────────
 export {
   Button,
   type ButtonProps,
@@ -352,7 +292,7 @@ export {
   type TabItem,
 } from "./Tabs";
 
-// ── DS-SIMPLIFY 02 — State primitive (unified state-messaging) ────────────────
+// ── State primitive — unified state-messaging ─────────────────────────────────
 export {
   State,
   type StateProps,
@@ -368,13 +308,12 @@ export {
   type DiffLine,
 } from "./Diff";
 
-// ── @aa/ui retirement — Phase 3 extensions of existing components ─────────────
-// Card now exported here (was previously only available via the ./react/Card
-// subpath) so the extended `actions`, `footer`, `padded` props are discoverable
-// from the barrel.
-export { Card, type CardProps } from "./Card";
+// Card — generic surface shell + entity record-card (variant="entity").
+// Subsumes the legacy EntityCard / EntityCardList primitives via
+// `variant="entity"` with `leading` / `trailing` / `metadata` / `density` props.
+export { Card, type CardProps, type CardVariant, type CardDensity } from "./Card";
 
-// ── DS-SIMPLIFY 09: ActivityTimeline (supersedes AuditLogList) ────────────────
+// ── ActivityTimeline ─────────────────────────────────────────────────────────
 export {
   ActivityTimeline,
   type ActivityTimelineProps,
@@ -389,17 +328,17 @@ export {
 } from "./hooks/useSplitPane";
 
 export {
-  PlatformAppShell,
-  type PlatformAppShellProps,
+  AppShell,
+  type AppShellProps,
   type BrandKey,
   type AppKey,
   type ModuleDef,
   type UserDef,
   type CompanyGroup,
   type AppDef,
-} from "./PlatformAppShell";
+} from "./AppShell";
 
-// ── @aa/ui retirement — Phase 6 navigation hook ──────────────────────────────
+// ── Navigation hook ──────────────────────────────────────────────────────────
 export {
   useNavigateWithOrigin,
   encodeOrigin,
@@ -408,7 +347,7 @@ export {
   type OriginContext,
 } from "./hooks/useNavigateWithOrigin";
 
-// ── DS-SIMPLIFY 08: Graph — unified data-viz primitive ───────────────────────
+// ── Graph — unified data-viz primitive ───────────────────────────────────────
 // Subsumes Sparkline, MetricChartCard, DashboardChartCard, KpiTile, HeatmapChart,
 // RelationshipGraph, DistributionPlot into one layout-discriminated primitive.
 // force/hierarchical layouts are stubbed — coming in v1.1 with @xyflow/react.
@@ -430,17 +369,17 @@ export type {
   GraphEdge,
 } from "./Graph.types";
 
-// ── DS-SIMPLIFY 10: AISuggestionsPane — canonical AI-review surface ──────────
+// ── AISuggestionsPane — canonical AI-review surface ──────────────────────────
 export {
   AISuggestionsPane,
   type AISuggestionsPaneProps,
   type Suggestion,
 } from "./AISuggestionsPane";
 
-// ── DS-SIMPLIFY 07: EntityPicker — standalone search + inline-create combobox ─
+// ── EntityPicker — standalone search + inline-create combobox ────────────────
 export { EntityPicker, type EntityPickerProps } from "./EntityPicker";
 
-// ── DS-SIMPLIFY 12: layout atoms cluster ─────────────────────────────────────
+// ── Layout atoms cluster ─────────────────────────────────────────────────────
 export {
   Stack,
   type StackProps,
@@ -452,6 +391,7 @@ export {
   type RowProps,
   type RowAlign,
   type RowJustify,
+  type RowDensity,
 } from "./Row";
 export {
   Text,
@@ -472,17 +412,17 @@ export {
   type MenuLabelProps,
   type MenuPlacement,
 } from "./Menu";
+// Disclosure — single collapsible primitive. To compose an accordion, render
+// multiple <Disclosure>s; lift `open`/`onOpenChange` to a parent for single-open
+// semantics.
 export {
   Disclosure,
-  Accordion,
   type DisclosureProps,
   type DisclosureIcon,
-  type AccordionProps,
-  type AccordionItem,
 } from "./Disclosure";
 
 
-// ── DS-MIG P1-03: DataTable — sort/filter/select/paginate table ─────────────
+// ── DataTable — sort/filter/select/paginate table ───────────────────────────
 export {
   DataTable,
   type DataTableProps,
@@ -494,28 +434,19 @@ export {
 } from "./DataTable";
 
 
-// ── DS-MIG P1-12: AppSwitcher — standalone cross-app nav dropdown ───────────
+// ── AppSwitcher — standalone cross-app nav dropdown ─────────────────────────
 export {
   AppSwitcher,
   type AppSwitcherProps,
   type AppSwitcherApp,
 } from "./AppSwitcher";
 
-// ── DS-MIG P1-13: UserMenu — standalone user popover ────────────────────────
+// ── UserMenu — standalone user popover ──────────────────────────────────────
 export {
   UserMenu,
   type UserMenuProps,
   type UserMenuUser,
 } from "./UserMenu";
-
-// ── DS-MIG P1-14: MetaRow — horizontal label-value metadata strip ───────────
-export {
-  MetaRow,
-  type MetaRowProps,
-  type MetaRowItem,
-  type MetaRowSize,
-  type MetaRowLayout,
-} from "./MetaRow";
 
 // ── EXT primitives — domain extension components ────────────────────────────
 
@@ -618,7 +549,7 @@ export {
   type ChainBlockStatus,
 } from "./HashChainVerifier";
 
-// EXT-SuggestedFieldRow — DetailRow with AI provenance + accept/decline
+// EXT-SuggestedFieldRow — Description row with AI provenance + accept/decline
 export {
   SuggestedFieldRow,
   type SuggestedFieldRowProps,
@@ -643,12 +574,14 @@ export {
 
 // ── DS variant / improvement components ─────────────────────────────────────
 
-// Toolbar — queue-position variant
+// Toolbar — variants + bulk mode (subsumes BulkBar via `mode="bulk"`)
 export {
   Toolbar,
   type ToolbarProps,
   type ToolbarVariant,
+  type ToolbarMode,
   type ToolbarAction,
+  type ToolbarBulkPosition,
 } from "./Toolbar";
 
 // EnvelopeBadge — multi-field chip group for resolved envelope
@@ -665,10 +598,9 @@ export {
   type FreshnessClass,
 } from "./FreshnessPill";
 
-// ── DS-MIG P1-05: ThreadView — messaging pane for outreach/chat ────────────
+// ── ThreadView — messaging pane for outreach/chat ───────────────────────────
 export {
   ThreadView,
   type ThreadViewProps,
   type ThreadMessage,
 } from "./ThreadView";
-

@@ -1,6 +1,6 @@
 /**
  * @deprecated Use `<Graph layout="card">` from `@ds/core/react/Graph` instead.
- * Will be removed in v1.0 (SIMPLIFY 14).
+ *
  */
 import { useEffect, useMemo, useState } from 'react';
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, Tooltip, XAxis, YAxis, BarChart, Bar, ComposedChart, Rectangle } from 'recharts';

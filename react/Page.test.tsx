@@ -1,5 +1,5 @@
 /**
- * ModuleTemplate — covers all 7 variants, tabs, a11y, and prop narrowing.
+ * Page — covers all 7 variants, tabs, a11y, and prop narrowing.
  */
 import * as React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
@@ -11,8 +11,8 @@ beforeEach(() => {
     window.history.replaceState(null, "", window.location.pathname);
   }
 });
-import { ModuleTemplate } from "./ModuleTemplate";
-import type { ColumnDef, KpiDef, ChartCardDef } from "./ModuleTemplate.types";
+import { Page } from "./Page";
+import type { ColumnDef, KpiDef, ChartCardDef } from "./Page.types";
 
 interface Row {
   id: string;
@@ -30,10 +30,10 @@ const rows: Row[] = [
 
 // ── Header ────────────────────────────────────────────────────────────────────
 
-describe("ModuleTemplate — header", () => {
+describe("Page — header", () => {
   it("renders title, subtitle, breadcrumbs and actions", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="list"
         header={{
           title: "People",
@@ -59,10 +59,10 @@ describe("ModuleTemplate — header", () => {
 
 // ── List variant ──────────────────────────────────────────────────────────────
 
-describe("ModuleTemplate — list variant", () => {
+describe("Page — list variant", () => {
   it("renders rows and sortable headers", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="list"
         header={{ title: "Items" }}
         rows={rows}
@@ -78,7 +78,7 @@ describe("ModuleTemplate — list variant", () => {
   it("fires onSortChange when sortable header clicked", () => {
     const onSortChange = vi.fn();
     render(
-      <ModuleTemplate
+      <Page
         variant="list"
         header={{ title: "Items" }}
         rows={rows}
@@ -94,7 +94,7 @@ describe("ModuleTemplate — list variant", () => {
     const onChange = vi.fn();
     const onRun = vi.fn();
     render(
-      <ModuleTemplate
+      <Page
         variant="list"
         header={{ title: "Items" }}
         rows={rows}
@@ -113,10 +113,10 @@ describe("ModuleTemplate — list variant", () => {
 
 // ── Config variant ────────────────────────────────────────────────────────────
 
-describe("ModuleTemplate — config variant", () => {
+describe("Page — config variant", () => {
   it("renders sections with nav", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="config"
         header={{ title: "Settings" }}
         sections={[
@@ -143,10 +143,10 @@ const chartCards: ChartCardDef[] = [
   { id: "c1", heading: "Trend", render: () => <div data-testid="chart-c1">chart</div> },
 ];
 
-describe("ModuleTemplate — monitor variant", () => {
+describe("Page — monitor variant", () => {
   it("renders KPI tiles and chart cards", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="monitor"
         header={{ title: "Health" }}
         kpis={kpis}
@@ -161,7 +161,7 @@ describe("ModuleTemplate — monitor variant", () => {
 
   it("falls back to emptyState when no kpis and no chartCards", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="monitor"
         header={{ title: "Health" }}
         emptyState={<p>nothing here</p>}
@@ -173,12 +173,12 @@ describe("ModuleTemplate — monitor variant", () => {
 
 // ── Review variant ────────────────────────────────────────────────────────────
 
-describe("ModuleTemplate — review variant", () => {
+describe("Page — review variant", () => {
   it("invokes onApprove with the original item", () => {
     const onApprove = vi.fn();
     const onReject = vi.fn();
     render(
-      <ModuleTemplate
+      <Page
         variant="review"
         header={{ title: "Pending" }}
         items={[{ id: "x", title: "X item" }]}
@@ -193,7 +193,7 @@ describe("ModuleTemplate — review variant", () => {
   it("renders custom review actions", () => {
     const customFn = vi.fn();
     render(
-      <ModuleTemplate
+      <Page
         variant="review"
         header={{ title: "Pending" }}
         items={[{ id: "x", title: "X item" }]}
@@ -209,15 +209,15 @@ describe("ModuleTemplate — review variant", () => {
 
 // ── Detail variant ────────────────────────────────────────────────────────────
 
-describe("ModuleTemplate — detail variant", () => {
+describe("Page — detail variant", () => {
   it("renders children inside the body", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="detail"
         header={{ title: "Invoice 42" }}
       >
         <p data-testid="detail-body">Body content</p>
-      </ModuleTemplate>,
+      </Page>,
     );
     expect(screen.getByTestId("detail-body")).toBeTruthy();
   });
@@ -225,10 +225,10 @@ describe("ModuleTemplate — detail variant", () => {
 
 // ── Auth variant ──────────────────────────────────────────────────────────────
 
-describe("ModuleTemplate — auth variant", () => {
+describe("Page — auth variant", () => {
   it("renders form, error, footer, and brand attribute", () => {
     const { container } = render(
-      <ModuleTemplate
+      <Page
         variant="auth"
         header={{ title: "Sign in" }}
         authBrand="recruitment"
@@ -248,10 +248,10 @@ describe("ModuleTemplate — auth variant", () => {
 
 // ── Home variant ──────────────────────────────────────────────────────────────
 
-describe("ModuleTemplate — home variant", () => {
+describe("Page — home variant", () => {
   it("renders homepage cards filtered by viewer roles", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="home"
         header={{ title: "Welcome" }}
         viewerRoles={["admin"]}
@@ -270,10 +270,10 @@ describe("ModuleTemplate — home variant", () => {
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
 
-describe("ModuleTemplate — tabs", () => {
+describe("Page — tabs", () => {
   it("renders a tablist with the supplied tabs and shows count badges", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="list"
         header={{ title: "Workspace" }}
         rows={rows}
@@ -293,7 +293,7 @@ describe("ModuleTemplate — tabs", () => {
 
   it("switches active tab on click and panel updates", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="detail"
         header={{ title: "Workspace" }}
         tabs={[
@@ -309,7 +309,7 @@ describe("ModuleTemplate — tabs", () => {
 
   it("supports arrow-key navigation", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="detail"
         header={{ title: "Tabs" }}
         tabs={[
@@ -331,10 +331,10 @@ describe("ModuleTemplate — tabs", () => {
 
 // ── Top-level loading/error ───────────────────────────────────────────────────
 
-describe("ModuleTemplate — top-level error", () => {
+describe("Page — top-level error", () => {
   it("renders error region instead of the variant body", () => {
     render(
-      <ModuleTemplate
+      <Page
         variant="list"
         header={{ title: "Items" }}
         rows={rows}
@@ -349,18 +349,18 @@ describe("ModuleTemplate — top-level error", () => {
 
 // ── Source metadata ───────────────────────────────────────────────────────────
 
-describe("ModuleTemplate — source metadata", () => {
+describe("Page — source metadata", () => {
   it("surfaces source.model and source.promptVersion as data attributes", () => {
     const { container } = render(
-      <ModuleTemplate
+      <Page
         variant="detail"
         header={{ title: "Brief" }}
         source={{ model: "claude-opus-4-7", promptVersion: "v3" }}
       >
         <p>body</p>
-      </ModuleTemplate>,
+      </Page>,
     );
-    const root = container.querySelector(".cc-module-template");
+    const root = container.querySelector(".cc-page");
     expect(root?.getAttribute("data-source-model")).toBe("claude-opus-4-7");
     expect(root?.getAttribute("data-source-prompt-version")).toBe("v3");
   });

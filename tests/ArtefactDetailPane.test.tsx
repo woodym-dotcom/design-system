@@ -1,7 +1,9 @@
 /**
- * ArtefactDetailPane family — unit + a11y tests.
+ * ArtefactDetailPane — unit + a11y tests against the single public component.
  *
- * §14 L3: follows ExpandableDetailPane.test.tsx pattern.
+ * Sub-views (definition, io-contract, metrics, history, callers, versioning)
+ * are no longer publicly exported — they are internal composition behind the
+ * tab strip. Tests drive them via the public ArtefactDetailPane only.
  */
 import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -9,12 +11,6 @@ import { describe, it, expect, vi } from 'vitest';
 import axe from 'axe-core';
 import {
   ArtefactDetailPane,
-  ArtefactDefinition,
-  ArtefactIOContractView,
-  ArtefactMetricsView,
-  ArtefactHistory,
-  ArtefactCallers,
-  ArtefactVersioning,
   type ArtefactDefinitionDoc,
   type ArtefactIOContract,
   type ArtefactMetrics,
@@ -131,34 +127,75 @@ describe('ArtefactDetailPane shell', () => {
     expect(screen.getByRole('heading', { name: 'Orchestration model', level: 3 })).toBeInTheDocument();
   });
 
+  it('renders execution model chip', () => {
+    renderPane();
+    expect(screen.getByText('AGENT_LOOP')).toBeInTheDocument();
+  });
+
+  it('renders namespace', () => {
+    renderPane();
+    expect(screen.getByText('fincrime')).toBeInTheDocument();
+  });
+
+  it('renders pre-rules section', () => {
+    renderPane();
+    expect(screen.getByRole('heading', { name: 'Pre-rules', level: 3 })).toBeInTheDocument();
+    expect(screen.getByText('Require subject identity resolved')).toBeInTheDocument();
+  });
+
+  it('renders orchestration steps numbered', () => {
+    renderPane();
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('Gather transaction context')).toBeInTheDocument();
+  });
+
+  it('renders generated procedure text when present', () => {
+    renderPane();
+    expect(screen.getByText(/gathers transaction context/i)).toBeInTheDocument();
+  });
+
   it('switches to IO Contract tab', () => {
     renderPane();
     fireEvent.click(screen.getByRole('tab', { name: 'IO Contract' }));
     expect(screen.getByRole('table', { name: 'Input schema' })).toBeInTheDocument();
+    expect(screen.getByText('alertId')).toBeInTheDocument();
   });
 
   it('switches to Metrics tab', () => {
     renderPane();
     fireEvent.click(screen.getByRole('tab', { name: 'Metrics' }));
     expect(screen.getByText('1,234')).toBeInTheDocument();
+    expect(screen.getByText('97%')).toBeInTheDocument();
+    expect(screen.getByText('320ms')).toBeInTheDocument();
+  });
+
+  it('renders Metrics placeholder when no metrics data', () => {
+    renderPane({ metrics: null });
+    fireEvent.click(screen.getByRole('tab', { name: 'Metrics' }));
+    expect(screen.getByText(/no metrics data available/i)).toBeInTheDocument();
   });
 
   it('switches to History tab', () => {
     renderPane();
     fireEvent.click(screen.getByRole('tab', { name: 'History' }));
     expect(screen.getByText('COMPLETED')).toBeInTheDocument();
+    expect(screen.getByText('FAILED')).toBeInTheDocument();
   });
 
   it('switches to Callers tab', () => {
     renderPane();
     fireEvent.click(screen.getByRole('tab', { name: 'Callers' }));
     expect(screen.getByText('Risk Monitoring Process')).toBeInTheDocument();
+    expect(screen.getByText('Compliance Trigger')).toBeInTheDocument();
+    expect(screen.getByText('v2')).toBeInTheDocument();
+    expect(screen.getByText('latest')).toBeInTheDocument();
   });
 
   it('switches to Versioning tab', () => {
     renderPane();
     fireEvent.click(screen.getByRole('tab', { name: 'Versioning' }));
     expect(screen.getByText('Active')).toBeInTheDocument();
+    expect(screen.getByText('ARCHIVED')).toBeInTheDocument();
   });
 
   it('calls onClose when close button clicked', () => {
@@ -166,143 +203,6 @@ describe('ArtefactDetailPane shell', () => {
     renderPane({ onClose });
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
     expect(onClose).toHaveBeenCalledOnce();
-  });
-});
-
-// ── ArtefactDefinition ────────────────────────────────────────────────────────
-
-describe('ArtefactDefinition', () => {
-  it('renders execution model chip', () => {
-    render(<ArtefactDefinition definition={SAMPLE_DEFINITION} />);
-    expect(screen.getByText('AGENT_LOOP')).toBeInTheDocument();
-  });
-
-  it('renders namespace', () => {
-    render(<ArtefactDefinition definition={SAMPLE_DEFINITION} />);
-    expect(screen.getByText('fincrime')).toBeInTheDocument();
-  });
-
-  it('renders pre-rules section', () => {
-    render(<ArtefactDefinition definition={SAMPLE_DEFINITION} />);
-    expect(screen.getByRole('heading', { name: 'Pre-rules', level: 3 })).toBeInTheDocument();
-    expect(screen.getByText('Require subject identity resolved')).toBeInTheDocument();
-  });
-
-  it('renders orchestration steps numbered', () => {
-    render(<ArtefactDefinition definition={SAMPLE_DEFINITION} />);
-    expect(screen.getByText('1')).toBeInTheDocument();
-    expect(screen.getByText('Gather transaction context')).toBeInTheDocument();
-  });
-
-  it('renders post-rules section', () => {
-    render(<ArtefactDefinition definition={SAMPLE_DEFINITION} />);
-    expect(screen.getByRole('heading', { name: 'Post-rules', level: 3 })).toBeInTheDocument();
-    expect(screen.getByText('Emit AuditLogEntry')).toBeInTheDocument();
-  });
-
-  it('renders generated procedure text when present', () => {
-    render(<ArtefactDefinition definition={SAMPLE_DEFINITION} />);
-    expect(screen.getByText(/gathers transaction context/i)).toBeInTheDocument();
-  });
-
-  it('omits pre-rules section when empty', () => {
-    render(
-      <ArtefactDefinition definition={{ ...SAMPLE_DEFINITION, preRules: [] }} />,
-    );
-    expect(screen.queryByRole('heading', { name: 'Pre-rules', level: 3 })).not.toBeInTheDocument();
-  });
-
-  it('omits generated procedure when absent', () => {
-    render(
-      <ArtefactDefinition
-        definition={{ ...SAMPLE_DEFINITION, generatedProcedureText: undefined }}
-      />,
-    );
-    expect(screen.queryByRole('heading', { name: 'Generated procedure', level: 3 })).not.toBeInTheDocument();
-  });
-});
-
-// ── ArtefactIOContractView ────────────────────────────────────────────────────
-
-describe('ArtefactIOContractView', () => {
-  it('renders input, output, and context tables', () => {
-    render(<ArtefactIOContractView contract={SAMPLE_IO} />);
-    expect(screen.getByRole('table', { name: 'Input schema' })).toBeInTheDocument();
-    expect(screen.getByRole('table', { name: 'Output schema' })).toBeInTheDocument();
-    expect(screen.getByRole('table', { name: 'Context schema' })).toBeInTheDocument();
-  });
-
-  it('renders field names and types', () => {
-    render(<ArtefactIOContractView contract={SAMPLE_IO} />);
-    expect(screen.getByText('alertId')).toBeInTheDocument();
-    // Multiple 'string' cells are expected (several fields share the same type)
-    expect(screen.getAllByText('string').length).toBeGreaterThan(0);
-  });
-
-  it('shows empty state when schema has no fields', () => {
-    render(
-      <ArtefactIOContractView
-        contract={{ ...SAMPLE_IO, contextSchema: [] }}
-      />,
-    );
-    expect(screen.getByRole('status')).toBeInTheDocument();
-  });
-});
-
-// ── ArtefactMetricsView ───────────────────────────────────────────────────────
-
-describe('ArtefactMetricsView', () => {
-  it('renders metrics values', () => {
-    render(<ArtefactMetricsView metrics={SAMPLE_METRICS} />);
-    expect(screen.getByText('1,234')).toBeInTheDocument();
-    expect(screen.getByText('97%')).toBeInTheDocument();
-    expect(screen.getByText('320ms')).toBeInTheDocument();
-  });
-
-  it('renders placeholder when no metrics data', () => {
-    render(<ArtefactMetricsView metrics={null} />);
-    expect(screen.getByRole('status')).toHaveTextContent(/no metrics data available/i);
-  });
-
-  it('renders placeholder when metrics undefined', () => {
-    render(<ArtefactMetricsView metrics={undefined} />);
-    expect(screen.getByRole('status')).toHaveTextContent(/no metrics data available/i);
-  });
-});
-
-// ── ArtefactHistory ───────────────────────────────────────────────────────────
-
-describe('ArtefactHistory', () => {
-  it('renders history entries', () => {
-    render(<ArtefactHistory entries={SAMPLE_HISTORY} totalItems={2} />);
-    expect(screen.getByText('COMPLETED')).toBeInTheDocument();
-    expect(screen.getByText('FAILED')).toBeInTheDocument();
-  });
-});
-
-// ── ArtefactCallers ───────────────────────────────────────────────────────────
-
-describe('ArtefactCallers', () => {
-  it('renders caller names', () => {
-    render(<ArtefactCallers callers={SAMPLE_CALLERS} />);
-    expect(screen.getByText('Risk Monitoring Process')).toBeInTheDocument();
-    expect(screen.getByText('Compliance Trigger')).toBeInTheDocument();
-  });
-
-  it('renders bound version or latest', () => {
-    render(<ArtefactCallers callers={SAMPLE_CALLERS} />);
-    expect(screen.getByText('v2')).toBeInTheDocument();
-    expect(screen.getByText('latest')).toBeInTheDocument();
-  });
-});
-
-// ── ArtefactVersioning ────────────────────────────────────────────────────────
-
-describe('ArtefactVersioning', () => {
-  it('renders version rows', () => {
-    render(<ArtefactVersioning versions={SAMPLE_VERSIONS} />);
-    expect(screen.getByText('Active')).toBeInTheDocument();
-    expect(screen.getByText('ARCHIVED')).toBeInTheDocument();
   });
 });
 

@@ -1,13 +1,14 @@
 /**
- * @deprecated MultiSelectField is an internal field primitive; it is no longer part of
- * the public API. Use <EntityForm schema={...}> or <FormField as="shell"> instead.
- * Will be removed from public exports in v1.0 (DS-SIMPLIFY 14).
+ * MultiSelectField — chip-based multi-select. Internal field primitive used
+ * by EntityForm's schema-driven renderer. Not part of the public API; consumers
+ * should use <EntityForm schema={...}> or <FormField as="shell"> instead.
  *
- * MultiSelectField — chip-based multi-select.
- * Renders selected values as chips; unselected options as toggle buttons.
+ * Renders selected values as pressed chips; unselected options as togglable
+ * chips. Composes `<Tag variant="chip">` for chrome.
  */
 import * as React from 'react';
 import { FieldWrapper } from './FieldWrapper';
+import { Tag } from '../../Tag';
 import type { FieldPrimitiveProps } from './types';
 import type { SelectOption } from './SelectField';
 
@@ -47,16 +48,17 @@ export function MultiSelectField({ name, form, label, hint, required, disabled, 
         {options.map((opt) => {
           const isSelected = selectedSet.has(opt.value);
           return (
-            <button
+            <Tag
               key={opt.value}
-              type="button"
-              className={`cc-chip cc-chip--button${isSelected ? ' is-active' : ''}`}
+              variant="chip"
+              className={['cc-chip--button', isSelected ? 'is-active' : ''].filter(Boolean).join(' ')}
+              tone={isSelected ? 'accent' : 'neutral'}
+              onClick={disabled ? undefined : () => toggle(opt.value)}
               aria-pressed={isSelected}
-              disabled={disabled}
-              onClick={() => toggle(opt.value)}
+              aria-label={opt.label}
             >
               {opt.label}
-            </button>
+            </Tag>
           );
         })}
         {options.length === 0 && placeholder ? (

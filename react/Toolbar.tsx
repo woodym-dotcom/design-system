@@ -1,13 +1,21 @@
 /**
- * Toolbar / PrimaryActionBar — minimal toolbar with variant support.
+ * Toolbar / PrimaryActionBar — minimal toolbar with variant + mode support.
  *
  * Variants:
  *   - "default"         — standard horizontal action bar.
  *   - "queue-position"  — shows a queue position indicator alongside actions.
+ *
+ * Modes:
+ *   - "default" (default) — standard toolbar appearance.
+ *   - "bulk" — sticky bottom (or top) bar that surfaces when a list has a
+ *     non-zero selection. Subsumes the legacy `BulkBar` primitive. Pair with
+ *     `useMultiSelect`. Renders nothing when `selectedCount === 0`.
  */
 import * as React from "react";
 
 export type ToolbarVariant = "default" | "queue-position";
+export type ToolbarMode = "default" | "bulk";
+export type ToolbarBulkPosition = "bottom" | "top";
 
 export interface ToolbarAction {
   id: string;
@@ -16,11 +24,20 @@ export interface ToolbarAction {
   icon?: React.ReactNode;
   disabled?: boolean;
   variant?: "primary" | "ghost" | "danger";
+  /** bulk mode tone alias for `variant`. Accepts "default" | "primary" | "danger". */
+  tone?: "default" | "primary" | "danger";
 }
 
 export interface ToolbarProps {
   /** Visual variant. Default: "default". */
   variant?: ToolbarVariant;
+  /**
+   * Toolbar mode.
+   *  - "default" (default): renders as a standard toolbar.
+   *  - "bulk": renders only when `selectedCount > 0`; styled as a sticky bulk
+   *    action bar with selection count + clear control. Subsumes BulkBar.
+   */
+  mode?: ToolbarMode;
   /** Action buttons rendered in the bar. */
   actions?: ToolbarAction[];
   /** Queue position number (queue-position variant). */
@@ -31,6 +48,14 @@ export interface ToolbarProps {
   leading?: React.ReactNode;
   /** Trailing content slot (e.g. status indicators). */
   trailing?: React.ReactNode;
+  /** bulk-mode: number of items currently selected. Hidden when 0. */
+  selectedCount?: number;
+  /** bulk-mode: called when the user clicks the clear-selection control. */
+  onClear?: () => void;
+  /** bulk-mode: optional meta rendered next to the count. */
+  meta?: React.ReactNode;
+  /** bulk-mode: sticky position. Default 'bottom'. */
+  position?: ToolbarBulkPosition;
   /** ARIA label for the toolbar region. */
   "aria-label"?: string;
   className?: string;
@@ -38,19 +63,71 @@ export interface ToolbarProps {
 
 export function Toolbar({
   variant = "default",
+  mode = "default",
   actions,
   queuePosition,
   queueTotal,
   leading,
   trailing,
+  selectedCount,
+  onClear,
+  meta,
+  position = "bottom",
   className,
   ...rest
-}: ToolbarProps): React.ReactElement {
-  const classes = [
-    "cc-toolbar",
-    `cc-toolbar--${variant}`,
-    className,
-  ]
+}: ToolbarProps): React.ReactElement | null {
+  // ── Bulk mode (subsumes BulkBar) ─────────────────────────────────────────
+  if (mode === "bulk") {
+    const count = selectedCount ?? 0;
+    if (count === 0) return null;
+    return (
+      <div
+        className={["cc-bulkbar", `cc-bulkbar--${position}`, className]
+          .filter(Boolean)
+          .join(" ")}
+        role="region"
+        aria-label={rest["aria-label"] ?? `${count} item${count === 1 ? "" : "s"} selected`}
+      >
+        <div className="cc-bulkbar__summary">
+          <span className="cc-bulkbar__count">{count} selected</span>
+          {meta && <span className="cc-bulkbar__meta">{meta}</span>}
+          {onClear ? (
+            <button
+              type="button"
+              className="cc-bulkbar__clear"
+              onClick={onClear}
+            >
+              Clear
+            </button>
+          ) : null}
+        </div>
+        <div className="cc-bulkbar__actions">
+          {(actions ?? []).map((a) => {
+            const tone = a.tone ?? a.variant ?? "default";
+            return (
+              <button
+                key={a.id}
+                type="button"
+                className={`cc-bulkbar__action cc-bulkbar__action--${tone}`}
+                onClick={a.onClick}
+                disabled={a.disabled}
+              >
+                {a.icon && (
+                  <span className="cc-bulkbar__action-icon" aria-hidden="true">
+                    {a.icon}
+                  </span>
+                )}
+                {a.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Default toolbar mode ─────────────────────────────────────────────────
+  const classes = ["cc-toolbar", `cc-toolbar--${variant}`, className]
     .filter(Boolean)
     .join(" ");
 

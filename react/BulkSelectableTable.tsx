@@ -1,19 +1,19 @@
 /**
- * BulkSelectableTable — composes useMultiSelect + BulkBar with a list of
- * rows and provides keyboard shortcuts, a tri-state header, and a typed
- * bulk-action result contract.
+ * BulkSelectableTable — composes useMultiSelect + Toolbar (mode="bulk") with a
+ * list of rows and provides keyboard shortcuts, a tri-state header, and a
+ * typed bulk-action result contract.
  *
- * Pair with the existing `BulkBar` (auto-mounted) and `useMultiSelect`
- * (internal). Caller supplies `rows`, `rowKey`, `renderRow`, and a list
- * of `bulkActions` — each action returns a `BulkActionResult` describing
- * which rows succeeded and which failed.
+ * Pair with `useMultiSelect` (internal); the bulk action bar is auto-mounted
+ * via `<Toolbar mode="bulk">`. Caller supplies `rows`, `rowKey`, `renderRow`,
+ * and a list of `bulkActions` — each action returns a `BulkActionResult`
+ * describing which rows succeeded and which failed.
  *
  * Failed-results detail is shown inline in a `role="status"` live region;
  * caller can also subscribe via `onResult` to surface a Drawer.
  */
 import * as React from 'react';
 import { useMultiSelect } from './hooks/useMultiSelect';
-import { BulkBar, type BulkBarAction } from './BulkBar';
+import { Toolbar, type ToolbarAction } from './Toolbar';
 
 /**
  * Contract returned by a bulk action. Keys are the values produced by
@@ -33,11 +33,11 @@ export interface BulkActionResult<T> {
 export interface BulkSelectableTableAction<T> {
   id: string;
   label: string;
-  /** Visual tone forwarded to BulkBar. */
-  tone?: BulkBarAction['tone'];
+  /** Visual tone forwarded to the bulk Toolbar. */
+  tone?: ToolbarAction['tone'];
   /** Optional disable predicate based on the current selection. */
   disabled?: (selection: ReadonlyArray<T>) => boolean;
-  /** Optional icon forwarded to BulkBar. */
+  /** Optional icon forwarded to the bulk Toolbar. */
   icon?: React.ReactNode;
   /**
    * Run the bulk action against the selected rows and return a result.
@@ -137,7 +137,7 @@ export function BulkSelectableTable<T>({
     [sel, onResult],
   );
 
-  const barActions: BulkBarAction[] = bulkActions.map((a) => ({
+  const barActions: ToolbarAction[] = bulkActions.map((a) => ({
     id: a.id,
     label: a.label,
     tone: a.tone,
@@ -202,8 +202,9 @@ export function BulkSelectableTable<T>({
         })}
       </div>
 
-      <BulkBar
-        count={sel.count}
+      <Toolbar
+        mode="bulk"
+        selectedCount={sel.count}
         onClear={() => {
           sel.clear();
           setLastResult(null);

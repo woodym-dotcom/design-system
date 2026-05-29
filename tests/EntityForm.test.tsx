@@ -22,7 +22,7 @@ import {
   DateField,
   useEntityForm,
 } from '../react/entity-form/index';
-import type { WizardStepRenderCtx } from '../react/entity-form/index';
+import type { WizardStepRenderCtx } from '../react/entity-form/EntityForm';
 
 // ---------------------------------------------------------------------------
 // Test schema

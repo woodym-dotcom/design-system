@@ -1,22 +1,22 @@
 /**
- * PlatformAppShell stories — DS-SIMPLIFY 05.
+ * AppShell stories — DS-SIMPLIFY 05.
  *
  * One canonical golden-path story per brand × tenant mode combination.
  * 4 brands × 2 tenant modes = 8 visual baselines.
  */
 import * as React from 'react';
 import {
-  PlatformAppShell,
+  AppShell,
   type BrandKey,
   type ModuleDef,
   type AppDef,
   type UserDef,
   type CompanyGroup,
-} from '../react/PlatformAppShell';
+} from '../react/AppShell';
 
 export default {
-  title: 'Shell/PlatformAppShell',
-  component: PlatformAppShell,
+  title: 'Shell/AppShell',
+  component: AppShell,
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -78,7 +78,7 @@ function makeStory(
 ): React.ReactElement {
   return (
     <div style={{ minHeight: 480 }}>
-      <PlatformAppShell
+      <AppShell
         brand={brand}
         modules={MODULES}
         appKey={appKey}
@@ -98,7 +98,7 @@ function makeStory(
         }}
       >
         <PageBody title={`${brand} • ${multiTenant ? 'multi-tenant' : 'single-tenant'}`} />
-      </PlatformAppShell>
+      </AppShell>
     </div>
   );
 }
