@@ -2,8 +2,6 @@ import * as React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { ActivityTimeline, type ActivityEntry } from "../react/ActivityTimeline";
-// Deprecated alias — these imports must still compile and render
-import { AuditLogList, type AuditEvent } from "../react/AuditLogList";
 
 // ── Fixtures ──────────────────────────────────────────────────────────────────
 
@@ -29,32 +27,6 @@ const entries: ActivityEntry[] = [
     action: "archived",
     target: "Project Beta",
     timestamp: "2024-03-02T09:00:00.000Z",
-  },
-];
-
-const auditEvents: AuditEvent[] = [
-  {
-    id: "1",
-    timestamp: "2024-03-01T10:00:00.000Z",
-    category: "login",
-    source: "auth",
-    notable: true,
-    detail: "user logged in",
-  },
-  {
-    id: "2",
-    timestamp: "2024-03-01T11:30:00.000Z",
-    category: "logout",
-    source: "auth",
-    notable: true,
-  },
-  {
-    id: "3",
-    timestamp: "2024-03-02T09:00:00.000Z",
-    category: "deploy",
-    source: "ci",
-    notable: true,
-    detail: "v1.2.0",
   },
 ];
 
@@ -322,33 +294,3 @@ describe("ActivityTimeline — keyboard navigation", () => {
   });
 });
 
-// ── Deprecated AuditLogList alias ─────────────────────────────────────────────
-
-describe("AuditLogList (deprecated alias)", () => {
-  it("renders without errors using old AuditEvent shape", () => {
-    render(<AuditLogList events={auditEvents} />);
-    expect(screen.getAllByTestId("activity-entry")).toHaveLength(3);
-  });
-
-  it("renders empty state when no events", () => {
-    render(<AuditLogList events={[]} />);
-    expect(screen.getByText("No activity yet.")).toBeTruthy();
-  });
-
-  it("flat variant still works", () => {
-    const { container } = render(
-      <AuditLogList events={auditEvents} variant="flat" />,
-    );
-    expect(container.querySelector(".at--flat")).toBeTruthy();
-  });
-
-  it("timeline variant enables groupByDay", () => {
-    const { container } = render(
-      <AuditLogList events={auditEvents} variant="timeline" />,
-    );
-    const headers = container.querySelectorAll(".at-day-header");
-    expect(headers).toHaveLength(2);
-    expect(headers[0].textContent).toBe("2024-03-01");
-    expect(headers[1].textContent).toBe("2024-03-02");
-  });
-});

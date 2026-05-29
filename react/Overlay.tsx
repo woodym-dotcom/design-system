@@ -15,7 +15,7 @@
  *  - ARIA role: `dialog` (modal/drawer), `complementary` (detail/drilldown),
  *    `region` (fullscreen)
  *
- * The legacy primitives remain as `@deprecated` re-exports until SIMPLIFY 14.
+ * Legacy primitives remain available as `@deprecated` re-exports.
  */
 import * as React from "react";
 import { createPortal } from "react-dom";

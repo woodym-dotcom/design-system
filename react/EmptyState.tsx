@@ -1,6 +1,5 @@
 /**
  * @deprecated Use `<State variant="…" density="…">` from `./State` instead.
- * This component will be removed in v1.0 (DS-SIMPLIFY 14).
  *
  * <EmptyState> — long-tail state placeholder.
  *
