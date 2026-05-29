@@ -83,8 +83,10 @@ export interface ArtefactHistoryEntry {
   id: string;
   executedAt: string; // ISO-8601
   state: string;
-  subjectId?: string;
-  subjectType?: string;
+  /** Human-readable label for the row's target (rendered as-is). */
+  targetLabel?: string;
+  /** Optional href if the target is navigable. */
+  targetHref?: string;
   durationMs?: number;
 }
 
@@ -326,14 +328,15 @@ const HISTORY_COLUMNS: ArtefactColumnDef<ArtefactHistoryEntry>[] = [
     ),
   },
   {
-    key: 'subjectId',
-    label: 'Subject',
+    key: 'targetLabel',
+    label: 'Target',
     render: (row) =>
-      row.subjectId ? (
-        <span>
-          {row.subjectType ? <em>{row.subjectType}: </em> : null}
-          {row.subjectId}
-        </span>
+      row.targetLabel ? (
+        row.targetHref ? (
+          <a href={row.targetHref}>{row.targetLabel}</a>
+        ) : (
+          <span>{row.targetLabel}</span>
+        )
       ) : (
         '—'
       ),

@@ -68,15 +68,14 @@ const SAMPLE_HISTORY: ArtefactHistoryEntry[] = [
     id: 'h1',
     executedAt: '2026-05-04T11:00:00Z',
     state: 'COMPLETED',
-    subjectId: 'sub-001',
-    subjectType: 'Company',
+    targetLabel: 'Company: sub-001',
     durationMs: 340,
   },
   {
     id: 'h2',
     executedAt: '2026-05-04T10:00:00Z',
     state: 'FAILED',
-    subjectId: 'sub-002',
+    targetLabel: 'sub-002',
     durationMs: 120,
   },
 ];
