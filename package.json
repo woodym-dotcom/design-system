@@ -518,6 +518,11 @@
       "import": "./dist/ThreadView.js",
       "default": "./dist/ThreadView.js"
     },
+    "./templates/aa": {
+      "types": "./dist/templates/aa/index.d.ts",
+      "import": "./dist/templates/aa/index.js",
+      "default": "./dist/templates/aa/index.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {
