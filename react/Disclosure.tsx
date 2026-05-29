@@ -1,9 +1,19 @@
 /**
  * Disclosure — collapsible summary/content panel.
- * Accordion — composes Disclosures with single or multiple open semantics.
  *
- * Uses native <details>/<summary> for uncontrolled mode.
- * Controlled mode manages open state externally.
+ * Uses native <details>/<summary> for uncontrolled mode. Controlled mode
+ * manages open state externally.
+ *
+ * Accordion pattern: compose multiple `<Disclosure>` instances directly. For
+ * single-open semantics, lift `open` to a parent and pass `open` / `onOpenChange`
+ * to each child; for multi-open, give each Disclosure independent state.
+ * Example:
+ *
+ *   const [openId, setOpenId] = useState<string | null>(null);
+ *   <>
+ *     <Disclosure summary="A" open={openId === 'a'} onOpenChange={(o) => setOpenId(o ? 'a' : null)}>…</Disclosure>
+ *     <Disclosure summary="B" open={openId === 'b'} onOpenChange={(o) => setOpenId(o ? 'b' : null)}>…</Disclosure>
+ *   </>
  */
 import * as React from 'react';
 
@@ -20,23 +30,6 @@ export interface DisclosureProps {
   className?: string;
   style?: React.CSSProperties;
   children: React.ReactNode;
-}
-
-export interface AccordionItem {
-  id: string;
-  summary: React.ReactNode;
-  content: React.ReactNode;
-}
-
-export interface AccordionProps {
-  type?: 'single' | 'multiple';
-  defaultValue?: string | string[];
-  value?: string | string[];
-  onValueChange?: (v: string | string[]) => void;
-  items: AccordionItem[];
-  icon?: DisclosureIcon;
-  className?: string;
-  style?: React.CSSProperties;
 }
 
 // ── Icon helpers ──────────────────────────────────────────────────────────────
@@ -199,67 +192,3 @@ export function Disclosure({
   );
 }
 
-// ── Accordion ─────────────────────────────────────────────────────────────────
-
-export function Accordion({
-  type = 'single',
-  defaultValue,
-  value: controlledValue,
-  onValueChange,
-  items,
-  icon = 'chevron',
-  className,
-  style,
-}: AccordionProps): React.ReactElement {
-  const isControlled = controlledValue !== undefined;
-
-  const normalise = (v: string | string[] | undefined): string[] => {
-    if (v === undefined) return [];
-    return Array.isArray(v) ? v : [v];
-  };
-
-  const [internalOpen, setInternalOpen] = React.useState<string[]>(
-    normalise(defaultValue),
-  );
-  const openIds = isControlled ? normalise(controlledValue) : internalOpen;
-
-  const toggle = (id: string) => {
-    let next: string[];
-    if (type === 'single') {
-      next = openIds.includes(id) ? [] : [id];
-    } else {
-      next = openIds.includes(id)
-        ? openIds.filter((x) => x !== id)
-        : [...openIds, id];
-    }
-    if (!isControlled) setInternalOpen(next);
-    if (onValueChange) {
-      onValueChange(type === 'single' ? (next[0] ?? '') : next);
-    }
-  };
-
-  return (
-    <div
-      className={className}
-      style={{
-        border: '1px solid var(--border-1)',
-        borderRadius: '6px',
-        overflow: 'hidden',
-        ...style,
-      }}
-    >
-      {items.map((item) => (
-        <Disclosure
-          key={item.id}
-          summary={item.summary}
-          open={openIds.includes(item.id)}
-          onOpenChange={() => toggle(item.id)}
-          icon={icon}
-          style={{ borderBottom: 'none' }}
-        >
-          {item.content}
-        </Disclosure>
-      ))}
-    </div>
-  );
-}

@@ -1,8 +1,11 @@
 /**
- * Disclosure stories — single Disclosure + Accordion (single + multiple) modes.
+ * Disclosure stories — single Disclosure variants + accordion composition.
+ *
+ * Accordion is no longer a distinct primitive — compose multiple <Disclosure>
+ * instances directly and lift `open`/`onOpenChange` for coordinated behaviour.
  */
 import * as React from 'react';
-import { Disclosure, Accordion } from '../react/Disclosure';
+import { Disclosure } from '../react/Disclosure';
 
 export default {
   title: 'Layout/Disclosure',
@@ -65,36 +68,43 @@ export function IconVariants() {
   );
 }
 
-const ACCORDION_ITEMS = [
+// ── Accordion composition ───────────────────────────────────────────────────
+
+const ITEMS = [
   {
     id: 'what',
     summary: 'What is a design system?',
-    content: <Content text="A design system is a collection of reusable components, patterns, and guidelines that help teams build consistent user interfaces." />,
+    content: 'A design system is a collection of reusable components, patterns, and guidelines that help teams build consistent user interfaces.',
   },
   {
     id: 'why',
     summary: 'Why use tokens?',
-    content: <Content text="Design tokens abstract visual decisions (colors, spacing, typography) into named variables so they can be maintained centrally and consumed consistently." />,
+    content: 'Design tokens abstract visual decisions (colors, spacing, typography) into named variables so they can be maintained centrally and consumed consistently.',
   },
   {
     id: 'how',
     summary: 'How are components structured?',
-    content: <Content text="Each component is a focused React primitive that consumes tokens directly via CSS custom properties. No hardcoded values are allowed." />,
+    content: 'Each component is a focused React primitive that consumes tokens directly via CSS custom properties. No hardcoded values are allowed.',
   },
-  {
-    id: 'when',
-    summary: 'When should I use Accordion vs Disclosure?',
-    content: <Content text="Use Disclosure for standalone collapsible sections. Use Accordion to group related disclosures with coordinated open/close behavior." />,
-  },
-];
+] as const;
 
 export function AccordionSingleMode() {
+  const [openId, setOpenId] = React.useState<string | null>(null);
   return (
     <div style={{ padding: 24, maxWidth: 480 }}>
       <p style={{ marginBottom: 12, fontSize: 'var(--text-xs)', color: 'var(--text-3)' }}>
-        type="single" — at most one item open at a time
+        Compose Disclosures; lift `open` to parent — at most one item open.
       </p>
-      <Accordion type="single" items={ACCORDION_ITEMS} />
+      {ITEMS.map((item) => (
+        <Disclosure
+          key={item.id}
+          summary={item.summary}
+          open={openId === item.id}
+          onOpenChange={(o) => setOpenId(o ? item.id : null)}
+        >
+          <Content text={item.content} />
+        </Disclosure>
+      ))}
     </div>
   );
 }
@@ -103,45 +113,13 @@ export function AccordionMultipleMode() {
   return (
     <div style={{ padding: 24, maxWidth: 480 }}>
       <p style={{ marginBottom: 12, fontSize: 'var(--text-xs)', color: 'var(--text-3)' }}>
-        type="multiple" — any number of items can be open
+        Independent Disclosures — any number can be open at once.
       </p>
-      <Accordion type="multiple" items={ACCORDION_ITEMS} defaultValue={['what', 'why']} />
-    </div>
-  );
-}
-
-export function AccordionDefaultValue() {
-  return (
-    <div style={{ padding: 24, maxWidth: 480 }}>
-      <p style={{ marginBottom: 12, fontSize: 'var(--text-xs)', color: 'var(--text-3)' }}>
-        defaultValue="why" — pre-opened
-      </p>
-      <Accordion type="single" items={ACCORDION_ITEMS} defaultValue="why" />
-    </div>
-  );
-}
-
-export function AccordionWithPlusMinus() {
-  return (
-    <div style={{ padding: 24, maxWidth: 480 }}>
-      <Accordion type="single" items={ACCORDION_ITEMS} icon="plus-minus" />
-    </div>
-  );
-}
-
-export function ControlledAccordion() {
-  const [value, setValue] = React.useState<string>('what');
-  return (
-    <div style={{ padding: 24, maxWidth: 480 }}>
-      <p style={{ marginBottom: 12, fontSize: 'var(--text-xs)', color: 'var(--text-3)' }}>
-        Controlled — current: {value || '(none)'}
-      </p>
-      <Accordion
-        type="single"
-        items={ACCORDION_ITEMS}
-        value={value}
-        onValueChange={(v) => setValue(v as string)}
-      />
+      {ITEMS.map((item) => (
+        <Disclosure key={item.id} summary={item.summary} defaultOpen={item.id === 'what' || item.id === 'why'}>
+          <Content text={item.content} />
+        </Disclosure>
+      ))}
     </div>
   );
 }

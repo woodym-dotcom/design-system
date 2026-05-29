@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { Disclosure, Accordion } from './Disclosure';
+import { Disclosure } from './Disclosure';
 
 describe('Disclosure', () => {
   it('renders summary text', () => {
@@ -73,66 +73,34 @@ describe('Disclosure', () => {
   });
 });
 
-describe('Accordion', () => {
-  const items = [
-    { id: 'a', summary: 'Section A', content: 'Content A' },
-    { id: 'b', summary: 'Section B', content: 'Content B' },
-    { id: 'c', summary: 'Section C', content: 'Content C' },
-  ];
-
-  it('renders all summaries', () => {
-    render(<Accordion items={items} />);
-    expect(screen.getByText('Section A')).toBeTruthy();
-    expect(screen.getByText('Section B')).toBeTruthy();
-    expect(screen.getByText('Section C')).toBeTruthy();
-  });
-
-  it('all items closed by default', () => {
-    render(<Accordion items={items} />);
-    expect(screen.queryByText('Content A')).toBeNull();
-    expect(screen.queryByText('Content B')).toBeNull();
-  });
-
-  it('opens item on click (single mode)', () => {
-    render(<Accordion items={items} type="single" />);
-    fireEvent.click(screen.getByRole('button', { name: /Section A/ }));
-    expect(screen.getByText('Content A')).toBeTruthy();
-  });
-
-  it('closes previously open item when new one opens (single mode)', () => {
-    render(<Accordion items={items} type="single" />);
+describe('Disclosure — accordion composition', () => {
+  it('parent owns open state to coordinate single-open semantics', () => {
+    function Acc() {
+      const [openId, setOpenId] = React.useState<string | null>(null);
+      return (
+        <>
+          <Disclosure
+            summary="Section A"
+            open={openId === 'a'}
+            onOpenChange={(o) => setOpenId(o ? 'a' : null)}
+          >
+            Content A
+          </Disclosure>
+          <Disclosure
+            summary="Section B"
+            open={openId === 'b'}
+            onOpenChange={(o) => setOpenId(o ? 'b' : null)}
+          >
+            Content B
+          </Disclosure>
+        </>
+      );
+    }
+    render(<Acc />);
     fireEvent.click(screen.getByRole('button', { name: /Section A/ }));
     expect(screen.getByText('Content A')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: /Section B/ }));
     expect(screen.queryByText('Content A')).toBeNull();
     expect(screen.getByText('Content B')).toBeTruthy();
-  });
-
-  it('allows multiple open in multiple mode', () => {
-    render(<Accordion items={items} type="multiple" />);
-    fireEvent.click(screen.getByRole('button', { name: /Section A/ }));
-    fireEvent.click(screen.getByRole('button', { name: /Section B/ }));
-    expect(screen.getByText('Content A')).toBeTruthy();
-    expect(screen.getByText('Content B')).toBeTruthy();
-  });
-
-  it('respects defaultValue', () => {
-    render(<Accordion items={items} defaultValue="b" />);
-    expect(screen.getByText('Content B')).toBeTruthy();
-    expect(screen.queryByText('Content A')).toBeNull();
-  });
-
-  it('controlled: respects value prop', () => {
-    const onChange = vi.fn();
-    render(<Accordion items={items} value="c" onValueChange={onChange} />);
-    expect(screen.getByText('Content C')).toBeTruthy();
-    expect(screen.queryByText('Content A')).toBeNull();
-  });
-
-  it('controlled: calls onValueChange on toggle', () => {
-    const onChange = vi.fn();
-    render(<Accordion items={items} value="" onValueChange={onChange} />);
-    fireEvent.click(screen.getByRole('button', { name: /Section A/ }));
-    expect(onChange).toHaveBeenCalledWith('a');
   });
 });
