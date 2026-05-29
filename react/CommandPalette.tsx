@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Modal } from './Modal';
+import { Overlay } from './Overlay';
 import { Kbd } from './Kbd';
 
 export interface CommandItem {
@@ -50,8 +50,8 @@ function fuzzyMatch(item: CommandItem, query: string): boolean {
 }
 
 /**
- * Cmd+K-style command palette. Composes `<Modal/>` for the dialog +
- * focus-trap, `<Kbd/>` for shortcut hints, and the platform fuzzy match
+ * Cmd+K-style command palette. Composes `<Overlay placement="modal"/>` for
+ * the dialog + focus-trap, `<Kbd/>` for shortcut hints, and the platform fuzzy match
  * for filtering. Static items via `items` or async via `loadItems`.
  *
  * The palette does NOT bind a global hotkey — wire that in the host app
@@ -142,12 +142,12 @@ export function CommandPalette<T extends string = string>({
   };
 
   return (
-    <Modal
+    <Overlay
+      placement="modal"
       open={open}
-      onClose={onClose}
+      onOpenChange={() => onClose()}
       title="Command palette"
       size="lg"
-      initialFocusRef={inputRef}
       className="cc-cmdk"
     >
       {filterTypes && filterTypes.length > 0 && (
@@ -232,6 +232,6 @@ export function CommandPalette<T extends string = string>({
           ))
         )}
       </div>
-    </Modal>
+    </Overlay>
   );
 }

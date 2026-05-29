@@ -17,6 +17,7 @@
  *   />
  */
 import * as React from "react";
+import { Card } from "./Card";
 
 export type DryRunRiskLevel = "low" | "medium" | "high" | "critical";
 
@@ -115,46 +116,61 @@ export function DryRunPanel({
     .filter(Boolean)
     .join(" ");
 
-  return (
+  const footerContent = (
     <div
-      role="alertdialog"
-      aria-label={title}
-      className={classes}
+      className="cc-dry-run-panel__actions"
       style={{
         display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-4, 0.75rem)",
-        padding: "var(--space-5, 1rem)",
-        borderRadius: "var(--radius-2, 8px)",
-        border: `1px solid ${hasHighRisk ? "var(--error-border)" : "var(--border-1)"}`,
-        background: "var(--surface-1)",
+        justifyContent: "flex-end",
+        gap: "var(--space-3, 0.5rem)",
       }}
     >
-      <div className="cc-dry-run-panel__header">
-        <h3
-          className="cc-dry-run-panel__title"
-          style={{
-            margin: 0,
-            fontSize: "var(--text-lg, 1.125rem)",
-            fontWeight: 600,
-          }}
-        >
-          {title}
-        </h3>
-        {description && (
-          <p
-            className="cc-dry-run-panel__description"
-            style={{
-              margin: "var(--space-1, 0.25rem) 0 0",
-              fontSize: "var(--text-sm, 0.875rem)",
-              color: "var(--text-3)",
-            }}
-          >
-            {description}
-          </p>
-        )}
-      </div>
+      <button
+        type="button"
+        className="cc-dry-run-panel__cancel"
+        onClick={onCancel}
+        style={{
+          padding: "var(--space-2, 0.375rem) var(--space-4, 0.75rem)",
+          borderRadius: "var(--radius-1, 4px)",
+          border: "1px solid var(--border-1)",
+          background: "transparent",
+          cursor: "pointer",
+          fontWeight: 500,
+        }}
+      >
+        {cancelLabel}
+      </button>
+      <button
+        type="button"
+        className="cc-dry-run-panel__confirm"
+        onClick={onConfirm}
+        disabled={confirmDisabled}
+        style={{
+          padding: "var(--space-2, 0.375rem) var(--space-4, 0.75rem)",
+          borderRadius: "var(--radius-1, 4px)",
+          border: `1px solid ${hasHighRisk ? "var(--error-border)" : "var(--accent-border)"}`,
+          background: hasHighRisk ? "var(--error-light)" : "var(--accent-light)",
+          color: hasHighRisk ? "var(--error-text)" : "var(--accent-text)",
+          cursor: confirmDisabled ? "not-allowed" : "pointer",
+          fontWeight: 600,
+          opacity: confirmDisabled ? 0.5 : 1,
+        }}
+      >
+        {confirmLabel}
+      </button>
+    </div>
+  );
 
+  return (
+    <Card
+      title={title}
+      subtitle={description}
+      footer={footerContent}
+      padded
+      className={classes}
+      role="alertdialog"
+      aria-label={title}
+    >
       <div
         className="cc-dry-run-panel__summary"
         style={{
@@ -245,51 +261,6 @@ export function DryRunPanel({
           );
         })}
       </ul>
-
-      <div
-        className="cc-dry-run-panel__actions"
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          gap: "var(--space-3, 0.5rem)",
-          paddingTop: "var(--space-3, 0.5rem)",
-          borderTop: "1px solid var(--border-1)",
-        }}
-      >
-        <button
-          type="button"
-          className="cc-dry-run-panel__cancel"
-          onClick={onCancel}
-          style={{
-            padding: "var(--space-2, 0.375rem) var(--space-4, 0.75rem)",
-            borderRadius: "var(--radius-1, 4px)",
-            border: "1px solid var(--border-1)",
-            background: "transparent",
-            cursor: "pointer",
-            fontWeight: 500,
-          }}
-        >
-          {cancelLabel}
-        </button>
-        <button
-          type="button"
-          className="cc-dry-run-panel__confirm"
-          onClick={onConfirm}
-          disabled={confirmDisabled}
-          style={{
-            padding: "var(--space-2, 0.375rem) var(--space-4, 0.75rem)",
-            borderRadius: "var(--radius-1, 4px)",
-            border: `1px solid ${hasHighRisk ? "var(--error-border)" : "var(--accent-border)"}`,
-            background: hasHighRisk ? "var(--error-light)" : "var(--accent-light)",
-            color: hasHighRisk ? "var(--error-text)" : "var(--accent-text)",
-            cursor: confirmDisabled ? "not-allowed" : "pointer",
-            fontWeight: 600,
-            opacity: confirmDisabled ? 0.5 : 1,
-          }}
-        >
-          {confirmLabel}
-        </button>
-      </div>
-    </div>
+    </Card>
   );
 }

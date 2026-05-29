@@ -1,7 +1,7 @@
 /**
  * EnvelopeBadge — multi-field chip group for a resolved envelope.
  *
- * Renders a compact horizontal group of label-value pairs representing
+ * Renders a compact horizontal group of `Tag` chips representing
  * the fields of a resolved envelope (e.g. name, DOB, address, ID number).
  *
  * Usage:
@@ -14,6 +14,8 @@
  *   />
  */
 import * as React from "react";
+import { Tag } from "./Tag";
+import type { TagTone, TagSize } from "./Tag";
 
 export interface EnvelopeBadgeField {
   label: string;
@@ -51,49 +53,30 @@ export function EnvelopeBadge({
     .filter(Boolean)
     .join(" ");
 
+  const tagSize: TagSize = size === "sm" ? "sm" : "md";
+
   const inner = (
     <>
       {fields.map((field, idx) => (
-        <span
+        <Tag
           key={idx}
-          className={[
-            "cc-envelope-badge__field",
-            field.tone ? `cc-envelope-badge__field--${field.tone}` : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          style={{
-            display: "inline-flex",
-            alignItems: "baseline",
-            gap: "0.2rem",
-            padding:
-              size === "sm"
-                ? "0.1rem 0.35rem"
-                : "0.15rem 0.5rem",
-            fontSize: size === "sm" ? "0.7rem" : "0.78rem",
-            borderRadius: "var(--radius-1, 4px)",
-            background: "var(--surface-2, #f5f5f5)",
-            border: "1px solid var(--border-1)",
-          }}
+          tone={(field.tone ?? "neutral") as TagTone}
+          size={tagSize}
+          className="cc-envelope-badge__field"
         >
           <span
             className="cc-envelope-badge__label"
-            style={{ fontWeight: 600, color: "var(--text-2)" }}
+            style={{ fontWeight: 600 }}
           >
             {field.label}:
-          </span>
-          <span
-            className="cc-envelope-badge__value"
-            style={{ color: "var(--text-1)" }}
-          >
-            {field.value}
-          </span>
-        </span>
+          </span>{" "}
+          <span className="cc-envelope-badge__value">{field.value}</span>
+        </Tag>
       ))}
     </>
   );
 
-  const style: React.CSSProperties = {
+  const groupStyle: React.CSSProperties = {
     display: "inline-flex",
     flexWrap: "wrap",
     alignItems: "center",
@@ -108,7 +91,7 @@ export function EnvelopeBadge({
         className={classes}
         onClick={onClick}
         aria-label={rest["aria-label"] ?? "Envelope details"}
-        style={style}
+        style={groupStyle}
       >
         {inner}
       </button>
@@ -119,7 +102,7 @@ export function EnvelopeBadge({
     <span
       className={classes}
       aria-label={rest["aria-label"] ?? "Envelope details"}
-      style={style}
+      style={groupStyle}
     >
       {inner}
     </span>

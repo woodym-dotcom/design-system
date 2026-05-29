@@ -16,6 +16,7 @@
  *   />
  */
 import * as React from "react";
+import { Card } from "./Card";
 
 export type EvidenceFileStatus = "pending" | "verified" | "rejected" | "expired";
 
@@ -85,71 +86,49 @@ export function EvidenceBundleViewer({
     .filter(Boolean)
     .join(" ");
 
+  const subtitleContent = (
+    <>
+      {bundleId && (
+        <span className="cc-evidence-bundle-viewer__bundle-id">
+          {bundleId}
+        </span>
+      )}
+      {" "}
+      <span className="cc-evidence-bundle-viewer__count">
+        {files.length} file{files.length !== 1 ? "s" : ""}
+      </span>
+    </>
+  );
+
+  const headerActions = onDownloadAll ? (
+    <button
+      type="button"
+      className="cc-evidence-bundle-viewer__download-all"
+      onClick={onDownloadAll}
+      style={{
+        padding: "var(--space-1, 0.25rem) var(--space-3, 0.5rem)",
+        borderRadius: "var(--radius-1, 4px)",
+        border: "1px solid var(--border-1)",
+        background: "transparent",
+        cursor: "pointer",
+        fontSize: "var(--text-sm, 0.875rem)",
+        fontWeight: 500,
+      }}
+    >
+      Download all
+    </button>
+  ) : undefined;
+
   return (
-    <div
+    <Card
+      title={title}
+      subtitle={subtitleContent}
+      actions={headerActions}
+      padded={false}
       className={classes}
       role="region"
       aria-label={title}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        border: "1px solid var(--border-1)",
-        borderRadius: "var(--radius-2, 8px)",
-        background: "var(--surface-1)",
-      }}
     >
-      <header
-        className="cc-evidence-bundle-viewer__header"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "var(--space-3, 0.5rem) var(--space-4, 0.75rem)",
-          borderBottom: "1px solid var(--border-1)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "baseline", gap: "var(--space-2, 0.375rem)" }}>
-          <h3
-            className="cc-evidence-bundle-viewer__title"
-            style={{ margin: 0, fontSize: "var(--text-base, 1rem)", fontWeight: 600 }}
-          >
-            {title}
-          </h3>
-          {bundleId && (
-            <span
-              className="cc-evidence-bundle-viewer__bundle-id"
-              style={{ fontSize: "var(--text-xs, 0.75rem)", color: "var(--text-3)" }}
-            >
-              {bundleId}
-            </span>
-          )}
-          <span
-            className="cc-evidence-bundle-viewer__count"
-            style={{ fontSize: "var(--text-xs, 0.75rem)", color: "var(--text-3)" }}
-          >
-            {files.length} file{files.length !== 1 ? "s" : ""}
-          </span>
-        </div>
-        {onDownloadAll && (
-          <button
-            type="button"
-            className="cc-evidence-bundle-viewer__download-all"
-            onClick={onDownloadAll}
-            style={{
-              padding: "var(--space-1, 0.25rem) var(--space-3, 0.5rem)",
-              borderRadius: "var(--radius-1, 4px)",
-              border: "1px solid var(--border-1)",
-              background: "transparent",
-              cursor: "pointer",
-              fontSize: "var(--text-sm, 0.875rem)",
-              fontWeight: 500,
-            }}
-          >
-            Download all
-          </button>
-        )}
-      </header>
-
       <ul
         className="cc-evidence-bundle-viewer__list"
         style={{
@@ -254,6 +233,6 @@ export function EvidenceBundleViewer({
           );
         })}
       </ul>
-    </div>
+    </Card>
   );
 }

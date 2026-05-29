@@ -1,20 +1,20 @@
 /**
  * ArtefactDetailPane — composable detail pane family for AA artefacts.
  *
- * Composes ExpandableDetailPane (tab shell) + ListView (history/callers/versions)
+ * Composes Overlay (placement="detail-right") + inline tab structure
  * into a single "detail pane for any artefact" abstraction.
  *
  * §14 L1: no artefact detail primitive existed.
- * §14 L2: composes ExpandableDetailPane + ListView already in @ds/core.
+ * §14 L2: composes Overlay already in @ds/core.
  * §14 L3: follows cc-btn / cc-chip token pattern, column-definition shape.
  *
  * Exported types mirror the BE DTOs in com.aa.platform.artefact — keep in sync.
  *
- * Accessibility: inherits ExpandableDetailPane a11y contract (dialog, focus trap,
+ * Accessibility: inherits Overlay a11y contract (dialog, focus trap,
  * keyboard navigation, axe-clean). Individual tab content uses semantic HTML.
  */
 import * as React from 'react';
-import { ExpandableDetailPane } from './ExpandableDetailPane';
+import { Overlay } from './Overlay';
 /**
  * Column definition for the inline tables in this file.
  * Previously imported from ./ListView (deleted in Phase 2). The shape is
@@ -619,15 +619,12 @@ export interface ArtefactDetailPaneProps {
 /**
  * ArtefactDetailPane — the canonical detail pane for any AA artefact.
  *
- * Composes ExpandableDetailPane as the shell with six standard tabs:
+ * Composes Overlay (placement="detail-right", expandable) as the shell with
+ * six standard tabs:
  * Definition · IO Contract · Metrics · History · Callers · Versioning.
  *
  * Per-artefact phases (3.2–3.11) mount this component and supply real data;
  * this component itself is data-agnostic — it only renders what it's given.
- *
- * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="detail-right">`
- *   composed with the artefact sub-views (ArtefactDefinition, ArtefactHistory,
- *   etc.) supplied to its `sections` slot. Removed at v1.0 (DS-SIMPLIFY 14).
  */
 export function ArtefactDetailPane({
   open,
@@ -682,14 +679,76 @@ export function ArtefactDetailPane({
     },
   ];
 
+  const [activeTabId, setActiveTabId] = React.useState(tabs[0].id);
+  const activeTab = tabs.find((t) => t.id === activeTabId) ?? tabs[0];
+  const tabPanelId = React.useId();
+
   return (
-    <ExpandableDetailPane
+    <Overlay
+      placement="detail-right"
       open={open}
-      onClose={onClose}
+      onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}
       title={title}
       subtitle={subtitle}
       headerActions={headerActions}
-      tabs={tabs}
-    />
+      expandable
+    >
+      <div
+        role="tablist"
+        aria-label={`${title} sections`}
+        className="cc-expandable-pane__tabs"
+      >
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            role="tab"
+            id={`${tabPanelId}-tab-${tab.id}`}
+            aria-selected={tab.id === activeTabId}
+            aria-controls={`${tabPanelId}-panel-${tab.id}`}
+            tabIndex={tab.id === activeTabId ? 0 : -1}
+            className={[
+              'cc-expandable-pane__tab',
+              tab.id === activeTabId ? 'is-active' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            onClick={() => setActiveTabId(tab.id)}
+            onKeyDown={(e) => {
+              const idx = tabs.findIndex((t) => t.id === tab.id);
+              if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const nextId = tabs[(idx + 1) % tabs.length].id;
+                setActiveTabId(nextId);
+              } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const prevId = tabs[(idx - 1 + tabs.length) % tabs.length].id;
+                setActiveTabId(prevId);
+              } else if (e.key === 'Home') {
+                e.preventDefault();
+                setActiveTabId(tabs[0].id);
+              } else if (e.key === 'End') {
+                e.preventDefault();
+                setActiveTabId(tabs[tabs.length - 1].id);
+              }
+            }}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      {tabs.map((tab) => (
+        <div
+          key={tab.id}
+          id={`${tabPanelId}-panel-${tab.id}`}
+          role="tabpanel"
+          aria-labelledby={`${tabPanelId}-tab-${tab.id}`}
+          hidden={tab.id !== activeTab.id}
+          className="cc-expandable-pane__body"
+        >
+          {tab.id === activeTab.id ? tab.render() : null}
+        </div>
+      ))}
+    </Overlay>
   );
 }

@@ -1,16 +1,16 @@
 /**
  * FreshnessPill — FreshnessClass display indicator.
  *
- * Renders a pill showing the freshness class of a data source or connection:
- *   - "online-hot"      — real-time, low-latency data (green)
- *   - "online-standard" — online but standard latency (blue/info)
- *   - "offline"         — data is offline / stale (neutral)
+ * Renders a pill showing the freshness class of a data source or connection.
+ * Composes the `Tag` primitive with `variant="pill"` and a tone-driven dot.
  *
  * Usage:
  *   <FreshnessPill freshnessClass="online-hot" />
  *   <FreshnessPill freshnessClass="offline" label="Batch source" />
  */
 import * as React from "react";
+import { Tag } from "./Tag";
+import type { TagTone, TagSize } from "./Tag";
 
 export type FreshnessClass = "online-hot" | "online-standard" | "offline";
 
@@ -26,26 +26,12 @@ export interface FreshnessPillProps {
   className?: string;
 }
 
-const FRESHNESS_META: Record<
-  FreshnessClass,
-  { label: string; dotColor: string; tone: string }
-> = {
-  "online-hot": {
-    label: "Online-Hot",
-    dotColor: "var(--success-text, #16a34a)",
-    tone: "success",
-  },
-  "online-standard": {
-    label: "Online-Standard",
-    dotColor: "var(--info-text, #2563eb)",
-    tone: "info",
-  },
-  offline: {
-    label: "Offline",
-    dotColor: "var(--text-3, #9ca3af)",
-    tone: "neutral",
-  },
-};
+const FRESHNESS_META: Record<FreshnessClass, { label: string; tone: TagTone }> =
+  {
+    "online-hot": { label: "Online-Hot", tone: "success" },
+    "online-standard": { label: "Online-Standard", tone: "info" },
+    offline: { label: "Offline", tone: "neutral" },
+  };
 
 export function FreshnessPill({
   freshnessClass,
@@ -55,63 +41,28 @@ export function FreshnessPill({
   className,
 }: FreshnessPillProps): React.ReactElement {
   const meta = FRESHNESS_META[freshnessClass];
-  const interactive = typeof onClick === "function";
   const displayLabel = label ?? meta.label;
 
   const classes = [
     "cc-freshness-pill",
     `cc-freshness-pill--${freshnessClass}`,
-    `cc-freshness-pill--${size}`,
     className,
   ]
     .filter(Boolean)
     .join(" ");
 
-  const inner = (
-    <>
-      <span
-        className="cc-freshness-pill__dot"
-        aria-hidden="true"
-        style={{
-          display: "inline-block",
-          width: size === "sm" ? "0.4rem" : "0.5rem",
-          height: size === "sm" ? "0.4rem" : "0.5rem",
-          borderRadius: "50%",
-          background: meta.dotColor,
-          flexShrink: 0,
-        }}
-      />
-      <span className="cc-freshness-pill__label">{displayLabel}</span>
-    </>
-  );
-
-  const style: React.CSSProperties = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "var(--space-1, 0.25rem)",
-    padding:
-      size === "sm"
-        ? "0.1rem 0.4rem"
-        : "0.15rem 0.5rem",
-    fontSize: size === "sm" ? "0.72rem" : "0.82rem",
-    fontWeight: 500,
-    borderRadius: "999px",
-    border: "1px solid var(--border-1)",
-    background: "var(--surface-1)",
-    cursor: interactive ? "pointer" : "default",
-  };
-
-  if (interactive) {
-    return (
-      <button type="button" className={classes} onClick={onClick} style={style}>
-        {inner}
-      </button>
-    );
-  }
+  const tagSize: TagSize = size === "sm" ? "sm" : "md";
 
   return (
-    <span className={classes} style={style}>
-      {inner}
-    </span>
+    <Tag
+      variant="pill"
+      tone={meta.tone}
+      size={tagSize}
+      dot
+      onClick={onClick}
+      className={classes}
+    >
+      {displayLabel}
+    </Tag>
   );
 }

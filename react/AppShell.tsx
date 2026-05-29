@@ -26,7 +26,7 @@
  */
 import * as React from "react";
 import { FmtProvider, type FmtSettings } from "./fmt/Fmt";
-import { OfflineBanner } from "./OfflineBanner";
+import { State } from "./State";
 import { TopBar } from "./TopBar";
 import { NavRail, type NavRailItem } from "./NavRail";
 import { Breadcrumbs, type BreadcrumbItem } from "./Breadcrumbs";
@@ -67,6 +67,24 @@ export interface AppShellProps {
   className?: string;
 }
 
+function useOnlineStatus(): boolean {
+  const [online, setOnline] = React.useState<boolean>(
+    typeof navigator === "undefined" ? true : navigator.onLine !== false,
+  );
+  React.useEffect(() => {
+    const onOnline = () => setOnline(true);
+    const onOffline = () => setOnline(false);
+    window.addEventListener("online", onOnline);
+    window.addEventListener("offline", onOffline);
+    setOnline(typeof navigator === "undefined" ? true : navigator.onLine !== false);
+    return () => {
+      window.removeEventListener("online", onOnline);
+      window.removeEventListener("offline", onOffline);
+    };
+  }, []);
+  return online;
+}
+
 const SKIP_TARGET_ID = "cc-shell-main";
 
 export function AppShell({
@@ -88,6 +106,8 @@ export function AppShell({
   children,
   className,
 }: AppShellProps): React.ReactElement {
+  const online = useOnlineStatus();
+
   // Build NavRailItem with isActive bound to activeId.
   const items = (navItems ?? []).map((item) => ({
     ...item,
@@ -114,7 +134,7 @@ export function AppShell({
   return (
     <FmtProvider {...(fmtSettings ?? {})}>
       <div className={["cc-shell", className].filter(Boolean).join(" ")}>
-        <OfflineBanner />
+        {!online && <State variant="offline" density="banner" />}
         <TopBar
           brand={brand}
           identity={identity}

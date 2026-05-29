@@ -7,16 +7,12 @@ export {
   type TanStackRouterAdapterInput,
 } from "./hooks/useUrlFilterState";
 export { FormField, type FormFieldProps, type FormFieldType, type FormFieldAs } from "./FormField";
-export { FormField as Field } from "./FormField";
-export type { FormFieldProps as FieldProps } from "./FormField";
 export { FilterBar, type FilterBarProps, type FilterChip } from "./FilterBar";
 export {
   AppliedFiltersBar,
   type AppliedFiltersBarProps,
   type AppliedFilter,
 } from "./AppliedFiltersBar";
-// NavRail + CreateMenu demoted to internal in DS-SIMPLIFY 05 — use
-// PlatformAppShell. Files remain in `react/` for internal composition.
 
 // EntityForm module (G3) — canonical public surface
 // Individual field components (TextField, NumberField, etc.) are NOT exported here.
@@ -58,63 +54,13 @@ export type {
 } from "./entity-form/index";
 export { ThemeToggle, type ThemeToggleProps } from "./ThemeToggle";
 export {
-  ModuleShell,
-  type ModuleShellProps,
-  type ModuleShellTab,
-  type ModuleShellTabId,
-  type ModuleShellTabDef,
-} from "./ModuleShell";
-export {
-  ModuleShellProvider,
-  useModuleShellRouter,
-  type ModuleShellRouterAdapter,
-  type ModuleShellProviderProps,
-} from "./ModuleShellProvider";
-export {
-  ListPage,
-  type ListPageProps,
-  type ListPageListProps,
-  type ListPageDetailProps,
-  type ListPageFilters,
-  type ListPageFiltersChips,
-  type ListPageFiltersSidebar,
-  type ListPageFiltersResponsive,
-  type ListPageUrlState,
-  type ListPagePermissions,
-  type BulkAction,
-  type ListPageLayout,
-  type ListPageTreeNode,
-} from "./ListPage";
-export {
-  ConfigurationsPage,
-  type ConfigurationsPageProps,
-  type ConfigurationsSection,
-} from "./ConfigurationsPage";
-export {
-  ReviewQueue,
-  type ReviewQueueProps,
-  type ReviewQueueItem,
-  type ReviewQueueCustomAction,
-} from "./ReviewQueue";
-export {
-  MonitoringPage,
-  KpiTile,
-  type MonitoringPageProps,
-  type KpiTileProps,
-  type ChartSection,
-} from "./MonitoringPage";
-export {
   CreationWizard,
   type CreationWizardProps,
   type CreationWizardStep,
   type CreationWizardStepContext,
   type CreationWizardReviewResult,
 } from "./CreationWizard";
-export { ListPageHeader, type ListPageHeaderProps } from "./ListPageHeader";
 // ── DS-SIMPLIFY 04: ModuleTemplate — unified page-template primitive ─────────
-// Subsumes ListPage / ConfigurationsPage / MonitoringPage / ReviewQueue /
-// ModuleShell / AuthLayout / HomepageCards into one variant-driven primitive.
-// SIMPLIFY 14 deletes the subsumed primitives.
 export { ModuleTemplate } from "./ModuleTemplate";
 export type {
   ModuleTemplateProps,
@@ -140,29 +86,12 @@ export type {
   SelectionMode,
   ModuleTemplateBrandKey,
 } from "./ModuleTemplate";
-export { DetailPane, type DetailPaneProps, type DetailPaneSection } from "./DetailPane";
-// ListView deleted — zero consumers; use ListPage.list.{columns,rows} instead.
-// Types re-exported for consumers that reference them directly.
-export type {
-  ListViewColumn,
-  ListViewScopeFilter,
-  ListViewPaginationMode,
-  ListViewPaginationState,
-  SortDirection,
-} from "./ListView";
-export {
-  ExpandableDetailPane,
-  type ExpandableDetailPaneProps,
-  type ExpandableDetailPaneTab,
-} from "./ExpandableDetailPane";
 export {
   TopRightCreateWizard,
   type TopRightCreateWizardProps,
   type TopRightCreateWizardVariant,
   type AiCreateConfig,
 } from "./TopRightCreateWizard";
-// CompanyGroupSwitcher demoted to internal in DS-SIMPLIFY 05 — use
-// PlatformAppShell. File remains in `react/` for internal composition.
 export {
   ArtefactDetailPane,
   ArtefactDefinition,
@@ -191,12 +120,6 @@ export {
   type FileUploadFieldProps,
 } from "./FileUploadField";
 export { formatFileSize, fileMatchesAccept } from "./fileUploadUtils";
-export {
-  LifecycleStateBadge,
-  type LifecycleStateBadgeProps,
-  type ChipTone,
-} from "./LifecycleStateBadge";
-
 // ── DS-SIMPLIFY 03: Tag primitive ─────────────────────────────────────────────
 // Canonical tone-coded text-indicator. Subsumes Chip, Badge, StatusPill,
 // LifecycleStateBadge, and MetadataChip inline badge patterns.
@@ -208,8 +131,6 @@ export {
   // TagTone is the canonical tone vocabulary going forward.
   type TagTone,
 } from "./Tag";
-// Deprecated alias for TagTone — use TagTone directly for new code.
-export type { TagTone as ChipPaletteToneCanonical } from "./Tag";
 export {
   DetailRow,
   DetailSection,
@@ -225,20 +146,6 @@ export {
   type EntityCardListProps,
   type EntityCardDensity,
 } from "./EntityCard";
-
-// Dashboard primitives (Phase 1A)
-export {
-  StatusPill,
-  type StatusPillProps,
-  type StatusPillStatus,
-} from "./StatusPill";
-
-export {
-  MetadataChip,
-  type MetadataChipProps,
-  type MetadataChipFreshness,
-  type MetadataChipTone,
-} from "./MetadataChip";
 
 export {
   SectionHeader,
@@ -289,9 +196,7 @@ export type {
   ToastProviderProps,
 } from "./Toast";
 
-// Overlay — unified primitive (SIMPLIFY 01). Modal/Drawer/DetailPane/
-// ExpandableDetailPane/ArtefactDetailPane/DrilldownLayout/FullScreenDetail
-// remain as @deprecated re-exports until SIMPLIFY 14.
+// Overlay — unified primitive (SIMPLIFY 01).
 export {
   Overlay,
   type OverlayProps,
@@ -299,19 +204,6 @@ export {
   type OverlaySize,
   type OverlaySection,
 } from "./Overlay";
-
-// Modal + Drawer
-export {
-  Modal,
-  type ModalProps,
-  type ModalSize,
-} from "./Modal";
-export {
-  Drawer,
-  type DrawerProps,
-  type DrawerSide,
-  type DrawerSize,
-} from "./Drawer";
 
 // Kbd, Tooltip, Avatar, Skeleton bundle
 export { Kbd, type KbdProps } from "./Kbd";
@@ -442,13 +334,6 @@ export {
   type FirstRunStep,
 } from "./FirstRunGuide";
 
-// Role-aware homepage cards
-export {
-  HomepageCards,
-  type HomepageCardsProps,
-  type HomepageCard,
-} from "./HomepageCards";
-
 // ── @aa/ui retirement — Phase 1 foundational primitives ──────────────────────
 export {
   Button,
@@ -462,23 +347,10 @@ export {
   type SpinnerSize,
 } from "./Spinner";
 export {
-  Chip,
-  Badge,
-  type ChipProps,
-  type ChipTone as ChipPaletteTone,
-  type BadgeProps,
-} from "./Chip";
-export {
   Tabs,
   type TabsProps,
   type TabItem,
 } from "./Tabs";
-export {
-  Sparkline,
-  type SparklineProps,
-  type SparklineTone,
-  type SparklineSize,
-} from "./charts/Sparkline";
 
 // ── DS-SIMPLIFY 02 — State primitive (unified state-messaging) ────────────────
 export {
@@ -488,28 +360,6 @@ export {
   type StateDensity,
 } from "./State";
 
-// ── @aa/ui retirement — Phase 2 utility surfaces ─────────────────────────────
-// @deprecated — these individual state components are superseded by <State>.
-//   Use <State variant="…" density="…"> instead. Will be removed in v1.0 (SIMPLIFY 14).
-export {
-  AwaitingState,
-  type AwaitingStateProps,
-  type AwaitingStatus,
-} from "./AwaitingState";
-export {
-  StaleDataPill,
-  type StaleDataPillProps,
-} from "./StaleDataPill";
-export {
-  StateBanner,
-  type StateBannerProps,
-  type StateBannerKind,
-  type StateBannerAction,
-} from "./StateBanner";
-export {
-  OfflineBanner,
-  type OfflineBannerProps,
-} from "./OfflineBanner";
 export {
   Diff,
   diffLines,
@@ -532,32 +382,12 @@ export {
   type ActivityEntryKind,
 } from "./ActivityTimeline";
 
-// AuditLogList — deprecated alias; kept for back-compat until v1.0 (SIMPLIFY 14).
-export {
-  AuditLogList,
-  type AuditLogListProps,
-  type AuditEvent,
-} from "./AuditLogList";
-
-// ── @aa/ui retirement — Phase 4 composed primitives ──────────────────────────
 export {
   useSplitPane,
   type UseSplitPaneOptions,
   type UseSplitPaneResult,
 } from "./hooks/useSplitPane";
-export {
-  DrilldownLayout,
-  type DrilldownLayoutProps,
-} from "./DrilldownLayout";
-export {
-  FullScreenDetail,
-  type FullScreenDetailProps,
-} from "./FullScreenDetail";
 
-// ── DS-SIMPLIFY 05: PlatformAppShell — pre-composed shell ─────────────────────
-// TopBar + AppShell are demoted to internal; consumers compose at the
-// PlatformAppShell layer. Sub-primitive files remain in `react/` for
-// internal composition only.
 export {
   PlatformAppShell,
   type PlatformAppShellProps,
@@ -568,23 +398,6 @@ export {
   type CompanyGroup,
   type AppDef,
 } from "./PlatformAppShell";
-
-// ── DS-SIMPLIFY 05: Deprecated re-exports of demoted shell sub-primitives ────
-// AppShell, TopBar, NavRail, CompanyGroupSwitcher were demoted from the public
-// barrel in DS-SIMPLIFY 05 in favour of PlatformAppShell. Re-exported here with
-// @deprecated tags during the deprecation window; deleted at SIMPLIFY 14
-// (v1.0 cutover) after all consumers migrate to PlatformAppShell.
-/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
-export { AppShell, type AppShellProps } from "./AppShell";
-/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
-export { TopBar, type TopBarProps } from "./TopBar";
-/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
-export {
-  CompanyGroupSwitcher,
-  type CompanyGroupSwitcherProps,
-} from "./CompanyGroupSwitcher";
-/** @deprecated since 0.7 — use PlatformAppShell. Removed in v1.0 (DS-SIMPLIFY 14). */
-export { NavRail, type NavRailProps, type NavRailItem } from "./NavRail";
 
 // ── @aa/ui retirement — Phase 6 navigation hook ──────────────────────────────
 export {
@@ -668,24 +481,6 @@ export {
   type AccordionItem,
 } from "./Disclosure";
 
-// ── DS-MIG P1-01: AuthLayout — login/signup/SSO callback layout ─────────────
-export {
-  AuthLayout,
-  AuthScreen,
-  type AuthLayoutProps,
-  type AuthLayoutVariant,
-} from "./AuthLayout";
-
-// ── DS-MIG P1-02: ErrorPage family — NotFound, ServerError, Degraded ────────
-export {
-  NotFound,
-  ServerError,
-  Degraded,
-  type ErrorPageProps,
-  type NotFoundProps,
-  type ServerErrorProps,
-  type DegradedProps,
-} from "./ErrorPage";
 
 // ── DS-MIG P1-03: DataTable — sort/filter/select/paginate table ─────────────
 export {
@@ -698,14 +493,6 @@ export {
   type DataTableSelection,
 } from "./DataTable";
 
-// ── DS-MIG P1-04: HeatmapChart / MatrixChart — matrix visualization ─────────
-export {
-  HeatmapChart,
-  MatrixChart,
-  type HeatmapChartProps,
-  type MatrixChartProps,
-  type HeatmapCell as HeatmapChartCell,
-} from "./HeatmapChart";
 
 // ── DS-MIG P1-12: AppSwitcher — standalone cross-app nav dropdown ───────────
 export {
@@ -856,12 +643,10 @@ export {
 
 // ── DS variant / improvement components ─────────────────────────────────────
 
-// Toolbar / PrimaryActionBar — queue-position variant
+// Toolbar — queue-position variant
 export {
   Toolbar,
-  PrimaryActionBar,
   type ToolbarProps,
-  type PrimaryActionBarProps,
   type ToolbarVariant,
   type ToolbarAction,
 } from "./Toolbar";

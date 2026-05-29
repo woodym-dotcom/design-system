@@ -2,9 +2,7 @@ import * as React from 'react';
 
 export interface KbdProps {
   /** Key or keys to render. Strings are joined with " + ". */
-  keys?: string | string[];
-  /** Alternative to keys — stringified and used when keys is not provided. */
-  children?: React.ReactNode;
+  keys: string | string[];
   /** Visual size. */
   size?: 'sm' | 'md';
   /** Optional aria-label override. Defaults to "Keyboard shortcut: …". */
@@ -47,16 +45,8 @@ function render(key: string): string {
  * Renders one or more keyboard keys as compact rounded tokens. Use for
  * shortcut hints in menus, tooltips, and command palettes.
  */
-function stringify(children: React.ReactNode): string {
-  if (typeof children === 'string') return children;
-  if (typeof children === 'number') return String(children);
-  if (Array.isArray(children)) return children.map(stringify).join('');
-  return '';
-}
-
-export function Kbd({ keys, children, size = 'md', label, className }: KbdProps) {
-  const effectiveKeys = keys ?? stringify(children);
-  const list = Array.isArray(effectiveKeys) ? effectiveKeys : [effectiveKeys];
+export function Kbd({ keys, size = 'md', label, className }: KbdProps) {
+  const list = Array.isArray(keys) ? keys : [keys];
   const ariaLabel = label ?? `Keyboard shortcut: ${list.join(' + ')}`;
   return (
     <span

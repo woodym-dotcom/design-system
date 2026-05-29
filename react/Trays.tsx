@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Drawer } from './Drawer';
+import { Overlay } from './Overlay';
 
 export interface TrayTask {
   id: string;
@@ -88,24 +88,13 @@ export function TasksTray({
   const done_count = tasks.filter((t) => t.done).length;
 
   return (
-    <Drawer
+    <Overlay
+      placement="drawer-right"
       open={open}
-      onClose={onClose}
+      onOpenChange={() => onClose()}
       title={title}
       subtitle={`${open_count} open · ${done_count} done`}
-      side="right"
       size="md"
-      footer={
-        done_count > 0 && onClearCompleted ? (
-          <button
-            type="button"
-            className="cc-btn cc-btn--ghost"
-            onClick={onClearCompleted}
-          >
-            Clear completed
-          </button>
-        ) : undefined
-      }
     >
       {tasks.length === 0 ? (
         <p className="cc-tray__empty">Nothing on your plate.</p>
@@ -158,7 +147,18 @@ export function TasksTray({
           ))}
         </ul>
       )}
-    </Drawer>
+      {done_count > 0 && onClearCompleted && (
+        <div className="cc-drawer__footer">
+          <button
+            type="button"
+            className="cc-btn cc-btn--ghost"
+            onClick={onClearCompleted}
+          >
+            Clear completed
+          </button>
+        </div>
+      )}
+    </Overlay>
   );
 }
 
@@ -183,28 +183,17 @@ export function NotificationsTray({
   });
 
   return (
-    <Drawer
+    <Overlay
+      placement="drawer-right"
       open={open}
-      onClose={onClose}
+      onOpenChange={() => onClose()}
       title={title}
       subtitle={
         unread.length > 0
           ? `${unread.length} unread`
           : 'No unread notifications'
       }
-      side="right"
       size="md"
-      footer={
-        unread.length > 0 && onMarkAllRead ? (
-          <button
-            type="button"
-            className="cc-btn cc-btn--ghost"
-            onClick={onMarkAllRead}
-          >
-            Mark all read
-          </button>
-        ) : undefined
-      }
     >
       {ordered.length === 0 ? (
         <p className="cc-tray__empty">{emptyMessage}</p>
@@ -256,6 +245,17 @@ export function NotificationsTray({
           ))}
         </ul>
       )}
-    </Drawer>
+      {unread.length > 0 && onMarkAllRead && (
+        <div className="cc-drawer__footer">
+          <button
+            type="button"
+            className="cc-btn cc-btn--ghost"
+            onClick={onMarkAllRead}
+          >
+            Mark all read
+          </button>
+        </div>
+      )}
+    </Overlay>
   );
 }

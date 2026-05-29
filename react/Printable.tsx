@@ -20,7 +20,7 @@
  * /v1/shared-snapshots — filed as a separate backend ticket).
  */
 import * as React from 'react';
-import { Modal } from './Modal';
+import { Overlay } from './Overlay';
 
 export interface PrintableProps {
   /** Optional header region (typically <PrintHeader>) */
@@ -216,31 +216,12 @@ export function ShareableSnapshotButton({
         {label}
       </button>
 
-      <Modal
+      <Overlay
+        placement="modal"
         open={open}
-        onClose={close}
+        onOpenChange={() => close()}
         title={`Share read-only — ${resourceLabel}`}
-        description="Generate a signed URL anyone with the link can open. Expires automatically."
-        footer={
-          <div className="cc-snapshot-share-footer">
-            <button type="button" className="cc-btn cc-btn--ghost" onClick={close}>
-              {result ? 'Done' : 'Cancel'}
-            </button>
-            {!result && (
-              <button
-                type="button"
-                className="cc-btn cc-btn--primary"
-                onClick={() => {
-                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                  mint();
-                }}
-                disabled={busy}
-              >
-                {busy ? 'Generating…' : 'Generate link'}
-              </button>
-            )}
-          </div>
-        }
+        subtitle="Generate a signed URL anyone with the link can open. Expires automatically."
       >
         {!result && (
           <div className="cc-snapshot-share-form">
@@ -292,7 +273,25 @@ export function ShareableSnapshotButton({
             />
           </div>
         )}
-      </Modal>
+        <div className="cc-snapshot-share-footer">
+          <button type="button" className="cc-btn cc-btn--ghost" onClick={close}>
+            {result ? 'Done' : 'Cancel'}
+          </button>
+          {!result && (
+            <button
+              type="button"
+              className="cc-btn cc-btn--primary"
+              onClick={() => {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                mint();
+              }}
+              disabled={busy}
+            >
+              {busy ? 'Generating…' : 'Generate link'}
+            </button>
+          )}
+        </div>
+      </Overlay>
     </>
   );
 }
