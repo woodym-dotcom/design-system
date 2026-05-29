@@ -1,5 +1,5 @@
 /**
- * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
+ * @deprecated Internal as of DS-SIMPLIFY 05. Use `AppShell` from
  * `@ds/core/react` instead. TopBar is no longer publicly exported.
  *
  * TopBar — single-row app chrome (brand left, controls right).

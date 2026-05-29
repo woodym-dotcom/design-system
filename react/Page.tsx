@@ -1,5 +1,5 @@
 /**
- * ModuleTemplate — the single page-template primitive (DS-SIMPLIFY 04).
+ * Page — the single page-template primitive.
  *
  * Subsumes:
  *   - ListPage (variant="list")
@@ -14,8 +14,7 @@
  * One header (title + breadcrumbs + actions), one optional tab strip, one
  * variant body. Variant bodies compose the existing primitives internally
  * so we don't re-implement: ListPage handles `list`, ConfigurationsPage
- * handles `config`, etc. SIMPLIFY 14 will delete those primitives once
- * all callers move onto ModuleTemplate.
+ * handles `config`, etc.
  */
 import * as React from "react";
 import { Breadcrumbs } from "./Breadcrumbs";
@@ -28,9 +27,9 @@ import { Overlay } from "./Overlay";
 import { ReviewQueue } from "./ReviewQueue";
 import { useModuleShellRouter } from "./ModuleShellProvider";
 import type {
-  ModuleTemplateProps,
-  ModuleTemplateTab,
-  ModuleTemplateHeader,
+  PageProps,
+  PageTab,
+  PageHeader,
   ListVariantProps,
   ConfigVariantProps,
   MonitorVariantProps,
@@ -40,13 +39,13 @@ import type {
   HomeVariantProps,
   ChartCardDef,
   KpiDef,
-} from "./ModuleTemplate.types";
+} from "./Page.types";
 
 export type {
-  ModuleTemplateProps,
-  ModuleTemplateTab,
-  ModuleTemplateHeader,
-  ModuleTemplateVariant,
+  PageProps,
+  PageTab,
+  PageHeader,
+  PageVariant,
   ListVariantProps,
   ConfigVariantProps,
   MonitorVariantProps,
@@ -54,18 +53,7 @@ export type {
   DetailVariantProps,
   AuthVariantProps,
   HomeVariantProps,
-  ColumnDef,
-  FilterDef,
-  PaginationProps,
-  KpiDef,
-  ChartCardDef,
-  ConfigSection,
-  ReviewActionDef,
-  ReviewItem,
-  ListDetailSlot,
-  SelectionMode,
-  ModuleTemplateBrandKey,
-} from "./ModuleTemplate.types";
+} from "./Page.types";
 
 // ── URL helpers (mirrors ModuleShell so we don't take a dependency on it) ────
 
@@ -83,14 +71,14 @@ function writeParamToUrl(name: string, value: string) {
 
 // ── Header ────────────────────────────────────────────────────────────────────
 
-function Header({ header }: { header: ModuleTemplateHeader }) {
+function Header({ header }: { header: PageHeader }) {
   const { title, subtitle, breadcrumbs, actions, backHref } = header;
   return (
-    <header className="cc-module-template__header">
+    <header className="cc-page__header">
       {(backHref || (breadcrumbs && breadcrumbs.length > 0)) && (
-        <div className="cc-module-template__header-nav">
+        <div className="cc-page__header-nav">
           {backHref ? (
-            <a className="cc-module-template__back" href={backHref}>
+            <a className="cc-page__back" href={backHref}>
               ← Back
             </a>
           ) : null}
@@ -99,15 +87,15 @@ function Header({ header }: { header: ModuleTemplateHeader }) {
           ) : null}
         </div>
       )}
-      <div className="cc-module-template__header-row">
-        <div className="cc-module-template__header-text">
-          <h1 className="cc-module-template__title">{title}</h1>
+      <div className="cc-page__header-row">
+        <div className="cc-page__header-text">
+          <h1 className="cc-page__title">{title}</h1>
           {subtitle ? (
-            <p className="cc-module-template__subtitle">{subtitle}</p>
+            <p className="cc-page__subtitle">{subtitle}</p>
           ) : null}
         </div>
         {actions ? (
-          <div className="cc-module-template__header-actions">{actions}</div>
+          <div className="cc-page__header-actions">{actions}</div>
         ) : null}
       </div>
     </header>
@@ -117,7 +105,7 @@ function Header({ header }: { header: ModuleTemplateHeader }) {
 // ── Tabs ──────────────────────────────────────────────────────────────────────
 
 interface TabsRegionProps {
-  tabs: ModuleTemplateTab[];
+  tabs: PageTab[];
   searchParamName: string;
   ariaLabel: string;
   /** Rendered when no tab is active (e.g. all hidden). */
@@ -213,15 +201,15 @@ function TabsRegion({ tabs, searchParamName, ariaLabel, fallback }: TabsRegionPr
   return (
     <>
       <div
-        className="cc-tabs cc-module-template__tabs"
+        className="cc-tabs cc-page__tabs"
         role="tablist"
         aria-label={ariaLabel}
         onKeyDown={handleKeyDown}
       >
         {visible.map((tab) => {
           const isActive = tab.id === activeId;
-          const tabId = `cc-module-template-tab-${idScope}-${tab.id}`;
-          const panelId = `cc-module-template-panel-${idScope}-${tab.id}`;
+          const tabId = `cc-page-tab-${idScope}-${tab.id}`;
+          const panelId = `cc-page-panel-${idScope}-${tab.id}`;
           const content = (
             <>
               <span className="cc-tab__label">{tab.label}</span>
@@ -280,10 +268,10 @@ function TabsRegion({ tabs, searchParamName, ariaLabel, fallback }: TabsRegionPr
       </div>
       {active ? (
         <div
-          id={`cc-module-template-panel-${idScope}-${active.id}`}
+          id={`cc-page-panel-${idScope}-${active.id}`}
           role="tabpanel"
-          aria-labelledby={`cc-module-template-tab-${idScope}-${active.id}`}
-          className="cc-module-template__panel"
+          aria-labelledby={`cc-page-tab-${idScope}-${active.id}`}
+          className="cc-page__panel"
         >
           {active.content}
         </div>
@@ -329,7 +317,7 @@ function ListBody<Row extends { id: string }>(props: ListVariantProps<Row>) {
       : undefined;
 
   // ListPage already handles the table + filters + detail. We compose it
-  // *without* its built-in heading — ModuleTemplate's <Header /> is canonical.
+  // *without* its built-in heading — Page's <Header /> is canonical.
   return (
     <ListPage<Row>
       heading=""
@@ -375,13 +363,13 @@ function ConfigBody(props: ConfigVariantProps) {
   const { sections, searchParamName, emptyState } = props;
   if (sections.length === 0) {
     return (
-      <div className="cc-module-template__body cc-module-template__body--config">
+      <div className="cc-page__body cc-page__body--config">
         {emptyState ?? <EmptyState title="No configuration sections" variant="empty" />}
       </div>
     );
   }
   return (
-    <div className="cc-module-template__body cc-module-template__body--config">
+    <div className="cc-page__body cc-page__body--config">
       <ConfigurationsPage sections={sections} searchParamName={searchParamName} />
     </div>
   );
@@ -421,14 +409,14 @@ function KpiCard({ kpi }: { kpi: KpiDef }) {
 
 function ChartCard({ card }: { card: ChartCardDef }) {
   return (
-    <section className="cc-module-template__chart-card">
-      <header className="cc-module-template__chart-card-head">
-        <h3 className="cc-module-template__chart-card-heading">{card.heading}</h3>
+    <section className="cc-page__chart-card">
+      <header className="cc-page__chart-card-head">
+        <h3 className="cc-page__chart-card-heading">{card.heading}</h3>
         {card.subtitle ? (
-          <p className="cc-module-template__chart-card-subtitle">{card.subtitle}</p>
+          <p className="cc-page__chart-card-subtitle">{card.subtitle}</p>
         ) : null}
       </header>
-      <div className="cc-module-template__chart-card-body">
+      <div className="cc-page__chart-card-body">
         {card.graph ? <Graph {...card.graph} /> : null}
         {card.render ? card.render() : null}
       </div>
@@ -442,23 +430,23 @@ function MonitorBody(props: MonitorVariantProps) {
 
   if (!hasContent) {
     return (
-      <div className="cc-module-template__body cc-module-template__body--monitor">
+      <div className="cc-page__body cc-page__body--monitor">
         {emptyState ?? <EmptyState title="No monitoring data" variant="empty" />}
       </div>
     );
   }
 
   return (
-    <div className="cc-module-template__body cc-module-template__body--monitor">
+    <div className="cc-page__body cc-page__body--monitor">
       {kpis.length > 0 ? (
-        <div className="cc-module-template__kpi-row">
+        <div className="cc-page__kpi-row">
           {kpis.map((kpi) => (
             <KpiCard key={kpi.id} kpi={kpi} />
           ))}
         </div>
       ) : null}
       {chartCards.length > 0 ? (
-        <div className="cc-module-template__chart-grid">
+        <div className="cc-page__chart-grid">
           {chartCards.map((card) => (
             <ChartCard key={card.id} card={card} />
           ))}
@@ -484,7 +472,7 @@ function ReviewBody<Item extends { id: string; title: React.ReactNode; meta?: Re
   }));
 
   return (
-    <div className="cc-module-template__body cc-module-template__body--review">
+    <div className="cc-page__body cc-page__body--review">
       <ReviewQueue
         items={queueItems}
         onApprove={(qi) => {
@@ -527,7 +515,7 @@ function ReviewBody<Item extends { id: string; title: React.ReactNode; meta?: Re
 
 function DetailBody(props: DetailVariantProps) {
   return (
-    <div className="cc-module-template__body cc-module-template__body--detail">
+    <div className="cc-page__body cc-page__body--detail">
       {props.children ?? props.emptyState ?? null}
     </div>
   );
@@ -539,18 +527,18 @@ function AuthBody(props: AuthVariantProps) {
   const { authForm, authBrand, authError, authFooter } = props;
   return (
     <div
-      className="cc-module-template__body cc-module-template__body--auth"
+      className="cc-page__body cc-page__body--auth"
       data-brand={authBrand}
     >
-      <div className="cc-module-template__auth-card">
+      <div className="cc-page__auth-card">
         {authError ? (
-          <div className="cc-module-template__auth-error" role="alert">
+          <div className="cc-page__auth-error" role="alert">
             {authError}
           </div>
         ) : null}
-        <div className="cc-module-template__auth-form">{authForm}</div>
+        <div className="cc-page__auth-form">{authForm}</div>
         {authFooter ? (
-          <div className="cc-module-template__auth-footer">{authFooter}</div>
+          <div className="cc-page__auth-footer">{authFooter}</div>
         ) : null}
       </div>
     </div>
@@ -562,7 +550,7 @@ function AuthBody(props: AuthVariantProps) {
 function HomeBody(props: HomeVariantProps) {
   const { homepageCards, viewerRoles, columns = 3, loading } = props;
   return (
-    <div className="cc-module-template__body cc-module-template__body--home">
+    <div className="cc-page__body cc-page__body--home">
       <HomepageCards
         viewerRoles={viewerRoles}
         cards={homepageCards}
@@ -575,10 +563,10 @@ function HomeBody(props: HomeVariantProps) {
 
 // ── Variant body router ──────────────────────────────────────────────────────
 
-function VariantBody<Row extends { id: string }>(props: ModuleTemplateProps<Row>) {
+function VariantBody<Row extends { id: string }>(props: PageProps<Row>) {
   if (props.error) {
     return (
-      <div className="cc-module-template__error" role="alert">
+      <div className="cc-page__error" role="alert">
         {props.error}
       </div>
     );
@@ -610,11 +598,11 @@ function VariantBody<Row extends { id: string }>(props: ModuleTemplateProps<Row>
 // ── Public API ───────────────────────────────────────────────────────────────
 
 /**
- * ModuleTemplate — render any module page surface from a single primitive.
- * See `ModuleTemplate.types.ts` for the discriminated-union prop contract.
+ * Page — render any page surface from a single primitive.
+ * See `Page.types.ts` for the discriminated-union prop contract.
  */
-export function ModuleTemplate<Row extends { id: string } = { id: string }>(
-  props: ModuleTemplateProps<Row>,
+export function Page<Row extends { id: string } = { id: string }>(
+  props: PageProps<Row>,
 ) {
   const {
     header,
@@ -625,11 +613,11 @@ export function ModuleTemplate<Row extends { id: string } = { id: string }>(
     source,
   } = props;
 
-  const classes = ["cc-module-template", `cc-module-template--${props.variant}`];
+  const classes = ["cc-page", `cc-page--${props.variant}`];
   if (className) classes.push(className);
 
   const ariaLabelDefault =
-    typeof header.title === "string" ? `${header.title} sections` : "Module sections";
+    typeof header.title === "string" ? `${header.title} sections` : "Page sections";
 
   return (
     <section

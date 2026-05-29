@@ -2,10 +2,10 @@
  * UserMenu -- user popover with role/email/sign-out.
  *
  * DS-MIG P1-13. This is the standalone export of the UserMenu that
- * already exists inside PlatformAppShell. Extracted here for consumers
- * that need the user menu outside of the full PlatformAppShell.
+ * already exists inside AppShell. Extracted here for consumers
+ * that need the user menu outside of the full AppShell.
  *
- * For the standard case, use PlatformAppShell which includes UserMenu
+ * For the standard case, use AppShell which includes UserMenu
  * automatically.
  */
 import * as React from 'react';

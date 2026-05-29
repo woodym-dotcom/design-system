@@ -1,5 +1,5 @@
 /**
- * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
+ * @deprecated Internal as of DS-SIMPLIFY 05. Use `AppShell` from
  * `@ds/core/react` instead — it mounts the company-group switcher when
  * `companyGroups.length > 1`. This component is no longer publicly exported.
  *

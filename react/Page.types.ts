@@ -1,20 +1,19 @@
 /**
- * ModuleTemplate — discriminated-union prop types (DS-SIMPLIFY 04).
+ * Page — discriminated-union prop types.
  *
- * One `variant` discriminator selects between 7 module page surfaces:
+ * One `variant` discriminator selects between 7 page surfaces:
  *
- *   - 'list'    → entity table + filters + optional detail pane (was ListPage)
- *   - 'config'  → section nav + section content (was ConfigurationsPage)
- *   - 'monitor' → KPI tiles + chart cards (was MonitoringPage)
- *   - 'review'  → queue with approve/reject/escalate + custom actions (was ReviewQueue)
+ *   - 'list'    → entity table + filters + optional detail pane
+ *   - 'config'  → section nav + section content
+ *   - 'monitor' → KPI tiles + chart cards
+ *   - 'review'  → queue with approve/reject/escalate + custom actions
  *   - 'detail'  → full-page detail view
  *   - 'auth'    → login/signup/SSO callback
- *   - 'home'    → role-aware homepage cards (was HomepageCards)
+ *   - 'home'    → role-aware homepage cards
  *
- * Optional `tabs?` prop subsumes ModuleShell — when provided, the template
- * renders a tab strip; the active panel renders the variant body. Each tab
- * may carry pre-rendered `content`, allowing one ModuleTemplate to host the
- * classic monitoring/list/review/configurations 4-tab module shell.
+ * Optional `tabs?` prop renders a tab strip; the active panel renders the
+ * variant body. Each tab may carry pre-rendered `content`, allowing one Page
+ * to host the classic monitoring/list/review/configurations 4-tab module shell.
  *
  * TypeScript prop narrowing: per-variant props are only accepted when the
  * matching `variant` literal is set. E.g. `kpis` is rejected on
@@ -28,11 +27,11 @@ import type { ListViewColumn, ListViewPaginationState, SortDirection } from "./L
 import type { GraphProps } from "./Graph.types";
 import type { HomepageCard } from "./HomepageCards";
 import type { BulkAction, ListPageFilters, ListPagePermissions, ListPageUrlState } from "./ListPage";
-import type { BrandKey as PlatformBrandKey } from "./PlatformAppShell";
+import type { BrandKey as AppShellBrandKey } from "./AppShell";
 
 // ── Shared variant discriminator ──────────────────────────────────────────────
 
-export type ModuleTemplateVariant =
+export type PageVariant =
   | "list"
   | "config"
   | "monitor"
@@ -44,10 +43,10 @@ export type ModuleTemplateVariant =
 // ── Tab definitions ───────────────────────────────────────────────────────────
 
 /**
- * One tab in a tabbed ModuleTemplate. Pre-render `content` so the host can
- * own data loading per tab. `count` renders as a small numeric badge.
+ * One tab in a tabbed Page. Pre-render `content` so the host can own data
+ * loading per tab. `count` renders as a small numeric badge.
  */
-export interface ModuleTemplateTab {
+export interface PageTab {
   id: string;
   label: string;
   count?: number;
@@ -60,7 +59,7 @@ export interface ModuleTemplateTab {
 
 // ── Header ───────────────────────────────────────────────────────────────────
 
-export interface ModuleTemplateHeader {
+export interface PageHeader {
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   breadcrumbs?: BreadcrumbItem[];
@@ -69,21 +68,21 @@ export interface ModuleTemplateHeader {
   backHref?: string;
 }
 
-// ── Per-variant slot shapes ──────────────────────────────────────────────────
+// ── Per-variant slot shapes (internal — not exported from the barrel) ────────
 
-export interface FilterDef extends FilterChip {}
+interface FilterDef extends FilterChip {}
 
-export interface ColumnDef<Row> extends Omit<ListViewColumn<Row>, "render"> {
+interface ColumnDef<Row> extends Omit<ListViewColumn<Row>, "render"> {
   render: (row: Row) => React.ReactNode;
 }
 
-export type SelectionMode = "none" | "single" | "multi";
+type SelectionMode = "none" | "single" | "multi";
 
-export interface PaginationProps extends ListViewPaginationState {
+interface PaginationProps extends ListViewPaginationState {
   onPageChange: (page: number) => void;
 }
 
-export interface ListDetailSlot<Row> {
+interface ListDetailSlot<Row> {
   /** Currently open row, or null when the detail pane is closed. */
   open: Row | null;
   /** Build the Overlay props for the active row. */
@@ -91,13 +90,13 @@ export interface ListDetailSlot<Row> {
 }
 
 /** Single config section — `render` can return any node, typically an EntityForm. */
-export interface ConfigSection {
+interface ConfigSection {
   id: string;
   label: string;
   render: () => React.ReactNode;
 }
 
-export interface KpiDef {
+interface KpiDef {
   /** Stable key for React reconciliation. */
   id: string;
   label: string;
@@ -107,7 +106,7 @@ export interface KpiDef {
   graph?: Omit<GraphProps, "ariaLabel"> & { ariaLabel?: string };
 }
 
-export interface ChartCardDef {
+interface ChartCardDef {
   id: string;
   heading: React.ReactNode;
   subtitle?: React.ReactNode;
@@ -116,14 +115,14 @@ export interface ChartCardDef {
   render?: () => React.ReactNode;
 }
 
-export interface ReviewItem {
+interface ReviewItem {
   id: string;
   title: React.ReactNode;
   meta?: React.ReactNode;
   data?: Record<string, unknown>;
 }
 
-export interface ReviewActionDef<Item extends ReviewItem = ReviewItem> {
+interface ReviewActionDef<Item extends ReviewItem = ReviewItem> {
   id: string;
   label: string;
   /** Visual tone — defaults to 'ghost'. */
@@ -132,15 +131,15 @@ export interface ReviewActionDef<Item extends ReviewItem = ReviewItem> {
   isDisabled?: (item: Item) => boolean;
 }
 
-/** Re-export the canonical brand key from PlatformAppShell. */
-export type ModuleTemplateBrandKey = PlatformBrandKey;
+// Internal helper types are re-exported for use within Page.tsx only.
+export type { FilterDef, ColumnDef, SelectionMode, PaginationProps, ListDetailSlot, ConfigSection, KpiDef, ChartCardDef, ReviewItem, ReviewActionDef };
 
 // ── Base props shared by all variants ────────────────────────────────────────
 
 interface BaseTemplateProps {
-  header: ModuleTemplateHeader;
+  header: PageHeader;
   /** When supplied, the header is followed by a tab strip; active tab content renders below the variant body. */
-  tabs?: ModuleTemplateTab[];
+  tabs?: PageTab[];
   /** ARIA label override for the tablist (defaults to header.title + " sections"). */
   tabsAriaLabel?: string;
   /** URL search-param name driving the active tab. Default: 'tab'. */
@@ -149,7 +148,7 @@ interface BaseTemplateProps {
   emptyState?: React.ReactNode;
   loading?: boolean;
   error?: string;
-  /** §18 AI provenance metadata — surfaced when present. */
+  /** AI provenance metadata — surfaced when present. */
   source?: { model?: string; promptVersion?: string };
   className?: string;
 }
@@ -212,7 +211,7 @@ export interface AuthVariantProps extends BaseTemplateProps {
   /** The actual auth form (login fields + submit). */
   authForm?: React.ReactNode;
   /** Brand identifier — surfaced for theming hooks. */
-  authBrand?: PlatformBrandKey;
+  authBrand?: AppShellBrandKey;
   /** Inline error banner (e.g. "Invalid credentials"). */
   authError?: string;
   /** Slot rendered below the form (forgot password / signup links). */
@@ -228,7 +227,7 @@ export interface HomeVariantProps extends BaseTemplateProps {
 
 // ── Discriminated union ──────────────────────────────────────────────────────
 
-export type ModuleTemplateProps<Row extends { id: string } = { id: string }> =
+export type PageProps<Row extends { id: string } = { id: string }> =
   | ListVariantProps<Row>
   | ConfigVariantProps
   | MonitorVariantProps

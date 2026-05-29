@@ -1,7 +1,7 @@
 /**
- * @deprecated Use `<ModuleTemplate ... tabs={[...]}>` from `./ModuleTemplate`
- * (DS-SIMPLIFY 04). ModuleTemplate's `tabs?` prop subsumes the 4-tab routing
- * shell. Will be removed in v1.0 (SIMPLIFY 14).
+ * @deprecated Use `<Page ... tabs={[...]}>` from `./Page`
+ * (DS-SIMPLIFY 04). Page's `tabs?` prop subsumes the 4-tab routing
+ * shell.
  */
 import * as React from 'react';
 import { useModuleShellRouter } from './ModuleShellProvider';

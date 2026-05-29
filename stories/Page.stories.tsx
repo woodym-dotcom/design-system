@@ -1,5 +1,5 @@
 /**
- * ModuleTemplate stories — one canonical baseline per variant + a tabs story.
+ * Page stories — one canonical baseline per variant + a tabs story.
  *
  * Snapshot story ids:
  *   primitives-moduletemplate--list
@@ -12,12 +12,12 @@
  *   primitives-moduletemplate--tabs
  */
 import * as React from "react";
-import { ModuleTemplate } from "../react/ModuleTemplate";
-import type { ColumnDef, KpiDef, ChartCardDef } from "../react/ModuleTemplate.types";
+import { Page } from "../react/Page";
+import type { ColumnDef, KpiDef, ChartCardDef } from "../react/Page.types";
 
 export default {
-  title: "Primitives/ModuleTemplate",
-  component: ModuleTemplate,
+  title: "Primitives/Page",
+  component: Page,
   parameters: { layout: "fullscreen" },
 };
 
@@ -56,7 +56,7 @@ const headerActions = (
 // ── list ──────────────────────────────────────────────────────────────────────
 
 export const List = () => (
-  <ModuleTemplate
+  <Page
     variant="list"
     header={{
       title: "People",
@@ -72,7 +72,7 @@ export const List = () => (
 // ── config ────────────────────────────────────────────────────────────────────
 
 export const Config = () => (
-  <ModuleTemplate
+  <Page
     variant="config"
     header={{
       title: "Workspace settings",
@@ -159,7 +159,7 @@ const chartCards: ChartCardDef[] = [
 ];
 
 export const Monitor = () => (
-  <ModuleTemplate
+  <Page
     variant="monitor"
     header={{
       title: "System health",
@@ -174,7 +174,7 @@ export const Monitor = () => (
 // ── review ────────────────────────────────────────────────────────────────────
 
 export const Review = () => (
-  <ModuleTemplate
+  <Page
     variant="review"
     header={{
       title: "Pending review",
@@ -203,7 +203,7 @@ export const Review = () => (
 // ── detail ────────────────────────────────────────────────────────────────────
 
 export const Detail = () => (
-  <ModuleTemplate
+  <Page
     variant="detail"
     header={{
       title: "Invoice INV-4287",
@@ -233,13 +233,13 @@ export const Detail = () => (
         <strong>Total:</strong> $144.00
       </p>
     </div>
-  </ModuleTemplate>
+  </Page>
 );
 
 // ── auth ──────────────────────────────────────────────────────────────────────
 
 export const Auth = () => (
-  <ModuleTemplate
+  <Page
     variant="auth"
     header={{ title: "Sign in to CompanyCo" }}
     authBrand="companyco"
@@ -272,7 +272,7 @@ export const Auth = () => (
 );
 
 export const AuthWithError = () => (
-  <ModuleTemplate
+  <Page
     variant="auth"
     header={{ title: "Sign in" }}
     authBrand="recruitment"
@@ -298,7 +298,7 @@ export const AuthWithError = () => (
 // ── home ──────────────────────────────────────────────────────────────────────
 
 export const Home = () => (
-  <ModuleTemplate
+  <Page
     variant="home"
     header={{
       title: "Welcome back, Woody",
@@ -337,7 +337,7 @@ export const Home = () => (
 // ── tabs ──────────────────────────────────────────────────────────────────────
 
 export const Tabs = () => (
-  <ModuleTemplate
+  <Page
     variant="list"
     header={{
       title: "Directory",
