@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { Card } from "./Card.js";
 const RISK_TONES = {
     low: {
         bg: "var(--success-light)",
@@ -47,23 +48,28 @@ export function DryRunPanel({ title, description, entities, onConfirm, onCancel,
     ]
         .filter(Boolean)
         .join(" ");
-    return (_jsxs("div", { role: "alertdialog", "aria-label": title, className: classes, style: {
+    const footerContent = (_jsxs("div", { className: "cc-dry-run-panel__actions", style: {
             display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-4, 0.75rem)",
-            padding: "var(--space-5, 1rem)",
-            borderRadius: "var(--radius-2, 8px)",
-            border: `1px solid ${hasHighRisk ? "var(--error-border)" : "var(--border-1)"}`,
-            background: "var(--surface-1)",
-        }, children: [_jsxs("div", { className: "cc-dry-run-panel__header", children: [_jsx("h3", { className: "cc-dry-run-panel__title", style: {
-                            margin: 0,
-                            fontSize: "var(--text-lg, 1.125rem)",
-                            fontWeight: 600,
-                        }, children: title }), description && (_jsx("p", { className: "cc-dry-run-panel__description", style: {
-                            margin: "var(--space-1, 0.25rem) 0 0",
-                            fontSize: "var(--text-sm, 0.875rem)",
-                            color: "var(--text-3)",
-                        }, children: description }))] }), _jsx("div", { className: "cc-dry-run-panel__summary", style: {
+            justifyContent: "flex-end",
+            gap: "var(--space-3, 0.5rem)",
+        }, children: [_jsx("button", { type: "button", className: "cc-dry-run-panel__cancel", onClick: onCancel, style: {
+                    padding: "var(--space-2, 0.375rem) var(--space-4, 0.75rem)",
+                    borderRadius: "var(--radius-1, 4px)",
+                    border: "1px solid var(--border-1)",
+                    background: "transparent",
+                    cursor: "pointer",
+                    fontWeight: 500,
+                }, children: cancelLabel }), _jsx("button", { type: "button", className: "cc-dry-run-panel__confirm", onClick: onConfirm, disabled: confirmDisabled, style: {
+                    padding: "var(--space-2, 0.375rem) var(--space-4, 0.75rem)",
+                    borderRadius: "var(--radius-1, 4px)",
+                    border: `1px solid ${hasHighRisk ? "var(--error-border)" : "var(--accent-border)"}`,
+                    background: hasHighRisk ? "var(--error-light)" : "var(--accent-light)",
+                    color: hasHighRisk ? "var(--error-text)" : "var(--accent-text)",
+                    cursor: confirmDisabled ? "not-allowed" : "pointer",
+                    fontWeight: 600,
+                    opacity: confirmDisabled ? 0.5 : 1,
+                }, children: confirmLabel })] }));
+    return (_jsxs(Card, { title: title, subtitle: description, footer: footerContent, padded: true, className: classes, role: "alertdialog", "aria-label": title, children: [_jsx("div", { className: "cc-dry-run-panel__summary", style: {
                     display: "flex",
                     gap: "var(--space-3, 0.5rem)",
                     flexWrap: "wrap",
@@ -104,28 +110,6 @@ export function DryRunPanel({ title, description, entities, onConfirm, onCancel,
                                     fontSize: "var(--text-xs, 0.75rem)",
                                     textTransform: "uppercase",
                                 }, children: tone.label }), _jsx("span", { className: "cc-dry-run-panel__entity-label", style: { flex: 1 }, children: entity.label }), entity.description && (_jsx("span", { className: "cc-dry-run-panel__entity-desc", style: { color: "var(--text-3)", fontSize: "var(--text-xs, 0.75rem)" }, children: entity.description }))] }, entity.id));
-                }) }), _jsxs("div", { className: "cc-dry-run-panel__actions", style: {
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    gap: "var(--space-3, 0.5rem)",
-                    paddingTop: "var(--space-3, 0.5rem)",
-                    borderTop: "1px solid var(--border-1)",
-                }, children: [_jsx("button", { type: "button", className: "cc-dry-run-panel__cancel", onClick: onCancel, style: {
-                            padding: "var(--space-2, 0.375rem) var(--space-4, 0.75rem)",
-                            borderRadius: "var(--radius-1, 4px)",
-                            border: "1px solid var(--border-1)",
-                            background: "transparent",
-                            cursor: "pointer",
-                            fontWeight: 500,
-                        }, children: cancelLabel }), _jsx("button", { type: "button", className: "cc-dry-run-panel__confirm", onClick: onConfirm, disabled: confirmDisabled, style: {
-                            padding: "var(--space-2, 0.375rem) var(--space-4, 0.75rem)",
-                            borderRadius: "var(--radius-1, 4px)",
-                            border: `1px solid ${hasHighRisk ? "var(--error-border)" : "var(--accent-border)"}`,
-                            background: hasHighRisk ? "var(--error-light)" : "var(--accent-light)",
-                            color: hasHighRisk ? "var(--error-text)" : "var(--accent-text)",
-                            cursor: confirmDisabled ? "not-allowed" : "pointer",
-                            fontWeight: 600,
-                            opacity: confirmDisabled ? 0.5 : 1,
-                        }, children: confirmLabel })] })] }));
+                }) })] }));
 }
 //# sourceMappingURL=DryRunPanel.js.map

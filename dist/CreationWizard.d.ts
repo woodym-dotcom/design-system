@@ -36,8 +36,13 @@ export interface CreationWizardProps<TValues> {
         label?: string;
         reviewer: (values: TValues) => Promise<CreationWizardReviewResult>;
     };
+    /**
+     * When set, each step wrapper gets data-testid="{prefix}-{index}" and
+     * data-step-id="{step.id}".
+     */
+    testIdPrefix?: string;
     className?: string;
     submitLabel?: string;
 }
-export declare function CreationWizard<TValues>({ steps, initialValues, onSubmit, aiReview, className, submitLabel, }: CreationWizardProps<TValues>): import("react/jsx-runtime").JSX.Element;
+export declare function CreationWizard<TValues>({ steps, initialValues, onSubmit, aiReview, testIdPrefix, className, submitLabel, }: CreationWizardProps<TValues>): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=CreationWizard.d.ts.map

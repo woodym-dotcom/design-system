@@ -16,7 +16,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
  *  - ARIA role: `dialog` (modal/drawer), `complementary` (detail/drilldown),
  *    `region` (fullscreen)
  *
- * The legacy primitives remain as `@deprecated` re-exports until SIMPLIFY 14.
+ * Legacy primitives remain available as `@deprecated` re-exports.
  */
 import * as React from "react";
 import { createPortal } from "react-dom";
@@ -161,7 +161,7 @@ export function Overlay(props) {
     const hasTitle = title !== undefined && title !== null && title !== "";
     // Body content: prefer `sections` over `children`.
     const body = sections && sections.length > 0 ? (_jsx(_Fragment, { children: sections.map((s, i) => (_jsxs("section", { className: "cc-overlay__section", children: [s.heading !== undefined && s.heading !== null ? (_jsx("h3", { className: "cc-overlay__section-heading", children: s.heading })) : null, _jsx("div", { className: "cc-overlay__section-content", children: s.content })] }, i))) })) : (children);
-    const header = hasTitle || subtitle || headerActions || expandable || dismissible ? (_jsxs("header", { className: "cc-overlay__header", children: [_jsxs("div", { className: "cc-overlay__header-titles", children: [hasTitle ? (_jsx("h2", { id: titleId, className: "cc-overlay__title", children: title })) : null, subtitle ? (_jsx("p", { className: "cc-overlay__subtitle", children: subtitle })) : null] }), _jsxs("div", { className: "cc-overlay__header-actions", children: [headerActions, expandable ? (_jsx("button", { type: "button", className: "cc-overlay__expand", "aria-pressed": fullscreen, "aria-label": fullscreen ? "Exit full screen" : "Expand to full screen", onClick: () => setFullscreen((v) => !v), children: fullscreen ? "Exit full screen" : "Full screen" })) : null, dismissible ? (_jsx("button", { type: "button", className: "cc-overlay__close", "aria-label": "Close", onClick: close, children: "\u00D7" })) : null] })] })) : null;
+    const header = hasTitle || subtitle || headerActions || expandable || dismissible ? (_jsxs("header", { role: "none", className: "cc-overlay__header", children: [_jsxs("div", { className: "cc-overlay__header-titles", children: [hasTitle ? (_jsx("h2", { id: titleId, className: "cc-overlay__title", children: title })) : null, subtitle ? (_jsx("p", { className: "cc-overlay__subtitle", children: subtitle })) : null] }), _jsxs("div", { className: "cc-overlay__header-actions", children: [headerActions, expandable ? (_jsx("button", { type: "button", className: "cc-overlay__expand", "aria-pressed": fullscreen, "aria-label": fullscreen ? "Exit full screen" : "Expand to full screen", onClick: () => setFullscreen((v) => !v), children: fullscreen ? "Exit full screen" : "Full screen" })) : null, dismissible ? (_jsx("button", { type: "button", className: "cc-overlay__close", "aria-label": "Close", onClick: close, children: "\u00D7" })) : null] })] })) : null;
     // ── placement-specific rendering ───────────────────────────────────────────
     const sizeClass = `cc-overlay--size-${size}`;
     const baseClasses = [

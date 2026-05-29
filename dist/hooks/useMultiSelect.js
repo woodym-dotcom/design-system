@@ -68,6 +68,7 @@ export function useMultiSelect({ items, getKey, initial, }) {
         setKeys(new Set(keys));
     }, []);
     const selectedItems = React.useMemo(() => items.filter((it) => selectedKeys.has(getKey(it))), [items, getKey, selectedKeys]);
+    const hasSelection = selectedKeys.size > 0;
     return {
         selectedKeys,
         selectedItems,
@@ -76,7 +77,7 @@ export function useMultiSelect({ items, getKey, initial, }) {
         selectAll,
         clear,
         setSelectedKeys,
-        hasSelection: selectedKeys.size > 0,
+        hasSelection,
         allSelected: items.length > 0 && selectedKeys.size === items.length,
         count: selectedKeys.size,
     };

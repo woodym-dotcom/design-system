@@ -40,8 +40,8 @@ export interface CommandPaletteProps<T extends string = string> {
     renderItem?: (item: CommandItem) => React.ReactNode;
 }
 /**
- * Cmd+K-style command palette. Composes `<Modal/>` for the dialog +
- * focus-trap, `<Kbd/>` for shortcut hints, and the platform fuzzy match
+ * Cmd+K-style command palette. Composes `<Overlay placement="modal"/>` for
+ * the dialog + focus-trap, `<Kbd/>` for shortcut hints, and the platform fuzzy match
  * for filtering. Static items via `items` or async via `loadItems`.
  *
  * The palette does NOT bind a global hotkey — wire that in the host app

@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /**
- * @deprecated Internal as of DS-SIMPLIFY 05. Use `PlatformAppShell` from
+ * @deprecated Internal as of DS-SIMPLIFY 05. Use `AppShell` from
  * `@ds/core/react` instead. NavRail is no longer publicly exported.
  *
  * <NavRail> — text-label vertical navigation rail (G2 / NavRail extraction).

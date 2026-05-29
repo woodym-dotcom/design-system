@@ -2,7 +2,7 @@
  * AIProvenanceChip — chip showing AI provenance metadata.
  *
  * Displays model name, confidence score, and timestamp for AI-generated
- * content. Builds on the Chip visual language with provenance-specific
+ * content. Composes the `Tag` primitive with provenance-specific
  * semantics (confidence-driven tone, structured tooltip content).
  *
  * Usage:

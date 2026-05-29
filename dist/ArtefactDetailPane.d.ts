@@ -1,16 +1,10 @@
 /**
- * ArtefactDetailPane — composable detail pane family for AA artefacts.
+ * ArtefactDetailPane — composable detail pane family for artefacts.
  *
- * Composes ExpandableDetailPane (tab shell) + ListView (history/callers/versions)
+ * Composes Overlay (placement="detail-right") + inline tab structure
  * into a single "detail pane for any artefact" abstraction.
  *
- * §14 L1: no artefact detail primitive existed.
- * §14 L2: composes ExpandableDetailPane + ListView already in @ds/core.
- * §14 L3: follows cc-btn / cc-chip token pattern, column-definition shape.
- *
- * Exported types mirror the BE DTOs in com.aa.platform.artefact — keep in sync.
- *
- * Accessibility: inherits ExpandableDetailPane a11y contract (dialog, focus trap,
+ * Accessibility: inherits Overlay a11y contract (dialog, focus trap,
  * keyboard navigation, axe-clean). Individual tab content uses semantic HTML.
  */
 import * as React from 'react';
@@ -26,7 +20,7 @@ export interface ArtefactSchemaField {
  * pre-rules, orchestration model text, post-rules, and generated procedure.
  */
 export interface ArtefactDefinitionDoc {
-    /** Human-readable name, e.g. "Incident Investigation Process". */
+    /** Human-readable name. */
     artefactName: string;
     /** Optional namespace / domain qualifier. */
     namespace?: string;
@@ -40,7 +34,7 @@ export interface ArtefactDefinitionDoc {
     postRules: string[];
     /**
      * Auto-generated procedure narrative paragraph.
-     * Produced by the BE from the step graph; displayed read-only.
+     * Produced by the backend from the step graph; displayed read-only.
      */
     generatedProcedureText?: string;
 }
@@ -63,8 +57,10 @@ export interface ArtefactHistoryEntry {
     id: string;
     executedAt: string;
     state: string;
-    subjectId?: string;
-    subjectType?: string;
+    /** Human-readable label for the row's target (rendered as-is). */
+    targetLabel?: string;
+    /** Optional href if the target is navigable. */
+    targetHref?: string;
     durationMs?: number;
 }
 /** A caller that binds to this artefact, with version awareness. */
@@ -83,26 +79,7 @@ export interface ArtefactVersion {
     notes?: string;
     isActive: boolean;
 }
-export interface ArtefactDefinitionProps {
-    definition: ArtefactDefinitionDoc;
-}
-/**
- * Read-only pseudo-code render of an artefact's definition.
- * Shows pre-rules → orchestration steps → post-rules, plus generated
- * procedure text when present.
- */
-export declare function ArtefactDefinition({ definition }: ArtefactDefinitionProps): import("react/jsx-runtime").JSX.Element;
-export interface ArtefactIOContractProps {
-    contract: ArtefactIOContract;
-}
-/** Input / output / context schema viewer. */
-export declare function ArtefactIOContractView({ contract }: ArtefactIOContractProps): import("react/jsx-runtime").JSX.Element;
-export interface ArtefactMetricsProps {
-    metrics: ArtefactMetrics | null | undefined;
-}
-/** Metrics tile strip. Renders placeholder when no data available. */
-export declare function ArtefactMetricsView({ metrics }: ArtefactMetricsProps): import("react/jsx-runtime").JSX.Element;
-export interface ArtefactHistoryProps {
+interface HistoryViewProps {
     entries: ArtefactHistoryEntry[];
     /** Total items for pagination. */
     totalItems?: number;
@@ -110,18 +87,6 @@ export interface ArtefactHistoryProps {
     pageSize?: number;
     onPageChange?: (page: number) => void;
 }
-/** Paginated execution/session history list. */
-export declare function ArtefactHistory({ entries, totalItems, page, pageSize, onPageChange, }: ArtefactHistoryProps): import("react/jsx-runtime").JSX.Element;
-export interface ArtefactCallersProps {
-    callers: ArtefactCaller[];
-}
-/** Version-aware list of callers bound to this artefact. */
-export declare function ArtefactCallers({ callers }: ArtefactCallersProps): import("react/jsx-runtime").JSX.Element;
-export interface ArtefactVersioningProps {
-    versions: ArtefactVersion[];
-}
-/** Version list with active version pointer. */
-export declare function ArtefactVersioning({ versions }: ArtefactVersioningProps): import("react/jsx-runtime").JSX.Element;
 export interface ArtefactDetailPaneProps {
     open: boolean;
     onClose: () => void;
@@ -134,22 +99,21 @@ export interface ArtefactDetailPaneProps {
     definition: ArtefactDefinitionDoc;
     ioContract: ArtefactIOContract;
     metrics?: ArtefactMetrics | null;
-    history?: ArtefactHistoryProps;
+    history?: HistoryViewProps;
     callers?: ArtefactCaller[];
     versions?: ArtefactVersion[];
 }
 /**
- * ArtefactDetailPane — the canonical detail pane for any AA artefact.
+ * ArtefactDetailPane — the canonical detail pane for any artefact.
  *
- * Composes ExpandableDetailPane as the shell with six standard tabs:
+ * Composes Overlay (placement="detail-right", expandable) as the shell with
+ * six standard tabs:
  * Definition · IO Contract · Metrics · History · Callers · Versioning.
  *
- * Per-artefact phases (3.2–3.11) mount this component and supply real data;
- * this component itself is data-agnostic — it only renders what it's given.
- *
- * @deprecated Since DS-SIMPLIFY 01. Use `<Overlay placement="detail-right">`
- *   composed with the artefact sub-views (ArtefactDefinition, ArtefactHistory,
- *   etc.) supplied to its `sections` slot. Removed at v1.0 (DS-SIMPLIFY 14).
+ * The host supplies data; this component is data-agnostic — it only renders
+ * what it's given. Sub-views are internal composition; consumers use the
+ * single `<ArtefactDetailPane>`.
  */
 export declare function ArtefactDetailPane({ open, onClose, title, subtitle, headerActions, definition, ioContract, metrics, history, callers, versions, }: ArtefactDetailPaneProps): import("react/jsx-runtime").JSX.Element;
+export {};
 //# sourceMappingURL=ArtefactDetailPane.d.ts.map

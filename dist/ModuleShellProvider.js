@@ -1,10 +1,9 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 /**
  * @deprecated The wider primitives that consume this provider (ListPage,
- * ConfigurationsPage, ModuleShell, ModuleTemplate) all read the same router
- * adapter via `useModuleShellRouter`. Until SIMPLIFY 14 deletes the legacy
- * primitives we keep this file available; new code should rely on the
- * ModuleTemplate API instead. (DS-SIMPLIFY 04)
+ * ConfigurationsPage, ModuleShell, Page) all read the same router adapter via
+ * `useModuleShellRouter`. New code should rely on the Page API instead; this
+ * file remains for legacy primitives.
  *
  * ModuleShellProvider — router adapter context for ModuleShell + friends.
  *

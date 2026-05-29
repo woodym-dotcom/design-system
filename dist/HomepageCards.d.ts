@@ -1,6 +1,6 @@
 /**
- * @deprecated Use `<ModuleTemplate variant="home">` from `./ModuleTemplate`
- * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ * @deprecated Use `<Page variant="home">` from `./Page`
+ * (DS-SIMPLIFY 04).
  */
 import * as React from 'react';
 export interface HomepageCard {

@@ -1,25 +1,22 @@
-// Schema + types
+// ── EntityForm public surface ───────────────────────────────────────────────
+//
+// Functions: schema builders, orchestrator bridge, JSON-Schema adapter, hook,
+// component, and the custom-field-type registry. Types are deliberately
+// minimised — only the six most-used are exported. Internal types remain in
+// the source files but are not part of the public API.
+// Schema + orchestrator bridge
 export { buildEntitySchema, setOrchestratorBridge, getOrchestratorBridge } from './schema.js';
-// JSON Schema bridge (DS-MIG P1-06)
+// JSON Schema bridge
 export { fromJsonSchema } from './fromJsonSchema.js';
 // Hook
 export { useEntityForm } from './useEntityForm.js';
 // Component
 export { EntityForm } from './EntityForm.js';
-// Registry + extension point (remains public — needed to register custom field types)
+// Registry + extension point
 export { registerFieldType, getFieldTypeComponent } from './fields/registry.js';
-/**
- * @deprecated Individual field components (TextField, NumberField, SelectField,
- * MultiSelectField, DateField, MoneyField, EntityReferenceField, RichTextField)
- * are no longer part of the public API.
- *
- * Use <EntityForm schema={...}> (schema-driven) or <FormField as="shell"> for
- * arbitrary child inputs instead. Direct component imports will be removed in
- * v1.0 (DS-SIMPLIFY 14).
- *
- * Internal barrel export — kept for EntityForm's own rendering; do NOT import
- * these from consuming apps.
- */
+// Internal field-component barrel — re-exported so EntityForm's renderer can
+// import them via this barrel. They are NOT part of the public API. Consumers
+// should use <EntityForm schema={...}> or <FormField as="shell"> instead.
 export { TextField } from './fields/TextField.js';
 export { NumberField } from './fields/NumberField.js';
 export { SelectField } from './fields/SelectField.js';

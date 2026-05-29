@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /**
- * @deprecated Use `<ModuleTemplate variant="list">` from `./ModuleTemplate`
- * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ * @deprecated Use `<Page variant="list">` from `./Page`
+ * (DS-SIMPLIFY 04).
  *
  * ListPage — the canonical entity-surface keystone primitive (Phase 2).
  *

@@ -5,6 +5,8 @@
  * Shows edge type, direction, optional weight, and can be interactive
  * (click to focus the edge in the graph view).
  *
+ * Composes the `Tag` primitive for tone-driven styling.
+ *
  * Usage:
  *   <GraphEdgeChip
  *     source="Auth Service"

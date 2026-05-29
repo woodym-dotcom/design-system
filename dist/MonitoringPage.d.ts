@@ -1,6 +1,6 @@
 /**
- * @deprecated Use `<ModuleTemplate variant="monitor">` from `./ModuleTemplate`
- * (DS-SIMPLIFY 04). Will be removed in v1.0 (SIMPLIFY 14).
+ * @deprecated Use `<Page variant="monitor">` from `./Page`
+ * (DS-SIMPLIFY 04).
  *
  * MonitoringPage — KPI tile grid + chart sections.
  * Chart sections accept arbitrary chart content (consumers provide Recharts, etc.)
@@ -8,7 +8,7 @@
 import * as React from 'react';
 /**
  * @deprecated Use `<Graph layout="tile">` from `@ds/core/react/Graph` instead.
- * Will be removed in v1.0 (SIMPLIFY 14).
+ *
  */
 export interface KpiTileProps {
     label: string;

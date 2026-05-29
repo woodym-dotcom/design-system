@@ -65,8 +65,9 @@ export function useToast() {
     const ctx = React.useContext(ToastContext);
     if (!ctx) {
         // Soft fallback — primitives may call useToast unconditionally.
+        const noop = () => '';
         return {
-            toast: () => '',
+            toast: noop,
             dismiss: () => { },
             clear: () => { },
             toasts: [],
