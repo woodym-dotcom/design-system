@@ -533,6 +533,11 @@
       "import": "./dist/templates/customer-lifecycle/index.js",
       "default": "./dist/templates/customer-lifecycle/index.js"
     },
+    "./templates/companyco": {
+      "types": "./dist/templates/companyco/index.d.ts",
+      "import": "./dist/templates/companyco/index.js",
+      "default": "./dist/templates/companyco/index.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {
