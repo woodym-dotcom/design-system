@@ -528,6 +528,11 @@
       "import": "./dist/templates/recruitment-woody/index.js",
       "default": "./dist/templates/recruitment-woody/index.js"
     },
+    "./templates/customer-lifecycle": {
+      "types": "./dist/templates/customer-lifecycle/index.d.ts",
+      "import": "./dist/templates/customer-lifecycle/index.js",
+      "default": "./dist/templates/customer-lifecycle/index.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js"
   },
   "scripts": {
