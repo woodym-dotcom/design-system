@@ -8,9 +8,15 @@ Source of truth for visual tokens and primitives across:
 - `customer-lifecycle` (indigo)
 
 Chroma is held constant (`--brand-chroma: 0.15`) across every brand so the
-family shares one saturation character; only the hue moves. Auth, marketing,
-and product UI all share the same `system-ui` sans stack — there is no
-editorial / serif layer.
+family shares one saturation character; only the hue moves. Product UI runs
+entirely on the `system-ui` sans stack (with `ui-monospace` for ground-truth
+positions). Auth, marketing, and hero surfaces may **opt in** to an editorial
+treatment via `data-surface="brand"` — a warm derived "paper" canvas plus a
+single display face (**Bricolage Grotesque**, `--font-display`). It is one
+display face for the whole family, not one per brand, and the warmth is
+`color-mix`'d off the neutral ramp rather than a parallel palette — so it
+tracks light/dark automatically and cannot drift. Product UI never sets the
+attribute and is wholly unaffected. See **Brand surfaces** under Theming.
 
 ## Shape
 
@@ -34,6 +40,7 @@ source/           — extracted Claude Design bundle (historical reference)
 Every consumer imports in this order:
 
 ```css
+@import "@ds/core/fonts/fonts.css";      /* --font-display (brand surfaces); system stacks otherwise */
 @import "@ds/core/tokens/core.css";
 @import "@ds/core/tokens/type-scale.css";
 @import "@ds/core/tokens/viz.css";
@@ -56,6 +63,27 @@ All tokens are defined for **both light and dark**. Resolution:
 Out of the box, both themes should be readable. Consumers should not rely on forcing light mode to hide dark-theme contrast bugs.
 
 To let users toggle, set `document.documentElement.dataset.theme = "dark" | "light"` (persist in localStorage). If a consumer wants OS-follow behaviour, persist `system` and omit the attribute.
+
+### Brand surfaces (opt-in editorial)
+
+Product interiors stay austere. Auth, marketing, and hero empty states may opt
+into an **editorial** treatment by setting `data-surface="brand"` on `.cc-auth`
+(or any ancestor):
+
+```html
+<div class="cc-auth" data-surface="brand"> … </div>
+```
+
+This swaps the cool page background + engineering-grid glow for a warm **paper**
+canvas and renders the masthead (`.cc-auth__headline`, or any `.t-display`) in
+`--font-display` (Bricolage Grotesque). The accent stays the algorithmic brand
+colour and the form panel stays austere white. The warm tokens
+(`--surface-paper`, `--paper-ink`, `--paper-rule`) are `color-mix` derivations
+off a single per-theme `--paper-warm-seed`, so they re-resolve for dark mode
+with no extra maintenance and cannot drift back into the parallel-palette
+problem that got the previous editorial layer deleted. **Do not** reintroduce
+`--font-brand`, an amber/ink ramp, or per-brand display fonts — the token
+contract test (`pnpm test:tokens`) enforces this.
 
 ## Charts
 
@@ -203,6 +231,6 @@ Stories for all React primitives live in `stories/`. Storybook 9 (Vite framework
 
 - A new component → `primitives/primitives.css` under a `cc-*` selector, colors via `var(--...)` only.
 - A new React primitive should export from `react/index.ts` and prefer shared metadata-driven APIs over consumer-specific prop lists.
-- A new brand → `brands/<name>.css`. Must set `--brand-hue` and `--brand-chroma` (the accent set is derived via `oklch()`); may override `--font-sans` / `--font-mono` but the system default is `system-ui` / `ui-monospace`.
+- A new brand → `brands/<name>.css`. Must set `--brand-hue` and `--brand-chroma` (the accent set is derived via `oklch()`); may override `--font-sans` / `--font-mono` / `--font-display` but the system defaults are `system-ui` / `ui-monospace` / Bricolage Grotesque. Do **not** add a parallel amber/ink palette or per-brand display fonts — the editorial surface derives warmth from the neutral ramp (`pnpm test:tokens` enforces this).
 - Never hardcode hex inside `primitives/` or `tokens/core.css`.
 - The `source/` dir is the frozen export from claude.ai/design; do not edit it.

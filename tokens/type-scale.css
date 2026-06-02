@@ -36,3 +36,24 @@
 .t-label { font-size: var(--text-xs); font-weight: 500; line-height: 16px; color: var(--text-3); }
 .t-mono { font-family: var(--font-mono); font-size: var(--text-sm); line-height: 20px; }
 .t-micro { font-size: var(--text-micro); line-height: 14px; color: var(--text-3); }
+
+/* Display — brand surfaces only (auth / marketing mastheads).
+   Pairs --font-display (Bricolage Grotesque) with the upper type
+   steps. Never use inside dense product UI; product headings stay
+   on .t-h1 / .t-h2 in --font-sans. */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-3xl);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--text-1);
+}
+.t-display-lg { font-size: var(--text-4xl); line-height: 1.04; letter-spacing: -0.025em; }
+.t-display-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+}

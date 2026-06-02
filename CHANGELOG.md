@@ -1,5 +1,31 @@
 # Changelog
 
+## Unreleased — editorial brand surface (opt-in)
+
+Recovers the editorial warmth that the earlier simplification deleted, at a
+fraction of the maintenance cost. One display face for the whole family, warmth
+derived off the neutral ramp (cannot drift), and a single opt-in attribute.
+
+### Added
+
+- `fonts/fonts.css` — `--font-display` (**Bricolage Grotesque**, one webfont,
+  `system-ui` fallback offline). The only sanctioned editorial face.
+- `tokens/core.css` — derived paper-surface tokens for both themes:
+  `--surface-paper`, `--paper-ink`, `--paper-rule`, all `color-mix` off a single
+  per-theme `--paper-warm-seed`. No parallel palette.
+- `tokens/type-scale.css` — `.t-display` / `.t-display-lg` / `.t-display-eyebrow`
+  (brand mastheads only; product headings stay on `.t-h1` / `.t-h2`).
+- `primitives/primitives.css` — opt-in `[data-surface="brand"]` skin on
+  `.cc-auth`: warm paper canvas + display masthead, glow/grid suppressed, form
+  panel and brand accent untouched. Product UI never sets the attribute.
+
+### Contract
+
+- `tests/token-contract.mjs` updated: the old drift-prone editorial tokens
+  (`--font-brand`, amber/ink ramp, bare `--paper`) stay forbidden; the new
+  derivation-based tokens and `--font-display` are now asserted **present** and
+  `--surface-paper` is required to be a `color-mix` derivation.
+
 ## Unreleased — @aa/ui retirement primitives
 
 Adds the foundational pieces required for `automationarmoury/packages/ui`

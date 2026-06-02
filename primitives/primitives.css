@@ -1582,6 +1582,45 @@ select.cc-input option {
   color: var(--error);
 }
 
+/* ---------- EDITORIAL BRAND SURFACE (opt-in) ----------
+   data-surface="brand" on .cc-auth (or an ancestor) swaps the austere
+   console entry for the editorial recovery. The recovery is exactly:
+   a warm DERIVED paper canvas (--surface-paper) + a display-sans
+   masthead (--font-display). The accent stays the algorithmic brand
+   cyan, the form panel stays austere white, the mono status line
+   stays. No parallel palette, no per-brand fonts. Product UI, which
+   never sets data-surface="brand", is wholly unaffected. */
+[data-surface="brand"].cc-auth,
+[data-surface="brand"] .cc-auth {
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -10%,
+      color-mix(in oklch, var(--surface-paper) 60%, var(--surface-0)), transparent 60%),
+    var(--surface-paper);
+}
+/* the austere glow + engineering grid are out of place on paper */
+[data-surface="brand"].cc-auth::before,
+[data-surface="brand"].cc-auth::after,
+[data-surface="brand"] .cc-auth::before,
+[data-surface="brand"] .cc-auth::after { display: none; }
+[data-surface="brand"] .cc-auth__grid { display: none; }
+
+[data-surface="brand"] .cc-auth__headline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--paper-ink);
+}
+[data-surface="brand"] .cc-auth__headline-accent { color: var(--accent-text); }
+[data-surface="brand"] .cc-auth__subtitle {
+  color: color-mix(in oklch, var(--paper-ink) 60%, transparent);
+}
+/* austere white form sitting ON the paper — a calm rule, warm-tuned border */
+[data-surface="brand"] .cc-auth .cc-panel {
+  background: var(--surface-0);
+  border-color: color-mix(in oklch, var(--border-1) 70%, var(--surface-paper));
+  box-shadow: 0 1px 2px rgba(70, 55, 30, 0.05), 0 6px 18px rgba(70, 55, 30, 0.04);
+}
+
 /* ---------- SIDEBAR (72px icon + label-capable desktop nav) ---------- */
 .cc-sidebar {
   display: none;
