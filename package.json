@@ -5,6 +5,7 @@
   "description": "Shared design tokens and primitives across companyco, recruitment-woody, automationArmoury.",
   "type": "module",
   "exports": {
+    "./fonts/fonts.css": "./fonts/fonts.css",
     "./tokens/core.css": "./tokens/core.css",
     "./tokens/type-scale.css": "./tokens/type-scale.css",
     "./tokens/viz.css": "./tokens/viz.css",
@@ -556,6 +557,7 @@
     "build": "tsc -p tsconfig.build.json && node scripts/add-js-extensions.mjs"
   },
   "files": [
+    "fonts",
     "tokens",
     "brands",
     "primitives",
