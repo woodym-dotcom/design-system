@@ -134,4 +134,17 @@ assert.ok(
   'primitives/primitives.css: opt-in [data-surface="brand"] skin must be declared',
 );
 
+// The editorial display face must actually ship: fonts/fonts.css has to be in
+// the published `files` and exposed via `exports`, or consumers' `@import
+// "@ds/core/fonts/fonts.css"` 404s and --font-display silently never loads.
+const pkg = JSON.parse(read('package.json'));
+assert.ok(
+  Array.isArray(pkg.files) && pkg.files.includes('fonts'),
+  'package.json: "files" must include "fonts" so fonts/fonts.css is published',
+);
+assert.ok(
+  pkg.exports && pkg.exports['./fonts/fonts.css'],
+  'package.json: "exports" must expose "./fonts/fonts.css"',
+);
+
 console.log('token contract checks passed');
