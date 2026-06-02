@@ -5199,4 +5199,9 @@ a.cc-btn[aria-disabled="true"] {
   outline: 2px solid var(--accent-1);
 }
 .cc-text-navrail__label { display: inline-block; }
-.cc-text-navrail__icon { display: inline-flex; }
+.cc-text-navrail__icon { display: inline-flex; flex: none; }
+/* Size the icon slot the rail renders. Consumers may pass an inline <svg> with
+   a viewBox but no width/height (collapses to 0×0 in a flex container), or a
+   pre-sized icon (e.g. lucide); pin both to a consistent 18px so the rail never
+   shows blank gaps. Mirrors .cc-navrail__icon svg for the icon-only rail. */
+.cc-text-navrail__icon svg { width: 18px; height: 18px; }
