@@ -922,6 +922,8 @@ The intent is "operator console at 2 AM" rather than "marketing splash" — atmo
 
 **No editorial token dependency.** Any brand (including `recruitment`) can render `.cc-auth` without needing `--ink-0` / `--paper` / `--amber-*` / `--font-brand`. The headline picks up whatever `--accent-1` is for that brand. The mono-tracker eyebrow uses the body `--font-mono` stack only.
 
+**Opt-in editorial surface.** Setting `data-surface="brand"` on `.cc-auth` (or any ancestor) swaps the austere entry for a warm **paper** treatment: a derived `--surface-paper` canvas (glow + grid suppressed), the `.cc-auth__headline` rendered in `--font-display` (Bricolage Grotesque) on `--paper-ink`, and the form panel left austere white. The accent stays the algorithmic brand colour — no parallel palette. The warm tokens are `color-mix` derivations off the neutral ramp from a single per-theme `--paper-warm-seed`, so dark mode re-resolves automatically. This is the **one sanctioned** editorial flourish; it does not reintroduce the old `--font-brand` / amber / ink layer (the drift that got that layer deleted), and the `pnpm test:tokens` contract enforces that.
+
 **Opting out of dark.** Pass `forceTheme="light"` (or `null` to inherit the page theme) to the React `AuthScreen` component. The CSS itself is theme-agnostic — both glow colours and grid texture work in light surfaces too — but dark is the defacto identity for the "door".
 
 ### Loading state

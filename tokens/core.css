@@ -41,6 +41,17 @@
   --inverse-background: var(--text-1);
   --inverse-foreground: var(--surface-0);
 
+  /* ---------- EDITORIAL BRAND SURFACE (opt-in via [data-surface="brand"]) ----------
+     A warm "paper" canvas + warm ink, DERIVED from the neutral ramp via
+     color-mix so they track light/dark automatically and cannot drift
+     out of sync. ONE warm seed per theme is the only literal; every
+     surface below is a formula off the existing ramp. Consumed only on
+     brand surfaces (auth, marketing) — never in product UI. */
+  --paper-warm-seed: oklch(83% 0.055 75);   /* warm cream */
+  --surface-paper: color-mix(in oklch, var(--surface-0) 82%, var(--paper-warm-seed));
+  --paper-ink:     color-mix(in oklch, var(--text-1) 84%, var(--paper-warm-seed));
+  --paper-rule:    color-mix(in oklch, var(--border-1) 60%, var(--paper-warm-seed));
+
   /* App chrome / translucent surfaces (light) */
   --app-background: radial-gradient(circle at top left, color-mix(in oklch, var(--viz-2, var(--info)) 12%, transparent), transparent 24%), radial-gradient(circle at top right, color-mix(in oklch, var(--viz-4, var(--accent-1, var(--info))) 10%, transparent), transparent 24%), linear-gradient(180deg, #f6f8fb 0%, #eef2f7 40%, #f7f8fc 100%);
   --surface-glass: rgba(255, 255, 255, 0.94);
@@ -169,6 +180,11 @@
   --inverse-background: var(--text-1);
   --inverse-foreground: var(--surface-0);
 
+  /* Editorial brand surface — only the warm seed changes; the
+     --surface-paper / --paper-ink / --paper-rule formulas re-resolve
+     against the dark ramp automatically. */
+  --paper-warm-seed: oklch(32% 0.035 70);   /* warm brown — lifts the warm near-black */
+
   /* No decorative gradients in dark mode either. */
   --app-background: var(--surface-0);
   --surface-glass: rgba(29, 28, 26, 0.94);
@@ -232,6 +248,8 @@
 
     --inverse-background: var(--text-1);
     --inverse-foreground: var(--surface-0);
+
+    --paper-warm-seed: oklch(32% 0.035 70);   /* warm brown — see dark block above */
 
     --app-background: var(--surface-0);
     --surface-glass: rgba(29, 28, 26, 0.94);

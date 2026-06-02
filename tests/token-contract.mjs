@@ -29,6 +29,13 @@ for (const [path, expectedHue] of Object.entries(brands)) {
   );
 }
 
+// The OLD editorial layer was a parallel palette (amber/ink ramp) plus
+// per-brand display fonts — it drifted out of sync and was deleted. Those
+// drift-prone tokens stay forbidden. The recovery (feat/editorial-brand-surface)
+// does NOT reintroduce them; it derives a warm paper surface from the existing
+// neutral ramp via color-mix (--surface-paper / --paper-ink / --paper-rule off a
+// single --paper-warm-seed) and loads ONE display face (--font-display). Those
+// sanctioned, derivation-based tokens are asserted positively further below.
 const editorialTokens = [
   '--font-brand',
   '--font-brand-sans',
@@ -37,8 +44,7 @@ const editorialTokens = [
   '--amber-600',
   '--ink-0',
   '--ink-1',
-  '--paper',
-  '--paper-ink',
+  '--paper', // matches bare `--paper:` only; `--surface-paper` / `--paper-ink` (derived) are NOT caught
 ];
 
 const brandAndTokenFiles = [
@@ -94,6 +100,38 @@ assert.ok(
 assert.ok(
   /--surface-0/.test(recruitmentSidebar),
   'ui_kits/recruitment/Sidebar.jsx: logo dot must use --surface-0',
+);
+
+// ---- Editorial recovery (opt-in brand surface) must be present & derivation-based ----
+const fontsCss = read('fonts/fonts.css');
+assert.ok(
+  /--font-display\s*:/.test(fontsCss),
+  'fonts/fonts.css: --font-display (the one display face) must be declared',
+);
+assert.ok(
+  /Bricolage\s+Grotesque/.test(fontsCss),
+  'fonts/fonts.css: --font-display should be Bricolage Grotesque',
+);
+
+for (const tok of ['--paper-warm-seed', '--surface-paper', '--paper-ink', '--paper-rule']) {
+  assert.ok(
+    new RegExp(`${tok}\\s*:`).test(coreCss),
+    `tokens/core.css: derived editorial token ${tok} must be declared`,
+  );
+}
+// Warmth must be DERIVED off the ramp (color-mix), not a literal parallel palette.
+assert.ok(
+  /--surface-paper\s*:\s*color-mix\(/.test(coreCss),
+  'tokens/core.css: --surface-paper must be a color-mix derivation off the neutral ramp (cannot drift)',
+);
+
+assert.ok(
+  /\.t-display\b/.test(typeScale),
+  'tokens/type-scale.css: .t-display must be declared',
+);
+assert.ok(
+  /\[data-surface="brand"\]/.test(primitives),
+  'primitives/primitives.css: opt-in [data-surface="brand"] skin must be declared',
 );
 
 console.log('token contract checks passed');

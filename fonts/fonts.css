@@ -10,4 +10,19 @@
    Production may swap these for branded webfonts; the design
    system is built against the system stack so it works offline
    and on every device.
+
+   DISPLAY (brand surfaces only) — the one sanctioned webfont.
+   Bricolage Grotesque: a warm humanist grotesque used ONLY on
+   surfaces that opt in via [data-surface="brand"] (auth, marketing,
+   hero empty states). It falls back to system-ui when offline, so
+   product UI never depends on it. This is the single editorial face
+   for the whole family — not one face per brand (that drift is what
+   got the old editorial layer deleted). A brand may override
+   --font-display if it truly needs its own display voice.
    ============================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap");
+
+:root {
+  --font-display: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
