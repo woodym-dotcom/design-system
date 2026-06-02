@@ -1614,7 +1614,9 @@ select.cc-input option {
 [data-surface="brand"] .cc-auth__subtitle {
   color: color-mix(in oklch, var(--paper-ink) 60%, transparent);
 }
-/* austere white form sitting ON the paper — a calm rule, warm-tuned border */
+/* austere white form sitting ON the paper — a calm rule, warm-tuned border.
+   Both forms: data-surface="brand" set ON .cc-auth itself, and on an ancestor. */
+[data-surface="brand"].cc-auth .cc-panel,
 [data-surface="brand"] .cc-auth .cc-panel {
   background: var(--surface-0);
   border-color: color-mix(in oklch, var(--border-1) 70%, var(--surface-paper));

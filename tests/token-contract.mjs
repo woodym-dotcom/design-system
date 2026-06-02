@@ -133,6 +133,14 @@ assert.ok(
   /\[data-surface="brand"\]/.test(primitives),
   'primitives/primitives.css: opt-in [data-surface="brand"] skin must be declared',
 );
+// The brand form-panel rule must cover the attribute being set ON .cc-auth
+// itself (compound), not only on an ancestor (descendant) — otherwise the
+// austere-white panel skin is a no-op for the common <main class="cc-auth"
+// data-surface="brand"> pattern.
+assert.ok(
+  /\[data-surface="brand"\]\.cc-auth \.cc-panel/.test(primitives),
+  'primitives/primitives.css: brand panel rule must include the compound [data-surface="brand"].cc-auth .cc-panel selector',
+);
 
 // The editorial display face must actually ship: fonts/fonts.css has to be in
 // the published `files` and exposed via `exports`, or consumers' `@import
