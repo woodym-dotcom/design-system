@@ -700,7 +700,7 @@ Every selector below is defined in `@ds/core/primitives/primitives.css`. Consume
 
 Two canonical top-level layouts. Pick one per product; do not mix.
 
-- **Horizontal topbar shell** (`.cc-shell`) — `44px topbar / 1fr` grid row, `52px navrail / 1fr` grid column inside. The topbar is a thin persistent band at the top; the navrail is icon-only on the left. Used by CompanyCo. Good for dense admin platforms with a global keyboard-shortcut hint, brand wordmark, and identity avatar living in the topbar.
+- **Horizontal topbar shell** (`.cc-shell`) — `44px topbar / 1fr` grid row above a left module rail. The topbar is a thin persistent band at the top. The module rail is rendered by the `@ds/core` `AppShell`, which takes a `navVariant`: **`compact`** (icon-only, ~52–56px — labels move to hover/focus tooltips and the breadcrumb strip carries orientation) or **`expanded`** (icon + text label, ~200px). Used by CompanyCo with **`compact`** (icon-only). Good for dense admin platforms with a global keyboard-shortcut hint, brand wordmark, and identity avatar living in the topbar.
 - **Sidebar-first shell** — no persistent top band on desktop; a 72px `.cc-sidebar` on the left holds the logo + icon-only nav + footer controls. On mobile, `.cc-topbar--mobile` appears (hamburger + wordmark) with `.cc-topbar--mobile__spacer` reserving the height in the main content. Used by recruitment-woody. Good for product interiors where a topbar would be dead space.
 
 ### Topbar
@@ -711,7 +711,9 @@ Two canonical top-level layouts. Pick one per product; do not mix.
 
 ### Navigation rail
 
-`.cc-navrail` — 52px icon-only left rail for the horizontal shell. Children: `.cc-navrail__group` (36px square with accent fill, weight-700 label, used as a section badge), `.cc-navrail__divider` (80% width hairline), `.cc-navrail__icon` (38px square button with hover + active state; active uses `accent-soft` fill + `accent-border` + `accent-text`).
+The horizontal shell's module rail is rendered by the `@ds/core` `AppShell` via `<NavRail>` → `.cc-text-navrail`. Pass `navVariant="compact"` for a 52–56px **icon-only** rail (`.cc-text-navrail--compact`; each item is a centered 40px icon button, the label surfaced as a `title` / `aria-label` tooltip) or `navVariant="expanded"` (default) for icon + text labels. **CompanyCo uses `compact`** — icon-only, with the breadcrumb strip carrying orientation. Module icons are **Lucide** (per ICONOGRAPHY), sized to 18px by `.cc-text-navrail__icon svg`.
+
+`.cc-navrail` — the **legacy** standalone 52px icon-only rail, predating `AppShell`. Retained for hand-rolled shells that don't consume `AppShell`; new horizontal-shell products should use `AppShell` with `navVariant="compact"` instead. Children: `.cc-navrail__group` (36px square with accent fill, weight-700 label, used as a section badge), `.cc-navrail__divider` (80% width hairline), `.cc-navrail__icon` (38px square button with hover + active state; active uses `accent-soft` fill + `accent-border` + `accent-text`).
 
 ### Sidebar
 

@@ -96,6 +96,15 @@ export interface AppShellProps {
   commandPalette?: Omit<CommandPaletteProps, 'open' | 'onClose'>;
   /** Currently active module id (for NavRail active state). */
   activeModuleId?: string;
+  /**
+   * Module-rail layout.
+   *  - "expanded" (default): icon + text label per module (~200px rail).
+   *  - "compact": 52–56px icon-only rail; the label moves to a hover/focus
+   *    tooltip (`title` + `aria-label`). Use for dense, many-module admin
+   *    surfaces where the horizontal shell leans on the breadcrumb strip for
+   *    orientation (the CompanyCo horizontal-shell pattern in DESIGN.md).
+   */
+  navVariant?: 'expanded' | 'compact';
   className?: string;
 }
 
@@ -286,9 +295,11 @@ interface ModuleLinkProps {
   isActive: boolean;
   itemClassName: string;
   onNavigate?: (id: string) => void;
+  /** Icon-only rendering: hide the text label and surface it as a tooltip. */
+  compact?: boolean;
 }
 
-function ModuleNavLink({ module, isActive, itemClassName, onNavigate }: ModuleLinkProps) {
+function ModuleNavLink({ module, isActive, itemClassName, onNavigate, compact }: ModuleLinkProps) {
   const linkClass = [itemClassName, module.disabled ? 'is-disabled' : '']
     .filter(Boolean)
     .join(' ');
@@ -300,7 +311,9 @@ function ModuleNavLink({ module, isActive, itemClassName, onNavigate }: ModuleLi
           {module.icon}
         </span>
       ) : null}
-      <span className="cc-text-navrail__label">{module.label}</span>
+      {!compact ? (
+        <span className="cc-text-navrail__label">{module.label}</span>
+      ) : null}
       {module.badge !== undefined && module.badge !== null ? (
         <span className="cc-text-navrail__badge" aria-label={`${module.badge} new`}>
           {module.badge}
@@ -317,6 +330,8 @@ function ModuleNavLink({ module, isActive, itemClassName, onNavigate }: ModuleLi
         disabled
         aria-disabled="true"
         data-module-id={module.id}
+        aria-label={compact ? module.label : undefined}
+        title={compact && !module.disabledReason ? module.label : undefined}
       >
         {inner}
       </button>
@@ -333,6 +348,8 @@ function ModuleNavLink({ module, isActive, itemClassName, onNavigate }: ModuleLi
       className={linkClass}
       aria-current={isActive ? 'page' : undefined}
       data-module-id={module.id}
+      aria-label={compact ? module.label : undefined}
+      title={compact ? module.label : undefined}
       onClick={
         onNavigate
           ? (e) => {
@@ -363,6 +380,7 @@ export function AppShell({
   navFooterSlot,
   commandPalette,
   activeModuleId,
+  navVariant = 'expanded',
   className,
 }: AppShellProps): React.ReactElement {
   const online = useOnlineStatus();
@@ -443,6 +461,7 @@ export function AppShell({
           {modules.length > 0 ? (
             <NavRail
               items={navItems}
+              variant={navVariant}
               footerItems={
                 navFooterSlot
                   ? // navFooterSlot is rendered as a synthetic footer cell so
@@ -467,6 +486,7 @@ export function AppShell({
                     isActive={isActive}
                     itemClassName={itemClassName}
                     onNavigate={onNavigate}
+                    compact={navVariant === 'compact'}
                   />
                 );
               }}

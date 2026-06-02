@@ -79,7 +79,16 @@ export interface AppShellProps {
     commandPalette?: Omit<CommandPaletteProps, 'open' | 'onClose'>;
     /** Currently active module id (for NavRail active state). */
     activeModuleId?: string;
+    /**
+     * Module-rail layout.
+     *  - "expanded" (default): icon + text label per module (~200px rail).
+     *  - "compact": 52–56px icon-only rail; the label moves to a hover/focus
+     *    tooltip (`title` + `aria-label`). Use for dense, many-module admin
+     *    surfaces where the horizontal shell leans on the breadcrumb strip for
+     *    orientation (the CompanyCo horizontal-shell pattern in DESIGN.md).
+     */
+    navVariant?: 'expanded' | 'compact';
     className?: string;
 }
-export declare function AppShell({ brand, modules, appKey, user, companyGroups, apps, onSignOut, onSwitchApp, onSwitchCompanyGroup, onNavigate, children, topBarSlot, navFooterSlot, commandPalette, activeModuleId, className, }: AppShellProps): React.ReactElement;
+export declare function AppShell({ brand, modules, appKey, user, companyGroups, apps, onSignOut, onSwitchApp, onSwitchCompanyGroup, onNavigate, children, topBarSlot, navFooterSlot, commandPalette, activeModuleId, navVariant, className, }: AppShellProps): React.ReactElement;
 //# sourceMappingURL=AppShell.d.ts.map
