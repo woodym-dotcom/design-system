@@ -122,26 +122,26 @@ function UserMenu({ user, onSignOut }) {
                             onSignOut();
                         }, children: "Sign out" })] })) : null] }));
 }
-function ModuleNavLink({ module, isActive, itemClassName, onNavigate }) {
+function ModuleNavLink({ module, isActive, itemClassName, onNavigate, compact }) {
     const linkClass = [itemClassName, module.disabled ? 'is-disabled' : '']
         .filter(Boolean)
         .join(' ');
-    const inner = (_jsxs(_Fragment, { children: [module.icon ? (_jsx("span", { className: "cc-text-navrail__icon", "aria-hidden": true, children: module.icon })) : null, _jsx("span", { className: "cc-text-navrail__label", children: module.label }), module.badge !== undefined && module.badge !== null ? (_jsx("span", { className: "cc-text-navrail__badge", "aria-label": `${module.badge} new`, children: module.badge })) : null] }));
+    const inner = (_jsxs(_Fragment, { children: [module.icon ? (_jsx("span", { className: "cc-text-navrail__icon", "aria-hidden": true, children: module.icon })) : null, !compact ? (_jsx("span", { className: "cc-text-navrail__label", children: module.label })) : null, module.badge !== undefined && module.badge !== null ? (_jsx("span", { className: "cc-text-navrail__badge", "aria-label": `${module.badge} new`, children: module.badge })) : null] }));
     if (module.disabled) {
-        const disabledButton = (_jsx("button", { type: "button", className: linkClass, disabled: true, "aria-disabled": "true", "data-module-id": module.id, children: inner }));
+        const disabledButton = (_jsx("button", { type: "button", className: linkClass, disabled: true, "aria-disabled": "true", "data-module-id": module.id, "aria-label": compact ? module.label : undefined, title: compact && !module.disabledReason ? module.label : undefined, children: inner }));
         if (module.disabledReason) {
             return _jsx(Tooltip, { label: module.disabledReason, children: disabledButton });
         }
         return disabledButton;
     }
-    return (_jsx("a", { href: module.href, className: linkClass, "aria-current": isActive ? 'page' : undefined, "data-module-id": module.id, onClick: onNavigate
+    return (_jsx("a", { href: module.href, className: linkClass, "aria-current": isActive ? 'page' : undefined, "data-module-id": module.id, "aria-label": compact ? module.label : undefined, title: compact ? module.label : undefined, onClick: onNavigate
             ? (e) => {
                 e.preventDefault();
                 onNavigate(module.id);
             }
             : undefined, children: inner }));
 }
-export function AppShell({ brand, modules, appKey, user, companyGroups, apps, onSignOut, onSwitchApp, onSwitchCompanyGroup, onNavigate, children, topBarSlot, navFooterSlot, commandPalette, activeModuleId, className, }) {
+export function AppShell({ brand, modules, appKey, user, companyGroups, apps, onSignOut, onSwitchApp, onSwitchCompanyGroup, onNavigate, children, topBarSlot, navFooterSlot, commandPalette, activeModuleId, navVariant = 'expanded', className, }) {
     const online = useOnlineStatus();
     // Cmd+K binding owned by the shell when commandPalette is provided.
     const [paletteOpen, setPaletteOpen] = React.useState(false);
@@ -182,7 +182,7 @@ export function AppShell({ brand, modules, appKey, user, companyGroups, apps, on
     ]
         .filter(Boolean)
         .join(' ');
-    return (_jsx(FmtProvider, { children: _jsxs("div", { className: rootClass, "data-brand": brand, children: [!online && _jsx(State, { variant: "offline", density: "banner" }), _jsx(TopBar, { brand: brandNode, showCmdK: Boolean(commandPalette), onCmdK: commandPalette ? () => setPaletteOpen(true) : undefined, extras: topBarExtras }), _jsxs("div", { className: "cc-shell__body", children: [modules.length > 0 ? (_jsx(NavRail, { items: navItems, footerItems: navFooterSlot
+    return (_jsx(FmtProvider, { children: _jsxs("div", { className: rootClass, "data-brand": brand, children: [!online && _jsx(State, { variant: "offline", density: "banner" }), _jsx(TopBar, { brand: brandNode, showCmdK: Boolean(commandPalette), onCmdK: commandPalette ? () => setPaletteOpen(true) : undefined, extras: topBarExtras }), _jsxs("div", { className: "cc-shell__body", children: [modules.length > 0 ? (_jsx(NavRail, { items: navItems, variant: navVariant, footerItems: navFooterSlot
                                 ? // navFooterSlot is rendered as a synthetic footer cell so
                                     // a11y nav landmark contains it. We pass a single
                                     // pseudo-item that renderItem replaces with the slot.
@@ -194,7 +194,7 @@ export function AppShell({ brand, modules, appKey, user, companyGroups, apps, on
                                 const mod = modules.find((m) => m.id === item.id);
                                 if (!mod)
                                     return null;
-                                return (_jsx(ModuleNavLink, { module: mod, isActive: isActive, itemClassName: itemClassName, onNavigate: onNavigate }));
+                                return (_jsx(ModuleNavLink, { module: mod, isActive: isActive, itemClassName: itemClassName, onNavigate: onNavigate, compact: navVariant === 'compact' }));
                             } })) : null, _jsxs("main", { id: SKIP_TARGET_ID, className: "cc-shell__main", children: [_jsx("a", { href: `#${SKIP_TARGET_ID}`, className: "cc-skip-link", children: "Skip to content" }), children] })] }), commandPalette ? (_jsx(CommandPalette, { ...commandPalette, open: paletteOpen, onClose: () => setPaletteOpen(false) })) : null] }) }));
 }
 //# sourceMappingURL=AppShell.js.map
