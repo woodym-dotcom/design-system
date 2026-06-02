@@ -155,4 +155,11 @@ assert.ok(
   'package.json: "exports" must expose "./fonts/fonts.css"',
 );
 
+// The text nav-rail renders an icon slot; it must SIZE the svg, or consumers
+// passing an unsized inline <svg> (viewBox only) get 0×0 invisible icons.
+assert.ok(
+  /\.cc-text-navrail__icon svg\s*\{[^}]*\bwidth\s*:/.test(primitives),
+  'primitives/primitives.css: .cc-text-navrail__icon svg must set an explicit width (unsized inline SVGs collapse to 0×0)',
+);
+
 console.log('token contract checks passed');
