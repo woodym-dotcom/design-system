@@ -3,7 +3,7 @@
  *                  pinned-first ordering, empty state, ESC/click-outside.
  */
 import * as React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, within } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { SavedViewsMenu } from '../react/SavedViewsMenu';
 import type { SavedView } from '../react/hooks/useSavedViews';
@@ -14,11 +14,11 @@ const views: SavedView<string>[] = [
 ];
 
 describe('SavedViewsMenu', () => {
-  it('starts closed; trigger toggles the menu', () => {
+  it('starts closed; trigger toggles the popup', () => {
     render(<SavedViewsMenu views={views} onSelect={() => {}} />);
-    expect(screen.queryByRole('menu')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Saved views' })).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: /Views/ }));
-    expect(screen.getByRole('menu')).toBeTruthy();
+    expect(screen.getByRole('group', { name: 'Saved views' })).toBeTruthy();
   });
 
   it('trigger label defaults to the active view name', () => {
@@ -30,16 +30,18 @@ describe('SavedViewsMenu', () => {
     const onSelect = vi.fn();
     render(<SavedViewsMenu views={views} onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('button', { name: /Views/ }));
-    fireEvent.click(screen.getByRole('menuitemradio', { name: /All open/ }));
+    fireEvent.click(screen.getByRole('button', { name: /All open/ }));
     expect(onSelect).toHaveBeenCalledWith(views[0]);
-    expect(screen.queryByRole('menu')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Saved views' })).toBeNull();
   });
 
-  it('active view is aria-checked', () => {
+  it('active view is marked aria-current', () => {
     render(<SavedViewsMenu views={views} onSelect={() => {}} activeId="mine" />);
     fireEvent.click(screen.getByRole('button', { name: /Mine/ }));
+    // The trigger label is also "Mine"; scope to the popup to get the row button.
+    const popup = screen.getByRole('group', { name: 'Saved views' });
     expect(
-      screen.getByRole('menuitemradio', { name: /Mine/ }).getAttribute('aria-checked'),
+      within(popup).getByRole('button', { name: /Mine/ }).getAttribute('aria-current'),
     ).toBe('true');
   });
 
@@ -79,7 +81,7 @@ describe('SavedViewsMenu', () => {
     render(<SavedViewsMenu views={views} onSelect={() => {}} />);
     fireEvent.click(screen.getByRole('button', { name: /Views/ }));
     act(() => { fireEvent.keyDown(document, { key: 'Escape' }); });
-    expect(screen.queryByRole('menu')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Saved views' })).toBeNull();
   });
 
   it('click outside closes the menu', () => {
@@ -90,8 +92,8 @@ describe('SavedViewsMenu', () => {
       </div>,
     );
     fireEvent.click(screen.getByRole('button', { name: /Views/ }));
-    expect(screen.getByRole('menu')).toBeTruthy();
+    expect(screen.getByRole('group', { name: 'Saved views' })).toBeTruthy();
     act(() => { fireEvent.mouseDown(screen.getByText('outside')); });
-    expect(screen.queryByRole('menu')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Saved views' })).toBeNull();
   });
 });
