@@ -148,6 +148,27 @@ describe('AppShell — company-group switcher', () => {
     renderShell({ companyGroups: [{ id: 'g-acme', name: 'Acme' }] });
     expect(screen.queryByRole('combobox', { name: /switch company group/i })).toBeNull();
   });
+
+  it('shows the active group (not just the first) in the trigger', () => {
+    renderShell({ companyGroups: GROUPS_MULTI, activeCompanyGroupId: 'g-globex' });
+    const trigger = screen.getByRole('combobox', { name: /switch company group/i });
+    expect(trigger).toHaveTextContent('Globex');
+    expect(trigger).not.toHaveTextContent('Acme');
+  });
+
+  it('falls back to the first group when activeCompanyGroupId is omitted', () => {
+    renderShell({ companyGroups: GROUPS_MULTI });
+    expect(
+      screen.getByRole('combobox', { name: /switch company group/i }),
+    ).toHaveTextContent('Acme');
+  });
+
+  it('falls back to the first group when activeCompanyGroupId is unknown', () => {
+    renderShell({ companyGroups: GROUPS_MULTI, activeCompanyGroupId: 'g-missing' });
+    expect(
+      screen.getByRole('combobox', { name: /switch company group/i }),
+    ).toHaveTextContent('Acme');
+  });
 });
 
 describe('AppShell — Cmd+K command palette', () => {
