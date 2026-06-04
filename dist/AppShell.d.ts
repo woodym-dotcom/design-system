@@ -64,6 +64,14 @@ export interface AppShellProps {
      * (single-tenant case).
      */
     companyGroups?: CompanyGroup[];
+    /**
+     * The id of the company group the consumer currently treats as active. The
+     * <CompanyGroupSwitcher> highlights this group in its trigger and marks it
+     * selected in the dropdown. When omitted, the first group is assumed active
+     * (back-compat). Pass this whenever the active tenant can change at runtime,
+     * otherwise the switcher visually stays stuck on the first membership.
+     */
+    activeCompanyGroupId?: string | null;
     apps: AppDef[];
     onSignOut: () => void;
     onSwitchApp: (appKey: AppKey, url: string) => void;
@@ -90,5 +98,5 @@ export interface AppShellProps {
     navVariant?: 'expanded' | 'compact';
     className?: string;
 }
-export declare function AppShell({ brand, modules, appKey, user, companyGroups, apps, onSignOut, onSwitchApp, onSwitchCompanyGroup, onNavigate, children, topBarSlot, navFooterSlot, commandPalette, activeModuleId, navVariant, className, }: AppShellProps): React.ReactElement;
+export declare function AppShell({ brand, modules, appKey, user, companyGroups, activeCompanyGroupId, apps, onSignOut, onSwitchApp, onSwitchCompanyGroup, onNavigate, children, topBarSlot, navFooterSlot, commandPalette, activeModuleId, navVariant, className, }: AppShellProps): React.ReactElement;
 //# sourceMappingURL=AppShell.d.ts.map

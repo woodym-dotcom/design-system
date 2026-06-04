@@ -141,7 +141,7 @@ function ModuleNavLink({ module, isActive, itemClassName, onNavigate, compact })
             }
             : undefined, children: inner }));
 }
-export function AppShell({ brand, modules, appKey, user, companyGroups, apps, onSignOut, onSwitchApp, onSwitchCompanyGroup, onNavigate, children, topBarSlot, navFooterSlot, commandPalette, activeModuleId, navVariant = 'expanded', className, }) {
+export function AppShell({ brand, modules, appKey, user, companyGroups, activeCompanyGroupId, apps, onSignOut, onSwitchApp, onSwitchCompanyGroup, onNavigate, children, topBarSlot, navFooterSlot, commandPalette, activeModuleId, navVariant = 'expanded', className, }) {
     const online = useOnlineStatus();
     // Cmd+K binding owned by the shell when commandPalette is provided.
     const [paletteOpen, setPaletteOpen] = React.useState(false);
@@ -170,7 +170,13 @@ export function AppShell({ brand, modules, appKey, user, companyGroups, apps, on
         companyGroupUuid: g.id,
         name: g.name,
     }));
-    const groupSwitcher = showGroupSwitcher ? (_jsx(CompanyGroupSwitcher, { currentGroupUuid: groupOptions[0]?.companyGroupUuid ?? null, memberships: groupOptions, onChange: (id) => onSwitchCompanyGroup?.(id) })) : null;
+    // Prefer the explicitly-active group; fall back to the first membership only
+    // when the consumer doesn't track an active tenant (back-compat).
+    const currentGroupUuid = activeCompanyGroupId != null &&
+        groupOptions.some((g) => g.companyGroupUuid === activeCompanyGroupId)
+        ? activeCompanyGroupId
+        : groupOptions[0]?.companyGroupUuid ?? null;
+    const groupSwitcher = showGroupSwitcher ? (_jsx(CompanyGroupSwitcher, { currentGroupUuid: currentGroupUuid, memberships: groupOptions, onChange: (id) => onSwitchCompanyGroup?.(id) })) : null;
     const topBarExtras = (_jsxs(_Fragment, { children: [groupSwitcher, topBarSlot, _jsx(AppSwitcher, { apps: apps, currentAppKey: appKey, onSwitch: onSwitchApp }), _jsx(UserMenu, { user: user, onSignOut: onSignOut })] }));
     const brandLabel = BRAND_LABEL[brand];
     const brandNode = (_jsx("span", { className: `cc-app-shell__brand cc-app-shell__brand--${brand}`, children: brandLabel }));

@@ -81,6 +81,14 @@ export interface AppShellProps {
    * (single-tenant case).
    */
   companyGroups?: CompanyGroup[];
+  /**
+   * The id of the company group the consumer currently treats as active. The
+   * <CompanyGroupSwitcher> highlights this group in its trigger and marks it
+   * selected in the dropdown. When omitted, the first group is assumed active
+   * (back-compat). Pass this whenever the active tenant can change at runtime,
+   * otherwise the switcher visually stays stuck on the first membership.
+   */
+  activeCompanyGroupId?: string | null;
   apps: AppDef[];
   onSignOut: () => void;
   onSwitchApp: (appKey: AppKey, url: string) => void;
@@ -370,6 +378,7 @@ export function AppShell({
   appKey,
   user,
   companyGroups,
+  activeCompanyGroupId,
   apps,
   onSignOut,
   onSwitchApp,
@@ -414,9 +423,16 @@ export function AppShell({
     companyGroupUuid: g.id,
     name: g.name,
   }));
+  // Prefer the explicitly-active group; fall back to the first membership only
+  // when the consumer doesn't track an active tenant (back-compat).
+  const currentGroupUuid =
+    activeCompanyGroupId != null &&
+    groupOptions.some((g) => g.companyGroupUuid === activeCompanyGroupId)
+      ? activeCompanyGroupId
+      : groupOptions[0]?.companyGroupUuid ?? null;
   const groupSwitcher = showGroupSwitcher ? (
     <CompanyGroupSwitcher
-      currentGroupUuid={groupOptions[0]?.companyGroupUuid ?? null}
+      currentGroupUuid={currentGroupUuid}
       memberships={groupOptions}
       onChange={(id) => onSwitchCompanyGroup?.(id)}
     />
