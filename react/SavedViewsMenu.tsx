@@ -81,7 +81,7 @@ export function SavedViewsMenu<TState = unknown>({
       <button
         type="button"
         className="cc-saved-views__trigger cc-btn cc-btn--ghost"
-        aria-haspopup="menu"
+        aria-haspopup="true"
         aria-expanded={open}
         aria-controls={menuId}
         onClick={() => setOpen((o) => !o)}
@@ -90,9 +90,14 @@ export function SavedViewsMenu<TState = unknown>({
         <span aria-hidden="true" className="cc-saved-views__caret">▾</span>
       </button>
       {open && (
+        // Not a true ARIA `menu`: rows carry a select control *plus* secondary
+        // action buttons, and there's no menu keyboard model — claiming
+        // role="menu"/menuitemradio fails axe (aria-required-children/parent).
+        // A labelled group + plain list of buttons is the honest, valid pattern;
+        // the active view is conveyed with aria-current.
         <div
           id={menuId}
-          role="menu"
+          role="group"
           aria-label="Saved views"
           className="cc-saved-views__menu"
         >
@@ -103,11 +108,10 @@ export function SavedViewsMenu<TState = unknown>({
               {views.map((v) => {
                 const isActive = v.id === activeId;
                 return (
-                  <li key={v.id} className="cc-saved-views__item" role="none">
+                  <li key={v.id} className="cc-saved-views__item">
                     <button
                       type="button"
-                      role="menuitemradio"
-                      aria-checked={isActive}
+                      aria-current={isActive ? 'true' : undefined}
                       className={`cc-saved-views__select${isActive ? ' is-active' : ''}`}
                       onClick={() => {
                         onSelect(v);
@@ -160,7 +164,6 @@ export function SavedViewsMenu<TState = unknown>({
             <div className="cc-saved-views__footer">
               <button
                 type="button"
-                role="menuitem"
                 className="cc-saved-views__save"
                 onClick={() => { onSaveCurrent(); setOpen(false); }}
               >

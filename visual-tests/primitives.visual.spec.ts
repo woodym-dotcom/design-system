@@ -23,10 +23,10 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'AppShell-CustomerLifecycleSingle', storyId: 'shell-appshell--customer-lifecycle-single' },
   { name: 'AppShell-AutomationMulti',         storyId: 'shell-appshell--automation-multi' },
   { name: 'AppShell-AutomationSingle',        storyId: 'shell-appshell--automation-single' },
-  { name: 'ModuleShell-NamedProps',           storyId: 'shell-moduleshell--named-props' },
-  { name: 'NavRail-Default',                  storyId: 'shell-navrail--default' },
-  { name: 'TopRightCreateWizard-Default',     storyId: 'shell-toprightcreatewizard--default' },
-  { name: 'CompanyGroupSwitcher-Default',     storyId: 'shell-companygroupswitcher--default' },
+  { name: 'ModuleShell-NamedProps',           storyId: 'shell-primitives-moduleshell--named-props' },
+  { name: 'NavRail-Default',                  storyId: 'shell-primitives-navrail--default' },
+  { name: 'TopRightCreateWizard-Default',     storyId: 'shell-primitives-toprightcreatewizard--default' },
+  { name: 'CompanyGroupSwitcher-Default',     storyId: 'shell-primitives-companygroupswitcher--default' },
 
   // ── Artefact ─────────────────────────────────────────────────────────────
   { name: 'ArtefactDetailPane-FullPane',      storyId: 'artefact-artefactdetailpane--full-pane' },
@@ -42,11 +42,6 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'Page-AuthWithError', storyId: 'primitives-page--auth-with-error' },
   { name: 'Page-Home',          storyId: 'primitives-page--home' },
   { name: 'Page-Tabs',          storyId: 'primitives-page--tabs' },
-  { name: 'Page-Workbench',     storyId: 'primitives-page--workbench' },
-  { name: 'Page-Studio',        storyId: 'primitives-page--studio' },
-  { name: 'Page-Console',       storyId: 'primitives-page--console' },
-  { name: 'Page-Inspector',     storyId: 'primitives-page--inspector' },
-  { name: 'Page-Dashboard',     storyId: 'primitives-page--dashboard' },
 
   // ── Primitives — Overlay (DS-SIMPLIFY 01) ────────────────────────────────
   { name: 'Overlay-Modal',        storyId: 'primitives-overlay--modal' },
@@ -138,10 +133,10 @@ const STORIES: Array<{ name: string; storyId: string }> = [
   { name: 'HomepageCards-AdminView',  storyId: 'foundation-homepagecards--admin-view' },
 
   // ── ListPage ──────────────────────────────────────────────────────────────
-  { name: 'ListPage-CompaniesLike',   storyId: 'shell-primitives-listpage--companies-like' },
+  { name: 'ListPage-CompaniesLike',   storyId: 'shell-primitives-listpage-phase-2--companies-like' },
 
-  // ── FilterBarLayouts ──────────────────────────────────────────────────────
-  { name: 'FilterBarLayouts-Horizontal', storyId: 'shell-primitives-filterbarlayouts--horizontal' },
+  // ── FilterBar ─────────────────────────────────────────────────────────────
+  { name: 'FilterBar-Horizontal', storyId: 'shell-primitives-filterbar--horizontal' },
 ];
 
 for (const story of STORIES) {
